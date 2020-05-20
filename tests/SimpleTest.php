@@ -10,16 +10,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle;
+namespace Teebb\CoreBundle\Tests;
 
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class TeebbCoreBundle
- * @package Teebb\CoreBundle
- */
-class TeebbCoreBundle extends Bundle
+class SimpleTest extends TestCase
 {
-
+    public function testFail()
+    {
+        $this->assertTrue(true);
+    }
 }

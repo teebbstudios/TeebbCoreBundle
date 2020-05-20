@@ -10,16 +10,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle;
-
-
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+namespace Teebb\CoreBundle\Annotation;
 
 /**
- * Class TeebbCoreBundle
- * @package Teebb\CoreBundle
+ * ContentEntityType annotation.
+ *
+ * 所有可配置字段的内容实体ContentEntity需添加此注解.
+ *
+ * @Annotation
+ * @Target({"CLASS"})
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class TeebbCoreBundle extends Bundle
+class ContentEntityType
 {
 
 }
