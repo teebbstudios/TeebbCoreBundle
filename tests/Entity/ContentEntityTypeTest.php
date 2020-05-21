@@ -10,15 +10,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle\Tests;
+namespace Teebb\CoreBundle\Tests\Entity;
 
 
 use PHPUnit\Framework\TestCase;
 
-class SimpleTest extends TestCase
+class ContentEntityTypeTest extends TestCase
 {
-    public function testFail()
+    /**
+     * 测试AbstractContentEntityType类
+     */
+    public function testContentEntityType()
     {
-        $this->assertTrue(true);
+        $abstractContentEntityType = new AbstractContentEntityType();
+        
     }
 }

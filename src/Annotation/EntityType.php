@@ -13,17 +13,18 @@
 namespace Teebb\CoreBundle\Annotation;
 
 /**
- * 所有可配置的字段Field添加此注解.
+ * 所有可配置字段的内容实体类型EntityType需添加此注解.例如: Content、Taxonomy、Comment、
+ * User都使用此Annotation,以配置不同字段.
  *
  * @Annotation
  * @Target({"CLASS"})
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class FieldType
+class EntityType
 {
     /**
-     * 字段类型的分组名称
+     * 简短描述内容实体类型
      */
-    public $group;
+    public $description;
 }

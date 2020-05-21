@@ -10,15 +10,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle;
-
-
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+namespace Teebb\CoreBundle\Entity;
 
 /**
- * Class TeebbCoreBundle
+ * 所有字段Field类实现此接口
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class TeebbCoreBundle extends Bundle
+interface FieldTypeInterface
 {
 
 }

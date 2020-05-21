@@ -3,7 +3,7 @@
  * This file is part of the TeebbCoreBundle package.
  *
  * Author: Quan Weiwei <qww.zone@gmail.com>
- * Date: 2020/5/20
+ * Date: 2020/5/21
  * (c) teebbstudios
  *
  * For the full copyright and license information, please view the LICENSE
@@ -13,17 +13,27 @@
 namespace Teebb\CoreBundle\Annotation;
 
 /**
- * 所有可配置的字段Field添加此注解.
+ * I18N.
  *
  * @Annotation
- * @Target({"CLASS"})
+ * @Target({"ALL"})
+ * @Attributes(
+ *     @Attribute("message", type="string"),
+ *     @Attribute("domain", type="string")
+ * )
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class FieldType
+class Translation
 {
     /**
-     * 字段类型的分组名称
+     * @var string
      */
-    public $group;
+    public $message;
+
+    /**
+     * @var string Translation domain
+     */
+    public $domain;
+
 }

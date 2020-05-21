@@ -10,10 +10,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle\Model;
+namespace Teebb\CoreBundle\Model\EntityType;
 
 /**
- * 所有可配置字段的内容实体需实现此接口.
+ * 所有可配置字段的内容实体类型EntityType需实现此接口.
  *
  * *原理:*
  * 假如我们使用Symfony开发传统的CMS系统.您需要一个Article类型的内容,Article类可能包含title、body、tags、images等等属性,
@@ -26,17 +26,19 @@ namespace Teebb\CoreBundle\Model;
  * 这就需要一款灵活的、扩展性强大的CMS系统了.用户甚至仅需在后台通过配置就可以生成需要的内容类型.Teebb为了增强CMS的扩展性参考
  * Drupal的功能进行设计,我们可以把有共同特点的类抽取成一个通用些的层并起一些名字.我们在这里提出一些概念:
  *
- * 我们把Article、News之类的类型称为*内容实体ContentEntity*.
+ * 我们把Article、News之类的类型称为*内容实体类型ContentEntityType*.
  * 把Article、News中这些常用类型的属性进行抽取每个属性叫作*字段Field*.例如: title就是string类型的字段, body就是text类型的字段.
  *
- * *内容实体ContentEntity*: 组合不同类型的字段Field, 在添加具体内容时根据字段生成不同的表单与存储.
+ * *内容实体类型EntityType*: 组合不同类型的字段Field, 在添加内容实体Content时根据字段Field生成不同的表单与存储.
+ * *内容实体Content*: 针对不同的内容实体类型保存的不同内容实体.
  * *字段Field*: 不同的字段提供不同的表单显示与存储.
  *
- * ContentEntityTypeInterface提供内容实体ContentEntity的通用操作, 不同的内容实体ContentEntity需要实现此接口.
+ * EntityTypeInterface提供内容实体类型EntityType的通用操作, 不同的内容实体类型EntityType需要实现此接口,
+ * Teebb中Content、Taxonomy、User、Comment实现此接口.
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-interface ContentEntityTypeInterface
+interface EntityTypeInterface
 {
 
 }

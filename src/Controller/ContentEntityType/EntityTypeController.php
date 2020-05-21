@@ -10,19 +10,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle\Annotation;
+namespace Teebb\CoreBundle\Controller\ContentEntityType;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * ContentEntityType annotation.
- *
- * 所有可配置字段的内容实体ContentEntity需添加此注解.
- *
- * @Annotation
- * @Target({"CLASS"})
+ * 内容实体类型EntityType的Controller
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class ContentEntityType
+class EntityTypeController extends AbstractController
 {
 
 }
