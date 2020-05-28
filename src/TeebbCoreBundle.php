@@ -13,12 +13,22 @@
 namespace Teebb\CoreBundle;
 
 
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Teebb\CoreBundle\DependencyInjection\Compiler\EntityTypeCompilePass;
 
 /**
  * Class TeebbCoreBundle
  */
 class TeebbCoreBundle extends Bundle
 {
+
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new EntityTypeCompilePass(), PassConfig::TYPE_OPTIMIZE);
+    }
 
 }

@@ -1,0 +1,14 @@
+teebb:
+    core:
+        entity_type:
+            content:
+                name: Content Types
+                description: Create and manage fields, forms, and display settings for your content.
+                
+            taxonomy:
+                name: taxonomy Types
+                description: Create and manage fields, forms, and display settings for your taxonomy.
+                
+            comment:
+                name: Comment Types
+                description: Create and manage fields, forms, and display settings for your Comment.

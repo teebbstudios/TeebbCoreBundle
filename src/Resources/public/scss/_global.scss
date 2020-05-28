@@ -1,0 +1,114 @@
+// Global component styles
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+a {
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.table {
+  th,
+  td {
+    vertical-align: middle;
+  }
+}
+
+
+// Main page wrapper
+#wrapper {
+  display: flex;
+  #content-wrapper {
+    background-color: $gray-100;
+    width: 100%;
+    overflow-x: hidden;
+    #content {
+      flex: 1 0 auto;
+    }
+  }
+}
+
+// Set container padding to match gutter width instead of default 15px
+.container,
+.container-fluid {
+  padding-left: $grid-gutter-width;
+  padding-right: $grid-gutter-width;
+}
+
+// Scroll to top button
+.scroll-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  text-align: center;
+  color: $white;
+  background: fade-out($gray-800, .5);
+  line-height: 46px;
+  &:focus,
+  &:hover {
+    color: white;
+  }
+  &:hover {
+    background: $gray-800;
+  }
+  i {
+    font-weight: 800;
+  }
+}
+
+.form-control-xs{
+  font-size: 0.5rem;
+  line-height: 1;
+  height: calc(1em + .5rem + 2px);
+  padding: .15rem .5rem;
+  border-radius: .2rem;
+}
+
+.rect-80 {
+  width: 80px;
+  font-size: 80px;
+}
+
+.rect-60 {
+  width: 60px;
+  height: 60px;
+}
+
+.author {
+  img{
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.max-height-200 {
+  max-height: 200px;
+}
+
+.border-bottom-gray-100{
+  border-bottom-color: #f8f9fc!important;
+}
+
+.nested-sortable {
+  .list-group-item{
+    margin-bottom: 0.5rem;
+    background-color: #f8f9fc!important;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+  }
+}

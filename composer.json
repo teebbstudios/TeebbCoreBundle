@@ -18,7 +18,9 @@
         "symfony/framework-bundle": "^5.0",
         "stof/doctrine-extensions-bundle": "^1.4",
         "symfony/orm-pack": "^1.0",
-        "symfony/translation": "^5.0"
+        "symfony/translation": "^5.0",
+        "api-platform/api-pack": "^1.2",
+        "symfony/yaml": "^5.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.0"

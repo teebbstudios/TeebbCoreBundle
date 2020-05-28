@@ -1,0 +1,87 @@
+// Custom Card Styling
+
+.card {
+  .card-header {
+    // Format Dropdowns in Card Headings
+    .dropdown {
+      line-height: 1;
+      .dropdown-menu {
+        line-height: 1.5;
+      }
+    }
+  }
+  // Collapsable Card Styling
+  .card-header[data-toggle="collapse"] {
+    text-decoration: none;
+    position: relative;
+    padding: 0.75rem 3.25rem 0.75rem 1.25rem;
+    &::after {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding-right: 1.725rem;
+      line-height: 51px;
+      font-weight: 900;
+      content: '\f107';
+      font-family: 'Font Awesome 5 Free';
+      color: $gray-600;
+    }
+    &.collapsed {
+      border-radius: $card-border-radius;
+      &::after {
+        content: '\f105';
+      }
+    }
+  }
+
+  .accordion-arrow {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 3rem;
+    height: 51px;
+    cursor: pointer;
+  }
+
+  .card-body{
+    font-size: 0.85rem;
+    table {
+      a.js-sortable:hover{
+        cursor: move;
+      }
+    }
+    .lite-row-height td{
+      padding: 0.25rem;
+    }
+    .comment-option{
+      position: relative;
+      left: -9999em;
+    }
+    .h-submenu {
+      .option-item {
+        list-style: none;
+        margin-right: 0.5rem;
+      }
+      .list-group-item {
+        border: none;
+        padding: 0;
+        .active {
+          font-weight: bolder;
+          color: $dark;
+        }
+        &::after {
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+          font-weight: 600;
+          color: $gray-600;
+          content: '|';
+        }
+        &:nth-last-child(1){
+          &:after{
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

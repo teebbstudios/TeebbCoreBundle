@@ -4,5 +4,14 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <service id="teebb.core.mapping.annotation_parser" class="Teebb\CoreBundle\Mapping\AnnotationParser"
+                 public="true">
+            <argument type="service" id="annotations.cached_reader"/>
+            <argument type="collection"/>  <!-- filled in extension class -->
+        </service>
+
+        <service id="teebb.core.metadata.entity_type_metadata_factory" class="Teebb\CoreBundle\Metadata\EntityTypeEntityTypeMetadataFactory" public="true"/>
+
+
     </services>
 </container>

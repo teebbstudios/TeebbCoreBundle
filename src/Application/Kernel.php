@@ -12,6 +12,9 @@
 
 namespace Teebb\CoreBundle\Application;
 
+
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,7 +23,7 @@ use Symfony\Component\Routing\RouteCollectionBuilder;
 use Teebb\CoreBundle\TeebbCoreBundle;
 
 /**
- * 用于Teebb集成测试和版本号更新.
+ * 用于Teebb测试与版本号更新.
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
@@ -40,21 +43,12 @@ class Kernel extends BaseKernel
 
     public const EXTRA_VERSION = '';
 
-    public function __construct(string $environment, bool $debug)
-    {
-        parent::__construct($environment, $debug);
-    }
-
     public function registerBundles()
     {
         return [
-            new TeebbCoreBundle()
+            new TeebbCoreBundle(),
+            new FrameworkBundle()
         ];
-    }
-
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        // TODO: Implement registerContainerConfiguration() method.
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
@@ -66,6 +60,5 @@ class Kernel extends BaseKernel
     {
         // TODO: Implement configureContainer() method.
     }
-
 
 }

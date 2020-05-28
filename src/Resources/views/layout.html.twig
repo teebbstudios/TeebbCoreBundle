@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|slice(0, 2) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block metatags %}
+        <meta name="description" content="">
+        <meta name="author" content="">
+    {% endblock %}
+
+    <title>{% block title %}Teebb控制台{% endblock %}</title>
+
+    {% block stylesheets %}
+        <!-- Custom fonts for this template-->
+        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+              rel="stylesheet">
+        <!-- Custom styles for this template-->
+        <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    {% endblock %}
+
+    {#    {{ sylius_template_event('sylius.shop.layout.head') }}#}
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <noscript class="noscript-warning  fixed-top text-center bg-danger text-dark">
+        {{ 'teebb.core.layout.noscript'|trans }}
+    </noscript>
+
+    {% block sidebar %}
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>控制台</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                内容
+            </div>
+
+            <!-- Nav Item - Content Manage Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#contentManageMenu"
+                   aria-expanded="true" aria-controls="contentManageMenu">
+                    <i class="fas fa-fw fa-file-alt"></i>
+                    <span>内容</span>
+                </a>
+                <div id="contentManageMenu" class="collapse" aria-labelledby="headingTwo"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">内容管理:</h6>
+                        <a class="collapse-item" href="select-content-type.html">添加内容</a>
+                        <a class="collapse-item" href="list-contents.html">管理内容</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Content Type Manage Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#contentTypeManageMenu"
+                   aria-expanded="true" aria-controls="contentTypeManageMenu">
+                    <i class="fas fa-fw fa-boxes"></i>
+                    <span>类型</span>
+                </a>
+                <div id="contentTypeManageMenu" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">类型管理:</h6>
+                        <a class="collapse-item" href="add-content-type.html">添加类型</a>
+                        <a class="collapse-item" href="list-content-type.html">管理类型</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Taxonomy Type Manage Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#tagsManageMenu"
+                   aria-expanded="true" aria-controls="tagsManageMenu">
+                    <i class="fas fa-fw fa-tags"></i>
+                    <span>分类</span>
+                </a>
+                <div id="tagsManageMenu" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">分类管理:</h6>
+                        <a class="collapse-item" href="add-taxonomy.html">添加分类</a>
+                        <a class="collapse-item" href="list-taxonomy.html">管理分类</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                其他
+            </div>
+
+            <!-- Nav Item - File Manage Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#filesManageMenu"
+                   aria-expanded="true" aria-controls="filesManageMenu">
+                    <i class="fas fa-fw fa-file-archive"></i>
+                    <span>文件</span>
+                </a>
+                <div id="filesManageMenu" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">文件管理:</h6>
+                        <a class="collapse-item" href="add-files.html">上传文件</a>
+                        <a class="collapse-item" href="list-files.html">管理文件</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Nav Manage Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#navManageMenu"
+                   aria-expanded="true" aria-controls="navManageMenu">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>菜单</span>
+                </a>
+                <div id="navManageMenu" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">菜单管理:</h6>
+                        <a class="collapse-item" href="utilities-border.html">添加菜单</a>
+                        <a class="collapse-item" href="utilities-color.html">管理菜单</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Comment Manage Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#commentManageMenu"
+                   aria-expanded="true" aria-controls="commentManageMenu">
+                    <i class="fas fa-fw fa-comment"></i>
+                    <span>评论</span>
+                </a>
+                <div id="commentManageMenu" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">评论管理:</h6>
+                        <a class="collapse-item" href="utilities-border.html">评论类型</a>
+                        <a class="collapse-item" href="utilities-color.html">管理评论</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Form Manage Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#formManageMenu"
+                   aria-expanded="true" aria-controls="formManageMenu">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>表单</span>
+                </a>
+                <div id="formManageMenu" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">表单管理:</h6>
+                        <a class="collapse-item" href="list-contact-type.html">表单类型</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Form Manage Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#userManageMenu"
+                   aria-expanded="true" aria-controls="userManageMenu">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>用户</span>
+                </a>
+                <div id="userManageMenu" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">用户管理:</h6>
+                        <a class="collapse-item" href="list-users.html">管理用户</a>
+                        <a class="collapse-item" href="list-groups.html">用户组</a>
+                        <a class="collapse-item" href="manage-permissions.html">组权限</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                设置
+            </div>
+
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#systemSettingsMenu"
+                   aria-expanded="true" aria-controls="systemSettingMenu">
+                    <i class="fas fa-fw fa-tools"></i>
+                    <span>系统</span>
+                </a>
+                <div id="systemSettingsMenu" class="collapse" aria-labelledby="headingPages"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">系统设置:</h6>
+                        <a class="collapse-item" href="system.html">常规设置</a>
+                        <a class="collapse-item" href="text-format.html">文本格式设置</a>
+                        <a class="collapse-item" href="user.html">用户设置</a>
+                        <a class="collapse-item" href="smtp.html">SMTP设置</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+    {% endblock %}
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+            {% block topbar %}
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!--Breadcrumb-->
+                    <nav aria-label="breadcrumb" class="d-none d-md-block">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                        </ol>
+                    </nav>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Topbar Search -->
+                        <li class="nav-item m-auto mx-1">
+                            <form class="d-none d-lg-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border-0 small"
+                                           placeholder="搜索内容..."
+                                           aria-label="Search" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+
+                        <!-- Nav Item - Search Dropdown (Visible Down lg) -->
+                        <li class="nav-item dropdown no-arrow d-lg-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-search dropdown-search dropdown-menu-right p-3 shadow animated--grow-in"
+                                 aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                               placeholder="搜索..." aria-label="Search"
+                                               aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60"
+                                             alt="">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.
+                                        </div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60"
+                                             alt="">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would
+                                            you like them sent to you?
+                                        </div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60"
+                                             alt="">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the
+                                            progress so far, keep up the good work!
+                                        </div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                             alt="">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told
+                                            me that people say this to all dogs, even if they aren't good...
+                                        </div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                                <img class="img-profile rounded-circle"
+                                     src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
+                                    个人资料
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-500"></i>
+                                    操作日志
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
+                                    退出
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+            {% endblock %}
+
+            {% block content %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">控制台</h1>
+                        <a href="select-content-type.html"
+                           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fas fa-plus-circle fa-sm text-white-50 pr-2"></i>添加内容</a>
+
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- 内容数量 每月 Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                内容量(最近一月)
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">123</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 内容类型数量 Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">内容类型
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 用户量 (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                新用户(最近一月)
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                新评论(最近一月)
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Content Column LEFT -->
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- 欢迎使用 -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">欢迎使用</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                             src="img/undraw_posting_photo.svg" alt="">
+                                    </div>
+                                    <p>欢迎您使用TeebbCMF,TeebbCMF是一个高扩展,高性能,轻量的内容管理框架。和许多其他系统一样,TeebbCMF基于<a
+                                                href="https://www.symfony.com" rel="nofollow"
+                                                target="_blank">Symfony</a>开源框架开发。
+                                    </p>
+                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">查看文档&rarr;</a>
+                                </div>
+                            </div>
+
+                            <!-- 最新内容 -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">内容类型</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button"
+                                           id="dropdownContentTypesMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                             aria-labelledby="dropdownContentTypesMenuLink">
+                                            <a class="dropdown-item" href="#"><i
+                                                        class="fa fa-list text-gray-500 pr-2"></i>查看所有类型</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">内容类型</th>
+                                                <th scope="col">别名</th>
+                                                <th scope="col">操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td scope="row">文章</td>
+                                                <td>article</td>
+                                                <td><a href="#">发布内容</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">页面</td>
+                                                <td>page</td>
+                                                <td><a href="#">发布内容</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">商品类型</td>
+                                                <td>product</td>
+                                                <td><a href="#">发布内容</a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 最新内容 -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">新增用户</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownNewUsersMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                             aria-labelledby="dropdownNewUsersMenuLink">
+                                            <a class="dropdown-item" href="#"><i
+                                                        class="fa fa-list text-gray-500 pr-2"></i>查看所有用户</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <a href="#">Cras jusjusto </a>
+                                            <span class="pl-3">注册于下午7:57 05月19日</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#">Cras odio </a>
+                                            <span class="pl-3">注册于下午7:57 05月19日</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#">Cras justo </a>
+                                            <span class="pl-3">注册于下午7:57 05月19日</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#">Cras justo </a>
+                                            <span class="pl-3">注册于下午7:57 05月19日</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#">Cras justo</a>
+                                            <span class="pl-3">注册于下午7:57 05月19日</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Content Column  RIGHT -->
+                        <div class="col-lg-6 mb-4">
+                            <!-- 最新内容 -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">最新内容</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button"
+                                           id="dropdownNewContentsMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                             aria-labelledby="dropdownNewContentsMenuLink">
+                                            <a class="dropdown-item" href="#"><i
+                                                        class="fa fa-list text-gray-500 pr-2"></i>查看所有内容</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <span class="pr-3">下午7:57 05月19日</span>
+                                            <a href="#">Cras justo odio Cras justo </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="pr-3">下午7:57 05月19日</span>
+                                            <a href="#">Cras justo odio Cras justo </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="pr-3">下午7:57 05月19日</span>
+                                            <a href="#">Cras justo odio Cras justo </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="pr-3">下午7:57 05月19日</span>
+                                            <a href="#">Cras justo odio Cras justo </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="pr-3">下午7:57 05月19日</span>
+                                            <a href="#">Cras justo odio Cras justo </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- 最新评论 -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">最新评论</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button"
+                                           id="dropdownNewCommentsMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                             aria-labelledby="dropdownNewCommentsMenuLink">
+                                            <a class="dropdown-item" href="#"><i
+                                                        class="fa fa-list text-gray-500 pr-2"></i>查看所有评论</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                        class="fa fa-user-check text-gray-500 pr-2"></i>我的评论</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">发表在《List group item heading》</h6>
+                                            </div>
+                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
+                                                sed
+                                                diam eget risus varius blandit.</p>
+                                            <small>由admin发表于3 days ago .</small>
+                                        </a>
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">发表在《List group item heading》</h6>
+                                            </div>
+                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
+                                                sed
+                                                diam eget risus varius blandit.</p>
+                                            <small>由admin发表于3 days ago .</small>
+                                        </a>
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">发表在《List group item heading》</h6>
+                                            </div>
+                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
+                                                sed
+                                                diam eget risus varius blandit.</p>
+                                            <small>由admin发表于3 days ago .</small>
+                                        </a>
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">发表在《List group item heading》</h6>
+                                            </div>
+                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
+                                                sed
+                                                diam eget risus varius blandit.</p>
+                                            <small>由admin发表于3 days ago .</small>
+                                        </a>
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">发表在《List group item heading》</h6>
+                                            </div>
+                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
+                                                sed
+                                                diam eget risus varius blandit.</p>
+                                            <small>由admin发表于3 days ago .</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            {% endblock %}
+        </div>
+        <!-- End of Main Content -->
+
+        {% block footer %}
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; TeebbCMF 2019</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        {% endblock %}
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+{% block javascripts %}
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+{% endblock %}
+
+{#{{ sylius_template_event('sylius.shop.layout.after_body') }}#}
+</body>
+
+</html>

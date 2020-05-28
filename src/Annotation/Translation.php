@@ -12,15 +12,13 @@
 
 namespace Teebb\CoreBundle\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\Required;
+
 /**
  * I18N.
  *
  * @Annotation
  * @Target({"ALL"})
- * @Attributes(
- *     @Attribute("message", type="string"),
- *     @Attribute("domain", type="string")
- * )
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
@@ -28,12 +26,13 @@ class Translation
 {
     /**
      * @var string
+     * @Required()
      */
     public $message;
 
     /**
      * @var string Translation domain
      */
-    public $domain;
+    public $domain = 'TeebbCoreBundle';
 
 }
