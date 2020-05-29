@@ -13,10 +13,8 @@
 namespace Teebb\CoreBundle\Tests\Annotation;
 
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Teebb\CoreBundle\Annotation\EntityType;
-use Teebb\CoreBundle\DependencyInjection\TeebbCoreExtension;
-use Teebb\CoreBundle\Entity\EntityType\ContentType;
+use Teebb\CoreBundle\Entity\Types\ContentType;
 use Teebb\CoreBundle\Test\TeebbCoreTest;
 
 class AnnotationParserTest extends TeebbCoreTest

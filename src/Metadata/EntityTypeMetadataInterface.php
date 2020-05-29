@@ -41,11 +41,11 @@ interface EntityTypeMetadataInterface
     public function getDescription(): string;
 
     /**
-     * 获取EntityType 全路径类名
+     * 获取Entity全路径类名
      *
      * @return string
      */
-    public function getEntityTypeClassName(): string;
+    public function getEntityClassName(): string;
 
     /**
      * 获取EntityType Controller 全路径类名
@@ -60,5 +60,13 @@ interface EntityTypeMetadataInterface
      * @return string
      */
     public function getRepository(): string;
+
+    /**
+     * 获取EntityType Service 全路径类名
+     *
+     * @return string
+     */
+    public function getService(): string;
+
 
 }

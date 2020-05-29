@@ -10,26 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle\Entity\EntityType;
+namespace Teebb\CoreBundle\Entity\Types;
 
-use Teebb\CoreBundle\AbstractService\AbstractEntityType;
 use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 
 /**
- * 评论类型
+ * 分类类型
  *
  * @EntityType(
- *     name=@Translation(message="teebb.core.entity_type.comment.name", domain="TeebbCoreBundle"),
- *     alias="comment",
- *     description=@Translation(message="teebb.core.entity_type.comment.description", domain="TeebbCoreBundle"),
+ *     name=@Translation(message="teebb.core.entity_type.taxonomy.name", domain="TeebbCoreBundle"),
+ *     alias="taxonomy",
+ *     description=@Translation(message="teebb.core.entity_type.taxonomy.description", domain="TeebbCoreBundle"),
  *     repository="repository",
- *     controller="controller"
+ *     controller="controller",
+ *     service="Teebb\CoreBundle\Services\Types\TaxonomyEntityType"
  * )
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class CommentType extends AbstractEntityType
+class TaxonomyType
 {
 
 }

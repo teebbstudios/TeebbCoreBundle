@@ -59,8 +59,8 @@ class EntityTypeRouteCollection extends BaseRouteCollection implements RouteColl
             }
 
             $defaults['_controller'] = $controller . $actionJoiner . $this->actionify($actionCode);
-        }
 
+        }
 
         $route = $this->routeFactory->createRoute($pattern, $defaults, $requirements, $options, $host, $schemes, $methods, $condition);
 

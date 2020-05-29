@@ -14,6 +14,7 @@ namespace Teebb\CoreBundle\Mapping;
 
 
 use Doctrine\Common\Annotations\Reader;
+use Doctrine\Inflector\InflectorFactory;
 
 trait AnnotationExtractorTrait
 {
@@ -24,5 +25,15 @@ trait AnnotationExtractorTrait
         yield $reflectionClass => $annotation;
     }
 
-    
+    /**
+     * Generates a unique, per-class and per-filter identifier prefixed by `teebb.core.entity_type.{classname}`
+     *
+     * @param string $prefix
+     * @param string $serviceName
+     * @return string
+     */
+    private function generateServiceId(string $prefix, string $serviceName): string
+    {
+        return $prefix . InflectorFactory::create()->build()->tableize(substr($serviceName, strripos($serviceName, '\\') + 1));
+    }
 }

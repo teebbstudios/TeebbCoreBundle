@@ -20,6 +20,13 @@ use Teebb\CoreBundle\Annotation\Translation;
 
 class EntityTypeEntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
 {
+    /**
+     * @param \ReflectionClass $reflectionClass
+     * @param EntityType $annotation
+     * @param ContainerBuilder $container
+     * @return EntityTypeMetadata
+     * @throws \Exception
+     */
     public function create(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): EntityTypeMetadata
     {
         $translate = $container->get('translator');
@@ -32,10 +39,18 @@ class EntityTypeEntityTypeMetadataFactory implements EntityTypeMetadataFactoryIn
                 $translate->trans($annotation->description->message, [], $annotation->description->domain) : $annotation->description,
             $reflectionClass->getName(),
             $annotation->controller,
-            $annotation->repository
+            $annotation->repository,
+            $annotation->service
         );
     }
 
+    /**
+     * @param \ReflectionClass $reflectionClass
+     * @param EntityType $annotation
+     * @param ContainerBuilder $container
+     * @return Definition
+     * @throws \Exception
+     */
     public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): Definition
     {
         $translate = $container->get('translator');
@@ -48,7 +63,8 @@ class EntityTypeEntityTypeMetadataFactory implements EntityTypeMetadataFactoryIn
                 $translate->trans($annotation->description->message, [], $annotation->description->domain) : $annotation->description,
             $reflectionClass->getName(),
             $annotation->controller,
-            $annotation->repository
+            $annotation->repository,
+            $annotation->service
         ]);
     }
 }

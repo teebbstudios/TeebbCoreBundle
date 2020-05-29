@@ -42,13 +42,22 @@ class EntityType
 
     /**
      * 当前内容实体的Controller类
+     *
+     * @var string
      */
     public $controller;
 
     /**
      * 当前内容实体的Repository类
+     *
+     * @var string
      */
     public $repository;
 
-
+    /**
+     * 当前内容实体的EntityTypeService类
+     *
+     * @var string
+     */
+    public $service;
 }

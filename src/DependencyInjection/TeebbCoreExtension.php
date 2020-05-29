@@ -36,7 +36,7 @@ class TeebbCoreExtension extends Extension
         ];
 
         foreach ($resources as $resource) {
-            $loader->load($resource.'.xml');
+            $loader->load($resource . '.xml');
         }
 
         $configuration = $this->getConfiguration($configs, $container);
@@ -46,7 +46,7 @@ class TeebbCoreExtension extends Extension
         $container->setParameter('teebb.core.mapping.directories', $mappingDirectories);
 
         $annotationParserDefinition = $container->getDefinition('teebb.core.mapping.annotation_parser');
-        $annotationParserDefinition->replaceArgument(1, $mappingDirectories);
+        $annotationParserDefinition->setArgument(1, $mappingDirectories);
 
     }
 

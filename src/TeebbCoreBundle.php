@@ -17,18 +17,18 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Teebb\CoreBundle\DependencyInjection\Compiler\EntityTypeCompilePass;
+use Teebb\CoreBundle\DependencyInjection\Compiler\RouteLoaderCompilePass;
 
 /**
  * Class TeebbCoreBundle
  */
 class TeebbCoreBundle extends Bundle
 {
-
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
 
         $container->addCompilerPass(new EntityTypeCompilePass(), PassConfig::TYPE_OPTIMIZE);
+        $container->addCompilerPass(new RouteLoaderCompilePass(), PassConfig::TYPE_OPTIMIZE);
     }
-
 }

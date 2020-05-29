@@ -29,19 +29,20 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
 
     private $repository;
 
-    private $entityTypeClassName;
+    private $entityClassName;
 
+    private $service;
 
     public function __construct(string $name, string $alias, string $description,
-                                string $entityTypeClassName,
-                                string $controller, string $repository)
+                                string $entityClassName, string $controller, string $repository, string $service)
     {
         $this->name = $name;
         $this->alias = $alias;
         $this->description = $description;
         $this->controller = $controller;
         $this->repository = $repository;
-        $this->entityTypeClassName = $entityTypeClassName;
+        $this->entityClassName = $entityClassName;
+        $this->service = $service;
     }
 
     /**
@@ -71,9 +72,9 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
     /**
      * @inheritDoc
      */
-    public function getEntityTypeClassName(): string
+    public function getEntityClassName(): string
     {
-        return $this->entityTypeClassName;
+        return $this->entityClassName;
     }
 
     /**
@@ -91,5 +92,14 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
     {
         return $this->repository;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getService(): string
+    {
+        return $this->service;
+    }
+
 
 }

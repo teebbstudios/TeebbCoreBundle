@@ -10,10 +10,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle\Entity\EntityType;
+namespace Teebb\CoreBundle\Entity\Types;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Teebb\CoreBundle\AbstractService\AbstractEntityType;
 use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,7 +26,8 @@ use Teebb\CoreBundle\Route\EntityTypePathBuilder;
  *     alias="types",
  *     description=@Translation(message="teebb.core.entity_type.content.description", domain="TeebbCoreBundle"),
  *     repository="repository",
- *     controller="controller"
+ *     controller="controller",
+ *     service="Teebb\CoreBundle\Services\Types\ContentEntityType"
  * )
  *
  * @ORM\Entity
@@ -36,7 +36,7 @@ use Teebb\CoreBundle\Route\EntityTypePathBuilder;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class ContentType extends AbstractEntityType
+class ContentType
 {
     use TimestampableEntity;
 

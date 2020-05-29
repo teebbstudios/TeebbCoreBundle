@@ -16,7 +16,6 @@ namespace Teebb\CoreBundle\DependencyInjection\Compiler;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Teebb\CoreBundle\Annotation\EntityType;
@@ -49,9 +48,8 @@ class EntityTypeCompilePass implements CompilerPassInterface
 
         foreach (ReflectionClassRecursiveIterator::getReflectionClassesFromDirectories($mappingDirectories)
                  as $className => $reflectionClass) {
-            $this->createEntityTypeDefinition($reflectionClass, $container);
+            $this->createEntityTypeServiceDefinition($reflectionClass, $container);
         }
-
     }
 
     /**
@@ -61,7 +59,7 @@ class EntityTypeCompilePass implements CompilerPassInterface
      * @param ContainerBuilder $container
      * @throws \Exception
      */
-    public function createEntityTypeDefinition(\ReflectionClass $reflectionClass, ContainerBuilder $container): void
+    public function createEntityTypeServiceDefinition(\ReflectionClass $reflectionClass, ContainerBuilder $container): void
     {
         $this->reader = $this->reader ?? $container->get('annotation_reader');
 
@@ -70,16 +68,23 @@ class EntityTypeCompilePass implements CompilerPassInterface
         foreach ($this->readAnnotation($reflectionClass, $this->reader, EntityType::class)
                  as $reflectionClass => $annotation) {
 
-            if (null !== $container->get($reflectionClass->getName(), ContainerInterface::NULL_ON_INVALID_REFERENCE)) {
+            if (!$annotation instanceof EntityType) {
                 continue;
             }
 
-            if (null === $entityTypeReflectionClass = $container->getReflectionClass($reflectionClass->getName(), false)) {
-                throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $reflectionClass->getName(), $reflectionClass->getName()));
+            $id = false === strpos($annotation->service, '\\') ?
+                $annotation->service : $this->generateServiceId('teebb.core.entity_type.', $annotation->service);
+
+            if ($container->has($id)) {
+                continue;
+            }
+
+            if (null === $entityTypeServiceReflectionClass = $container->getReflectionClass($annotation->service, false)) {
+                throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $annotation->service, $id));
             }
 
             if ($annotation instanceof EntityType) {
-                $definition = new Definition($reflectionClass->getName());
+                $definition = new Definition($entityTypeServiceReflectionClass->getName());
                 $definition->setAutoconfigured(true);
                 $definition->addTag(self::ENTITY_TYPE_TAG);
                 $definition->setAutowired(true);
@@ -87,7 +92,7 @@ class EntityTypeCompilePass implements CompilerPassInterface
 
                 $definition->setArgument(0, $container->getDefinition('teebb.core.route.types_builder'));
 
-                $container->setDefinition($reflectionClass->getName(), $definition);
+                $container->setDefinition($id, $definition);
 
                 $metadataDefinition = $entityTypeMetadataFactory->createDefinition($reflectionClass, $annotation, $container);
                 $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);

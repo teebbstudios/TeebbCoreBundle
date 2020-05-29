@@ -13,16 +13,60 @@
 namespace Teebb\CoreBundle\Tests\Entity;
 
 
-use PHPUnit\Framework\TestCase;
+use Teebb\CoreBundle\Entity\Types\ContentType;
+use Teebb\CoreBundle\Metadata\EntityTypeMetadata;
+use Teebb\CoreBundle\Route\EntityTypeActions;
+use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
+use Teebb\CoreBundle\Test\TeebbCoreTest;
 
-class ContentTypeTest extends TestCase
+class ContentTypeTest extends TeebbCoreTest
 {
     /**
-     * 测试AbstractContentType类
+     * 测试ContentType类
      */
     public function testContentType()
     {
+        $kernel = self::bootKernel();
 
-        
+        $container = $kernel->getContainer();
+
+        $contentTypeService = $container->get('teebb.core.entity_type.content_entity_type');
+        $contentTypeMetadata = $contentTypeService->getEntityTypeMetadata();
+
+        $this->assertNotNull($contentTypeService);
+        $this->assertInstanceOf(EntityTypeMetadata::class, $contentTypeMetadata);
+        $this->assertSame(ContentType::class, $contentTypeMetadata->getEntityClassName());
     }
+
+    /**
+     * 测试ContentType类生成Route
+     */
+    public function testContentTypeRoute()
+    {
+        $kernel = self::bootKernel();
+
+        $container = $kernel->getContainer();
+
+        $contentTypeService = $container->get("teebb.core.entity_type.content_entity_type");
+
+        $metadata = $contentTypeService->getEntityTypeMetadata();
+
+        $routeCollection = new EntityTypeRouteCollection($metadata);
+
+        $pathBuilder = $contentTypeService->getPathBuilder();
+
+        $pathBuilder->build($routeCollection);
+
+
+        $indexRoute = $routeCollection->get($metadata->getAlias() . '_' . EntityTypeActions::INDEX);
+        $this->assertNotNull($indexRoute);
+        $this->assertSame('/types/index', $indexRoute->getPath());
+
+        $routes = $contentTypeService->getRoutes();
+
+        $this->assertInstanceOf(EntityTypeRouteCollection::class, $routes);
+        $this->assertArrayHasKey('types_index', $routes->all());
+
+    }
+
 }

@@ -21,7 +21,7 @@ use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class AbstractEntityType implements EntityTypeInterface
+abstract class AbstractEntityType implements EntityTypeInterface
 {
     /**
      * @var EntityTypeMetadataInterface
@@ -39,6 +39,7 @@ class AbstractEntityType implements EntityTypeInterface
      * @var EntityTypePathBuilder
      */
     private $pathBuilder;
+
 
     public function __construct(EntityTypePathBuilder $pathBuilder)
     {
@@ -66,6 +67,7 @@ class AbstractEntityType implements EntityTypeInterface
      */
     public function getRoutes(): EntityTypeRouteCollection
     {
+
         $this->buildRoutes();
 
         return $this->routes;
@@ -76,8 +78,38 @@ class AbstractEntityType implements EntityTypeInterface
      */
     public function buildRoutes(): void
     {
+        if (null !== $this->routes) {
+            return;
+        }
+
+        $this->routes = new EntityTypeRouteCollection($this->metadata);
+
+        $this->pathBuilder->build($this->routes);
+
+        $this->configureRoutes($this->routes);
+    }
+
+    /**
+     * @return EntityTypePathBuilder
+     */
+    public function getPathBuilder(): EntityTypePathBuilder
+    {
+        return $this->pathBuilder;
+    }
+
+    /**
+     * 覆盖此方法以自定义路由添加到EntityTypeRouteCollection.
+     *
+     * 自定义Controller继承自AbstractEntityTypeController并实现Action，并在注释中配置对应controller。
+     *
+     * @param EntityTypeRouteCollection $routeCollection
+     */
+    protected function configureRoutes(EntityTypeRouteCollection $routeCollection): void
+    {
+        //$this->routing->addRoute('example', 'pattern');
 
     }
+
 
     public function getFields()
     {
