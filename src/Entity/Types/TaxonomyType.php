@@ -23,7 +23,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     alias="taxonomy",
  *     description=@Translation(message="teebb.core.entity_type.taxonomy.description", domain="TeebbCoreBundle"),
  *     repository="repository",
- *     controller="controller",
+ *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
  *     service="Teebb\CoreBundle\Services\Types\TaxonomyEntityType"
  * )
  *

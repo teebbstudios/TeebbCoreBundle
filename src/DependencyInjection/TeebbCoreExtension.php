@@ -17,6 +17,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 
 
 class TeebbCoreExtension extends Extension
@@ -33,6 +34,7 @@ class TeebbCoreExtension extends Extension
         $resources = [
             'services',
             'routes',
+            'controllers'
         ];
 
         foreach ($resources as $resource) {

@@ -13,7 +13,7 @@
 namespace Teebb\CoreBundle\Metadata;
 
 /**
- * EntityType Annotation Metadata接口
+ * Types Annotation Metadata接口
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */

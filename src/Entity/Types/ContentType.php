@@ -26,7 +26,7 @@ use Teebb\CoreBundle\Route\EntityTypePathBuilder;
  *     alias="types",
  *     description=@Translation(message="teebb.core.entity_type.content.description", domain="TeebbCoreBundle"),
  *     repository="repository",
- *     controller="controller",
+ *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
  *     service="Teebb\CoreBundle\Services\Types\ContentEntityType"
  * )
  *

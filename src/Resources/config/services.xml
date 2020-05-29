@@ -12,6 +12,5 @@
 
         <service id="teebb.core.metadata.entity_type_metadata_factory" class="Teebb\CoreBundle\Metadata\EntityTypeEntityTypeMetadataFactory" public="true"/>
 
-
     </services>
 </container>

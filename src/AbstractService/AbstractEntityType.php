@@ -107,7 +107,6 @@ abstract class AbstractEntityType implements EntityTypeInterface
     protected function configureRoutes(EntityTypeRouteCollection $routeCollection): void
     {
         //$this->routing->addRoute('example', 'pattern');
-
     }
 
 

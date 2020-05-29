@@ -71,9 +71,11 @@ class EntityTypeCompilePass implements CompilerPassInterface
             if (!$annotation instanceof EntityType) {
                 continue;
             }
+            if (false === strpos($annotation->service, '\\')) {
+                throw new \RuntimeException('Annotation "EntityType" property "service" must use Full Qualified Class Name.');
+            }
 
-            $id = false === strpos($annotation->service, '\\') ?
-                $annotation->service : $this->generateServiceId('teebb.core.entity_type.', $annotation->service);
+            $id = $this->generateServiceId('teebb.core.entity_type.', $annotation->service);
 
             if ($container->has($id)) {
                 continue;
@@ -89,16 +91,15 @@ class EntityTypeCompilePass implements CompilerPassInterface
                 $definition->addTag(self::ENTITY_TYPE_TAG);
                 $definition->setAutowired(true);
                 $definition->setPublic(true);
-
                 $definition->setArgument(0, $container->getDefinition('teebb.core.route.types_builder'));
 
-                $container->setDefinition($id, $definition);
+                $container->setDefinition($entityTypeServiceReflectionClass->getName(), $definition);
+                $container->setAlias($id, $entityTypeServiceReflectionClass->getName());
 
                 $metadataDefinition = $entityTypeMetadataFactory->createDefinition($reflectionClass, $annotation, $container);
                 $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
 
             }
-
         }
     }
 }
