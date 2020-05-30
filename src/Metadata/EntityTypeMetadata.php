@@ -19,7 +19,7 @@ namespace Teebb\CoreBundle\Metadata;
  */
 class EntityTypeMetadata implements EntityTypeMetadataInterface
 {
-    private $name;
+    private $label;
 
     private $alias;
 
@@ -33,10 +33,10 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
 
     private $service;
 
-    public function __construct(string $name, string $alias, string $description,
+    public function __construct(string $label, string $alias, string $description,
                                 string $entityClassName, string $controller, string $repository, string $service)
     {
-        $this->name = $name;
+        $this->label = $label;
         $this->alias = $alias;
         $this->description = $description;
         $this->controller = $controller;
@@ -48,9 +48,9 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
     /**
      * @inheritDoc
      */
-    public function getName(): string
+    public function getLabel(): string
     {
-        return $this->name;
+        return $this->label;
     }
 
     /**

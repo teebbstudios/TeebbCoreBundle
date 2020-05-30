@@ -20,11 +20,11 @@ namespace Teebb\CoreBundle\Metadata;
 interface EntityTypeMetadataInterface
 {
     /**
-     * 获取EntityType 名称
+     * 获取EntityType 标题
      *
      * @return string
      */
-    public function getName(): string;
+    public function getLabel(): string;
 
     /**
      * 获取EntityType 别名 用于Route路径中

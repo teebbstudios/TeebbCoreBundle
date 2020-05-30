@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 
-class EntityTypeEntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
+class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
 {
     /**
      * @param \ReflectionClass $reflectionClass
@@ -32,8 +32,8 @@ class EntityTypeEntityTypeMetadataFactory implements EntityTypeMetadataFactoryIn
         $translate = $container->get('translator');
 
         return new EntityTypeMetadata(
-            $annotation->name instanceof Translation ?
-                $translate->trans($annotation->name->message, [], $annotation->name->domain) : $annotation->name,
+            $annotation->label instanceof Translation ?
+                $translate->trans($annotation->label->message, [], $annotation->label->domain) : $annotation->label,
             $annotation->alias,
             $annotation->description instanceof Translation ?
                 $translate->trans($annotation->description->message, [], $annotation->description->domain) : $annotation->description,
@@ -56,8 +56,8 @@ class EntityTypeEntityTypeMetadataFactory implements EntityTypeMetadataFactoryIn
         $translate = $container->get('translator');
 
         return new Definition(EntityTypeMetadata::class, [
-            $annotation->name instanceof Translation ?
-                $translate->trans($annotation->name->message, [], $annotation->name->domain) : $annotation->name,
+            $annotation->label instanceof Translation ?
+                $translate->trans($annotation->label->message, [], $annotation->label->domain) : $annotation->label,
             $annotation->alias,
             $annotation->description instanceof Translation ?
                 $translate->trans($annotation->description->message, [], $annotation->description->domain) : $annotation->description,

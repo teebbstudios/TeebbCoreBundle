@@ -19,7 +19,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  * 分类类型
  *
  * @EntityType(
- *     name=@Translation(message="teebb.core.entity_type.taxonomy.name", domain="TeebbCoreBundle"),
+ *     label=@Translation(message="teebb.core.entity_type.taxonomy.name", domain="TeebbCoreBundle"),
  *     alias="taxonomy",
  *     description=@Translation(message="teebb.core.entity_type.taxonomy.description", domain="TeebbCoreBundle"),
  *     repository="repository",

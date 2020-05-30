@@ -22,7 +22,7 @@ use Teebb\CoreBundle\Route\EntityTypePathBuilder;
  * 内容类型.
  *
  * @EntityType(
- *     name=@Translation(message="teebb.core.entity_type.content.name", domain="TeebbCoreBundle"),
+ *     label=@Translation(message="teebb.core.entity_type.content.name", domain="TeebbCoreBundle"),
  *     alias="types",
  *     description=@Translation(message="teebb.core.entity_type.content.description", domain="TeebbCoreBundle"),
  *     repository="repository",

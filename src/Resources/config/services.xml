@@ -10,7 +10,7 @@
             <argument type="collection"/>  <!-- filled in extension class -->
         </service>
 
-        <service id="teebb.core.metadata.entity_type_metadata_factory" class="Teebb\CoreBundle\Metadata\EntityTypeEntityTypeMetadataFactory" public="true"/>
+        <service id="teebb.core.metadata.entity_type_metadata_factory" class="Teebb\CoreBundle\Metadata\EntityTypeMetadataFactory" public="true"/>
 
     </services>
 </container>

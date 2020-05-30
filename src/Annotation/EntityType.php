@@ -24,9 +24,9 @@ namespace Teebb\CoreBundle\Annotation;
 class EntityType
 {
     /**
-     * 内容实体类型名称
+     * 内容实体类型标题
      */
-    public $name;
+    public $label;
 
     /**
      * 内容实体类型别名用于URL构建

@@ -19,7 +19,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  * 评论类型
  *
  * @EntityType(
- *     name=@Translation(message="teebb.core.entity_type.comment.name", domain="TeebbCoreBundle"),
+ *     label=@Translation(message="teebb.core.entity_type.comment.name", domain="TeebbCoreBundle"),
  *     alias="comment",
  *     description=@Translation(message="teebb.core.entity_type.comment.description", domain="TeebbCoreBundle"),
  *     repository="repository",

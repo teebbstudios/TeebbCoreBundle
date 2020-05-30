@@ -46,9 +46,9 @@ class AbstractEntityTypeController extends AbstractController
     {
         $request = $this->getRequest();
 
-        $entityTypeId = $request->get('_teebb_entity_type');
+        $entityTypeServiceId = $request->get('_teebb_entity_type');
 
-        if (!$entityTypeId) {
+        if (!$entityTypeServiceId) {
             throw new \RuntimeException(sprintf(
                 'There is no `_teebb_entity_type` defined for the controller `%s` and the current route `%s`',
                 static::class,
@@ -56,7 +56,7 @@ class AbstractEntityTypeController extends AbstractController
             ));
         }
 
-        $this->entityTypeService = $this->container->get($entityTypeId);
+        $this->entityTypeService = $this->container->get($entityTypeServiceId);
 
         if (!$this->entityTypeService) {
             throw new \RuntimeException(sprintf(
@@ -64,7 +64,6 @@ class AbstractEntityTypeController extends AbstractController
                 static::class
             ));
         }
-dd($this->entityTypeService);
     }
 
     /**
