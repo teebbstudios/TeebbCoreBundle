@@ -19,7 +19,6 @@ use Teebb\CoreBundle\Test\TeebbCoreTest;
 
 class AnnotationParserTest extends TeebbCoreTest
 {
-
     /**
      * 测试Annotation Mapping路径
      */

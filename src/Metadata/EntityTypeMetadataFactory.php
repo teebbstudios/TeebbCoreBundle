@@ -16,7 +16,7 @@ namespace Teebb\CoreBundle\Metadata;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Teebb\CoreBundle\Annotation\EntityType;
-use Teebb\CoreBundle\Annotation\Translation;
+use Teebb\CoreBundle\Translation\TransUtil;
 
 class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
 {
@@ -29,14 +29,12 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
      */
     public function create(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): EntityTypeMetadata
     {
-        $translate = $container->get('translator');
+        $translator = $container->get('translator');
 
         return new EntityTypeMetadata(
-            $annotation->label instanceof Translation ?
-                $translate->trans($annotation->label->message, [], $annotation->label->domain) : $annotation->label,
+            (new TransUtil($annotation->label))->trans($translator),
             $annotation->alias,
-            $annotation->description instanceof Translation ?
-                $translate->trans($annotation->description->message, [], $annotation->description->domain) : $annotation->description,
+            (new TransUtil($annotation->description))->trans($translator),
             $reflectionClass->getName(),
             $annotation->controller,
             $annotation->repository,
@@ -53,14 +51,12 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
      */
     public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): Definition
     {
-        $translate = $container->get('translator');
+        $translator = $container->get('translator');
 
         return new Definition(EntityTypeMetadata::class, [
-            $annotation->label instanceof Translation ?
-                $translate->trans($annotation->label->message, [], $annotation->label->domain) : $annotation->label,
+            (new TransUtil($annotation->label))->trans($translator),
             $annotation->alias,
-            $annotation->description instanceof Translation ?
-                $translate->trans($annotation->description->message, [], $annotation->description->domain) : $annotation->description,
+            (new TransUtil($annotation->description))->trans($translator),
             $reflectionClass->getName(),
             $annotation->controller,
             $annotation->repository,

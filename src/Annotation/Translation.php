@@ -31,6 +31,11 @@ class Translation
     public $message;
 
     /**
+     * @var array
+     */
+    public $arguments;
+
+    /**
      * @var string Translation domain
      */
     public $domain = 'TeebbCoreBundle';
