@@ -17,6 +17,7 @@ use Teebb\CoreBundle\Entity\Types\ContentType;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadata;
 use Teebb\CoreBundle\Route\EntityTypeActions;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
+use Teebb\CoreBundle\Services\Types\ContentEntityType;
 use Teebb\CoreBundle\Test\TeebbCoreTest;
 
 class ContentTypeTest extends TeebbCoreTest
@@ -43,11 +44,12 @@ class ContentTypeTest extends TeebbCoreTest
      */
     public function testContentTypeRoute()
     {
+
         $kernel = self::bootKernel();
 
         $container = $kernel->getContainer();
 
-        $contentTypeService = $container->get("teebb.core.entity_type.content_entity_type");
+        $contentTypeService = $container->get('teebb.core.entity_type.content_entity_type');
 
         $metadata = $contentTypeService->getEntityTypeMetadata();
 

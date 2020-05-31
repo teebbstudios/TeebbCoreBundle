@@ -48,19 +48,20 @@ class EntityTypeCompilePass implements CompilerPassInterface
 
         foreach (ReflectionClassRecursiveIterator::getReflectionClassesFromDirectories($mappingDirectories)
                  as $className => $reflectionClass) {
-            $this->createEntityTypeServiceDefinition($reflectionClass, $container);
+            //todo: 重构此CompilePass， 使用service definition addMethodCall的方式添加EntityType Service到容器
+            $this->setEntityTypeServiceDefinition($reflectionClass, $container);
         }
     }
 
     /**
-     * 创建内容实体类型Service并注册到container
+     * 创建内容实体类型Definition并注册到container
      *
      * @param \ReflectionClass $reflectionClass
      * @param ContainerBuilder $container
      * @throws \Exception
      */
-    public function createEntityTypeServiceDefinition(\ReflectionClass $reflectionClass, ContainerBuilder $container): void
-    {
+    public function setEntityTypeServiceDefinition(\ReflectionClass $reflectionClass, ContainerBuilder $container): void
+    {   dd($container);
         $this->reader = $this->reader ?? $container->get('annotation_reader');
 
         $entityTypeMetadataFactory = $container->get('teebb.core.metadata.entity_type_metadata_factory');
@@ -93,12 +94,10 @@ class EntityTypeCompilePass implements CompilerPassInterface
                 $definition->setPublic(true);
                 $definition->setArgument(0, $container->getDefinition('teebb.core.route.types_builder'));
 
-                $container->setDefinition($entityTypeServiceReflectionClass->getName(), $definition);
-                $container->setAlias($id, $entityTypeServiceReflectionClass->getName());
+                $container->setDefinition($id, $definition);
 
                 $metadataDefinition = $entityTypeMetadataFactory->createDefinition($reflectionClass, $annotation, $container);
                 $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
-
             }
         }
     }

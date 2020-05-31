@@ -16,10 +16,20 @@ namespace Teebb\CoreBundle\Metadata;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Teebb\CoreBundle\Annotation\EntityType;
-use Teebb\CoreBundle\Translation\TransUtil;
+use Teebb\CoreBundle\Translation\AnnotationTranslation;
 
 class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
 {
+    /**
+     * @var AnnotationTranslation
+     */
+    private $translation;
+
+    public function __construct(AnnotationTranslation $translation)
+    {
+        $this->translation = $translation;
+    }
+
     /**
      * @param \ReflectionClass $reflectionClass
      * @param EntityType $annotation
@@ -29,12 +39,10 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
      */
     public function create(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): EntityTypeMetadata
     {
-        $translator = $container->get('translator');
-
         return new EntityTypeMetadata(
-            (new TransUtil($annotation->label))->trans($translator),
+            $this->translation->trans($annotation->label),
             $annotation->alias,
-            (new TransUtil($annotation->description))->trans($translator),
+            $this->translation->trans($annotation->label),
             $reflectionClass->getName(),
             $annotation->controller,
             $annotation->repository,
@@ -51,16 +59,17 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
      */
     public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): Definition
     {
-        $translator = $container->get('translator');
+        $metadata = $this->create($reflectionClass, $annotation, $container);
 
-        return new Definition(EntityTypeMetadata::class, [
-            (new TransUtil($annotation->label))->trans($translator),
-            $annotation->alias,
-            (new TransUtil($annotation->description))->trans($translator),
-            $reflectionClass->getName(),
-            $annotation->controller,
-            $annotation->repository,
-            $annotation->service
+        return new Definition(get_class($metadata), [
+            $metadata->getLabel(),
+            $metadata->getAlias(),
+            $metadata->getDescription(),
+            $metadata->getEntityClassName(),
+            $metadata->getController(),
+            $metadata->getRepository(),
+            $metadata->getService()
         ]);
+
     }
 }

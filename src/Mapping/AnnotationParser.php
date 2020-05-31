@@ -13,11 +13,10 @@
 namespace Teebb\CoreBundle\Mapping;
 
 use Doctrine\Common\Annotations\CachedReader;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * 读取Annotation注解设置
- *
- * @deprecated
  */
 class AnnotationParser
 {
@@ -26,27 +25,22 @@ class AnnotationParser
      */
     private $reader;
 
-    /**
-     * @var array
-     */
-    private $directories;
-
-    public function __construct(CachedReader $reader, array $directories)
+    public function __construct(CachedReader $reader, ContainerInterface $container)
     {
         $this->reader = $reader;
-        $this->directories = $directories;
     }
 
     /**
      * 读取类注释中指定的Annotation
      *
      * @param string $annotationName
-     * @return array 返回
+     * @param array $directories
+     * @return array
      */
-    public function readAllSpecifiedTypeAnnotation(string $annotationName): array
+    public function readAllSpecifiedTypeAnnotation(string $annotationName, array $directories): array
     {
         $allAnnotations = [];
-        foreach (ReflectionClassRecursiveIterator::getReflectionClassesFromDirectories($this->directories)
+        foreach (ReflectionClassRecursiveIterator::getReflectionClassesFromDirectories($directories)
                  as $className => $reflectionClass) {
             $annotation = $this->reader->getClassAnnotation($reflectionClass, $annotationName);
 

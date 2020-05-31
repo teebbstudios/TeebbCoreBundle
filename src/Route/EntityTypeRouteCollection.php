@@ -13,6 +13,7 @@
 namespace Teebb\CoreBundle\Route;
 
 
+use Teebb\CoreBundle\Mapping\AnnotationExtractorTrait;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Symfony\Component\Routing\RouteCollection as BaseRouteCollection;
 
@@ -23,6 +24,8 @@ use Symfony\Component\Routing\RouteCollection as BaseRouteCollection;
  */
 class EntityTypeRouteCollection extends BaseRouteCollection implements RouteCollectionInterface
 {
+    use AnnotationExtractorTrait;
+
     /**
      * @var EntityTypeMetadataInterface
      */
@@ -44,7 +47,7 @@ class EntityTypeRouteCollection extends BaseRouteCollection implements RouteColl
      */
     public function addRoute(string $name, $pattern = null, array $defaults = [],
                              array $requirements = [], array $options = [], $host = '',
-                             array $schemes = [], array $methods = [], $condition = ''):void
+                             array $schemes = [], array $methods = [], $condition = ''): void
     {
         $pattern = "/" . $this->metadata->getAlias() . "/" . ($pattern ?: $name);
         $routeName = $this->metadata->getAlias() . '_' . $name;
@@ -60,10 +63,12 @@ class EntityTypeRouteCollection extends BaseRouteCollection implements RouteColl
 
             $defaults['_controller'] = $controller . $actionJoiner . $this->actionify($actionCode);
 
-            $defaults['_teebb_entity_type'] = $this->metadata->getService();
+            $defaults['_teebb_entity_type'] = $this->generateServiceId('teebb.core.entity_type.',
+                $this->metadata->getService());
         }
 
-        $route = $this->routeFactory->createRoute($pattern, $defaults, $requirements, $options, $host, $schemes, $methods, $condition);
+        $route = $this->routeFactory->createRoute($pattern, $defaults, $requirements,
+            $options, $host, $schemes, $methods, $condition);
 
         $this->add($routeName, $route);
     }
@@ -104,4 +109,6 @@ class EntityTypeRouteCollection extends BaseRouteCollection implements RouteColl
 
         return lcfirst(str_replace(' ', '', ucwords(strtr($action, '_-', '  '))));
     }
+
+
 }

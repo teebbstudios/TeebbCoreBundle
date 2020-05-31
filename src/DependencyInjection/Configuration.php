@@ -27,9 +27,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('directories')
-                                ->defaultValue([
-                                    '%kernel.project_dir%/src/Entity'
-                                ])
+                                ->defaultValue([])
                                 ->prototype('scalar')->end()
                         ->end()
                     ->end()

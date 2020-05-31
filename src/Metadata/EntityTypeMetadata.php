@@ -33,8 +33,8 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
 
     private $service;
 
-    public function __construct(string $label, string $alias, string $description,
-                                string $entityClassName, string $controller, string $repository, string $service)
+    public function __construct(string $label, string $alias, string $description, string $entityClassName,
+                                string $controller, string $repository, string $service)
     {
         $this->label = $label;
         $this->alias = $alias;

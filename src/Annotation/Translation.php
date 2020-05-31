@@ -33,7 +33,7 @@ class Translation
     /**
      * @var array
      */
-    public $arguments;
+    public $arguments = [];
 
     /**
      * @var string Translation domain

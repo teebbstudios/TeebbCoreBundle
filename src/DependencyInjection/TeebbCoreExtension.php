@@ -15,6 +15,8 @@ namespace Teebb\CoreBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
@@ -45,6 +47,10 @@ class TeebbCoreExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $mappingDirectories = array_merge($this->getBundlesEntityPaths($container), $config['mapping']['directories']);
+        if (empty($mappingDirectories)) {
+            throw new InvalidArgumentException('TeebbCoreBundle configure key "[\'mapping\'][\'directories\']" can not empty. Please config it.');
+        }
+
         $container->setParameter('teebb.core.mapping.directories', $mappingDirectories);
 
         $annotationParserDefinition = $container->getDefinition('teebb.core.mapping.annotation_parser');
@@ -52,6 +58,12 @@ class TeebbCoreExtension extends Extension
 
     }
 
+    /**
+     * 其他Bundle的Entity目录参与获取EntityType Annotation
+     *
+     * @param ContainerBuilder $container
+     * @return array
+     */
     public function getBundlesEntityPaths(ContainerBuilder $container)
     {
         $bundlesEntityPaths = [];
