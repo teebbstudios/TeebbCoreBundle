@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
+use Teebb\CoreBundle\Mapping\ReflectionClassRecursiveIterator;
 
 
 class TeebbCoreExtension extends Extension
@@ -52,9 +53,6 @@ class TeebbCoreExtension extends Extension
         }
 
         $container->setParameter('teebb.core.mapping.directories', $mappingDirectories);
-
-        $annotationParserDefinition = $container->getDefinition('teebb.core.mapping.annotation_parser');
-        $annotationParserDefinition->setArgument(1, $mappingDirectories);
 
     }
 

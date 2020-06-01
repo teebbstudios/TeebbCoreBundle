@@ -33,11 +33,10 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
     /**
      * @param \ReflectionClass $reflectionClass
      * @param EntityType $annotation
-     * @param ContainerBuilder $container
      * @return EntityTypeMetadata
      * @throws \Exception
      */
-    public function create(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): EntityTypeMetadata
+    public function create(\ReflectionClass $reflectionClass, EntityType $annotation): EntityTypeMetadata
     {
         return new EntityTypeMetadata(
             $this->translation->trans($annotation->label),
@@ -53,13 +52,12 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
     /**
      * @param \ReflectionClass $reflectionClass
      * @param EntityType $annotation
-     * @param ContainerBuilder $container
      * @return Definition
      * @throws \Exception
      */
-    public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): Definition
+    public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation): Definition
     {
-        $metadata = $this->create($reflectionClass, $annotation, $container);
+        $metadata = $this->create($reflectionClass, $annotation);
 
         return new Definition(get_class($metadata), [
             $metadata->getLabel(),

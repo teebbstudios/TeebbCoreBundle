@@ -4,10 +4,6 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="teebb.core.mapping.annotation_parser" class="Teebb\CoreBundle\Mapping\AnnotationParser"
-                 public="true">
-            <argument type="service" id="annotations.cached_reader"/>
-        </service>
 
         <service id="teebb.core.translation.annotation_translation" class="Teebb\CoreBundle\Translation\AnnotationTranslation"
                  public="true">

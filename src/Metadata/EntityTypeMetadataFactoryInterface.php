@@ -22,7 +22,7 @@ use Teebb\CoreBundle\Annotation\EntityType;
  */
 interface EntityTypeMetadataFactoryInterface
 {
-    public function create(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): EntityTypeMetadata;
+    public function create(\ReflectionClass $reflectionClass, EntityType $annotation): EntityTypeMetadata;
 
-    public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation, ContainerBuilder $container): Definition;
+    public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation): Definition;
 }

@@ -44,7 +44,6 @@ class ContentTypeTest extends TeebbCoreTest
      */
     public function testContentTypeRoute()
     {
-
         $kernel = self::bootKernel();
 
         $container = $kernel->getContainer();

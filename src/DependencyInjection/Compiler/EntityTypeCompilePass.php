@@ -12,7 +12,6 @@
 
 namespace Teebb\CoreBundle\DependencyInjection\Compiler;
 
-
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -29,9 +28,9 @@ use Teebb\CoreBundle\Mapping\ReflectionClassRecursiveIterator;
  */
 class EntityTypeCompilePass implements CompilerPassInterface
 {
-    use AnnotationExtractorTrait;
-
     private const ENTITY_TYPE_TAG = 'teebb.entity_type';
+
+    use AnnotationExtractorTrait;
 
     /**
      * @var Reader
@@ -48,20 +47,19 @@ class EntityTypeCompilePass implements CompilerPassInterface
 
         foreach (ReflectionClassRecursiveIterator::getReflectionClassesFromDirectories($mappingDirectories)
                  as $className => $reflectionClass) {
-            //todo: 重构此CompilePass， 使用service definition addMethodCall的方式添加EntityType Service到容器
-            $this->setEntityTypeServiceDefinition($reflectionClass, $container);
+            $this->createEntityTypeServices($reflectionClass, $container);
         }
     }
 
     /**
-     * 创建内容实体类型Definition并注册到container
-     *
      * @param \ReflectionClass $reflectionClass
      * @param ContainerBuilder $container
+     * @return \Generator
+     * @throws \ReflectionException
      * @throws \Exception
      */
-    public function setEntityTypeServiceDefinition(\ReflectionClass $reflectionClass, ContainerBuilder $container): void
-    {   dd($container);
+    public function createEntityTypeServices(\ReflectionClass $reflectionClass, ContainerBuilder $container)
+    {
         $this->reader = $this->reader ?? $container->get('annotation_reader');
 
         $entityTypeMetadataFactory = $container->get('teebb.core.metadata.entity_type_metadata_factory');
@@ -94,11 +92,13 @@ class EntityTypeCompilePass implements CompilerPassInterface
                 $definition->setPublic(true);
                 $definition->setArgument(0, $container->getDefinition('teebb.core.route.types_builder'));
 
+                $metadataDefinition = $entityTypeMetadataFactory->createDefinition($reflectionClass, $annotation);
+                $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
+
                 $container->setDefinition($id, $definition);
 
-                $metadataDefinition = $entityTypeMetadataFactory->createDefinition($reflectionClass, $annotation, $container);
-                $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
             }
         }
     }
+
 }
