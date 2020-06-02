@@ -70,7 +70,7 @@ class TeebbCoreExtension extends Extension
             $paths = [];
             $dirname = $bundle['path'];
 
-            $paths[] = "$dirname/Entity";
+            $paths[] = "$dirname/Services";
 
             foreach ($paths as $path) {
                 if ($container->fileExists($path, false)) {

@@ -13,6 +13,7 @@
 namespace Teebb\CoreBundle\Annotation;
 
 
+use Doctrine\Common\Annotations\Annotation\Required;
 use Doctrine\ORM\Mapping\Annotation;
 
 /**
@@ -28,6 +29,7 @@ class EntityType
 {
     /**
      * 内容实体类型标题
+     * @Required()
      */
     public $label;
 
@@ -58,9 +60,10 @@ class EntityType
     public $repository;
 
     /**
-     * 当前内容实体的EntityTypeService类
+     * 当前内容实体的Entity类
      *
      * @var string
      */
-    public $service;
+    public $entity;
+
 }

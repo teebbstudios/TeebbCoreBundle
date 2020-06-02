@@ -31,10 +31,10 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
             $annotation->label->get(),
             $annotation->alias,
             $annotation->description->get(),
-            $reflectionClass->getName(),
             $annotation->controller,
             $annotation->repository,
-            $annotation->service
+            $annotation->entity,
+            $reflectionClass->getName()
         );
     }
 
@@ -47,14 +47,15 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
     public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation): Definition
     {
         return new Definition(EntityTypeMetadata::class, [
-            new Definition(TranslatableMarkup::class, [$annotation->label->message, $annotation->label->arguments, $annotation->label->domain]),
+            new Definition(TranslatableMarkup::class,
+                [$annotation->label->message, $annotation->label->arguments, $annotation->label->domain]),
             $annotation->alias,
-            new Definition(TranslatableMarkup::class, [$annotation->description->message, $annotation->description->arguments, $annotation->description->domain]),
-            $reflectionClass->getName(),
+            new Definition(TranslatableMarkup::class,
+                [$annotation->description->message, $annotation->description->arguments, $annotation->description->domain]),
             $annotation->controller,
             $annotation->repository,
-            $annotation->service
+            $annotation->entity,
+            $reflectionClass->getName()
         ]);
-
     }
 }

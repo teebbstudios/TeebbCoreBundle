@@ -18,15 +18,6 @@ use Teebb\CoreBundle\Annotation\Translation;
 /**
  * 评论类型
  *
- * @EntityType(
- *     label=@Translation(message="teebb.core.entity_type.comment.name", domain="TeebbCoreBundle"),
- *     alias="comment",
- *     description=@Translation(message="teebb.core.entity_type.comment.description", domain="TeebbCoreBundle"),
- *     repository="repository",
- *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
- *     service="Teebb\CoreBundle\Services\Types\CommentEntityType"
- * )
- *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
 class CommentType

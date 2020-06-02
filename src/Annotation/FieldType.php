@@ -24,9 +24,13 @@ class FieldType
 {
     /**
      * @var string
+     * @Required()
      */
     public $id;
 
+    /**
+     * @Required()
+     */
     public $label;
 
     public $description;
@@ -36,5 +40,10 @@ class FieldType
      */
     public $category;
 
-
+    /**
+     * 字段类型对应的实体类
+     *
+     * @var string
+     */
+    public $entity;
 }

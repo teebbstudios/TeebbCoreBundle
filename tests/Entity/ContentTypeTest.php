@@ -36,7 +36,7 @@ class ContentTypeTest extends TeebbCoreTest
 
         $this->assertNotNull($contentTypeService);
         $this->assertInstanceOf(EntityTypeMetadata::class, $contentTypeMetadata);
-        $this->assertSame(ContentType::class, $contentTypeMetadata->getEntityClassName());
+        $this->assertSame(ContentType::class, $contentTypeMetadata->getEntity());
     }
 
     /**

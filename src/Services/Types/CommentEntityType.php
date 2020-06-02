@@ -14,7 +14,21 @@ namespace Teebb\CoreBundle\Services\Types;
 
 
 use Teebb\CoreBundle\AbstractService\AbstractEntityType;
+use Teebb\CoreBundle\Annotation\EntityType;
+use Teebb\CoreBundle\Annotation\Translation;
 
+/**
+ * Class CommentEntityType
+ *
+ * @EntityType(
+ *     label=@Translation(message="teebb.core.entity_type.comment.label"),
+ *     alias="comment",
+ *     description=@Translation(message="teebb.core.entity_type.comment.description"),
+ *     repository="repository",
+ *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
+ *     entity="Teebb\CoreBundle\Entity\Types\CommentType"
+ * )
+ */
 class CommentEntityType extends AbstractEntityType
 {
 

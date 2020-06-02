@@ -14,7 +14,21 @@ namespace Teebb\CoreBundle\Services\Types;
 
 
 use Teebb\CoreBundle\AbstractService\AbstractEntityType;
+use Teebb\CoreBundle\Annotation\EntityType;
+use Teebb\CoreBundle\Annotation\Translation;
 
+/**
+ * Class ContentEntityType
+ *
+ * @EntityType(
+ *     label=@Translation(message="teebb.core.entity_type.content.label"),
+ *     alias="types",
+ *     description=@Translation(message="teebb.core.entity_type.content.description"),
+ *     repository="repository",
+ *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
+ *     entity="Teebb\CoreBundle\Entity\Types\ContentType"
+ * )
+ */
 class ContentEntityType extends AbstractEntityType
 {
 

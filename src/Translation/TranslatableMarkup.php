@@ -9,7 +9,7 @@ class TranslatableMarkup
     /**
      * @var string
      */
-    private $messages;
+    private $message;
     /**
      * @var array
      */
@@ -19,9 +19,9 @@ class TranslatableMarkup
      */
     private $domain;
 
-    public function __construct(string $messages, array $arguments, string $domain)
+    public function __construct(string $message, array $arguments, string $domain)
     {
-        $this->messages = $messages;
+        $this->message = $message;
         $this->arguments = $arguments;
         $this->domain = $domain;
     }
@@ -29,9 +29,9 @@ class TranslatableMarkup
     /**
      * @return string
      */
-    public function getMessages(): string
+    public function getMessage(): string
     {
-        return $this->messages;
+        return $this->message;
     }
 
     /**

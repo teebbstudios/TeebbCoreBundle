@@ -70,18 +70,15 @@ class EntityTypeCompilePass implements CompilerPassInterface
             if (!$annotation instanceof EntityType) {
                 continue;
             }
-            if (false === strpos($annotation->service, '\\')) {
-                throw new \RuntimeException('Annotation "EntityType" property "service" must use Full Qualified Class Name.');
-            }
 
-            $id = $this->generateServiceId('teebb.core.entity_type.', $annotation->service);
+            $id = $this->generateServiceId('teebb.core.entity_type.', $reflectionClass->getName());
 
             if ($container->has($id)) {
                 continue;
             }
 
-            if (null === $entityTypeServiceReflectionClass = $container->getReflectionClass($annotation->service, false)) {
-                throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $annotation->service, $id));
+            if (null === $entityTypeServiceReflectionClass = $container->getReflectionClass($reflectionClass->getName(), false)) {
+                throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $reflectionClass->getName(), $id));
             }
 
             if ($annotation instanceof EntityType) {

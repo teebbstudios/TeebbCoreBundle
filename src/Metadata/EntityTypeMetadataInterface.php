@@ -22,53 +22,52 @@ use Teebb\CoreBundle\Translation\TranslatableMarkup;
 interface EntityTypeMetadataInterface
 {
     /**
-     * 获取EntityType 标题
+     * 获取EntityType标题
      *
      * @return TranslatableMarkup
      */
     public function getLabel(): TranslatableMarkup;
 
     /**
-     * 获取EntityType 别名 用于Route路径中
+     * 获取EntityType别名用于Route路径
      *
      * @return string
      */
     public function getAlias(): string;
 
     /**
-     * 获取EntityType 描述
+     * 获取EntityType描述
      *
      * @return TranslatableMarkup
      */
     public function getDescription(): TranslatableMarkup;
 
     /**
-     * 获取Entity全路径类名
-     *
-     * @return string
-     */
-    public function getEntityClassName(): string;
-
-    /**
-     * 获取EntityType Controller 全路径类名
+     * 获取EntityType Controller全路径类名
      *
      * @return string
      */
     public function getController(): string;
 
     /**
-     * 获取EntityType Repository 全路径类名
+     * 获取EntityType Repository全路径类名
      *
      * @return string
      */
     public function getRepository(): string;
 
     /**
-     * 获取EntityType Service 全路径类名
+     * 获取 Entity 全路径类名
+     *
+     * @return string
+     */
+    public function getEntity(): string;
+
+    /**
+     * 获取EntityType Service id
      *
      * @return string
      */
     public function getService(): string;
-
 
 }

@@ -13,24 +13,11 @@
 namespace Teebb\CoreBundle\Entity\Types;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Teebb\CoreBundle\Annotation\EntityType;
-use Teebb\CoreBundle\Annotation\Translation;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * 内容类型.
+ * 内容类型Entity.
  *
- * @EntityType(
- *     label=@Translation(message="teebb.core.entity_type.content.name", domain="TeebbCoreBundle"),
- *     alias="types",
- *     description=@Translation(message="teebb.core.entity_type.content.description", domain="TeebbCoreBundle"),
- *     repository="repository",
- *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
- *     service="Teebb\CoreBundle\Services\Types\ContentEntityType"
- * )
- *
- * @ORM\Entity
- * @ORM\Table(name="teebb_content_type")
  * @ORM\MappedSuperclass()
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
@@ -47,12 +34,12 @@ class ContentType
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     protected $alias;
 
