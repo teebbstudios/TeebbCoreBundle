@@ -23,14 +23,18 @@ namespace Teebb\CoreBundle\Annotation;
 class FieldType
 {
     /**
-     *
+     * @var string
      */
     public $id;
 
+    public $label;
+
+    public $description;
+
     /**
      * 字段类型的分组名称
-     *
-     * @var string
      */
-    public $group;
+    public $category;
+
+
 }

@@ -12,6 +12,9 @@
 
 namespace Teebb\CoreBundle\Annotation;
 
+
+use Doctrine\ORM\Mapping\Annotation;
+
 /**
  * 所有可配置字段的内容实体类型EntityType需添加此注解.例如: Content、Taxonomy、Comment、
  * User都使用此Annotation,以配置不同字段.

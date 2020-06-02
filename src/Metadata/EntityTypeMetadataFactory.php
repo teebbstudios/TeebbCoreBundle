@@ -13,23 +13,12 @@
 namespace Teebb\CoreBundle\Metadata;
 
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Teebb\CoreBundle\Annotation\EntityType;
-use Teebb\CoreBundle\Translation\AnnotationTranslation;
+use Teebb\CoreBundle\Translation\TranslatableMarkup;
 
 class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
 {
-    /**
-     * @var AnnotationTranslation
-     */
-    private $translation;
-
-    public function __construct(AnnotationTranslation $translation)
-    {
-        $this->translation = $translation;
-    }
-
     /**
      * @param \ReflectionClass $reflectionClass
      * @param EntityType $annotation
@@ -39,9 +28,9 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
     public function create(\ReflectionClass $reflectionClass, EntityType $annotation): EntityTypeMetadata
     {
         return new EntityTypeMetadata(
-            $this->translation->trans($annotation->label),
+            $annotation->label->get(),
             $annotation->alias,
-            $this->translation->trans($annotation->label),
+            $annotation->description->get(),
             $reflectionClass->getName(),
             $annotation->controller,
             $annotation->repository,
@@ -57,16 +46,14 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
      */
     public function createDefinition(\ReflectionClass $reflectionClass, EntityType $annotation): Definition
     {
-        $metadata = $this->create($reflectionClass, $annotation);
-
-        return new Definition(get_class($metadata), [
-            $metadata->getLabel(),
-            $metadata->getAlias(),
-            $metadata->getDescription(),
-            $metadata->getEntityClassName(),
-            $metadata->getController(),
-            $metadata->getRepository(),
-            $metadata->getService()
+        return new Definition(EntityTypeMetadata::class, [
+            new Definition(TranslatableMarkup::class, [$annotation->label->message, $annotation->label->arguments, $annotation->label->domain]),
+            $annotation->alias,
+            new Definition(TranslatableMarkup::class, [$annotation->description->message, $annotation->description->arguments, $annotation->description->domain]),
+            $reflectionClass->getName(),
+            $annotation->controller,
+            $annotation->repository,
+            $annotation->service
         ]);
 
     }

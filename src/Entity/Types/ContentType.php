@@ -16,7 +16,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 use Doctrine\ORM\Mapping as ORM;
-use Teebb\CoreBundle\Route\EntityTypePathBuilder;
 
 /**
  * 内容类型.
@@ -66,11 +65,6 @@ class ContentType
      * @var string
      */
     protected $locale;
-
-    public function __construct(EntityTypePathBuilder $pathBuilder)
-    {
-        parent::__construct($pathBuilder);
-    }
 
     /**
      * @return int

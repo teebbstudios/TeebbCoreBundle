@@ -28,7 +28,7 @@ class TeebbCoreBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new EntityTypeCompilePass(), PassConfig::TYPE_OPTIMIZE);
-        $container->addCompilerPass(new RouteLoaderCompilePass(), PassConfig::TYPE_OPTIMIZE);
+        $container->addCompilerPass(new EntityTypeCompilePass());
+        $container->addCompilerPass(new RouteLoaderCompilePass());
     }
 }

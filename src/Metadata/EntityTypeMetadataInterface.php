@@ -12,6 +12,8 @@
 
 namespace Teebb\CoreBundle\Metadata;
 
+use Teebb\CoreBundle\Translation\TranslatableMarkup;
+
 /**
  * Types Annotation Metadata接口
  *
@@ -22,9 +24,9 @@ interface EntityTypeMetadataInterface
     /**
      * 获取EntityType 标题
      *
-     * @return string
+     * @return TranslatableMarkup
      */
-    public function getLabel(): string;
+    public function getLabel(): TranslatableMarkup;
 
     /**
      * 获取EntityType 别名 用于Route路径中
@@ -36,9 +38,9 @@ interface EntityTypeMetadataInterface
     /**
      * 获取EntityType 描述
      *
-     * @return string
+     * @return TranslatableMarkup
      */
-    public function getDescription(): string;
+    public function getDescription(): TranslatableMarkup;
 
     /**
      * 获取Entity全路径类名

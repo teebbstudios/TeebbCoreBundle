@@ -60,9 +60,12 @@ class EntityTypeRouteCollection extends BaseRouteCollection implements RouteColl
             if (':' !== $actionJoiner && false !== strpos($controller, ':')) {
                 $actionJoiner = ':';
             }
-
             $defaults['_controller'] = $controller . $actionJoiner . $this->actionify($actionCode);
+        }
 
+        $defaults['_teebb_action'] = $name;
+
+        if (!isset($defaults['_teebb_entity_type'])) {
             $defaults['_teebb_entity_type'] = $this->generateServiceId('teebb.core.entity_type.',
                 $this->metadata->getService());
         }

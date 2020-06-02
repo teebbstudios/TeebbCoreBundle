@@ -12,6 +12,8 @@
 
 namespace Teebb\CoreBundle\Metadata;
 
+use Teebb\CoreBundle\Translation\TranslatableMarkup;
+
 /**
  * EntityTypeMetadata class
  *
@@ -33,7 +35,7 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
 
     private $service;
 
-    public function __construct(string $label, string $alias, string $description, string $entityClassName,
+    public function __construct(TranslatableMarkup $label, string $alias, TranslatableMarkup $description, string $entityClassName,
                                 string $controller, string $repository, string $service)
     {
         $this->label = $label;
@@ -48,7 +50,7 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
     /**
      * @inheritDoc
      */
-    public function getLabel(): string
+    public function getLabel(): TranslatableMarkup
     {
         return $this->label;
     }
@@ -64,7 +66,7 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
     /**
      * @inheritDoc
      */
-    public function getDescription(): string
+    public function getDescription(): TranslatableMarkup
     {
         return $this->description;
     }

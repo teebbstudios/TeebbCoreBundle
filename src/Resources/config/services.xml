@@ -5,15 +5,15 @@
 >
     <services>
 
-        <service id="teebb.core.translation.annotation_translation" class="Teebb\CoreBundle\Translation\AnnotationTranslation"
+        <service id="teebb.core.translation.annotation_translation"
+                 class="Teebb\CoreBundle\Translation\AnnotationTranslation"
                  public="true">
             <argument type="service" id="translator"/>
         </service>
 
         <service id="teebb.core.metadata.entity_type_metadata_factory"
-                 class="Teebb\CoreBundle\Metadata\EntityTypeMetadataFactory" public="true">
-            <argument type="service" id="teebb.core.translation.annotation_translation"/>
-        </service>
+                 class="Teebb\CoreBundle\Metadata\EntityTypeMetadataFactory" public="true"/>
+
 
     </services>
 </container>
