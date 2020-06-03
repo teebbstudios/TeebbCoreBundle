@@ -13,7 +13,7 @@ use Teebb\CoreBundle\Configuration\FieldItemDepartConfigurationInterface;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class FieldSettings
+class FieldConfiguration
 {
     /**
      * @ORM\Id
@@ -25,20 +25,21 @@ class FieldSettings
     /**
      * 字段所属的内容实体类型注释中的别名
      *
-     * @var string
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $type;
 
     /**
      * 内容实体类型Entity的别名
      *
-     * @var string
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $alias;
 
     /**
-     * 字段entity别名
-     * @var string
+     * 字段entity的别名
+     *
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $field;
 
@@ -46,6 +47,8 @@ class FieldSettings
      * 分离不同类型的设置
      *
      * @var FieldItemDepartConfigurationInterface
+     *
+     * @ORM\Column(type="depart")
      */
     private $settings;
 

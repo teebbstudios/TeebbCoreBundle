@@ -15,5 +15,5 @@ teebb:
 
         field:
             integer:
-                label: Integer FieldSettings
-                description: In
+                label: Integer Field
+                description: Integer

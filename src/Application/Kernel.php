@@ -53,12 +53,12 @@ class Kernel extends BaseKernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
-        // TODO: Implement configureRoutes() method.
+
     }
 
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
     {
-        // TODO: Implement configureContainer() method.
+
     }
 
 }

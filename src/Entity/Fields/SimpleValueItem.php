@@ -6,13 +6,13 @@ namespace Teebb\CoreBundle\Entity\Fields;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * 用于存储字段值entity，不同的字段可以使用相同的entity存储结构
+ * 在数据库里仅用一个column存储字段的值
  *
  * @ORM\Entity
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class BooleanItem extends BaseFieldItem
+class SimpleValueItem extends BaseFieldItem
 {
-
+    private $value;
 }

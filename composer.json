@@ -23,7 +23,8 @@
         "symfony/yaml": "^5.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.0"
+        "symfony/phpunit-bridge": "^5.0",
+        "dama/doctrine-test-bundle": "^6.3"
     },
     "autoload": {
         "psr-4": {

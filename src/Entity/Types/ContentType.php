@@ -31,27 +31,27 @@ class ContentType
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $name;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
-    protected $alias;
+    private $alias;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=false)
      */
-    protected $description;
+    private $description;
 
     /**
      * @var string
      */
-    protected $locale;
+    private $locale;
 
     /**
      * @return int

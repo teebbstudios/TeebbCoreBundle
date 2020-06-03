@@ -13,14 +13,13 @@
 namespace Teebb\CoreBundle\Tests\Entity;
 
 
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Teebb\CoreBundle\Entity\Types\ContentType;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadata;
 use Teebb\CoreBundle\Route\EntityTypeActions;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
-use Teebb\CoreBundle\Services\Types\ContentEntityType;
-use Teebb\CoreBundle\Test\TeebbCoreTest;
 
-class ContentTypeTest extends TeebbCoreTest
+class ContentTypeTest extends KernelTestCase
 {
     /**
      * 测试ContentType类

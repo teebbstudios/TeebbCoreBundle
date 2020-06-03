@@ -3,6 +3,8 @@
 
 namespace Teebb\CoreBundle\Entity\Fields;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Field Entity基类
  *
@@ -18,19 +20,5 @@ class BaseFieldItem
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * 字段标题
-     *
-     * @var string
-     */
-    private $label;
-
-    /**
-     * 字段唯一别名
-     *
-     * @var string
-     */
-    private $alias;
 
 }

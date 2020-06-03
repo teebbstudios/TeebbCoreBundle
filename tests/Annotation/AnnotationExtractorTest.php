@@ -13,9 +13,9 @@
 namespace Teebb\CoreBundle\Tests\Annotation;
 
 
-use Teebb\CoreBundle\Test\TeebbCoreTest;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AnnotationExtractorTest extends TeebbCoreTest
+class AnnotationExtractorTest extends KernelTestCase
 {
     /**
      * 测试Annotation Mapping路径
