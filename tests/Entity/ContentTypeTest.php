@@ -30,7 +30,7 @@ class ContentTypeTest extends KernelTestCase
 
         $container = $kernel->getContainer();
 
-        $contentTypeService = $container->get('teebb.core.entity_type.content_entity_type');
+        $contentTypeService = $container->get('teebb.core.entity_type.types_entity_type');
         $contentTypeMetadata = $contentTypeService->getEntityTypeMetadata();
 
         $this->assertNotNull($contentTypeService);
@@ -47,7 +47,7 @@ class ContentTypeTest extends KernelTestCase
 
         $container = $kernel->getContainer();
 
-        $contentTypeService = $container->get('teebb.core.entity_type.content_entity_type');
+        $contentTypeService = $container->get('teebb.core.entity_type.types_entity_type');
 
         $metadata = $contentTypeService->getEntityTypeMetadata();
 
@@ -58,7 +58,7 @@ class ContentTypeTest extends KernelTestCase
         $pathBuilder->build($routeCollection);
 
 
-        $indexRoute = $routeCollection->get($metadata->getAlias() . '_' . EntityTypeActions::INDEX);
+        $indexRoute = $routeCollection->get($metadata->getType() . '_' . EntityTypeActions::INDEX);
         $this->assertNotNull($indexRoute);
         $this->assertSame('/types/index', $indexRoute->getPath());
 

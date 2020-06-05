@@ -18,11 +18,11 @@ use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 
 /**
- * Class CommentEntityType
+ * Class CommentEntityType 评论类型
  *
  * @EntityType(
  *     label=@Translation(message="teebb.core.entity_type.comment.label"),
- *     alias="comment",
+ *     type="comment",
  *     description=@Translation(message="teebb.core.entity_type.comment.description"),
  *     repository="repository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",

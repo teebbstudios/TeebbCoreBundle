@@ -18,11 +18,11 @@ use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 
 /**
- * Class TaxonomyEntityType
+ * Class TaxonomyEntityType 分类类型
  *
  * @EntityType(
  *     label=@Translation(message="teebb.core.entity_type.taxonomy.label"),
- *     alias="taxonomy",
+ *     type="taxonomy",
  *     description=@Translation(message="teebb.core.entity_type.taxonomy.description"),
  *     repository="repository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",

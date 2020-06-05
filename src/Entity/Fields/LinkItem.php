@@ -3,6 +3,8 @@
 
 namespace Teebb\CoreBundle\Entity\Fields;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * 用于存储链接类型字段的值
  *

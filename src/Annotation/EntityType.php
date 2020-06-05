@@ -38,7 +38,7 @@ class EntityType
      *
      * @var string
      */
-    public $alias;
+    public $type;
 
     /**
      * 简短描述内容实体类型

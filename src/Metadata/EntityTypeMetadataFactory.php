@@ -29,7 +29,7 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
     {
         return new EntityTypeMetadata(
             $annotation->label->get(),
-            $annotation->alias,
+            $annotation->type,
             $annotation->description->get(),
             $annotation->controller,
             $annotation->repository,
@@ -49,7 +49,7 @@ class EntityTypeMetadataFactory implements EntityTypeMetadataFactoryInterface
         return new Definition(EntityTypeMetadata::class, [
             new Definition(TranslatableMarkup::class,
                 [$annotation->label->message, $annotation->label->arguments, $annotation->label->domain]),
-            $annotation->alias,
+            $annotation->type,
             new Definition(TranslatableMarkup::class,
                 [$annotation->description->message, $annotation->description->arguments, $annotation->description->domain]),
             $annotation->controller,

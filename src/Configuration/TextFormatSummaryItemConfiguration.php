@@ -16,7 +16,7 @@ class TextFormatSummaryItemConfiguration extends BaseItemConfiguration
     protected $type = 'text';
 
     /**
-     * 是否显示摘要输入框
+     * 是否显示摘要输入框，如果不显示则自动生成摘要
      *
      * @var bool
      */

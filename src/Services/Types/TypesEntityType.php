@@ -18,18 +18,18 @@ use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 
 /**
- * Class ContentEntityType
+ * Class TypesEntityType 内容类型
  *
  * @EntityType(
  *     label=@Translation(message="teebb.core.entity_type.content.label"),
- *     alias="types",
+ *     type="types",
  *     description=@Translation(message="teebb.core.entity_type.content.description"),
  *     repository="repository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
  *     entity="Teebb\CoreBundle\Entity\Types\ContentType"
  * )
  */
-class ContentEntityType extends AbstractEntityType
+class TypesEntityType extends AbstractEntityType
 {
 
 }

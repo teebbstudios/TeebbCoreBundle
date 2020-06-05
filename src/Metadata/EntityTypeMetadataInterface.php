@@ -33,7 +33,7 @@ interface EntityTypeMetadataInterface
      *
      * @return string
      */
-    public function getAlias(): string;
+    public function getType(): string;
 
     /**
      * 获取EntityType描述

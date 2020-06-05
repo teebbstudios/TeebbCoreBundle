@@ -8,17 +8,17 @@ use Teebb\CoreBundle\Annotation\FieldType;
 use Teebb\CoreBundle\Annotation\Translation;
 
 /**
- * Integer类型字段
+ * Float类型字段
  *
  * @FieldType(
- *     id="integer",
- *     label=@Translation(message="teebb.core.field.integer.label"),
- *     description=@Translation(message="teebb.core.field.integer.description"),
+ *     id="float",
+ *     label=@Translation(message="teebb.core.field.float.label"),
+ *     description=@Translation(message="teebb.core.field.float.description"),
  *     category=@Translation(message="teebb.core.field.category.numeric"),
  *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem"
  * )
  */
-class IntegerField extends AbstractField
+class FloatField extends AbstractField
 {
     
 }

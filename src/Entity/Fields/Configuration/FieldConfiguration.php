@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Teebb\CoreBundle\Configuration\FieldItemDepartConfigurationInterface;
 
 /**
@@ -25,6 +26,7 @@ class FieldConfiguration
     /**
      * 字段所属的内容实体类型注释中的别名
      *
+     * @Gedmo\SortableGroup
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $type;
@@ -37,11 +39,19 @@ class FieldConfiguration
     private $alias;
 
     /**
+     * @var integer
+     *
+     * @Gedmo\SortablePosition
+     * @ORM\Column(type="integer")
+     */
+    private $delta;
+
+    /**
      * 字段entity的别名
      *
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
-    private $field;
+    private $fieldAlias;
 
     /**
      * 分离不同类型的设置
@@ -77,6 +87,22 @@ class FieldConfiguration
     }
 
     /**
+     * @return int
+     */
+    public function getDelta(): int
+    {
+        return $this->delta;
+    }
+
+    /**
+     * @param int $delta
+     */
+    public function setDelta(int $delta): void
+    {
+        $this->delta = $delta;
+    }
+
+    /**
      * @return string
      */
     public function getAlias(): string
@@ -95,17 +121,17 @@ class FieldConfiguration
     /**
      * @return string
      */
-    public function getField(): string
+    public function getFieldAlias(): string
     {
-        return $this->field;
+        return $this->fieldAlias;
     }
 
     /**
-     * @param string $field
+     * @param string $fieldAlias
      */
-    public function setField(string $field): void
+    public function setField(string $fieldAlias): void
     {
-        $this->field = $field;
+        $this->fieldAlias = $fieldAlias;
     }
 
     /**

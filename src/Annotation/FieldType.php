@@ -46,4 +46,5 @@ class FieldType
      * @var string
      */
     public $entity;
+
 }

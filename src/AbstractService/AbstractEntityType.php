@@ -12,7 +12,6 @@
 
 namespace Teebb\CoreBundle\AbstractService;
 
-use Doctrine\Inflector\InflectorFactory;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
