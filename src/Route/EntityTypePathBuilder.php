@@ -31,7 +31,6 @@ class EntityTypePathBuilder implements RouteBuilderInterface
         $routeCollection->addRoute(EntityTypeActions::INDEX_FIELD, '{alias}/fields');
         $routeCollection->addRoute(EntityTypeActions::ADD_FIELD, '{alias}/fields/add');
         $routeCollection->addRoute(EntityTypeActions::UPDATE_FIELD, '{alias}/fields/{xxx}/update');
-        $routeCollection->addRoute(EntityTypeActions::SETTING_FIELD, '{alias}/fields/{xxx}/setting');
         $routeCollection->addRoute(EntityTypeActions::DELETE_FIELD, '{alias}/fields/{xxx}/delete');
     }
 }

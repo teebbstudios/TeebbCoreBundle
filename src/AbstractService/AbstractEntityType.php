@@ -13,6 +13,7 @@
 namespace Teebb\CoreBundle\AbstractService;
 
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;
@@ -52,11 +53,17 @@ abstract class AbstractEntityType implements EntityTypeInterface
      *
      * @var array
      */
-    private $fieldList;
+    private $fieldList = [];
 
-    public function __construct(EntityTypePathBuilder $pathBuilder)
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function __construct(EntityTypePathBuilder $pathBuilder, ContainerInterface $container)
     {
         $this->pathBuilder = $pathBuilder;
+        $this->container = $container;
     }
 
     /**
@@ -138,12 +145,17 @@ abstract class AbstractEntityType implements EntityTypeInterface
         //$this->routing->addRoute('example', 'pattern');
     }
 
-
+    /**
+     * @inheritDoc
+     */
     public function getFields()
     {
         // TODO: Implement getFields() method.
     }
 
+    /**
+     * @inheritDoc
+     */
     public function addField(FieldInterface $field): void
     {
         // TODO: Implement addField() method.
@@ -163,5 +175,36 @@ abstract class AbstractEntityType implements EntityTypeInterface
     public function setFieldList(array $fieldList): void
     {
         $this->fieldList = $fieldList;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function generateFieldListData(): array
+    {
+        if (empty($this->fieldList)) {
+            throw new \RuntimeException(sprintf('The service "%s" property "fieldList" cannot be empty.', get_class($this)));
+        }
+
+        $allFieldInfo = [];
+
+        foreach ($this->fieldList as $type => $fieldServices) {
+            foreach ($fieldServices as $fieldService) {
+
+                /** @var FieldInterface $field * */
+                $field = $this->container->get($fieldService);
+                $fieldMetadata = $field->getFieldMetadata();
+
+                $allFieldInfo[$type][] = [
+                    'id' => $fieldMetadata->getId(),
+                    'label' => $fieldMetadata->getLabel(),
+                    'description' => $fieldMetadata->getDescription(),
+                    'category' => $fieldMetadata->getCategory()
+                ];
+
+            }
+        }
+
+        return $allFieldInfo;
     }
 }

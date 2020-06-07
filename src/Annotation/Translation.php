@@ -50,7 +50,7 @@ class Translation
     {
         $this->message = $values['message'];
         $this->arguments = isset($values['arguments']) ? $values['arguments'] : [];
-        $this->domain = isset($values['domain']) ? $values['domain'] : '';
+        $this->domain = isset($values['domain']) ? $values['domain'] : 'TeebbCoreBundle';
 
         $this->translatable = new TranslatableMarkup($this->message, $this->arguments, $this->domain);
     }

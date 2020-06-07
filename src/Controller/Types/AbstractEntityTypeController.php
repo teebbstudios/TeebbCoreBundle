@@ -73,6 +73,7 @@ class AbstractEntityTypeController extends AbstractController
      */
     public function indexAction(Request $request)
     {
+
         dd($request, $this->entityTypeService);
     }
 }

@@ -69,4 +69,23 @@ class ContentTypeTest extends KernelTestCase
 
     }
 
+    public function testGenerateFieldListInfo()
+    {
+        $kernel = self::bootKernel();
+
+        $container = $kernel->getContainer();
+
+        $contentTypeService = $container->get('teebb.core.entity_type.types_entity_type');
+
+        $result = $contentTypeService->generateFieldListData();
+
+        $this->assertArrayHasKey('text', $result);
+        $this->assertArrayHasKey('numeric', $result);
+        $this->assertArrayHasKey('reference', $result);
+        $this->assertArrayHasKey('simple', $result);
+        $this->assertSame(5, sizeof($result['text']));
+        $this->assertSame(5, sizeof($result['numeric']));
+        $this->assertSame(5, sizeof($result['reference']));
+        $this->assertSame(4, sizeof($result['simple']));
+    }
 }

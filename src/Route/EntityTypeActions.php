@@ -60,11 +60,6 @@ final class EntityTypeActions
     public const UPDATE_FIELD = 'update_field';
 
     /**
-     * 设置字段
-     */
-    public const SETTING_FIELD = 'setting_field';
-
-    /**
      * 删除字段
      */
     public const DELETE_FIELD = 'delete_field';
