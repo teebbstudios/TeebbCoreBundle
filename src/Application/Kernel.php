@@ -16,6 +16,7 @@ namespace Teebb\CoreBundle\Application;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -47,7 +48,9 @@ class Kernel extends BaseKernel
     {
         return [
             new TeebbCoreBundle(),
-            new FrameworkBundle()
+            new FrameworkBundle(),
+            new TwigBundle(),
+            new DoctrineBundle(),
         ];
     }
 
@@ -58,7 +61,7 @@ class Kernel extends BaseKernel
 
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
     {
-
+        $loader->load($c->getParameter('kernel.project_dir') . '/tests/Resources/config/config.yaml');
     }
 
 }

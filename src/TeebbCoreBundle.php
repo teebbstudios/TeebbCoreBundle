@@ -13,10 +13,11 @@
 namespace Teebb\CoreBundle;
 
 
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Teebb\CoreBundle\DependencyInjection\Compiler\EntityTypeCompilePass;
+use Teebb\CoreBundle\DependencyInjection\Compiler\GenerateFieldsInfoCompilePass;
+use Teebb\CoreBundle\DependencyInjection\Compiler\GlobalVariablesCompilePass;
+use Teebb\CoreBundle\DependencyInjection\Compiler\RegisterServicesCompilePass;
 use Teebb\CoreBundle\DependencyInjection\Compiler\RouteLoaderCompilePass;
 
 /**
@@ -28,7 +29,9 @@ class TeebbCoreBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new EntityTypeCompilePass());
+        $container->addCompilerPass(new RegisterServicesCompilePass());
         $container->addCompilerPass(new RouteLoaderCompilePass());
+        $container->addCompilerPass(new GenerateFieldsInfoCompilePass());
+        $container->addCompilerPass(new GlobalVariablesCompilePass());
     }
 }

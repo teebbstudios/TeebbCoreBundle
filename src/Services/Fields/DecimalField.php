@@ -14,6 +14,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     id="decimal",
  *     label=@Translation(message="teebb.core.field.decimal.label"),
  *     description=@Translation(message="teebb.core.field.decimal.description"),
+ *     type="numeric",
  *     category=@Translation(message="teebb.core.field.category.numeric"),
  *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem"
  * )

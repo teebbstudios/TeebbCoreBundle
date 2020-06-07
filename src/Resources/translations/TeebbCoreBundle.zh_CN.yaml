@@ -4,3 +4,16 @@ teebb:
             content:
                 label: 内容类型
                 description: 创建、管理字段，表单，以及对您的内容进行一些设置。
+
+            taxonomy:
+                label: Taxonomy Types
+                description: Create and manage fields, forms, and display settings for your taxonomy.
+
+            comment:
+                label: Comment Types
+                description: Create and manage fields, forms, and display settings for your Comment.
+
+        field:
+            integer:
+                label: 整数
+                description: 整数

@@ -14,6 +14,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     id="email",
  *     label=@Translation(message="teebb.core.field.email.label"),
  *     description=@Translation(message="teebb.core.field.email.description"),
+ *     type="simple",
  *     category=@Translation(message="teebb.core.field.category.simple"),
  *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem"
  * )

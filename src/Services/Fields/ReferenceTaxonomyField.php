@@ -12,6 +12,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     id="referenceTaxonomy",
  *     label=@Translation(message="teebb.core.field.referenceTaxonomy.label"),
  *     description=@Translation(message="teebb.core.field.referenceTaxonomy.description"),
+ *     type="reference",
  *     category=@Translation(message="teebb.core.field.category.reference"),
  *     entity="Teebb\CoreBundle\Entity\Fields\ReferenceEntityItem"
  * )

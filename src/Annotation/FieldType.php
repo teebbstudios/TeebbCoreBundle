@@ -36,6 +36,11 @@ class FieldType implements TeebbAnnotationInterface
     public $description;
 
     /**
+     * @var string
+     */
+    public $type;
+    
+    /**
      * 字段类型的分组名称
      */
     public $category;

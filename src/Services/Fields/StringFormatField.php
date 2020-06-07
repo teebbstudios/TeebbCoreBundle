@@ -12,6 +12,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     id="stringFormat",
  *     label=@Translation(message="teebb.core.field.stringFormat.label"),
  *     description=@Translation(message="teebb.core.field.stringFormat.description"),
+ *     type="text",
  *     category=@Translation(message="teebb.core.field.category.text"),
  *     entity="Teebb\CoreBundle\Entity\Fields\SimpleFormatItem"
  * )

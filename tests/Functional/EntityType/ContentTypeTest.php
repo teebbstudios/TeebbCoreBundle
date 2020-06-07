@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle\Tests\Entity;
+namespace Teebb\CoreBundle\Tests\Functional\EntityType;
 
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

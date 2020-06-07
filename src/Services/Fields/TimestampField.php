@@ -14,11 +14,12 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     id="timestamp",
  *     label=@Translation(message="teebb.core.field.timestamp.label"),
  *     description=@Translation(message="teebb.core.field.timestamp.description"),
+ *     type="simple",
  *     category=@Translation(message="teebb.core.field.category.simple"),
  *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem"
  * )
  */
 class TimestampField extends AbstractField
 {
-    
+
 }

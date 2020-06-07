@@ -14,6 +14,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     id="referenceContent",
  *     label=@Translation(message="teebb.core.field.referenceContent.label"),
  *     description=@Translation(message="teebb.core.field.referenceContent.description"),
+ *     type="reference",
  *     category=@Translation(message="teebb.core.field.category.reference"),
  *     entity="Teebb\CoreBundle\Entity\Fields\ReferenceEntityItem"
  * )

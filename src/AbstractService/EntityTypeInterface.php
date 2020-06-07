@@ -85,7 +85,7 @@ interface EntityTypeInterface
     public function buildRoutes(): void;
 
     /**
-     * 获取所有字段Field
+     * 获取该类型所有字段Field
      */
     public function getFields();
 

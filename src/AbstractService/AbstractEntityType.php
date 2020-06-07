@@ -12,6 +12,7 @@
 
 namespace Teebb\CoreBundle\AbstractService;
 
+
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;
@@ -45,6 +46,13 @@ abstract class AbstractEntityType implements EntityTypeInterface
      * @var RepositoryInterface
      */
     private $entityTypeRepository;
+
+    /**
+     * 所有字段的类型和Service Id数组，
+     *
+     * @var array
+     */
+    private $fieldList;
 
     public function __construct(EntityTypePathBuilder $pathBuilder)
     {
@@ -141,4 +149,19 @@ abstract class AbstractEntityType implements EntityTypeInterface
         // TODO: Implement addField() method.
     }
 
+    /**
+     * @return array
+     */
+    public function getFieldList(): array
+    {
+        return $this->fieldList;
+    }
+
+    /**
+     * @param array $fieldList
+     */
+    public function setFieldList(array $fieldList): void
+    {
+        $this->fieldList = $fieldList;
+    }
 }

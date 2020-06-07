@@ -4,7 +4,6 @@
 namespace Teebb\CoreBundle\AbstractService;
 
 
-use Doctrine\ORM\EntityManagerInterface;
 use Teebb\CoreBundle\Metadata\FieldMetadataInterface;
 
 abstract class AbstractField implements FieldInterface
@@ -13,16 +12,6 @@ abstract class AbstractField implements FieldInterface
      * @var FieldMetadataInterface
      */
     protected $metadata;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    public function __construct($entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
 
     /**
      * @inheritDoc
@@ -50,6 +39,5 @@ abstract class AbstractField implements FieldInterface
     {
         return $this->metadata;
     }
-
 
 }

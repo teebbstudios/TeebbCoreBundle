@@ -1,0 +1,24 @@
+parameters:
+    locale: 'zh_CN'
+
+framework:
+    default_locale: '%locale%'
+
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        types:
+            depart: Teebb\CoreBundle\Doctrine\Types\FieldDepartConfigurationType
+
+    orm:
+        auto_generate_proxy_classes: true
+        entity_managers:
+            default:
+                auto_mapping: true
+            filters:
+                filters:
+                    soft-deleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+
+

@@ -5,15 +5,13 @@
 >
     <services>
 
-        <service id="teebb.core.translation.annotation_translation"
-                 class="Teebb\CoreBundle\Translation\AnnotationTranslation"
-                 public="true">
-            <argument type="service" id="translator"/>
+        <service id="teebb.core.twig.global" class="Teebb\CoreBundle\Twig\GlobalVariables" public="true"/>
+
+        <service id="teebb.core.twig.trans_markup_extension"
+                 class="Teebb\CoreBundle\Twig\Extensions\TranslationMarkupExtension" public="true">
+            <argument type="service" id="translator.default"/>
+            <tag name="twig.extension"/>
         </service>
-
-        <service id="teebb.core.metadata.entity_type_metadata_factory"
-                 class="Teebb\CoreBundle\Metadata\EntityTypeMetadataFactory" public="true"/>
-
 
     </services>
 </container>

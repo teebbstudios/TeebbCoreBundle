@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Teebb\CoreBundle\Annotation\EntityType;
+use Teebb\CoreBundle\Annotation\FieldType;
 use Teebb\CoreBundle\Mapping\AnnotationExtractorTrait;
 use Teebb\CoreBundle\Mapping\ReflectionClassRecursiveIterator;
 
@@ -28,14 +29,17 @@ use Teebb\CoreBundle\Mapping\ReflectionClassRecursiveIterator;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class EntityTypeCompilePass implements CompilerPassInterface
+class RegisterServicesCompilePass implements CompilerPassInterface
 {
     private const ENTITY_TYPE_TAG = 'teebb.entity_type';
+
+    private const FIELD_TAG = 'teebb.field';
 
     use AnnotationExtractorTrait;
 
     use RegisterRepositoryTrait;
 
+    use MetadataTrait;
     /**
      * @var Reader
      */
@@ -52,6 +56,7 @@ class EntityTypeCompilePass implements CompilerPassInterface
         foreach (ReflectionClassRecursiveIterator::getReflectionClassesFromDirectories($mappingDirectories)
                  as $className => $reflectionClass) {
             $this->createEntityTypeServices($reflectionClass, $container);
+            $this->createFieldServices($reflectionClass, $container);
         }
     }
 
@@ -64,8 +69,6 @@ class EntityTypeCompilePass implements CompilerPassInterface
     public function createEntityTypeServices(\ReflectionClass $reflectionClass, ContainerBuilder $container)
     {
         $this->reader = $this->reader ?? $container->get('annotation_reader');
-
-        $entityTypeMetadataFactory = $container->get('teebb.core.metadata.entity_type_metadata_factory');
 
         foreach ($this->readAnnotation($reflectionClass, $this->reader, EntityType::class)
                  as $reflectionClass => $annotation) {
@@ -94,27 +97,71 @@ class EntityTypeCompilePass implements CompilerPassInterface
                 throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $reflectionClass->getName(), $id));
             }
 
-            if ($annotation instanceof EntityType) {
-                //添加EntityTypeRepository service
-                $this->addRepository($annotation, $container);
+            $definition = new Definition($entityTypeServiceReflectionClass->getName());
+            $definition->setAutoconfigured(true);
+            $definition->addTag(self::ENTITY_TYPE_TAG);
+            $definition->setAutowired(true);
+            $definition->setPublic(true);
+            $definition->setArgument(0, $container->getDefinition('teebb.core.route.types_builder'));
 
-                $definition = new Definition($entityTypeServiceReflectionClass->getName());
-                $definition->setAutoconfigured(true);
-                $definition->addTag(self::ENTITY_TYPE_TAG);
-                $definition->setAutowired(true);
-                $definition->setPublic(true);
-                $definition->setArgument(0, $container->getDefinition('teebb.core.route.types_builder'));
+            $metadataDefinition = $this->createEntityTypeMetadataDefinition($reflectionClass, $annotation);
+            $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
 
-                $metadataDefinition = $entityTypeMetadataFactory->createDefinition($reflectionClass, $annotation);
-                $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
+            //添加EntityTypeRepository service到容器
+            $this->addRepository($annotation, $container);
+            $definition->addMethodCall('setRepository', [new Reference($annotation->repository)]);
 
-                $definition->addMethodCall('setRepository', [new Reference($annotation->repository)]);
+            $container->setDefinition($id, $definition);
+            $container->setAlias($entityTypeServiceReflectionClass->getName(), new Alias($id, true));
 
-                $container->setDefinition($id, $definition);
-                $container->setAlias($entityTypeServiceReflectionClass->getName(), new Alias($id, true));
-
-            }
         }
     }
+
+    /**
+     * @param \ReflectionClass $reflectionClass
+     * @param ContainerBuilder $container
+     * @throws \ReflectionException
+     * @throws \Exception
+     */
+    public function createFieldServices(\ReflectionClass $reflectionClass, ContainerBuilder $container)
+    {
+        $this->reader = $this->reader ?? $container->get('annotation_reader');
+
+        foreach ($this->readAnnotation($reflectionClass, $this->reader, FieldType::class)
+                 as $reflectionClass => $annotation) {
+
+            if (!$annotation instanceof FieldType) {
+                continue;
+            }
+
+            if (false === strpos($annotation->entity, "\\")) {
+                throw new \InvalidArgumentException(sprintf('The class "%s" annotation "FieldType" property "entity" must be Full Qualified Class Name.',
+                    $reflectionClass->getName()));
+            }
+
+            //Field service id
+            $id = 'teebb.core.field.' . $annotation->id;
+
+            if ($container->has($id)) {
+                continue;
+            }
+
+            if (null === $fieldServiceReflectionClass = $container->getReflectionClass($reflectionClass->getName(), false)) {
+                throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $reflectionClass->getName(), $id));
+            }
+
+            $definition = new Definition($fieldServiceReflectionClass->getName());
+            $definition->setAutoconfigured(true);
+            $definition->addTag(self::FIELD_TAG, ['type' => $annotation->type]);
+            $definition->setAutowired(true);
+            $definition->setPublic(true);
+
+            $metadataDefinition = $this->createFieldTypeMetadataDefinition($reflectionClass, $annotation);
+            $definition->addMethodCall('setFieldMetadata', [$metadataDefinition]);
+
+            $container->setDefinition($id, $definition);
+        }
+    }
+
 
 }

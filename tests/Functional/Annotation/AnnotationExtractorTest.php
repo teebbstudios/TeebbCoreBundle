@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Teebb\CoreBundle\Tests\Annotation;
+namespace Teebb\CoreBundle\Tests\Functional\Annotation;
 
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
