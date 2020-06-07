@@ -9,6 +9,7 @@ use Teebb\CoreBundle\Configuration\FieldItemDepartConfigurationInterface;
 
 /**
  * 用于存储字段的设置信息
+ * @todo 需要添加自定义Repository类继承自SortableRepository
  *
  * @ORM\Entity
  *

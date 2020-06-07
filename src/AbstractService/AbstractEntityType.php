@@ -13,6 +13,7 @@
 namespace Teebb\CoreBundle\AbstractService;
 
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
+use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
 
@@ -40,6 +41,10 @@ abstract class AbstractEntityType implements EntityTypeInterface
      */
     private $pathBuilder;
 
+    /**
+     * @var RepositoryInterface
+     */
+    private $entityTypeRepository;
 
     public function __construct(EntityTypePathBuilder $pathBuilder)
     {
@@ -60,6 +65,22 @@ abstract class AbstractEntityType implements EntityTypeInterface
     public function getEntityTypeMetadata(): EntityTypeMetadataInterface
     {
         return $this->metadata;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setRepository(RepositoryInterface $repository): void
+    {
+        $this->entityTypeRepository = $repository;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRepository(): RepositoryInterface
+    {
+        return $this->entityTypeRepository;
     }
 
     /**
@@ -115,7 +136,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
         // TODO: Implement getFields() method.
     }
 
-    public function addField(FieldTypeInterface $field): void
+    public function addField(FieldInterface $field): void
     {
         // TODO: Implement addField() method.
     }

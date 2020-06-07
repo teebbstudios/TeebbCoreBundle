@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * 用于存储链接类型字段的值
@@ -22,6 +23,7 @@ class LinkItem extends BaseFieldItem
 
     /**
      * @var string
+     * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;

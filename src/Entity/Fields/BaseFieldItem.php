@@ -24,28 +24,34 @@ class BaseFieldItem
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * 内容实体类型的别名 比如：'content', 'taxonomy', 'comment'等
      * @var string
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $types;
+    protected $types;
 
     /**
      * 具体内容entity， many-to-one, 多个字段值对应一个内容entity
      * @var integer
      *
      */
-    private $entity;
+    protected $entity;
 
     /**
      * 同一字段不限制数量时，用于排序
      * @var integer
      * @ORM\Column(type="integer")
      */
-    private $delta;
+    protected $delta;
+
+    /**
+     * @var string
+     * @Gedmo\Locale
+     */
+    protected $locale;
 
     /**
      * @return mixed
@@ -95,4 +101,8 @@ class BaseFieldItem
         $this->delta = $delta;
     }
 
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
 }

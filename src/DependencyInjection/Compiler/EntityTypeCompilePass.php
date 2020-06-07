@@ -13,10 +13,12 @@
 namespace Teebb\CoreBundle\DependencyInjection\Compiler;
 
 use Doctrine\Common\Annotations\Reader;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Reference;
 use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Mapping\AnnotationExtractorTrait;
 use Teebb\CoreBundle\Mapping\ReflectionClassRecursiveIterator;
@@ -31,6 +33,8 @@ class EntityTypeCompilePass implements CompilerPassInterface
     private const ENTITY_TYPE_TAG = 'teebb.entity_type';
 
     use AnnotationExtractorTrait;
+
+    use RegisterRepositoryTrait;
 
     /**
      * @var Reader
@@ -54,7 +58,6 @@ class EntityTypeCompilePass implements CompilerPassInterface
     /**
      * @param \ReflectionClass $reflectionClass
      * @param ContainerBuilder $container
-     * @return \Generator
      * @throws \ReflectionException
      * @throws \Exception
      */
@@ -71,6 +74,16 @@ class EntityTypeCompilePass implements CompilerPassInterface
                 continue;
             }
 
+            if (false === strpos($annotation->entity, "\\")) {
+                throw new \InvalidArgumentException(sprintf('The class "%s" annotation "EntityType" property "entity" must be Full Qualified Class Name.',
+                    $reflectionClass->getName()));
+            }
+
+            if (false === strpos($annotation->repository, "\\")) {
+                throw new \InvalidArgumentException(sprintf('The class "%s" annotation "EntityType" property "repository" must be Full Qualified Class Name.',
+                    $reflectionClass->getName()));
+            }
+
             $id = $this->generateServiceId('teebb.core.entity_type.', $reflectionClass->getName());
 
             if ($container->has($id)) {
@@ -82,6 +95,9 @@ class EntityTypeCompilePass implements CompilerPassInterface
             }
 
             if ($annotation instanceof EntityType) {
+                //添加EntityTypeRepository service
+                $this->addRepository($annotation, $container);
+
                 $definition = new Definition($entityTypeServiceReflectionClass->getName());
                 $definition->setAutoconfigured(true);
                 $definition->addTag(self::ENTITY_TYPE_TAG);
@@ -92,7 +108,10 @@ class EntityTypeCompilePass implements CompilerPassInterface
                 $metadataDefinition = $entityTypeMetadataFactory->createDefinition($reflectionClass, $annotation);
                 $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
 
+                $definition->addMethodCall('setRepository', [new Reference($annotation->repository)]);
+
                 $container->setDefinition($id, $definition);
+                $container->setAlias($entityTypeServiceReflectionClass->getName(), new Alias($id, true));
 
             }
         }

@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping\Annotation;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class EntityType
+class EntityType implements TeebbAnnotationInterface
 {
     /**
      * 内容实体类型标题

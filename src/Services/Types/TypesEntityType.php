@@ -24,7 +24,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     label=@Translation(message="teebb.core.entity_type.content.label"),
  *     type="types",
  *     description=@Translation(message="teebb.core.entity_type.content.description"),
- *     repository="repository",
+ *     repository="Teebb\CoreBundle\Repository\Types\TypesEntityTypeRepository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
  *     entity="Teebb\CoreBundle\Entity\Types\ContentType"
  * )

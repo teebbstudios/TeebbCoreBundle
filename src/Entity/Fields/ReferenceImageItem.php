@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * 引用图像字段在库中的存储
@@ -24,6 +25,7 @@ class ReferenceImageItem extends BaseFieldItem
     /**
      * 图像alt信息
      * @var string
+     * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $alt;
@@ -31,6 +33,7 @@ class ReferenceImageItem extends BaseFieldItem
     /**
      * 图像title信息
      * @var string
+     * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;

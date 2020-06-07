@@ -13,16 +13,18 @@
 namespace Teebb\CoreBundle\Entity\Types;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Translatable;
 
 /**
- * 内容类型Entity.
+ * 内容类型Entity. 删除内容类型删除所有字段和所有字段表
  *
  * @ORM\MappedSuperclass()
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class ContentType
+class ContentType implements Translatable
 {
     use TimestampableEntity;
 
@@ -34,6 +36,7 @@ class ContentType
     private $id;
 
     /**
+     * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $name;
@@ -44,11 +47,13 @@ class ContentType
     private $alias;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @Gedmo\Translatable
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
+     * @Gedmo\Locale
      * @var string
      */
     private $locale;

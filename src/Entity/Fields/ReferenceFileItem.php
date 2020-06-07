@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * 引用文件字段在库中的存储
@@ -31,6 +32,7 @@ class ReferenceFileItem extends BaseFieldItem
     /**
      * 文件描述
      * @var string
+     * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;

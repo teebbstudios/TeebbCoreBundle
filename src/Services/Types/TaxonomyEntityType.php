@@ -24,7 +24,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     label=@Translation(message="teebb.core.entity_type.taxonomy.label"),
  *     type="taxonomy",
  *     description=@Translation(message="teebb.core.entity_type.taxonomy.description"),
- *     repository="repository",
+ *     repository="Teebb\CoreBundle\Repository\Types\TaxonomyEntityTypeRepository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
  *     entity="Teebb\CoreBundle\Entity\Types\TaxonomyType"
  * )

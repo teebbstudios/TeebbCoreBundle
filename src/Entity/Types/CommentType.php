@@ -12,15 +12,14 @@
 
 namespace Teebb\CoreBundle\Entity\Types;
 
-use Teebb\CoreBundle\Annotation\EntityType;
-use Teebb\CoreBundle\Annotation\Translation;
+use Gedmo\Translatable\Translatable;
 
 /**
  * 评论类型
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class CommentType
+class CommentType implements Translatable
 {
 
 }

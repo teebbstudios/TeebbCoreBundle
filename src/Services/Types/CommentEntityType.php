@@ -24,7 +24,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     label=@Translation(message="teebb.core.entity_type.comment.label"),
  *     type="comment",
  *     description=@Translation(message="teebb.core.entity_type.comment.description"),
- *     repository="repository",
+ *     repository="Teebb\CoreBundle\Repository\Types\CommentEntityTypeRepository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
  *     entity="Teebb\CoreBundle\Entity\Types\CommentType"
  * )

@@ -13,6 +13,7 @@
 namespace Teebb\CoreBundle\AbstractService;
 
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
+use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
 
 /**
@@ -58,6 +59,20 @@ interface EntityTypeInterface
     public function getEntityTypeMetadata(): EntityTypeMetadataInterface;
 
     /**
+     * 设置EntityType Repository
+     *
+     * @param RepositoryInterface $repository
+     */
+    public function setRepository(RepositoryInterface $repository): void;
+
+    /**
+     * 获取Repository
+     *
+     * @return RepositoryInterface
+     */
+    public function getRepository(): RepositoryInterface;
+
+    /**
      * 获取当前内容实体类型的所有routes
      *
      * @return EntityTypeRouteCollection
@@ -77,9 +92,9 @@ interface EntityTypeInterface
     /**
      * 当前内容实体类型添加字段
      *
-     * @param FieldTypeInterface $field
+     * @param FieldInterface $field
      */
-    public function addField(FieldTypeInterface $field): void;
+    public function addField(FieldInterface $field): void;
 
 
 }

@@ -20,7 +20,7 @@ namespace Teebb\CoreBundle\Annotation;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class FieldType
+class FieldType implements TeebbAnnotationInterface
 {
     /**
      * @var string
