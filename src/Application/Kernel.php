@@ -14,6 +14,7 @@ namespace Teebb\CoreBundle\Application;
 
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -51,6 +52,7 @@ class Kernel extends BaseKernel
             new FrameworkBundle(),
             new TwigBundle(),
             new DoctrineBundle(),
+            new StofDoctrineExtensionsBundle()
         ];
     }
 

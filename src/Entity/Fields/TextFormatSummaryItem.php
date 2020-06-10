@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * 文本已格式化类型、长文本已格式化类型
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */

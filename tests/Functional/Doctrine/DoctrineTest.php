@@ -5,71 +5,166 @@ namespace Teebb\CoreBundle\Tests\Functional\Doctrine;
 
 
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManager;
+use Gedmo\Translatable\Entity\Repository\TranslationRepository;
+use Gedmo\Translatable\Entity\Translation;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
+use Teebb\CoreBundle\Entity\Types\CommentType;
+use Teebb\CoreBundle\Entity\Types\ContentType;
+use Teebb\CoreBundle\Entity\Types\TaxonomyType;
+
 
 class DoctrineTest extends KernelTestCase
 {
-    private $doctrine;
-
     /**
      * @var EntityManager
      */
     private $em;
 
     /**
-     * @throws DBALException
-     * @throws InvalidArgumentException
+     * @var DoctrineUtils
      */
+    private $doctrineUtils;
+
+    private $param;
+
     protected function setUp()
     {
         $kernel = self::bootKernel();
         $container = $kernel->getContainer();
 
-        $this->doctrine = $container->get('doctrine');
-        $this->em = $this->doctrine->getManager();
+        $doctrine = $container->get('doctrine');
+        $this->em = $doctrine->getManager();
 
-        $connectionName = $this->doctrine->getDefaultConnectionName();
-        $connection = $this->doctrine->getConnection($connectionName);
+        $this->param = $doctrine->getConnection()->getParams();
 
-        $params = $connection->getParams();
-
-        if (isset($params['master'])) {
-            $params = $params['master'];
-        }
-
-        $hasPath = isset($params['path']);
-        $name = $params['dbname'];
-        if (!$name) {
-            throw new InvalidArgumentException("Connection does not contain a 'path' or 'dbname' parameter and cannot be created.");
-        }
-        // Need to get rid of _every_ occurrence of dbname from connection configuration and we have already extracted all relevant info from url
-        unset($params['dbname'], $params['path'], $params['url']);
-
-        $tmpConnection = DriverManager::getConnection($params);
-
-        $shouldNotCreateDatabase = in_array($name, $tmpConnection->getSchemaManager()->listDatabases());
-
-        // Only quote if we don't have a path
-        if (!$hasPath) {
-            $name = $tmpConnection->getDatabasePlatform()->quoteSingleIdentifier($name);
-        }
-
-        if (!$shouldNotCreateDatabase) {
-            $tmpConnection->getSchemaManager()->createDatabase($name);
-        }
-
-        $tmpConnection->close();
+        $this->doctrineUtils = $container->get('teebb.core.orm.doctrine_utils');
 
     }
 
-
-    public function testCreateSchema()
+    /**
+     * @group create
+     * @throws DBALException
+     * @throws InvalidArgumentException
+     */
+    public function testCreateDatabase()
     {
-        $this->assertTrue(true);
+        $this->doctrineUtils->createDatabase();
 
+        $tempConnection = $this->doctrineUtils->getTempConnect($this->param);
+
+        $databases = $tempConnection->getSchemaManager()->listDatabases();
+
+        $this->assertContains('teebb_core_bundle_test', $databases);
+
+        $tempConnection->close();
     }
 
+    /**
+     * @group drop
+     * @throws DBALException
+     * @throws InvalidArgumentException
+     */
+    public function testDropDatabase()
+    {
+        $this->doctrineUtils->dropDatabase();
+
+        $tempConnection = $this->doctrineUtils->getTempConnect($this->param);
+
+        $databases = $tempConnection->getSchemaManager()->listDatabases();
+
+        $this->assertNotContains('teebb_core_bundle_test', $databases);
+
+        $tempConnection->close();
+    }
+
+    /**
+     * @group create
+     * @throws \Doctrine\ORM\Tools\ToolsException
+     */
+    public function testCreateTypesSchema()
+    {
+        $metadataArray = $this->doctrineUtils->getClassesMetadata([ContentType::class, TaxonomyType::class, CommentType::class, Translation::class]);
+
+        $this->doctrineUtils->createSchema($metadataArray);
+
+        $schemaManager = $this->em->getConnection()->getSchemaManager();
+
+        $this->assertContains('teebb_types', $schemaManager->listTableNames());
+        $this->assertContains('teebb_taxonomy', $schemaManager->listTableNames());
+        $this->assertContains('teebb_comments', $schemaManager->listTableNames());
+    }
+
+    /**
+     * @group create
+     *
+     * @return array
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function testCreateTypes()
+    {
+        $articleType = new ContentType();
+        $articleType->setLabel('Article');
+        $articleType->setAlias('article');
+        $articleType->setDescription('Use articles to post content about time, such as news, news or logs.');
+        $articleType->setTranslatableLocale('en_US');
+
+        $pageType = new ContentType();
+        $pageType->setLabel('Page');
+        $pageType->setAlias('page');
+        $pageType->setDescription('Use basic pages for your static content, such as the "About Us" page.');
+        $pageType->setTranslatableLocale('en_US');
+
+        $this->em->persist($articleType);
+        $this->em->persist($pageType);
+
+        $this->em->flush();
+
+        $typesRepo = $this->em->getRepository(ContentType::class);
+
+        $this->assertCount(2, $typesRepo->findAll());
+    }
+
+    /**
+     * @group create
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function testCreateTypesTranslation()
+    {
+        $typesRepo = $this->em->getRepository(ContentType::class);
+
+        $articleType = $typesRepo->findOneBy(['alias' => 'article']);
+
+        $articleType->setLabel('文章');
+        $articleType->setDescription('使用文章发布有关时间的内容，如消息，新闻或日志。');
+        $articleType->setTranslatableLocale('zh_CN');
+
+        $pageType = $typesRepo->findOneBy(['alias' => 'page']);
+        $pageType->setLabel('基本页面');
+        $pageType->setDescription('对您的静态内容使用基本页面，比如“关于我们”页面。');
+        $pageType->setTranslatableLocale('zh_CN');
+
+        $this->em->persist($articleType);
+        $this->em->persist($pageType);
+
+        $this->em->flush();
+
+        /**
+         * @var TranslationRepository $translationRepo
+         */
+        $translationRepo = $this->em->getRepository(Translation::class);
+
+        $articles = $translationRepo->findTranslations($articleType);
+        $this->assertCount(2, $articles);
+
+        $pages = $translationRepo->findTranslations($pageType);
+        $this->assertCount(2, $pages);
+
+    }
 }

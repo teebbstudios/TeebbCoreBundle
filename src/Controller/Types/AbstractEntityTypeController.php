@@ -12,9 +12,13 @@
 
 namespace Teebb\CoreBundle\Controller\Types;
 
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
+use Teebb\CoreBundle\Repository\RepositoryInterface;
+use Teebb\CoreBundle\Templating\TemplateRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * 内容实体类型EntityType的Controller
@@ -27,6 +31,21 @@ class AbstractEntityTypeController extends AbstractController
      * @var EntityTypeInterface
      */
     protected $entityTypeService;
+
+    /**
+     * @var TemplateRegistry
+     */
+    protected $templateRegistry;
+
+    /**
+     * @var RepositoryInterface
+     */
+    protected $entityTypeRepository;
+
+    public function __construct(TemplateRegistry $templateRegistry)
+    {
+        $this->templateRegistry = $templateRegistry;
+    }
 
     /**
      * @return Request
@@ -64,16 +83,52 @@ class AbstractEntityTypeController extends AbstractController
                 static::class
             ));
         }
+
+        $this->entityTypeRepository = $this->entityTypeService->getRepository();
+
+        if (!$this->entityTypeService) {
+            throw new \RuntimeException(sprintf(
+                'Unable to find the entity type repository class related to the current controller (%s)',
+                static::class
+            ));
+        }
+    }
+
+    /**
+     * @return TemplateRegistry
+     */
+    public function getTemplateRegistry(): TemplateRegistry
+    {
+        return $this->templateRegistry;
+    }
+
+    /**
+     * @param TemplateRegistry $templateRegistry
+     */
+    public function setTemplateRegistry(TemplateRegistry $templateRegistry): void
+    {
+        $this->templateRegistry = $templateRegistry;
     }
 
     /**
      * 显示不同内容实体类型EntityType列表
      *
      * @param Request $request
+     * @return Response
      */
     public function indexAction(Request $request)
     {
+        $page = $request->get('page', 1);
+        /**
+         * @var Pagerfanta $paginator
+         */
+        $paginator = $this->entityTypeRepository->createPaginator();
+        $paginator->setCurrentPage($page);
 
-        dd($request, $this->entityTypeService);
+        return $this->render($this->templateRegistry->getTemplate('list', 'types'),[
+            'head' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
+            'actions' => '',
+            'data' => $paginator
+        ]);
     }
 }

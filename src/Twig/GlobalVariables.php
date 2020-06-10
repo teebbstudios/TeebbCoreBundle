@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Twig;
 
 
 use Teebb\CoreBundle\Application\Kernel;
+use Teebb\CoreBundle\Templating\TemplateRegistry;
 
 class GlobalVariables
 {
@@ -13,9 +14,15 @@ class GlobalVariables
      */
     private $version;
 
-    public function __construct()
+    /**
+     * @var TemplateRegistry
+     */
+    private $templateRegistry;
+
+    public function __construct(TemplateRegistry $registry)
     {
         $this->version = Kernel::VERSION;
+        $this->templateRegistry = $registry;
     }
 
     /**
@@ -24,6 +31,22 @@ class GlobalVariables
     public function getVersion(): string
     {
         return $this->version;
+    }
+
+    /**
+     * @return TemplateRegistry
+     */
+    public function getTemplateRegistry(): TemplateRegistry
+    {
+        return $this->templateRegistry;
+    }
+
+    /**
+     * @param TemplateRegistry $templateRegistry
+     */
+    public function setTemplateRegistry(TemplateRegistry $templateRegistry): void
+    {
+        $this->templateRegistry = $templateRegistry;
     }
 
 }

@@ -5,24 +5,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block metatags %}
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta name="author" content="">
+    {% block seo %}
     {% endblock %}
 
     <title>{% block title %}Teebb控制台{% endblock %}</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
     {% block stylesheets %}
-        <!-- Custom fonts for this template-->
-        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-              rel="stylesheet">
-        <!-- Custom styles for this template-->
-        <link href="css/sb-admin-2.min.css" rel="stylesheet">
+        {% for style in teebb_core.templateRegistry.allStyleSheets %}
+            <link href="{{ asset(style) }}" rel="stylesheet" type="text/css">
+        {% endfor %}
     {% endblock %}
-
-    {#    {{ sylius_template_event('sylius.shop.layout.head') }}#}
 
 </head>
 
@@ -30,7 +24,6 @@
 
 <!-- Page Wrapper -->
 <div id="wrapper">
-
     <noscript class="noscript-warning  fixed-top text-center bg-danger text-dark">
         {{ 'teebb.core.layout.noscript'|trans }}
     </noscript>
@@ -473,342 +466,24 @@
                 <!-- End of Topbar -->
             {% endblock %}
 
-            {% block content %}
+            {% block container_fluid %}
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">控制台</h1>
-                        <a href="select-content-type.html"
-                           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-plus-circle fa-sm text-white-50 pr-2"></i>添加内容</a>
-
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- 内容数量 每月 Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                内容量(最近一月)
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">123</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-file-alt fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 内容类型数量 Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">内容类型
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-boxes fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 用户量 (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                新用户(最近一月)
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                新评论(最近一月)
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column LEFT -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- 欢迎使用 -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">欢迎使用</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                             src="img/undraw_posting_photo.svg" alt="">
-                                    </div>
-                                    <p>欢迎您使用TeebbCMF,TeebbCMF是一个高扩展,高性能,轻量的内容管理框架。和许多其他系统一样,TeebbCMF基于<a
-                                                href="https://www.symfony.com" rel="nofollow"
-                                                target="_blank">Symfony</a>开源框架开发。
-                                    </p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">查看文档&rarr;</a>
-                                </div>
+                    {% block page_head %}
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">{% block head_label %}{% endblock %}</h1>
+                            <div class="actions">
+                                {% block head_actions %}
+                                {% endblock %}
                             </div>
 
-                            <!-- 最新内容 -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">内容类型</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button"
-                                           id="dropdownContentTypesMenuLink"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                             aria-labelledby="dropdownContentTypesMenuLink">
-                                            <a class="dropdown-item" href="#"><i
-                                                        class="fa fa-list text-gray-500 pr-2"></i>查看所有类型</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">内容类型</th>
-                                                <th scope="col">别名</th>
-                                                <th scope="col">操作</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td scope="row">文章</td>
-                                                <td>article</td>
-                                                <td><a href="#">发布内容</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="row">页面</td>
-                                                <td>page</td>
-                                                <td><a href="#">发布内容</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="row">商品类型</td>
-                                                <td>product</td>
-                                                <td><a href="#">发布内容</a></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 最新内容 -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">新增用户</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownNewUsersMenuLink"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                             aria-labelledby="dropdownNewUsersMenuLink">
-                                            <a class="dropdown-item" href="#"><i
-                                                        class="fa fa-list text-gray-500 pr-2"></i>查看所有用户</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <a href="#">Cras jusjusto </a>
-                                            <span class="pl-3">注册于下午7:57 05月19日</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <a href="#">Cras odio </a>
-                                            <span class="pl-3">注册于下午7:57 05月19日</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <a href="#">Cras justo </a>
-                                            <span class="pl-3">注册于下午7:57 05月19日</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <a href="#">Cras justo </a>
-                                            <span class="pl-3">注册于下午7:57 05月19日</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <a href="#">Cras justo</a>
-                                            <span class="pl-3">注册于下午7:57 05月19日</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
 
                         </div>
+                    {% endblock %}
 
-                        <!-- Content Column  RIGHT -->
-                        <div class="col-lg-6 mb-4">
-                            <!-- 最新内容 -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">最新内容</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button"
-                                           id="dropdownNewContentsMenuLink"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                             aria-labelledby="dropdownNewContentsMenuLink">
-                                            <a class="dropdown-item" href="#"><i
-                                                        class="fa fa-list text-gray-500 pr-2"></i>查看所有内容</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <span class="pr-3">下午7:57 05月19日</span>
-                                            <a href="#">Cras justo odio Cras justo </a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="pr-3">下午7:57 05月19日</span>
-                                            <a href="#">Cras justo odio Cras justo </a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="pr-3">下午7:57 05月19日</span>
-                                            <a href="#">Cras justo odio Cras justo </a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="pr-3">下午7:57 05月19日</span>
-                                            <a href="#">Cras justo odio Cras justo </a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="pr-3">下午7:57 05月19日</span>
-                                            <a href="#">Cras justo odio Cras justo </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- 最新评论 -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">最新评论</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button"
-                                           id="dropdownNewCommentsMenuLink"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                             aria-labelledby="dropdownNewCommentsMenuLink">
-                                            <a class="dropdown-item" href="#"><i
-                                                        class="fa fa-list text-gray-500 pr-2"></i>查看所有评论</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                        class="fa fa-user-check text-gray-500 pr-2"></i>我的评论</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="list-group">
-                                        <a href="#"
-                                           class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">发表在《List group item heading》</h6>
-                                            </div>
-                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
-                                                sed
-                                                diam eget risus varius blandit.</p>
-                                            <small>由admin发表于3 days ago .</small>
-                                        </a>
-                                        <a href="#"
-                                           class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">发表在《List group item heading》</h6>
-                                            </div>
-                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
-                                                sed
-                                                diam eget risus varius blandit.</p>
-                                            <small>由admin发表于3 days ago .</small>
-                                        </a>
-                                        <a href="#"
-                                           class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">发表在《List group item heading》</h6>
-                                            </div>
-                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
-                                                sed
-                                                diam eget risus varius blandit.</p>
-                                            <small>由admin发表于3 days ago .</small>
-                                        </a>
-                                        <a href="#"
-                                           class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">发表在《List group item heading》</h6>
-                                            </div>
-                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
-                                                sed
-                                                diam eget risus varius blandit.</p>
-                                            <small>由admin发表于3 days ago .</small>
-                                        </a>
-                                        <a href="#"
-                                           class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">发表在《List group item heading》</h6>
-                                            </div>
-                                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas
-                                                sed
-                                                diam eget risus varius blandit.</p>
-                                            <small>由admin发表于3 days ago .</small>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    {% block content %}
+                    {% endblock %}
                 </div>
                 <!-- /.container-fluid -->
             {% endblock %}
@@ -839,18 +514,9 @@
 </a>
 
 {% block javascripts %}
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    {% for javascript in teebb_core.templateRegistry.allJavaScripts %}
+        <script src="{{ asset(javascript) }}"></script>
+    {% endfor %}
 {% endblock %}
 
 {#{{ sylius_template_event('sylius.shop.layout.after_body') }}#}

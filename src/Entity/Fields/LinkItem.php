@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * 用于存储链接类型字段的值
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */

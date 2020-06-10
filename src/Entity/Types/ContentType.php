@@ -20,7 +20,8 @@ use Gedmo\Translatable\Translatable;
 /**
  * 内容类型Entity. 删除内容类型删除所有字段和所有字段表
  *
- * @ORM\MappedSuperclass()
+ * @ORM\Entity
+ * @ORM\Table(name="teebb_types")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
@@ -39,7 +40,7 @@ class ContentType implements Translatable
      * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $name;
+    private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
@@ -69,17 +70,17 @@ class ContentType implements Translatable
     /**
      * @return string
      */
-    public function getName(): string
+    public function getLabel(): string
     {
-        return $this->name;
+        return $this->label;
     }
 
     /**
-     * @param string $name
+     * @param string $label
      */
-    public function setName(string $name): void
+    public function setLabel(string $label): void
     {
-        $this->name = $name;
+        $this->label = $label;
     }
 
     /**

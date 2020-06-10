@@ -1,5 +1,16 @@
 parameters:
-    locale: 'zh_CN'
+    locale: 'en_us'
+
+teebb_core:
+    assets:
+        extra:
+            extra1:
+                css_path: path/to/extra1.min.css
+                js_path: path/to/extra1.min.js
+            extra2:
+                css_path: path/to/extra2.min.css
+                js_path: path/to/extra2.min.js
+
 
 framework:
     default_locale: '%locale%'
@@ -15,10 +26,52 @@ doctrine:
         entity_managers:
             default:
                 auto_mapping: true
+                mappings:
+                    gedmo_translatable:
+                        type: annotation
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_translator:
+                        type: annotation
+                        prefix: Gedmo\Translator\Entity
+                        dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                        alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+
             filters:
                 filters:
                     soft-deleteable:
                         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                         enabled: true
+
+stof_doctrine_extensions:
+    default_locale: "%locale%"
+    orm:
+        default:
+            translatable:         true
+            timestampable:        true
+            blameable:            true
+            sluggable:            true
+            tree:                 true
+            loggable:             true
+            sortable:             true
+            softdeleteable:       true
+            uploadable:           true
+            reference_integrity:  true
+
 
 

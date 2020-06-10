@@ -54,6 +54,7 @@ class TeebbCoreExtension extends Extension
 
         $container->setParameter('teebb.core.mapping.directories', $mappingDirectories);
 
+        $this->setTemplateRegistryArguments($container, $config);
     }
 
     /**
@@ -62,7 +63,7 @@ class TeebbCoreExtension extends Extension
      * @param ContainerBuilder $container
      * @return array
      */
-    public function getBundlesEntityPaths(ContainerBuilder $container)
+    private function getBundlesEntityPaths(ContainerBuilder $container)
     {
         $bundlesEntityPaths = [];
 
@@ -82,4 +83,20 @@ class TeebbCoreExtension extends Extension
         return $bundlesEntityPaths;
     }
 
+    /**
+     * 设置TemplateRegistry构造参数
+     * @param ContainerBuilder $container
+     * @param array $config
+     */
+    private function setTemplateRegistryArguments(ContainerBuilder $container, array $config)
+    {
+        $templateRegistryDefinition = $container->getDefinition('teebb.core.template.registry');
+
+        $templateRegistryDefinition->setArguments([
+            $config['templates'],
+            $config['assets']['stylesheets'],
+            $config['assets']['javascripts'],
+            $config['assets']['extra'],
+        ]);
+    }
 }

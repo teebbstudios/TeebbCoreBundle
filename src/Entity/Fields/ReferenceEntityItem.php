@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * 引用内容，taxonomy，用:户字段在库中的存储
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */

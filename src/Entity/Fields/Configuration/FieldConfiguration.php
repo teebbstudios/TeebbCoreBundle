@@ -9,9 +9,8 @@ use Teebb\CoreBundle\Configuration\FieldItemDepartConfigurationInterface;
 
 /**
  * 用于存储字段的设置信息
- * @todo 需要添加自定义Repository类继承自SortableRepository
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
@@ -27,7 +26,6 @@ class FieldConfiguration
     /**
      * 字段所属的内容实体类型注释中的别名
      *
-     * @Gedmo\SortableGroup
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $type;
@@ -35,9 +33,10 @@ class FieldConfiguration
     /**
      * 内容实体类型Entity的别名
      *
+     * @Gedmo\SortableGroup
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $alias;
+    private $typeAlias;
 
     /**
      * @var integer
@@ -106,17 +105,17 @@ class FieldConfiguration
     /**
      * @return string
      */
-    public function getAlias(): string
+    public function getTypeAlias(): string
     {
-        return $this->alias;
+        return $this->typeAlias;
     }
 
     /**
-     * @param string $alias
+     * @param string $typeAlias
      */
-    public function setAlias(string $alias): void
+    public function setTypeAlias(string $typeAlias): void
     {
-        $this->alias = $alias;
+        $this->typeAlias = $typeAlias;
     }
 
     /**
