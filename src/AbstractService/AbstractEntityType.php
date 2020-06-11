@@ -18,6 +18,8 @@ use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
+use Teebb\CoreBundle\Route\PathInfoGenerator;
+use Teebb\CoreBundle\Route\PathInfoGeneratorInterface;
 
 /**
  * 内容实体类型类
@@ -60,10 +62,17 @@ abstract class AbstractEntityType implements EntityTypeInterface
      */
     private $container;
 
-    public function __construct(EntityTypePathBuilder $pathBuilder, ContainerInterface $container)
+    /**
+     * @var PathInfoGeneratorInterface
+     */
+    private $pathInfoGenerator;
+
+    public function __construct(EntityTypePathBuilder $pathBuilder, ContainerInterface $container,
+                                PathInfoGeneratorInterface $pathInfoGenerator)
     {
         $this->pathBuilder = $pathBuilder;
         $this->container = $container;
+        $this->pathInfoGenerator = $pathInfoGenerator;
     }
 
     /**
@@ -123,6 +132,16 @@ abstract class AbstractEntityType implements EntityTypeInterface
         $this->pathBuilder->build($this->routes);
 
         $this->configureRoutes($this->routes);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasRoute(string $serviceId, string $name): bool
+    {
+        $routeName = $this->metadata->getType() . '_' . $name;
+
+        return $this->pathInfoGenerator->hasRoute($serviceId, $routeName);
     }
 
     /**
@@ -206,5 +225,26 @@ abstract class AbstractEntityType implements EntityTypeInterface
         }
 
         return $allFieldInfo;
+    }
+
+    /**
+     * @return array
+     * @todo 需要根据权限判断当前用户可用Actions
+     */
+    public function getActionButtons(): array
+    {
+        $actions = ['index', 'create', 'update', 'delete', 'index_field', 'add_field', 'update_field', 'delete_field'];
+
+        //Todo: 判断当前用户可用的权限
+
+        return $actions;
+    }
+
+    /**
+     * @return PathInfoGeneratorInterface
+     */
+    public function getPathInfoGenerator(): PathInfoGeneratorInterface
+    {
+        return $this->pathInfoGenerator;
     }
 }

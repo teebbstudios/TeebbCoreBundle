@@ -14,6 +14,11 @@ namespace Teebb\CoreBundle\Route;
 
 use Symfony\Component\Routing\Route;
 
+/**
+ * Interface RouteFactoryInterface
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
+ */
 interface RouteFactoryInterface
 {
     /**

@@ -15,6 +15,7 @@ namespace Teebb\CoreBundle\AbstractService;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
+use Teebb\CoreBundle\Route\PathInfoGeneratorInterface;
 
 /**
  * 所有可配置字段的内容实体类型EntityType需实现此接口.
@@ -85,6 +86,15 @@ interface EntityTypeInterface
     public function buildRoutes(): void;
 
     /**
+     * 判断当前类型是否有此route name
+     *
+     * @param string $serviceId
+     * @param string $name action name，需要处理为route name
+     * @return bool
+     */
+    public function hasRoute(string $serviceId, string $name): bool;
+
+    /**
      * 获取该类型所有字段Field
      */
     public function getFields();
@@ -116,4 +126,14 @@ interface EntityTypeInterface
      * @return array
      */
     public function generateFieldListData(): array;
+
+    /**
+     * 根据用户权限获取所有可用操作
+     */
+    public function getActionButtons(): array;
+
+    /**
+     * @return PathInfoGeneratorInterface
+     */
+    public function getPathInfoGenerator(): PathInfoGeneratorInterface;
 }

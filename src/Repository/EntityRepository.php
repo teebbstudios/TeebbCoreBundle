@@ -4,8 +4,8 @@
 namespace Teebb\CoreBundle\Repository;
 
 
-use Doctrine\ORM\EntityRepository as BaseEntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository as BaseEntityReository;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
@@ -13,7 +13,7 @@ use Pagerfanta\Pagerfanta;
 /**
  * Class EntityRepository
  */
-class EntityRepository extends BaseEntityRepository implements RepositoryInterface
+class EntityRepository extends BaseEntityReository implements RepositoryInterface
 {
     /**
      * {@inheritdoc}

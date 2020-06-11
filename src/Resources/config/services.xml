@@ -19,9 +19,9 @@
         <service id="teebb.core.command.init_database" class="Teebb\CoreBundle\Command\InitDatabaseCommand"
                  public="true">
             <argument type="service" id="teebb.core.orm.doctrine_utils"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
             <tag name="console.command" command="teebb:database:init"/>
         </service>
-
 
         <service id="teebb.core.template.registry" class="Teebb\CoreBundle\Templating\TemplateRegistry"
                  public="true">

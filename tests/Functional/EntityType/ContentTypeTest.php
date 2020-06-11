@@ -88,4 +88,17 @@ class ContentTypeTest extends KernelTestCase
         $this->assertSame(5, sizeof($result['reference']));
         $this->assertSame(4, sizeof($result['simple']));
     }
+
+    public function testRouteCache()
+    {
+        $kernel = self::bootKernel();
+
+        $container = $kernel->getContainer();
+
+        $routeCache = $container->get('teebb.core.route.cache');
+
+        $cache = $routeCache->load('teebb.core.entity_type.types_entity_type');
+
+        $this->assertArrayHasKey('teebb.core.entity_type.types_entity_type', $cache);
+    }
 }

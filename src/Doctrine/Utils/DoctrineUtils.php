@@ -67,6 +67,14 @@ class DoctrineUtils
     }
 
     /**
+     * @return EntityManagerInterface
+     */
+    public function getEntityManager(): EntityManagerInterface
+    {
+        return $this->entityManager;
+    }
+
+    /**
      * @throws InvalidArgumentException
      * @throws \Doctrine\DBAL\DBALException
      */

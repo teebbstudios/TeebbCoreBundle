@@ -1,3 +1,5 @@
+{% set _head_actions = block('head_actions') is defined ? block('head_actions')|trim : null %}
+
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}">
 
@@ -474,11 +476,10 @@
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">{% block head_label %}{% endblock %}</h1>
                             <div class="actions">
-                                {% block head_actions %}
-                                {% endblock %}
+                                {% if _head_actions is not empty %}
+                                    {{ _head_actions|raw }}
+                                {% endif %}
                             </div>
-
-
                         </div>
                     {% endblock %}
 

@@ -12,7 +12,11 @@
 
 namespace Teebb\CoreBundle\Route;
 
-
+/**
+ * Interface RouteCollectionInterface
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
+ */
 interface RouteCollectionInterface
 {
     /**

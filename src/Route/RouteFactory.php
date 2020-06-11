@@ -15,6 +15,11 @@ namespace Teebb\CoreBundle\Route;
 
 use Symfony\Component\Routing\Route;
 
+/**
+ * Class RouteFactory
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
+ */
 class RouteFactory implements RouteFactoryInterface
 {
     /**

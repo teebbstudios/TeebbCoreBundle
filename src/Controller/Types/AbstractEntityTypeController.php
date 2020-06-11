@@ -92,6 +92,10 @@ class AbstractEntityTypeController extends AbstractController
                 static::class
             ));
         }
+
+        //将此entityTypeService添加到twig全局变量
+        $twig = $this->container->get('twig');
+        $twig->addGlobal('entity_type', $this->entityTypeService);
     }
 
     /**
@@ -113,11 +117,15 @@ class AbstractEntityTypeController extends AbstractController
     /**
      * 显示不同内容实体类型EntityType列表
      *
+     * @todo 添加EventListener统一处理用户权限问题
+     *
      * @param Request $request
      * @return Response
      */
     public function indexAction(Request $request)
     {
+        $currentAction = $request->get('_teebb_action');
+
         $page = $request->get('page', 1);
         /**
          * @var Pagerfanta $paginator
@@ -126,9 +134,12 @@ class AbstractEntityTypeController extends AbstractController
         $paginator->setCurrentPage($page);
 
         return $this->render($this->templateRegistry->getTemplate('list', 'types'),[
-            'head' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
-            'actions' => '',
-            'data' => $paginator
+            'label' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
+            'action' => $currentAction,
+            'data' => $paginator->getCurrentPageResults(),
+            'buttons' => $this->entityTypeService->getActionButtons()
         ]);
     }
+
+
 }

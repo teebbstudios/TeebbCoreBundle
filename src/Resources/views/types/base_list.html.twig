@@ -1,0 +1,75 @@
+{% extends '@TeebbCore/standard_layout.html.twig' %}
+
+{% block head_label %}
+    {{ action|trans }}{{ trans_markup(label) }}
+{% endblock %}
+
+{% block content %}
+    <!-- FULL WIDTH Content -->
+    <div class="full-width-wrapper">
+        <!-- 添加类型 -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+                {% block dropdown_actions %}
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" role="button" id="dropdownNewContentsMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                             aria-labelledby="dropdownNewContentsMenuLink">
+                            <a class="dropdown-item" href="#"><i class="fa fa-plus-circle text-gray-500 pr-2"></i>添加内容类型</a>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+            <div class="card-body">
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="text-nowrap">内容类型</th>
+                            <th class="d-none d-md-table-cell">描述</th>
+                            <th class="text-nowrap">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in data %}
+                            <tr>
+                                <td class="text-nowrap"><a href="#">{{ item.label }}</a></td>
+                                <td class="d-none d-md-table-cell">{{ item.description }}</td>
+
+                                <td class="text-nowrap">
+                                    {% block item_actions %}
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="内容类型操作按钮组">
+                                            <a href="edit-content-type.html" class="btn btn-primary text-white">编辑</a>
+                                            <a href="delete-content-type.html" class="btn btn-danger text-white">删除</a>
+
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <button id="btnGroupDrop_{{ item.id }}" type="button"
+                                                        class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                    管理字段
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop_{{ item.id }}">
+                                                    <a class="dropdown-item"
+                                                       href="manage-content-type-field.html">管理字段</a>
+                                                    <a class="dropdown-item" href="manage-content-field-form-show.html">管理字段显示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endblock %}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

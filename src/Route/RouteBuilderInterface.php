@@ -12,7 +12,11 @@
 
 namespace Teebb\CoreBundle\Route;
 
-
+/**
+ * Interface RouteBuilderInterface
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
+ */
 interface RouteBuilderInterface
 {
     public function build(RouteCollectionInterface $routeCollection): void;

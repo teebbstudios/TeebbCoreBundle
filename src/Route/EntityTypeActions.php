@@ -20,11 +20,6 @@ namespace Teebb\CoreBundle\Route;
 final class EntityTypeActions
 {
     /**
-     * 显示类型信息
-     */
-    public const SHOW = 'show';
-
-    /**
      * 列表显示所有类型
      */
     public const INDEX = 'index';

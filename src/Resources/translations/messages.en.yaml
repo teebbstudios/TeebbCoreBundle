@@ -2,4 +2,8 @@ teebb:
     core:
         layout:
             noscript: Your browser does not support Javascript, so some functions cannot be used normally.
-        
+
+index: Manage
+create: Create
+update: Update
+delete: Delete

@@ -105,6 +105,7 @@ class RegisterServicesCompilePass implements CompilerPassInterface
 
             $definition->setArgument(0, new Reference('teebb.core.route.types_builder'));
             $definition->setArgument(1, new Reference('service_container'));
+            $definition->setArgument(2, new Reference('teebb.core.route.path_info_generator'));
 
             $metadataDefinition = $this->createEntityTypeMetadataDefinition($reflectionClass, $annotation);
             $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
