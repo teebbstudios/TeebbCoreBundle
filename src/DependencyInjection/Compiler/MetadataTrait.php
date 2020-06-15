@@ -7,8 +7,10 @@ namespace Teebb\CoreBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Definition;
 use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\FieldType;
-use Teebb\CoreBundle\Annotation\TeebbAnnotationInterface;
+use Teebb\CoreBundle\Annotation\FormRow;
 use Teebb\CoreBundle\Annotation\Translation;
+use Teebb\CoreBundle\Annotation\TypesForm;
+use Teebb\CoreBundle\Form\FormRowMarkup;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadata;
 use Teebb\CoreBundle\Metadata\FieldMetadata;
 use Teebb\CoreBundle\Translation\TranslatableMarkup;
@@ -30,7 +32,8 @@ trait MetadataTrait
             $annotation->controller,
             $annotation->repository,
             $annotation->entity,
-            $reflectionClass->getName()
+            $reflectionClass->getName(),
+            $this->createFormSettingsDefinition($annotation->form)
         ]);
     }
 
@@ -61,6 +64,35 @@ trait MetadataTrait
             $translation->message,
             $translation->arguments,
             $translation->domain
+        ]);
+    }
+
+
+    public function createFormSettingsDefinition(TypesForm $typesForm): array
+    {
+        $formRowMarkupDefinitions = [];
+        /**@var FormRow $formRow * */
+        foreach ($typesForm->formRows as $formRow) {
+            $formRowMarkupDefinitions[] = new Definition(FormRowMarkup::class, [
+                $formRow->property,
+                $formRow->formType,
+                $formRow->options
+            ]);
+        }
+        return $formRowMarkupDefinitions;
+    }
+
+    /**
+     * @param FormRow $formRow
+     * @return Definition
+     */
+    public
+    function createEntityTypeFormMarkup(FormRow $formRow): Definition
+    {
+        return new Definition(FormRowMarkup::class, [
+            $formRow->property,
+            $formRow->formType,
+            $formRow->options
         ]);
     }
 }

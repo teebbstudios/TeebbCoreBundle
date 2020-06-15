@@ -12,6 +12,7 @@
 
 namespace Teebb\CoreBundle\Metadata;
 
+
 use Teebb\CoreBundle\Translation\TranslatableMarkup;
 
 /**
@@ -35,8 +36,10 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
 
     private $service;
 
+    private $formSettings;
+
     public function __construct(TranslatableMarkup $label, string $type, TranslatableMarkup $description,
-                                string $controller, string $repository, string $entity, string $service)
+                                string $controller, string $repository, string $entity, string $service, array $formSettings)
     {
         $this->label = $label;
         $this->type = $type;
@@ -45,6 +48,7 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
         $this->repository = $repository;
         $this->entity = $entity;
         $this->service = $service;
+        $this->formSettings = $formSettings;
     }
 
     /**
@@ -103,5 +107,9 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
         return $this->service;
     }
 
+    public function getFormSettings(): array
+    {
+        return $this->formSettings;
+    }
 
 }

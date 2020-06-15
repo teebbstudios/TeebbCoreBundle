@@ -1,29 +1,13 @@
-{% extends '@TeebbCore/standard_layout.html.twig' %}
-
-{% block head_label %}
-    {{ action|trans }}{{ trans_markup(label) }}
-{% endblock %}
+{% extends '@TeebbCore/types/base_container.html.twig' %}
 
 {% block content %}
     <!-- FULL WIDTH Content -->
     <div class="full-width-wrapper">
         <!-- 添加类型 -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary"></h6>
-                {% block dropdown_actions %}
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" role="button" id="dropdownNewContentsMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-500"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                             aria-labelledby="dropdownNewContentsMenuLink">
-                            <a class="dropdown-item" href="#"><i class="fa fa-plus-circle text-gray-500 pr-2"></i>添加内容类型</a>
-                        </div>
-                    </div>
-                {% endblock %}
-            </div>
+
+            {% include '@TeebbCore/common/card_title.html.twig' with _context %}
+
             <div class="card-body">
                 <div class="table-responsive mt-3">
                     <table class="table table-striped">

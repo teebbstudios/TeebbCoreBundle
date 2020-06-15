@@ -66,4 +66,14 @@ class EntityType implements TeebbAnnotationInterface
      */
     public $entity;
 
+    /**
+     * 设置EntityType表单
+     */
+    public $form;
+
+    /**
+     * 配置不同action页面的head、dropdown actions及action图标
+     * @var array
+     */
+    public $actions;
 }

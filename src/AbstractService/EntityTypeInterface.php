@@ -136,4 +136,10 @@ interface EntityTypeInterface
      * @return PathInfoGeneratorInterface
      */
     public function getPathInfoGenerator(): PathInfoGeneratorInterface;
+
+    /**
+     * 获取entity全类名
+     * @return string
+     */
+    public function getEntityClass(): string;
 }

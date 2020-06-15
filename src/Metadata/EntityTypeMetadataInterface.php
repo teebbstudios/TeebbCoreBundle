@@ -12,6 +12,7 @@
 
 namespace Teebb\CoreBundle\Metadata;
 
+
 use Teebb\CoreBundle\Translation\TranslatableMarkup;
 
 /**
@@ -70,4 +71,9 @@ interface EntityTypeMetadataInterface
      */
     public function getService(): string;
 
+    /**
+     * 获取Types表单配置
+     * @return array
+     */
+    public function getFormSettings(): array;
 }

@@ -247,4 +247,12 @@ abstract class AbstractEntityType implements EntityTypeInterface
     {
         return $this->pathInfoGenerator;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntityClass(): string
+    {
+        return $this->metadata->getEntity();
+    }
 }

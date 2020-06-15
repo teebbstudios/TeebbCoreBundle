@@ -19,6 +19,7 @@ use Teebb\CoreBundle\DependencyInjection\Compiler\GenerateFieldsInfoCompilePass;
 use Teebb\CoreBundle\DependencyInjection\Compiler\GlobalVariablesCompilePass;
 use Teebb\CoreBundle\DependencyInjection\Compiler\RegisterServicesCompilePass;
 use Teebb\CoreBundle\DependencyInjection\Compiler\RouteLoaderCompilePass;
+use Teebb\CoreBundle\DependencyInjection\Compiler\TwigFormThemesCompilePass;
 
 /**
  * Class TeebbCoreBundle
@@ -33,5 +34,6 @@ class TeebbCoreBundle extends Bundle
         $container->addCompilerPass(new RouteLoaderCompilePass());
         $container->addCompilerPass(new GenerateFieldsInfoCompilePass());
         $container->addCompilerPass(new GlobalVariablesCompilePass());
+        $container->addCompilerPass(new TwigFormThemesCompilePass());
     }
 }

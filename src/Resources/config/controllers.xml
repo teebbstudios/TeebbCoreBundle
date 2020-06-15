@@ -8,7 +8,7 @@
                  class="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController"
                  public="false">
             <argument type="service" id="teebb.core.template.registry"/>
-
+            <argument type="service" id="teebb.core.form.contractor"/>
             <tag name="controller.service_arguments"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>

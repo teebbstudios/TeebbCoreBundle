@@ -37,7 +37,8 @@ class TeebbCoreExtension extends Extension
         $resources = [
             'services',
             'routes',
-            'controllers'
+            'controllers',
+            'forms'
         ];
 
         foreach ($resources as $resource) {

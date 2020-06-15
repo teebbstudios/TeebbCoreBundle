@@ -14,8 +14,10 @@ namespace Teebb\CoreBundle\Controller\Types;
 
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
+use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,10 +43,15 @@ class AbstractEntityTypeController extends AbstractController
      * @var RepositoryInterface
      */
     protected $entityTypeRepository;
+    /**
+     * @var FormContractorInterface
+     */
+    private $formContractor;
 
-    public function __construct(TemplateRegistry $templateRegistry)
+    public function __construct(TemplateRegistry $templateRegistry, FormContractorInterface $formContractor)
     {
         $this->templateRegistry = $templateRegistry;
+        $this->formContractor = $formContractor;
     }
 
     /**
@@ -117,14 +124,13 @@ class AbstractEntityTypeController extends AbstractController
     /**
      * 显示不同内容实体类型EntityType列表
      *
-     * @todo 添加EventListener统一处理用户权限问题
-     *
      * @param Request $request
      * @return Response
+     * @todo 添加EventListener统一处理用户权限问题
+     *
      */
     public function indexAction(Request $request)
     {
-        $currentAction = $request->get('_teebb_action');
 
         $page = $request->get('page', 1);
         /**
@@ -133,13 +139,37 @@ class AbstractEntityTypeController extends AbstractController
         $paginator = $this->entityTypeRepository->createPaginator();
         $paginator->setCurrentPage($page);
 
-        return $this->render($this->templateRegistry->getTemplate('list', 'types'),[
+        return $this->render($this->templateRegistry->getTemplate('list', 'types'), [
             'label' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
-            'action' => $currentAction,
+            'action' => $request->get('_teebb_action'),
             'data' => $paginator->getCurrentPageResults(),
             'buttons' => $this->entityTypeService->getActionButtons()
         ]);
     }
 
+    /**
+     * 创建内容实体类型EntityType
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function createAction(Request $request)
+    {
+        $formName = $request->get('_route');
 
+        $entityClass = $this->entityTypeService->getEntityClass();
+
+        $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, null, ['data_class' => $entityClass]);
+
+        $form = $this->formContractor->buildEntityTypeForm($formBuilder, $entityClass,
+            $this->entityTypeService->getEntityTypeMetadata()->getFormSettings());
+
+
+        return $this->render($this->templateRegistry->getTemplate('create','types'),[
+            'label' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
+            'action' => $request->get('_teebb_action'),
+            'buttons' => $this->entityTypeService->getActionButtons(),
+            'form' => $form->createView(),
+        ]);
+    }
 }

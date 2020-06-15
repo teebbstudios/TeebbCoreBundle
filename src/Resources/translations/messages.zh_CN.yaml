@@ -1,10 +1,12 @@
+index: 管理
+create: 创建
+update: 更新
+delete: 删除
+
 teebb:
     core:
         layout:
             noscript: 你的浏览器并不支持Javascript，所以有些功能不能正常使用。
 
-
-index: 管理
-create: 创建
-update: 更新
-delete: 删除
+        help:
+            types: 内容类型由不同的内容字段组成，字段可以是图像、文本、数字、标签或者其他。任意搭配字段生成您的内容类型。
