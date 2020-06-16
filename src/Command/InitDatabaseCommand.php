@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
+use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\CommentType;
 use Teebb\CoreBundle\Entity\Types\ContentType;
 use Teebb\CoreBundle\Entity\Types\TaxonomyType;
@@ -79,6 +80,7 @@ class InitDatabaseCommand extends Command
         $output->writeln(sprintf('<info>Init tables...</info>'));
 
         $classMetadataArray = $this->doctrineUtils->getClassesMetadata($this->getMappedClasses());
+
         $this->doctrineUtils->createSchema($classMetadataArray);
 
         $this->initEntityTypes();
@@ -98,7 +100,8 @@ class InitDatabaseCommand extends Command
             ContentType::class,
             TaxonomyType::class,
             CommentType::class,
-            Translation::class
+            Translation::class,
+            FieldConfiguration::class,
         ];
     }
 

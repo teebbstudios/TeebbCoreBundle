@@ -42,6 +42,7 @@ class FieldType implements TeebbAnnotationInterface
     
     /**
      * 字段类型的分组名称
+     * @deprecated
      */
     public $category;
 

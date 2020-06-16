@@ -12,23 +12,24 @@
 
 namespace Teebb\CoreBundle\Entity\Types;
 
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * 内容类型Entity. 删除内容类型删除所有字段和所有字段表
  *
  * @ORM\Entity
  * @ORM\Table(name="teebb_types")
+ * @Assert\EnableAutoMapping
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
 class ContentType implements Translatable
 {
-    use TimestampableEntity;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -38,12 +39,13 @@ class ContentType implements Translatable
 
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     * @Assert\Regex("/^(?!_)(?!.*?_$)[a-zA-Z0-9_]+$/")
      */
     private $alias;
 
@@ -68,9 +70,9 @@ class ContentType implements Translatable
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
@@ -84,9 +86,9 @@ class ContentType implements Translatable
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAlias(): string
+    public function getAlias(): ?string
     {
         return $this->alias;
     }
@@ -100,9 +102,9 @@ class ContentType implements Translatable
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

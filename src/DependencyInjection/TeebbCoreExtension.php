@@ -35,10 +35,11 @@ class TeebbCoreExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $resources = [
-            'services',
-            'routes',
+            'commands',
             'controllers',
-            'forms'
+            'forms',
+            'routes',
+            'services',
         ];
 
         foreach ($resources as $resource) {

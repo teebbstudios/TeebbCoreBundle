@@ -12,4 +12,7 @@ interface RepositoryInterface
 
     public function createPaginator(array $criteria = [], array $sorting = []): iterable;
 
+    public function save(object $object): void;
+
+    public function remove(object $object): void;
 }

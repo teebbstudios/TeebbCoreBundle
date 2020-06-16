@@ -1,4 +1,4 @@
-{% extends '@TeebbCore/types/base_container.html.twig' %}
+{% extends '@TeebbCore/types/base_wrapper.html.twig' %}
 
 {% block content %}
     <!-- FULL WIDTH Content -->
@@ -6,9 +6,10 @@
         <!-- 添加类型 -->
         <div class="card shadow mb-4">
 
-            {% include '@TeebbCore/common/card_title.html.twig' with _context %}
+            {% include '@TeebbCore/types/common/card_title.html.twig' with _context %}
 
             <div class="card-body">
+
                 <div class="table-responsive mt-3">
                     <table class="table table-striped">
                         <thead>
@@ -26,23 +27,7 @@
 
                                 <td class="text-nowrap">
                                     {% block item_actions %}
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="内容类型操作按钮组">
-                                            <a href="edit-content-type.html" class="btn btn-primary text-white">编辑</a>
-                                            <a href="delete-content-type.html" class="btn btn-danger text-white">删除</a>
 
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <button id="btnGroupDrop_{{ item.id }}" type="button"
-                                                        class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                    管理字段
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop_{{ item.id }}">
-                                                    <a class="dropdown-item"
-                                                       href="manage-content-type-field.html">管理字段</a>
-                                                    <a class="dropdown-item" href="manage-content-field-form-show.html">管理字段显示</a>
-                                                </div>
-                                            </div>
-                                        </div>
                                     {% endblock %}
                                 </td>
 

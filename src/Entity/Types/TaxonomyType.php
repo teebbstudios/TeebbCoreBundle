@@ -14,22 +14,21 @@ namespace Teebb\CoreBundle\Entity\Types;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Translatable\Translatable;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * 分类类型
  *
  * @ORM\Entity
  * @ORM\Table(name="teebb_taxonomy")
+ * @Assert\EnableAutoMapping
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
 class TaxonomyType implements Translatable
 {
-    use TimestampableEntity;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -39,7 +38,7 @@ class TaxonomyType implements Translatable
 
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $label;
 

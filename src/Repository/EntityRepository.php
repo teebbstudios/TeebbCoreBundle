@@ -9,12 +9,36 @@ use Doctrine\ORM\EntityRepository as BaseEntityReository;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 
 /**
  * Class EntityRepository
  */
 class EntityRepository extends BaseEntityReository implements RepositoryInterface
 {
+    /**
+     * @param object $object
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function save(object $object): void
+    {
+        $this->_em->persist($object);
+        $this->_em->flush();
+    }
+
+    /**
+     * @param object $object
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(object $object): void
+    {
+        $this->_em->remove($object);
+        $this->_em->flush();
+    }
+
     /**
      * {@inheritdoc}
      */

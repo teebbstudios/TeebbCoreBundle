@@ -6,6 +6,11 @@ namespace Teebb\CoreBundle\AbstractService;
 
 use Teebb\CoreBundle\Metadata\FieldMetadataInterface;
 
+/**
+ * Class AbstractField
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
+ */
 abstract class AbstractField implements FieldInterface
 {
     /**

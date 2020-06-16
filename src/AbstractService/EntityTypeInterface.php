@@ -107,6 +107,7 @@ interface EntityTypeInterface
     public function addField(FieldInterface $field): void;
 
     /**
+     * @deprecated
      * 获取所有内置字段的分组信息
      *
      * @return array
@@ -114,6 +115,8 @@ interface EntityTypeInterface
     public function getFieldList(): array;
 
     /**
+     * @deprecated
+     *
      * 设置所有内置字段的分组信息，例： numeric => ['teebb.core.field.integer', 'teebb.core.field.float']
      * numeric 分组type, 'teebb.core.field.integer' Field Service id.
      *
@@ -122,6 +125,8 @@ interface EntityTypeInterface
     public function setFieldList(array $fieldList): void;
 
     /**
+     * @deprecated
+     *
      * 解析$fieldList,重组为twig字段选择select标签中可用的数据
      * @return array
      */
@@ -142,4 +147,11 @@ interface EntityTypeInterface
      * @return string
      */
     public function getEntityClass(): string;
+
+    /**
+     * 根据action名称获取route名称
+     * @param string $actionName
+     * @return string
+     */
+    public function getRouteName(string $actionName): string;
 }

@@ -1,0 +1,9 @@
+{#Custom form types widget#}
+
+{#字段别名widget#}
+{% block teebb_field_alias_widget %}
+    <div class="input-alias-wrapper form-inline">
+        <span class="mr-2">field_</span>
+        <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    </div>
+{% endblock %}

@@ -58,4 +58,9 @@ final class EntityTypeActions
      * 删除字段
      */
     public const DELETE_FIELD = 'delete_field';
+
+    /**
+     * 管理字段显示
+     */
+    public const DISPLAY_FIELD = 'display_field';
 }

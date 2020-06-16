@@ -1,7 +1,39 @@
 index: 管理
 create: 创建
-update: 更新
+update: 编辑
 delete: 删除
+add_field: 添加字段
+index_field: 管理字段
+display_field: 管理字段显示
+
+Select fields: 选择字段
+simple: 常规类型
+boolean: 布尔值
+datetime: 日期
+timestamp: 时间戳
+email: 邮件地址
+reference: 引用
+referenceUser: 用户
+referenceContent: 内容
+referenceFile: 文件
+referenceImage: 图像
+referenceTaxonomy: 分类
+numeric: 数值
+float: 浮点数
+decimal: 小数
+integer: 整数
+listInteger: 整数列表
+listFloat: 浮点数列表
+writing: 文本
+string: 文本
+stringFormat: 文本，已格工化
+text: 长文本
+textFormat: 长文本，已格式化
+textFormatSummary: 长文本，已格式化带摘要
+-Please select a field-: -请选择一个字段类型-
+
+Field label: 字段标题
+Field alias: 字段别名
 
 teebb:
     core:
@@ -10,3 +42,32 @@ teebb:
 
         help:
             types: 内容类型由不同的内容字段组成，字段可以是图像、文本、数字、标签或者其他。任意搭配字段生成您的内容类型。
+            taxonomy: 分类用于内容的分类。术语（term）由分类（taxonomy）进行组织。比如，一个叫做 "水果" 的分类可能会包含术语 "苹果" 和 "香蕉"。
+            add_fields: 不同的字段会在添加内容页面生成不同的表单行类型。选择已有的字段数据会存储在已有字段的数据表中，而不会生成新的数据库表。
+
+        fields:
+            add: 添加字段
+            index: 管理字段
+
+        form:
+            label: 标题
+            alias: 机读别名
+            alias_help: 唯一的机读内容类型名字。这个名字必须只能包含小写字母，数字和下划线，下划线不能出现在开头和结尾。此名字将用于生成添加内容页面的链接，在链接中下划线将被转换成连字符。
+            description: 描述
+            save: 保存
+            update: 更新
+            delete: 删除
+            save_add_field: 保存并添加字段
+            set_field: 确定并设置字段
+
+            fields:
+                field_label:
+                    help: 此字段的名称，用于添加内容时表单行的名称。
+                add_fields:
+                    help: 请选择您需要的字段类型，并设置字段的属性。
+
+            types:
+                label:
+                    help: 此内容类型的名称。此文本将显示于添加内容页面的列表中。此名称须唯一。
+                description:
+                    help: 简短的描述该内容类型的帮助信息，此信息只在内容类型列表页面显示。

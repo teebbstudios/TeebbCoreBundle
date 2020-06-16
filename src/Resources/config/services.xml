@@ -5,22 +5,9 @@
 >
     <services>
 
-        <service id="teebb.core.twig.trans_markup_extension"
-                 class="Teebb\CoreBundle\Twig\Extensions\TranslationMarkupExtension" public="true">
-            <argument type="service" id="translator.default"/>
-            <tag name="twig.extension"/>
-        </service>
-
         <service id="teebb.core.orm.doctrine_utils"
                  class="Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils" public="true">
             <argument type="service" id="doctrine"/>
-        </service>
-
-        <service id="teebb.core.command.init_database" class="Teebb\CoreBundle\Command\InitDatabaseCommand"
-                 public="true">
-            <argument type="service" id="teebb.core.orm.doctrine_utils"/>
-            <argument type="service" id="doctrine.orm.entity_manager"/>
-            <tag name="console.command" command="teebb:database:init"/>
         </service>
 
         <service id="teebb.core.template.registry" class="Teebb\CoreBundle\Templating\TemplateRegistry"
@@ -29,6 +16,12 @@
             <argument type="collection"/>
             <argument type="collection"/>
             <argument type="collection"/>
+        </service>
+
+        <service id="teebb.core.twig.trans_markup_extension"
+                 class="Teebb\CoreBundle\Twig\Extensions\TranslationMarkupExtension" public="true">
+            <argument type="service" id="translator.default"/>
+            <tag name="twig.extension"/>
         </service>
 
         <service id="teebb.core.twig.global" class="Teebb\CoreBundle\Twig\GlobalVariables" public="true">

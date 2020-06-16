@@ -55,6 +55,13 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('create')->defaultValue('@TeebbCore/types/form/_form.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
+                        ->arrayNode('fields')
+                        ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('select_fields')->defaultValue('@TeebbCore/fields/list/select_fields.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('list_fields')->defaultValue('@TeebbCore/fields/list/list_fields.html.twig')->cannotBeEmpty()->end()
+                            ->end()
+                        ->end()
                     ->end()
             ->end();
     }
@@ -88,7 +95,7 @@ class Configuration implements ConfigurationInterface
                                     ->defaultValue([])
                                     ->prototype('scalar')->end()
                                 ->end()
-                                ->scalarNode('sb-admin-2')->defaultValue('bundles/teebbcore/js/sb-admin-2.min.js')->cannotBeEmpty()->end()
+                                ->scalarNode('sb-admin-2')->defaultValue('bundles/teebbcore/js/sb-admin-2.js')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
 

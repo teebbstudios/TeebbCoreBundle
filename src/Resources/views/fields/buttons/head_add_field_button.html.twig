@@ -1,0 +1,13 @@
+{% set serviceId = app.request.get('_teebb_entity_type') %}
+{% set typeAlias = app.request.get('alias') %}
+
+{#Todo：还需要添加权限判断#}
+{% if entity_type.hasRoute(serviceId, 'add_field') %}
+
+    <a href="{{ entity_type.pathInfoGenerator.generate(entity_type.EntityTypeMetadata.type ~ '_add_field', {'alias':typeAlias}) }}"
+       class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-plus-circle fa-sm text-white-50 pr-2"></i>
+        {{ 'add_field'|trans }}
+    </a>
+
+{% endif %}

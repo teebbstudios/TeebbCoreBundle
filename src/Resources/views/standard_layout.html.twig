@@ -1,5 +1,8 @@
 {% set _head_actions = block('head_actions') is defined ? block('head_actions')|trim : null %}
-
+{#如果当前页面需要添加额外Assets库#}
+{% if extra_assets is defined %}
+    {{ teebb_core.templateRegistry.addExtraToStyleSheetsAndJavaScripts(extra_assets) }}
+{% endif %}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}">
 

@@ -8,6 +8,20 @@
             <argument type="service" id="form.factory"/>
             <argument type="service" id="form.registry"/>
         </service>
-    
+
+        <service id="teebb.core.form.add_fields_type" class="Teebb\CoreBundle\Form\Type\AddFieldsType">
+            <argument type="collection"/>
+            <argument type="service" id="service_container"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.form.field_alias" class="Teebb\CoreBundle\Form\Type\FieldAliasType">
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.validator.field_alias_unique" class="Teebb\CoreBundle\Validator\FieldAliasUniqueValidator">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <tag name="validator.constraint_validator"/>
+        </service>
     </services>
 </container>

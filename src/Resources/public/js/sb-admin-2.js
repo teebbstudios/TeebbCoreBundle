@@ -93,20 +93,18 @@
     // 机器别名的自动生成
     $(document).on('input', 'input[type=text].transliterate', function (e) {
         var inputValue = $(this).val();
-        var $parentAnchor = $(this).closest("div.form-row");
-
+        var $parentAnchor = $(this).closest("form");
         var alias = slugify(inputValue).replace(/-/ig, '_');
 
         /**
          * Todo: 此处要使用ajax判断alias是否唯一，如果不唯一则替换为服务器返回的唯一alias
          */
 
-
         $parentAnchor.find("span.text-alias").text(alias);
 
-        $parentAnchor.find("input[type=hidden].input-alias").val(alias);
+        $parentAnchor.find("input.input-alias").val(alias);
 
-        $parentAnchor.find("div.form-alias").removeClass('d-none');
+        $parentAnchor.find("a.js-modify-alias").removeClass('d-none');
 
     });
 
@@ -115,14 +113,11 @@
         e.preventDefault();
         e.stopPropagation();
 
-        var $parentAnchor = $(this).closest('div.form-alias');
-
-        $parentAnchor.removeClass('form-inline');
+        var $parentAnchor = $(this).closest('form');
 
         $parentAnchor.find('div.text-alias-wrapper').addClass('d-none');
         $parentAnchor.find('div.input-alias-wrapper').removeClass('d-none');
         $parentAnchor.find('input[type=hidden].input-alias').attr('type', 'text');
-        $parentAnchor.find('div.small.text-muted').removeClass('d-none');
 
     });
 

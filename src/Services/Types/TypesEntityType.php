@@ -32,15 +32,29 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *     form=@TypesForm(formRows={
  *          @FormRow(
  *              property="label",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
- *              options={"label"="abc", "required"=true}
+ *              options={
+ *                  "label"="teebb.core.form.label",
+ *                  "attr"={"class"="col-12 col-md-6 transliterate form-control-sm"},
+ *                  "help"="teebb.core.form.types.label.help"
+ *              }
  *          ),
  *          @FormRow(
- *              property="type",formType="Symfony\Component\Form\Extension\Core\Type\HiddenType",
- *              options={"label"="alias"}
+ *              property="alias",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
+ *              options={
+ *                  "label"="teebb.core.form.alias",
+ *                  "attr"={"class"="input-alias form-control form-control-sm col-12 col-md-6 form-control-sm"},
+ *                  "help"="teebb.core.form.alias_help"
+ *              }
  *          ),
  *          @FormRow(
  *              property="description",
- *              formType="Symfony\Component\Form\Extension\Core\Type\TextareaType"
+ *              formType="Symfony\Component\Form\Extension\Core\Type\TextareaType",
+ *              options={
+ *                  "label"="teebb.core.form.description",
+ *                  "attr"={"class"="form-control-sm w-100"},
+ *                  "help"="teebb.core.form.types.description.help",
+ *                  "required"=false
+ *              }
  *          ),
  *     })
  *

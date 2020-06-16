@@ -1,69 +1,25 @@
-{% extends '@TeebbCore/types/base_container.html.twig' %}
+{% extends '@TeebbCore/types/base_wrapper.html.twig' %}
 
 {% block content %}
-
     <!-- FULL WIDTH Content -->
     <div class="full-width-wrapper">
 
         {% block top_help %}
-        <!-- 添加类型提示 Card Example -->
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <i class="fas fa-info-circle"></i>
-            <span class="small text-muted">{% block top_help_message %}{% endblock %}</span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+            <!-- 提示 -->
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <i class="fas fa-info-circle"></i>
+                <span class="small text-muted">{% block top_help_message %}{% endblock %}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         {% endblock %}
 
-        <!-- 添加类型 -->
+        <!-- card body -->
         <div class="card shadow mb-4">
-
-            {% include '@TeebbCore/common/card_title.html.twig' with _context %}
-
-
+            {% include '@TeebbCore/types/common/card_title.html.twig' with _context %}
             <div class="card-body">
-                <div class="{{ action }}-{{ entity_type.EntityTypeMetadata.type }}-form">
-                    {{ form(form) }}
-                    <form action="#" method="post">
-                        <div class="form-row">
-                            <div class="col-12 col-md-6 mb-3">
-                                <label for="content_type_name">名称<sup class="text-danger">*</sup></label>
-                                <input type="text" id="content_type_name" name="" class="transliterate form-control form-control-sm" required="required">
-                                <div class="small mt-1 text-muted">此内容类型的名称。此文本将显示于添加内容页面的列表中。此名称必须唯一。</div>
-                            </div>
-                            <div class="col-12 mb-3 form-inline form-alias d-none">
-                                <label for="content_type_alias">机读名称<sup class="text-danger">*</sup></label>
-                                <div class="ml-2 text-alias-wrapper mb-2 mb-sm-0">
-                                    <span class="text-alias"></span>
-                                    <a class="js-modify-alias badge badge-secondary ml-2" href="#">编辑</a>
-                                </div>
-                                <div class="input-alias-wrapper d-none">
-                                    <input id="content_type_alias" type="hidden" name="" class="input-alias form-control form-control-sm" required="required">
-                                </div>
-                                <div class="small mt-1 text-muted d-none">唯一的机读内容类型名字。这个名字必须只能包含小写字母，数字和下划线。此名字将用于生成添加内容页面的链接，在链接中下划线将被转换成连字符。</div>
-                            </div>
-
-                            <div class="col-12 mb-3">
-                                <label for="content_type_description">描述</label>
-                                <textarea id="content_type_description" name="" class="content-type-description form-control form-control-sm w-100"></textarea>
-                                <div class="small mt-1 text-muted">简短的描述该内容类型的帮助信息，此信息只在内容类型列表页面显示。</div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-row">
-                            <div class="col-12">
-                                <a href="add-field.html" class="btn btn-primary btn-sm btn-icon-split">
-                                            <span class="icon text-white-50">
-                                              <i class="fas fa-arrow-right"></i>
-                                            </span>
-                                    <span class="text">保存并添加字段</span>
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                {% block form_widget %}{% endblock %}
             </div>
         </div>
 

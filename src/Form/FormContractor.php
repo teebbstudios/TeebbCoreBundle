@@ -10,6 +10,11 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 
+/**
+ * Class FormContractor
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
+ */
 class FormContractor implements FormContractorInterface
 {
     /**
@@ -52,6 +57,13 @@ class FormContractor implements FormContractorInterface
         $typeGuesser = $this->formRegistry->getTypeGuesser();
         /**@var FormRowMarkup $formRow * */
         foreach ($formRows as $formRow) {
+            if(!property_exists(new $entity, $formRow->getProperty()))
+            {
+                throw new \RuntimeException(
+                    sprintf('The property "%s" is not exist in "%s" when build form. Please check the FormRow annotation.',
+                    $formRow->getProperty(), $entity)
+                );
+            }
             $guessType = $typeGuesser->guessType($entity, $formRow->getProperty());
             $formBuilder->add($formRow->getProperty(), $formRow->getFormType() ?? $guessType, $formRow->getOptions());
         }

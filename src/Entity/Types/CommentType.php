@@ -12,23 +12,23 @@
 
 namespace Teebb\CoreBundle\Entity\Types;
 
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+
 use Gedmo\Translatable\Translatable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * 评论类型
  *
  * @ORM\Entity
  * @ORM\Table(name="teebb_comments")
+ * @Assert\EnableAutoMapping
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
 class CommentType implements Translatable
 {
-    use TimestampableEntity;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -38,7 +38,7 @@ class CommentType implements Translatable
 
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $label;
 

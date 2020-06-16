@@ -27,4 +27,5 @@ interface PathInfoGeneratorInterface
      * @return bool
      */
     public function hasRoute(string $serviceId, string $routeName): bool;
+
 }

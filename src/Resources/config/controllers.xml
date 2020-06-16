@@ -8,6 +8,8 @@
                  class="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController"
                  public="false">
             <argument type="service" id="teebb.core.template.registry"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="debug.event_dispatcher"/>
             <argument type="service" id="teebb.core.form.contractor"/>
             <tag name="controller.service_arguments"/>
             <call method="setContainer">

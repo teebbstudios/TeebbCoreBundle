@@ -52,7 +52,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
 
     /**
      * 所有字段的类型和Service Id数组，
-     *
+     * @deprecated
      * @var array
      */
     private $fieldList = [];
@@ -181,6 +181,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
     }
 
     /**
+     * @deprecated
      * @return array
      */
     public function getFieldList(): array
@@ -189,6 +190,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
     }
 
     /**
+     * @deprecated
      * @param array $fieldList
      */
     public function setFieldList(array $fieldList): void
@@ -197,6 +199,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
     }
 
     /**
+     * @deprecated
      * @inheritDoc
      */
     public function generateFieldListData(): array
@@ -254,5 +257,13 @@ abstract class AbstractEntityType implements EntityTypeInterface
     public function getEntityClass(): string
     {
         return $this->metadata->getEntity();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRouteName(string $name): string
+    {
+        return $this->metadata->getType() . '_' . $name;
     }
 }
