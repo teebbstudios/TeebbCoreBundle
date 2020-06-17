@@ -4,20 +4,8 @@
 namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 
 
-abstract class BaseItemConfiguration implements FieldItemDepartConfigurationInterface
+abstract class BaseItemConfiguration implements FieldDepartConfigurationInterface
 {
-    /**
-     * 字段的标题
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * 字段的机读别名
-     * @var string
-     */
-    protected $alias;
-
     /**
      * 字段的帮助文本
      * @var string
@@ -35,38 +23,6 @@ abstract class BaseItemConfiguration implements FieldItemDepartConfigurationInte
      * @var integer
      */
     protected $limit;
-
-    /**
-     * @return string
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    /**
-     * @param string $label
-     */
-    public function setLabel(string $label): void
-    {
-        $this->label = $label;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAlias(): string
-    {
-        return $this->alias;
-    }
-
-    /**
-     * @param string $alias
-     */
-    public function setAlias(string $alias): void
-    {
-        $this->alias = $alias;
-    }
 
     /**
      * @return string

@@ -1,5 +1,8 @@
 {% extends '@TeebbCore/fields/base_form.html.twig' %}
 
 {% block form_widget %}
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {% include '@TeebbCore/fields/buttons/form_update_field_button.html.twig' %}
+    {{ form_end(form) }}
 {% endblock %}

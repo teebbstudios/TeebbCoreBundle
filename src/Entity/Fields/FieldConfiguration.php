@@ -6,7 +6,7 @@ namespace Teebb\CoreBundle\Entity\Fields;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Teebb\CoreBundle\Entity\Fields\Configuration\FieldItemDepartConfigurationInterface;
+use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
 
 /**
  * 用于存储字段的设置信息
@@ -73,9 +73,9 @@ class FieldConfiguration
     /**
      * 分离不同类型的设置
      *
-     * @var FieldItemDepartConfigurationInterface
+     * @var FieldDepartConfigurationInterface
      *
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="object", nullable=true)
      */
     private $settings;
 
@@ -184,17 +184,17 @@ class FieldConfiguration
     }
 
     /**
-     * @return FieldItemDepartConfigurationInterface|null
+     * @return FieldDepartConfigurationInterface|null
      */
-    public function getSettings(): ?FieldItemDepartConfigurationInterface
+    public function getSettings(): ?FieldDepartConfigurationInterface
     {
         return $this->settings;
     }
 
     /**
-     * @param FieldItemDepartConfigurationInterface $settings
+     * @param FieldDepartConfigurationInterface $settings
      */
-    public function setSettings(FieldItemDepartConfigurationInterface $settings): void
+    public function setSettings(FieldDepartConfigurationInterface $settings): void
     {
         $this->settings = $settings;
     }

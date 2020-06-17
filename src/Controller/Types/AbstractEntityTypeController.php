@@ -375,10 +375,17 @@ class AbstractEntityTypeController extends AbstractController
         $fieldConfiguration = $this->fieldConfigurationRepository->findOneBy(['typeAlias' => $typeAlias, 'fieldAlias' => $fieldAlias]);
 
         $form = $this->createForm(FieldConfigurationType::class, $fieldConfiguration);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            dd($form->getData());
+        }
 
         return $this->render($this->templateRegistry->getTemplate('update_field', 'fields'), [
             'action' => 'update_field',
             'form' => $form->createView(),
+            'fieldConfig' => $fieldConfiguration
         ]);
 
     }

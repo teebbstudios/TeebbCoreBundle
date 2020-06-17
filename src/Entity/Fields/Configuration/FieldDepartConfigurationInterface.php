@@ -6,19 +6,14 @@ namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 /**
  * 分离不同字段的设置信息为单独的类
  */
-interface FieldItemDepartConfigurationInterface
+interface FieldDepartConfigurationInterface
 {
-    public function getType(): string;
-
     /**
+     * 获取$value字段doctrine mapping type
+     *
      * @return string
      */
-    public function getLabel(): string;
-
-    /**
-     * @param string $label
-     */
-    public function setLabel(string $label): void;
+    public function getType(): string;
 
     /**
      * @return string

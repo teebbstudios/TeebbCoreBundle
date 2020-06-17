@@ -18,7 +18,8 @@ framework:
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-
+        types:
+            field_depart_config: Teebb\CoreBundle\Doctrine\Type\FieldDepartConfigurationType
     orm:
         auto_generate_proxy_classes: true
         entity_managers:

@@ -5,7 +5,8 @@ delete: 删除
 add_field: 添加字段
 index_field: 管理字段
 display_field: 管理字段显示
-update_field: '更新%field%字段设置'
+update_field: '更新 %field% 字段设置'
+delete_field: '删除 %field% 字段设置'
 
 Select fields: 选择字段
 simple: 常规类型
@@ -49,17 +50,19 @@ teebb:
         fields:
             add: 添加字段
             index: 管理字段
-
+            configuration:
+                label_help: 该字段是在添加编辑对应内容时表单行的标签。
         form:
             label: 标题
             alias: 机读别名
-            alias_help: 唯一的机读内容类型名字。这个名字必须只能包含小写字母，数字和下划线，下划线不能出现在开头和结尾。此名字将用于生成添加内容页面的链接，在链接中下划线将被转换成连字符。
+            alias_help: 唯一的机读内容类型名字。这个名字必须只能包含小写字母，数字和下划线，下划线不能出现在开头和结尾。此名字将用于页面的链接，在链接中下划线将被转换成连字符。
             description: 描述
             save: 保存
             update: 更新
             delete: 删除
             save_add_field: 保存并添加字段
             set_field: 确定并设置字段
+            update_field: 更新字段
 
             fields:
                 field_label:

@@ -60,8 +60,7 @@ class FormContractor implements FormContractorInterface
     {
         $data = $formBuilder->getData();
         $typeGuesser = $this->formRegistry->getTypeGuesser();
-        $aliasKeyName = '';
-        /**@var FormRowMarkup $formRow * */
+        /**@var FormRowMarkup $formRow **/
         foreach ($formRows as $formRow) {
             if (!property_exists(new $entity, $formRow->getProperty())) {
                 throw new \RuntimeException(
@@ -71,10 +70,10 @@ class FormContractor implements FormContractorInterface
             }
 
             $guessType = $typeGuesser->guessType($entity, $formRow->getProperty());
+
             //当前为编辑表单时，如果修改别名行Type为AliasValueType
             if (null !== $data && $formRow->isAlias()) {
                 $type = AliasValueType::class;
-                $aliasKeyName = $formRow->getProperty();
             } else {
                 $type = $formRow->getFormType() ?? $guessType;
             }
@@ -82,18 +81,7 @@ class FormContractor implements FormContractorInterface
             $formBuilder->add($formRow->getProperty(), $type, $formRow->getOptions());
         }
 
-        //编辑表单alias别名行处理
-        $formBuilder->addEventListener(FormEvents::PRE_SUBMIT,
-            function (FormEvent $event) use ($data, $aliasKeyName) {
-                $submitData = $event->getData();
-                if ('' !== $aliasKeyName && null !== $data) {
-                    $submitData[$aliasKeyName] = $data->getAlias();
-                }
-                $event->setData($submitData);
-            }
-        );
-
-        //如果是创建页面，处理表单bundle行.
+        //如果是创建表单页面，处理表单bundle行 hidden input value.
         $formBuilder->addEventListener(FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($bundle) {
                 if (null == $event->getData()) {
