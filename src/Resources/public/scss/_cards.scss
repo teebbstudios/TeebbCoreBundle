@@ -50,6 +50,10 @@
         cursor: move;
       }
     }
+    .form-group .required::before{
+      content: '*';
+      color: red;
+    }
     .lite-row-height td{
       padding: 0.25rem;
     }

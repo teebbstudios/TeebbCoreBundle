@@ -24,11 +24,11 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *
  * @EntityType(
  *     label=@Translation(message="teebb.core.entity_type.taxonomy.label"),
- *     type="taxonomy",
+ *     bundle="taxonomy",
  *     description=@Translation(message="teebb.core.entity_type.taxonomy.description"),
- *     repository="Teebb\CoreBundle\Repository\Types\TaxonomyEntityTypeRepository",
+ *     repository="Teebb\CoreBundle\Repository\Types\EntityTypeRepository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
- *     entity="Teebb\CoreBundle\Entity\Types\TaxonomyType",
+ *     entity="Teebb\CoreBundle\Entity\Types\Types",
  *     form=@TypesForm(formRows={
  *          @FormRow(
  *              property="label",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
@@ -39,7 +39,11 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *              }
  *          ),
  *          @FormRow(
+ *              property="bundle",formType="Symfony\Component\Form\Extension\Core\Type\HiddenType"
+ *          ),
+ *          @FormRow(
  *              property="alias",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
+ *              isAlias=true,
  *              options={
  *                  "label"="teebb.core.form.alias",
  *                  "attr"={"class"="input-alias form-control form-control-sm col-12 col-md-6 form-control-sm"},

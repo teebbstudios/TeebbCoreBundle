@@ -60,13 +60,6 @@ interface EntityTypeInterface
     public function getEntityTypeMetadata(): EntityTypeMetadataInterface;
 
     /**
-     * 设置EntityType Repository
-     *
-     * @param RepositoryInterface $repository
-     */
-    public function setRepository(RepositoryInterface $repository): void;
-
-    /**
      * 获取Repository
      *
      * @return RepositoryInterface
@@ -107,32 +100,6 @@ interface EntityTypeInterface
     public function addField(FieldInterface $field): void;
 
     /**
-     * @deprecated
-     * 获取所有内置字段的分组信息
-     *
-     * @return array
-     */
-    public function getFieldList(): array;
-
-    /**
-     * @deprecated
-     *
-     * 设置所有内置字段的分组信息，例： numeric => ['teebb.core.field.integer', 'teebb.core.field.float']
-     * numeric 分组type, 'teebb.core.field.integer' Field Service id.
-     *
-     * @param array $fieldList
-     */
-    public function setFieldList(array $fieldList): void;
-
-    /**
-     * @deprecated
-     *
-     * 解析$fieldList,重组为twig字段选择select标签中可用的数据
-     * @return array
-     */
-    public function generateFieldListData(): array;
-
-    /**
      * 根据用户权限获取所有可用操作
      */
     public function getActionButtons(): array;
@@ -147,6 +114,12 @@ interface EntityTypeInterface
      * @return string
      */
     public function getEntityClass(): string;
+
+    /**
+     * 获取类型注释中的Bundle别名
+     * @return string
+     */
+    public function getBundle():string;
 
     /**
      * 根据action名称获取route名称

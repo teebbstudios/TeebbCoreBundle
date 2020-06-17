@@ -27,6 +27,12 @@ class FormRow
     public $property;
 
     /**
+     * 当前行是否为别名row
+     * @var bool
+     */
+    public $isAlias = false;
+
+    /**
      * 当前属性使用的FormType Class全类名
      * @var string
      */

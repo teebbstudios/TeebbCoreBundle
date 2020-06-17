@@ -34,7 +34,8 @@ interface FormContractorInterface
      * @param FormBuilderInterface $formBuilder
      * @param string $entity
      * @param FormRowMarkup[] $formRows
+     * @param string $bundle
      * @return FormInterface
      */
-    public function buildEntityTypeForm(FormBuilderInterface $formBuilder, string $entity, array $formRows): FormInterface;
+    public function buildEntityTypeForm(FormBuilderInterface $formBuilder, string $entity, array $formRows, string $bundle): FormInterface;
 }

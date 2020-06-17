@@ -6,14 +6,22 @@ teebb:
                 description: 创建、管理字段，表单，以及对您的内容进行一些设置。
 
             taxonomy:
-                label: Taxonomy Types
+                label: 分类
                 description: Create and manage fields, forms, and display settings for your taxonomy.
 
             comment:
-                label: Comment Types
+                label: 评论
                 description: Create and manage fields, forms, and display settings for your Comment.
+
+            create_success: '类型 %value% 创建成功'
+            update_success: '类型 %value% 更新成功'
+            delete_success: '类型 %value% 删除成功'
 
         field:
             integer:
                 label: 整数
                 description: 整数
+
+            create_success: '字段 %value% 创建成功'
+            update_success: '字段 %value% 更新成功'
+            delete_success: '字段 %value% 删除成功'

@@ -37,8 +37,6 @@ class RegisterServicesCompilePass implements CompilerPassInterface
 
     use AnnotationExtractorTrait;
 
-    use RegisterRepositoryTrait;
-
     use MetadataTrait;
     /**
      * @var Reader
@@ -106,13 +104,10 @@ class RegisterServicesCompilePass implements CompilerPassInterface
             $definition->setArgument(0, new Reference('teebb.core.route.types_builder'));
             $definition->setArgument(1, new Reference('service_container'));
             $definition->setArgument(2, new Reference('teebb.core.route.path_info_generator'));
+            $definition->setArgument(3, new Reference('doctrine.orm.default_entity_manager'));
 
             $metadataDefinition = $this->createEntityTypeMetadataDefinition($reflectionClass, $annotation);
             $definition->addMethodCall('setEntityTypeMetadata', [$metadataDefinition]);
-
-            //添加EntityTypeRepository service到容器
-            $this->addRepository($annotation, $container);
-            $definition->addMethodCall('setRepository', [new Reference($annotation->repository)]);
 
             $container->setDefinition($id, $definition);
             $container->setAlias($entityTypeServiceReflectionClass->getName(), new Alias($id, true));

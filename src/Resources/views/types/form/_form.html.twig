@@ -1,9 +1,9 @@
 {% extends '@TeebbCore/types/base_form.html.twig' %}
 
-{% block top_help_message %}{{ ['teebb.core.help.', entity_type.EntityTypeMetadata.type]|join|trans }}{% endblock %}
+{% block top_help_message %}{{ ['teebb.core.help.', entity_type.EntityTypeMetadata.bundle]|join|trans }}{% endblock %}
 
 {% block form_widget %}
-    <div class="{{ action }}-{{ entity_type.EntityTypeMetadata.type }}-form">
+    <div class="{{ action }}-{{ entity_type.EntityTypeMetadata.bundle }}-form">
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {% include '@TeebbCore/types/buttons/form_submit_button.html.twig' with {'action':action} %}

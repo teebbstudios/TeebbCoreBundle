@@ -2,6 +2,6 @@
 
 {#Todo：还需要添加权限判断, 需要自定义action，#}
 {% if entity_type.hasRoute(serviceId, 'create') %}
-    <a class="dropdown-item" href="{{ entity_type.pathInfoGenerator.generate(entity_type.EntityTypeMetadata.type ~ '_create') }}">
+    <a class="dropdown-item" href="{{ entity_type.pathInfoGenerator.generate(entity_type.EntityTypeMetadata.bundle ~ '_create') }}">
         <i class="fa fa-plus-circle text-gray-500 pr-2"></i>{{ 'create'|trans }}{{ trans_markup(label) }}</a>
 {% endif %}

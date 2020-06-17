@@ -5,7 +5,7 @@ namespace Teebb\CoreBundle\Repository;
 
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityRepository as BaseEntityReository;
+use Doctrine\ORM\EntityRepository as BaseEntityRepository;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
@@ -15,12 +15,12 @@ use Doctrine\ORM\OptimisticLockException;
 /**
  * Class EntityRepository
  */
-class EntityRepository extends BaseEntityReository implements RepositoryInterface
+class EntityRepository extends BaseEntityRepository implements RepositoryInterface
 {
     /**
      * @param object $object
-     * @throws ORMException
      * @throws OptimisticLockException
+     * @throws ORMException
      */
     public function save(object $object): void
     {

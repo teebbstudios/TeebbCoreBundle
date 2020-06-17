@@ -24,7 +24,7 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
 {
     private $label;
 
-    private $type;
+    private $bundle;
 
     private $description;
 
@@ -38,11 +38,11 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
 
     private $formSettings;
 
-    public function __construct(TranslatableMarkup $label, string $type, TranslatableMarkup $description,
+    public function __construct(TranslatableMarkup $label, string $bundle, TranslatableMarkup $description,
                                 string $controller, string $repository, string $entity, string $service, array $formSettings)
     {
         $this->label = $label;
-        $this->type = $type;
+        $this->bundle = $bundle;
         $this->description = $description;
         $this->controller = $controller;
         $this->repository = $repository;
@@ -62,9 +62,9 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
     /**
      * @inheritDoc
      */
-    public function getType(): string
+    public function getBundle(): string
     {
-        return $this->type;
+        return $this->bundle;
     }
 
     /**

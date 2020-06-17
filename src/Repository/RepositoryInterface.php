@@ -4,7 +4,9 @@
 namespace Teebb\CoreBundle\Repository;
 
 
-interface RepositoryInterface
+use Doctrine\Persistence\ObjectRepository;
+
+interface RepositoryInterface extends ObjectRepository
 {
     public const ORDER_ASCENDING = 'ASC';
 

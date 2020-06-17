@@ -20,15 +20,15 @@ use Teebb\CoreBundle\Annotation\Translation;
 use Teebb\CoreBundle\Annotation\TypesForm;
 
 /**
- * Class TypesEntityType 内容类型
+ * Class ContentEntityType 内容类型
  *
  * @EntityType(
  *     label=@Translation(message="teebb.core.entity_type.content.label"),
- *     type="types",
+ *     bundle="types",
  *     description=@Translation(message="teebb.core.entity_type.content.description"),
- *     repository="Teebb\CoreBundle\Repository\Types\TypesEntityTypeRepository",
+ *     repository="Teebb\CoreBundle\Repository\Types\EntityTypeRepository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
- *     entity="Teebb\CoreBundle\Entity\Types\ContentType",
+ *     entity="Teebb\CoreBundle\Entity\Types\Types",
  *     form=@TypesForm(formRows={
  *          @FormRow(
  *              property="label",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
@@ -39,7 +39,11 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *              }
  *          ),
  *          @FormRow(
+ *              property="bundle",formType="Symfony\Component\Form\Extension\Core\Type\HiddenType"
+ *          ),
+ *          @FormRow(
  *              property="alias",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
+ *              isAlias=true,
  *              options={
  *                  "label"="teebb.core.form.alias",
  *                  "attr"={"class"="input-alias form-control form-control-sm col-12 col-md-6 form-control-sm"},
@@ -60,7 +64,7 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *
  * )
  */
-class TypesEntityType extends AbstractEntityType
+class ContentEntityType extends AbstractEntityType
 {
 
 }

@@ -20,15 +20,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * 内容类型Entity. 删除内容类型删除所有字段和所有字段表
+ * 类型Entity. 删除类型删除所有字段和所有字段表
  *
- * @ORM\Entity
- * @ORM\Table(name="teebb_types")
+ * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Types\EntityTypeRepository")
+ * @ORM\Table(name="types")
  * @Assert\EnableAutoMapping
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class ContentType implements Translatable
+class Types implements TypeInterface, Translatable
 {
     /**
      * @ORM\Id()
@@ -38,22 +38,29 @@ class ContentType implements Translatable
     private $id;
 
     /**
+     * 类型bundle, 比如："types", "taxonomy"，"comment"
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $bundle;
+
+    /**
      * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
-    private $label;
+    protected $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      * @Assert\Regex("/^(?!_)(?!.*?_$)[a-zA-Z0-9_]+$/")
      */
-    private $alias;
+    protected $alias;
 
     /**
      * @Gedmo\Translatable
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    protected $description;
 
     /**
      * @Gedmo\Locale
@@ -67,6 +74,22 @@ class ContentType implements Translatable
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBundle(): ?string
+    {
+        return $this->bundle;
+    }
+
+    /**
+     * @param string $bundle
+     */
+    public function setBundle(string $bundle): void
+    {
+        $this->bundle = $bundle;
     }
 
     /**

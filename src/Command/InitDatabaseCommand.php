@@ -13,9 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Entity\Types\CommentType;
-use Teebb\CoreBundle\Entity\Types\ContentType;
-use Teebb\CoreBundle\Entity\Types\TaxonomyType;
+use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
  * 初始化Schemas
@@ -97,9 +95,7 @@ class InitDatabaseCommand extends Command
     private function getMappedClasses(): array
     {
         return [
-            ContentType::class,
-            TaxonomyType::class,
-            CommentType::class,
+            Types::class,
             Translation::class,
             FieldConfiguration::class,
         ];
@@ -107,13 +103,15 @@ class InitDatabaseCommand extends Command
 
     private function initEntityTypes(){
 
-        $articleType = new ContentType();
+        $articleType = new Types();
+        $articleType->setBundle('types');
         $articleType->setLabel('Article');
         $articleType->setAlias('article');
         $articleType->setDescription('Use articles to post content about time, such as news, news or logs.');
         $articleType->setTranslatableLocale('en_US');
 
-        $pageType = new ContentType();
+        $pageType = new Types();
+        $pageType->setBundle('types');
         $pageType->setLabel('Page');
         $pageType->setAlias('page');
         $pageType->setDescription('Use basic pages for your static content, such as the "About Us" page.');
@@ -127,7 +125,7 @@ class InitDatabaseCommand extends Command
 
     private function updateEntityTypesTranslation()
     {
-        $typesRepo = $this->em->getRepository(ContentType::class);
+        $typesRepo = $this->em->getRepository(Types::class);
 
         $articleType = $typesRepo->findOneBy(['alias' => 'article']);
         $articleType->setLabel('文章');

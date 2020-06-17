@@ -27,7 +27,7 @@ trait MetadataTrait
     {
         return new Definition(EntityTypeMetadata::class, [
             $this->createTranslatableMarkupDefinition($annotation->label),
-            $annotation->type,
+            $annotation->bundle,
             $this->createTranslatableMarkupDefinition($annotation->description),
             $annotation->controller,
             $annotation->repository,
@@ -73,11 +73,7 @@ trait MetadataTrait
         $formRowMarkupDefinitions = [];
         /**@var FormRow $formRow * */
         foreach ($typesForm->formRows as $formRow) {
-            $formRowMarkupDefinitions[] = new Definition(FormRowMarkup::class, [
-                $formRow->property,
-                $formRow->formType,
-                $formRow->options
-            ]);
+            $formRowMarkupDefinitions[] = $this->createEntityTypeFormMarkup($formRow);
         }
         return $formRowMarkupDefinitions;
     }
@@ -91,6 +87,7 @@ trait MetadataTrait
     {
         return new Definition(FormRowMarkup::class, [
             $formRow->property,
+            $formRow->isAlias,
             $formRow->formType,
             $formRow->options
         ]);

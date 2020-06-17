@@ -30,11 +30,11 @@ interface EntityTypeMetadataInterface
     public function getLabel(): TranslatableMarkup;
 
     /**
-     * 获取EntityType别名用于Route路径
+     * 获取EntityType Bundle别名用于Route路径
      *
      * @return string
      */
-    public function getType(): string;
+    public function getBundle(): string;
 
     /**
      * 获取EntityType描述

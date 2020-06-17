@@ -16,6 +16,11 @@ class FormRowMarkup
     private $property;
 
     /**
+     * @var bool
+     */
+    private $isAlias;
+
+    /**
      * @var string
      */
     private $formType;
@@ -25,9 +30,10 @@ class FormRowMarkup
      */
     private $options;
 
-    public function __construct(string $property, string $formType, ?array $options)
+    public function __construct(string $property,bool $isAlias, string $formType, ?array $options)
     {
         $this->property = $property;
+        $this->isAlias = $isAlias;
         $this->formType = $formType;
         $this->options = $options;
     }
@@ -38,6 +44,14 @@ class FormRowMarkup
     public function getProperty(): string
     {
         return $this->property;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAlias(): bool
+    {
+        return $this->isAlias;
     }
 
     /**

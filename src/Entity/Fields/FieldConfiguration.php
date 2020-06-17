@@ -30,7 +30,7 @@ class FieldConfiguration
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $type;
+    private $bundle;
 
     /**
      * 内容实体类型Entity的别名。比如文章"article"，"page"
@@ -90,17 +90,17 @@ class FieldConfiguration
     /**
      * @return string|null
      */
-    public function getType(): ?string
+    public function getBundle(): ?string
     {
-        return $this->type;
+        return $this->bundle;
     }
 
     /**
-     * @param string $type
+     * @param string $bundle
      */
-    public function setType(string $type): void
+    public function setBundle(string $bundle): void
     {
-        $this->type = $type;
+        $this->bundle = $bundle;
     }
 
     /**

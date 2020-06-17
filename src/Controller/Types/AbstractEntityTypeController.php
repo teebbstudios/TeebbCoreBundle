@@ -17,13 +17,16 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Entity\Types\ContentType;
-use Teebb\CoreBundle\Event\AliasTransformEvent;
+use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\AddFieldsType;
+use Teebb\CoreBundle\Form\Type\FieldConfigurationType;
+use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,6 +66,16 @@ class AbstractEntityTypeController extends AbstractController
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+
+    /**
+     * @var FieldConfigurationRepository
+     */
+    private $fieldConfigurationRepository;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
     public function __construct(TemplateRegistry $templateRegistry, EntityManagerInterface $entityManager,
                                 EventDispatcherInterface $dispatcher,
@@ -123,6 +136,10 @@ class AbstractEntityTypeController extends AbstractController
         //将此entityTypeService添加到twig全局变量
         $twig = $this->container->get('twig');
         $twig->addGlobal('entity_type', $this->entityTypeService);
+
+        $this->fieldConfigurationRepository = $this->getFieldConfigurationRepository();
+
+        $this->translator = $this->container->get('translator');
     }
 
     /**
@@ -155,7 +172,7 @@ class AbstractEntityTypeController extends AbstractController
         /**
          * @var Pagerfanta $paginator
          */
-        $paginator = $this->entityTypeRepository->createPaginator();
+        $paginator = $this->entityTypeRepository->createPaginator(['bundle' => $this->entityTypeService->getBundle()]);
         $paginator->setCurrentPage($page);
 
         return $this->render($this->templateRegistry->getTemplate('list', 'types'), [
@@ -181,16 +198,20 @@ class AbstractEntityTypeController extends AbstractController
         $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, null, ['data_class' => $entityClass]);
 
         $form = $this->formContractor->buildEntityTypeForm($formBuilder, $entityClass,
-            $this->entityTypeService->getEntityTypeMetadata()->getFormSettings());
+            $this->entityTypeService->getEntityTypeMetadata()->getFormSettings(), $this->entityTypeService->getBundle());
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /**@var ContentType $data * */
+            /**@var Types $data * */
             $data = $form->getData();
 
             $repository = $this->entityTypeService->getRepository();
             $repository->save($data);
+
+            $this->addFlash('success', $this->translator->trans(
+                'teebb.core.entity_type.create_success', ['%value%' => $data->getLabel()], 'TeebbCoreBundle'
+            ));
 
             //添加完类型，跳转到添加字段页面
             return $this->redirectToRoute($this->entityTypeService->getRouteName('add_field'), [
@@ -208,6 +229,54 @@ class AbstractEntityTypeController extends AbstractController
     }
 
     /**
+     * 更新内容类型
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function updateAction(Request $request)
+    {
+        $typeAlias = $this->aliasToMachine($request->get('alias'));
+
+        $entityTypeRepo = $this->entityTypeService->getRepository();
+
+        $entityType = $entityTypeRepo->findOneBy(['alias' => $typeAlias]);
+
+        $entityClass = $this->entityTypeService->getEntityClass();
+
+        $formName = $request->get('_route');
+        $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, $entityType, ['data_class' => $entityClass]);
+
+        $form = $this->formContractor->buildEntityTypeForm($formBuilder, $entityClass,
+            $this->entityTypeService->getEntityTypeMetadata()->getFormSettings(), $this->entityTypeService->getBundle());
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $entityTypeRepo->save($data);
+
+            $this->addFlash('success', $this->translator->trans(
+                'teebb.core.entity_type.update_success', ['%value%' => $data->getLabel()], 'TeebbCoreBundle'
+            ));
+
+            //添加完类型，跳转到列表页面
+            return $this->redirectToRoute($this->entityTypeService->getRouteName('index'), [
+                'alias' => $this->aliasToNormal($data->getAlias())
+            ]);
+        }
+
+        return $this->render($this->templateRegistry->getTemplate('update', 'types'), [
+            'label' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
+            'action' => $request->get('_teebb_action'),
+            'buttons' => $this->entityTypeService->getActionButtons(),
+            'form' => $form->createView(),
+            'extra_assets' => ['transliteration'], //当前页面需要额外添加的assets库
+        ]);
+
+    }
+
+    /**
      * 添加字段
      *
      * @param Request $request
@@ -217,7 +286,12 @@ class AbstractEntityTypeController extends AbstractController
     {
         $typeAlias = $this->aliasToMachine($request->get('alias'));
 
-        $type = $this->entityTypeService->getEntityTypeMetadata()->getType();
+        //检测URL中类型实体Types是否存在，如果不存在404
+        if (null === $this->entityTypeService->getRepository()->findOneBy(['alias' => $typeAlias])) {
+            throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('alias')));
+        }
+
+        $bundle = $this->entityTypeService->getEntityTypeMetadata()->getBundle();
 
         $form = $this->createForm(AddFieldsType::class);
         $form->handleRequest($request);
@@ -229,7 +303,7 @@ class AbstractEntityTypeController extends AbstractController
             $fieldAlias = $data['field_alias'];
 
             $fieldConfiguration = new FieldConfiguration();
-            $fieldConfiguration->setType($type);
+            $fieldConfiguration->setBundle($bundle);
             $fieldConfiguration->setTypeAlias($typeAlias);
             $fieldConfiguration->setFieldLabel($fieldLabel);
             $fieldConfiguration->setFieldAlias($fieldAlias);
@@ -238,6 +312,10 @@ class AbstractEntityTypeController extends AbstractController
 
             $this->entityManager->persist($fieldConfiguration);
             $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans(
+                'teebb.core.field.create_success', ['%value%' => $fieldLabel], 'TeebbCoreBundle'
+            ));
 
             return $this->redirectToRoute(
                 $this->entityTypeService->getRouteName('update_field'), [
@@ -264,8 +342,12 @@ class AbstractEntityTypeController extends AbstractController
     {
         $typeAlias = $this->aliasToMachine($request->get('alias'));
 
-        $fieldConfigurationRepo = $this->entityManager->getRepository(FieldConfiguration::class);
-        $fieldConfigurations = $fieldConfigurationRepo->getBySortableGroupsQuery(['typeAlias' => $typeAlias])->getResult();
+        //检测URL中类型实体Types是否存在，如果不存在404
+        if (null === $this->entityTypeService->getRepository()->findOneBy(['alias' => $typeAlias])) {
+            throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('alias')));
+        }
+
+        $fieldConfigurations = $this->fieldConfigurationRepository->getBySortableGroupsQuery(['typeAlias' => $typeAlias])->getResult();
 
         return $this->render($this->templateRegistry->getTemplate('list_fields', 'fields'), [
             'fields' => $fieldConfigurations,
@@ -285,13 +367,31 @@ class AbstractEntityTypeController extends AbstractController
         $typeAlias = $this->aliasToMachine($request->get('alias'));
         $fieldAlias = $this->aliasToMachine($request->get('fieldAlias'));
 
-        $fieldConfigurationRepo = $this->entityManager->getRepository(FieldConfiguration::class);
-        $fieldConfiguration = $fieldConfigurationRepo->findOneBy(['typeAlias' => $typeAlias, 'fieldAlias' => $fieldAlias]);
+        //检测URL中类型实体Types是否存在，如果不存在404
+        if (null === $this->entityTypeService->getRepository()->findOneBy(['alias' => $typeAlias])) {
+            throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('alias')));
+        }
 
-//        $fieldConfigurationForm = $this->createForm();
-        dd($fieldConfiguration);
+        $fieldConfiguration = $this->fieldConfigurationRepository->findOneBy(['typeAlias' => $typeAlias, 'fieldAlias' => $fieldAlias]);
+
+        $form = $this->createForm(FieldConfigurationType::class, $fieldConfiguration);
+
+        return $this->render($this->templateRegistry->getTemplate('update_field', 'fields'), [
+            'action' => 'update_field',
+            'form' => $form->createView(),
+        ]);
+
     }
 
+    /**
+     * 获取字段配置Repository
+     *
+     * @return FieldConfigurationRepository
+     */
+    private function getFieldConfigurationRepository()
+    {
+        return $this->entityManager->getRepository(FieldConfiguration::class);
+    }
 
     /**
      * 机读别名下划线转成连字符

@@ -5,6 +5,7 @@ delete: 删除
 add_field: 添加字段
 index_field: 管理字段
 display_field: 管理字段显示
+update_field: '更新%field%字段设置'
 
 Select fields: 选择字段
 simple: 常规类型
@@ -68,6 +69,6 @@ teebb:
 
             types:
                 label:
-                    help: 此内容类型的名称。此文本将显示于添加内容页面的列表中。此名称须唯一。
+                    help: 此类型的名称。此文本将显示于添加内容页面的列表中。此名称须唯一。
                 description:
-                    help: 简短的描述该内容类型的帮助信息，此信息只在内容类型列表页面显示。
+                    help: 简短的描述该类型的帮助信息，此信息只在类型列表页面显示。

@@ -486,6 +486,10 @@
                         </div>
                     {% endblock %}
 
+                    {% block flash_message %}
+                        {% include '@TeebbCore/flash_messages.html.twig' %}
+                    {% endblock %}
+
                     {% block content %}
                     {% endblock %}
                 </div>

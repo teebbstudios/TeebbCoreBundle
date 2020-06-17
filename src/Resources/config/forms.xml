@@ -19,6 +19,10 @@
             <tag name="form.type"/>
         </service>
 
+        <service id="teebb.core.form.alias_value" class="Teebb\CoreBundle\Form\Type\AliasValueType">
+            <tag name="form.type"/>
+        </service>
+
         <service id="teebb.core.validator.field_alias_unique" class="Teebb\CoreBundle\Validator\FieldAliasUniqueValidator">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <tag name="validator.constraint_validator"/>

@@ -13,12 +13,12 @@
 namespace Teebb\CoreBundle\AbstractService;
 
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
-use Teebb\CoreBundle\Route\PathInfoGenerator;
 use Teebb\CoreBundle\Route\PathInfoGeneratorInterface;
 
 /**
@@ -46,18 +46,6 @@ abstract class AbstractEntityType implements EntityTypeInterface
     private $pathBuilder;
 
     /**
-     * @var RepositoryInterface
-     */
-    private $entityTypeRepository;
-
-    /**
-     * 所有字段的类型和Service Id数组，
-     * @deprecated
-     * @var array
-     */
-    private $fieldList = [];
-
-    /**
      * @var ContainerInterface
      */
     private $container;
@@ -67,12 +55,18 @@ abstract class AbstractEntityType implements EntityTypeInterface
      */
     private $pathInfoGenerator;
 
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
     public function __construct(EntityTypePathBuilder $pathBuilder, ContainerInterface $container,
-                                PathInfoGeneratorInterface $pathInfoGenerator)
+                                PathInfoGeneratorInterface $pathInfoGenerator, EntityManagerInterface $entityManager)
     {
         $this->pathBuilder = $pathBuilder;
         $this->container = $container;
         $this->pathInfoGenerator = $pathInfoGenerator;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -94,17 +88,9 @@ abstract class AbstractEntityType implements EntityTypeInterface
     /**
      * @inheritDoc
      */
-    public function setRepository(RepositoryInterface $repository): void
-    {
-        $this->entityTypeRepository = $repository;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getRepository(): RepositoryInterface
     {
-        return $this->entityTypeRepository;
+        return $this->entityManager->getRepository($this->getEntityClass());
     }
 
     /**
@@ -139,7 +125,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
      */
     public function hasRoute(string $serviceId, string $name): bool
     {
-        $routeName = $this->metadata->getType() . '_' . $name;
+        $routeName = $this->metadata->getBundle() . '_' . $name;
 
         return $this->pathInfoGenerator->hasRoute($serviceId, $routeName);
     }
@@ -181,56 +167,6 @@ abstract class AbstractEntityType implements EntityTypeInterface
     }
 
     /**
-     * @deprecated
-     * @return array
-     */
-    public function getFieldList(): array
-    {
-        return $this->fieldList;
-    }
-
-    /**
-     * @deprecated
-     * @param array $fieldList
-     */
-    public function setFieldList(array $fieldList): void
-    {
-        $this->fieldList = $fieldList;
-    }
-
-    /**
-     * @deprecated
-     * @inheritDoc
-     */
-    public function generateFieldListData(): array
-    {
-        if (empty($this->fieldList)) {
-            throw new \RuntimeException(sprintf('The service "%s" property "fieldList" cannot be empty.', get_class($this)));
-        }
-
-        $allFieldInfo = [];
-
-        foreach ($this->fieldList as $type => $fieldServices) {
-            foreach ($fieldServices as $fieldService) {
-
-                /** @var FieldInterface $field * */
-                $field = $this->container->get($fieldService);
-                $fieldMetadata = $field->getFieldMetadata();
-
-                $allFieldInfo[$type][] = [
-                    'id' => $fieldMetadata->getId(),
-                    'label' => $fieldMetadata->getLabel(),
-                    'description' => $fieldMetadata->getDescription(),
-                    'category' => $fieldMetadata->getCategory()
-                ];
-
-            }
-        }
-
-        return $allFieldInfo;
-    }
-
-    /**
      * @return array
      * @todo 需要根据权限判断当前用户可用Actions
      */
@@ -262,8 +198,16 @@ abstract class AbstractEntityType implements EntityTypeInterface
     /**
      * @inheritDoc
      */
+    public function getBundle(): string
+    {
+        return $this->metadata->getBundle();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getRouteName(string $name): string
     {
-        return $this->metadata->getType() . '_' . $name;
+        return $this->metadata->getBundle() . '_' . $name;
     }
 }

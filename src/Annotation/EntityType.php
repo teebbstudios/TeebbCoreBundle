@@ -34,11 +34,11 @@ class EntityType implements TeebbAnnotationInterface
     public $label;
 
     /**
-     * 内容实体类型别名用于URL构建
+     * 内容实体类型bundle别名用于URL构建
      *
      * @var string
      */
-    public $type;
+    public $bundle;
 
     /**
      * 简短描述内容实体类型
