@@ -16,7 +16,8 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     description=@Translation(message="teebb.core.field.decimal.description"),
  *     type="numeric",
  *     category=@Translation(message="teebb.core.field.category.numeric"),
- *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem"
+ *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem",
+ *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\DecimalItemConfigurationType"
  * )
  */
 class DecimalField extends AbstractField

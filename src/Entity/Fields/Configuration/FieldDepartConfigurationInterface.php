@@ -11,14 +11,14 @@ interface FieldDepartConfigurationInterface
     /**
      * 获取$value字段doctrine mapping type
      *
-     * @return string
+     * @return string|null
      */
-    public function getType(): string;
+    public function getType(): ?string;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string;
+    public function getDescription(): ?string;
 
     /**
      * @param string $description

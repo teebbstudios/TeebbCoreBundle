@@ -154,7 +154,7 @@ class RegisterServicesCompilePass implements CompilerPassInterface
             $definition->setAutowired(true);
             $definition->setPublic(true);
 
-            $metadataDefinition = $this->createFieldTypeMetadataDefinition($reflectionClass, $annotation);
+            $metadataDefinition = $this->createFieldTypeMetadataDefinition($annotation);
             $definition->addMethodCall('setFieldMetadata', [$metadataDefinition]);
 
             $container->setDefinition($id, $definition);

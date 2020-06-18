@@ -16,18 +16,18 @@ abstract class BaseItemConfiguration implements FieldDepartConfigurationInterfac
      * 字段是否为必填
      * @var boolean
      */
-    protected $required;
+    protected $required = false;
 
     /**
      * 字段数量，如果为-1则表示不限制
      * @var integer
      */
-    protected $limit;
+    protected $limit = 1;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

@@ -44,9 +44,9 @@ class FloatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getMin(): float
+    public function getMin(): ?float
     {
         return $this->min;
     }
@@ -60,9 +60,9 @@ class FloatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getMax(): float
+    public function getMax(): ?float
     {
         return $this->max;
     }
@@ -76,9 +76,9 @@ class FloatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPrefix(): string
+    public function getPrefix(): ?string
     {
         return $this->prefix;
     }
@@ -92,9 +92,9 @@ class FloatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSuffix(): string
+    public function getSuffix(): ?string
     {
         return $this->suffix;
     }

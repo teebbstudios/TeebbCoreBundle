@@ -42,7 +42,7 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *              property="bundle",formType="Symfony\Component\Form\Extension\Core\Type\HiddenType"
  *          ),
  *          @FormRow(
- *              property="alias",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
+ *              property="typeAlias",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
  *              isAlias=true,
  *              options={
  *                  "label"="teebb.core.form.alias",

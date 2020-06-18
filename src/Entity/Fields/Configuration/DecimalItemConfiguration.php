@@ -58,9 +58,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getPrecision(): int
+    public function getPrecision(): ?int
     {
         return $this->precision;
     }
@@ -74,9 +74,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getScale(): int
+    public function getScale(): ?int
     {
         return $this->scale;
     }
@@ -90,9 +90,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getMin(): float
+    public function getMin(): ?float
     {
         return $this->min;
     }
@@ -106,9 +106,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getMax(): float
+    public function getMax(): ?float
     {
         return $this->max;
     }
@@ -122,9 +122,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPrefix(): string
+    public function getPrefix(): ?string
     {
         return $this->prefix;
     }
@@ -138,9 +138,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSuffix(): string
+    public function getSuffix(): ?string
     {
         return $this->suffix;
     }

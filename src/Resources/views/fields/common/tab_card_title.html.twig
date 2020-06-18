@@ -2,20 +2,23 @@
 {#Todo: 每个li 需要权限判断#}
 
 {% set bundle = entity_type.EntityTypeMetadata.bundle %}
-{% set typeAlias = app.request.get('alias') %}
+{% set typeAlias = app.request.get('typeAlias') %}
 
 <div class="card-header d-flex flex-row align-items-center justify-content-between">
     <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
             <a class="nav-link small"
-               href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_update', {'alias': typeAlias}) }}">{{ 'update'|trans }}{{ trans_markup(entity_type.EntityTypeMetadata.label) }}</a>
+               href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_update', {'typeAlias': typeAlias}) }}">
+                {{ 'update'|trans }}{{ trans_markup(entity_type.EntityTypeMetadata.label) }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link active small"
-               href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_index_field', {'alias':typeAlias}) }}">{{ action|trans }}</a>
+               href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_index_field', {'typeAlias':typeAlias}) }}">
+                {{ action|trans }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link small" href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_display_field', {'alias':typeAlias}) }}">{{ 'display_field'|trans }}</a>
+            <a class="nav-link small" href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_display_field', {'typeAlias':typeAlias}) }}">
+                {{ 'display_field'|trans }}</a>
         </li>
     </ul>
 </div>

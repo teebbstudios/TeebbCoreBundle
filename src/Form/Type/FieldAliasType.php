@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * 字段别名Type
+ * 字段机读别名Type，可自动生成别名
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */

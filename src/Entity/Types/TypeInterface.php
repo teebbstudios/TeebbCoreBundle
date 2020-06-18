@@ -31,10 +31,10 @@ interface TypeInterface
     /**
      * @return string|null
      */
-    public function getAlias(): ?string;
+    public function getTypeAlias(): ?string;
 
     /**
-     * @param string $alias
+     * @param string $typeAlias
      */
-    public function setAlias(string $alias): void;
+    public function setTypeAlias(string $typeAlias): void;
 }

@@ -51,7 +51,32 @@ teebb:
             add: 添加字段
             index: 管理字段
             configuration:
+                settings: 字段设置：
                 label_help: 该字段是在添加编辑对应内容时表单行的标签。
+                limit_help: 该字段显示在添加编辑内容页面字段的数量,如果值为0则表示不限制。
+                description: 字段描述
+                description_help: 该字段在添加编辑内容时表单行的帮助文本。
+                limit: 数量限制
+                require: 是否必填
+                on_label: 布尔值为真时显示的标签
+                off_label: 布尔值为真时显示的标签
+                precision: 精度
+                precision_help: 在数据库中存储的数字的总位数，包括小数点右边的位数，该值最小为2。
+                scale: 小数点后保留位数
+                scale_help: 小数点后面的位数,该值最小为0。
+                min: 最小值
+                min_help: 此字段允许的最小值。无最小值留空。
+                max: 最大值
+                max_help: 此字段中允许的最大值。无最大值留空。
+                prefix: 前缀
+                prefix_help: 定义一个字符串作为值的前缀，例如 '$'。
+                suffix: 后缀
+                suffix_help: 定义一个作为该值的后缀的字符串，如“m”，“kb/s”。
+                list_float_allow_values: 浮点数列表允许的键值
+                list_float_allow_values_help: 每行输入一个键值对，形如：标签|键，示例：123.1|123.1。"键"值将进行类型转换，请输入正确的格式及数值类型。在添加编辑内容页面，"标签"用于选择列表的option标签，"键"用于选择列表的value值。
+                list_integer_allow_values: 整数列表允许的键值
+                list_integer_allow_values_help: 每行输入一个键值对，形如：标签|键，示例：123|123。"键"值将进行类型转换，请输入正确的格式及数值类型。在添加编辑内容页面，"标签"用于选择列表的option标签，"键"用于选择列表的value值。
+
         form:
             label: 标题
             alias: 机读别名
@@ -69,6 +94,7 @@ teebb:
                     help: 此字段的名称，用于添加内容时表单行的名称。
                 add_fields:
                     help: 请选择您需要的字段类型，并设置字段的属性。
+
 
             types:
                 label:

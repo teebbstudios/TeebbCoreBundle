@@ -7,6 +7,8 @@ namespace Teebb\CoreBundle\Validator;
 use Symfony\Component\Validator\Constraint;
 
 /**
+ * 字段别名唯一约束
+ *
  * @Annotation
  */
 class FieldAliasUnique extends Constraint

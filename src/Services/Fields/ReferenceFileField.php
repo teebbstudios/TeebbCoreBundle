@@ -14,7 +14,8 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     description=@Translation(message="teebb.core.field.referenceFile.description"),
  *     type="reference",
  *     category=@Translation(message="teebb.core.field.category.reference"),
- *     entity="Teebb\CoreBundle\Entity\Fields\ReferenceFileItem"
+ *     entity="Teebb\CoreBundle\Entity\Fields\ReferenceFileItem",
+ *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceFileItemConfigurationType"
  * )
  */
 class ReferenceFileField extends AbstractField

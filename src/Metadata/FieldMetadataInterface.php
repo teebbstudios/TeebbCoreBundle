@@ -14,7 +14,7 @@ interface FieldMetadataInterface
      * 获取字段id
      * @return string
      */
-    public function getId():string;
+    public function getId(): string;
 
     /**
      * 获取字段标题
@@ -39,4 +39,10 @@ interface FieldMetadataInterface
      * @return string
      */
     public function getEntity(): string;
+
+    /**
+     * 获取字段配置表单Type类名
+     * @return string
+     */
+    public function getFieldConfigType(): string;
 }

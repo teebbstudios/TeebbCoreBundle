@@ -24,7 +24,7 @@ class AliasValueType extends AbstractType
         });
         //在表单提交前设置fieldAlias
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($builder) {
-            $event->setData( $builder->getData());
+            $event->setData($builder->getData());
         });
     }
 

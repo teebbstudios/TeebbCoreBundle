@@ -16,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class SimpleFormatItem extends BaseFieldItem
 {
     /**
-     * @Gedmo\Translatable
+     *
      */
     private $value;
 

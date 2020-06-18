@@ -106,14 +106,14 @@ class InitDatabaseCommand extends Command
         $articleType = new Types();
         $articleType->setBundle('types');
         $articleType->setLabel('Article');
-        $articleType->setAlias('article');
+        $articleType->setTypeAlias('article');
         $articleType->setDescription('Use articles to post content about time, such as news, news or logs.');
         $articleType->setTranslatableLocale('en_US');
 
         $pageType = new Types();
         $pageType->setBundle('types');
         $pageType->setLabel('Page');
-        $pageType->setAlias('page');
+        $pageType->setTypeAlias('page');
         $pageType->setDescription('Use basic pages for your static content, such as the "About Us" page.');
         $pageType->setTranslatableLocale('en_US');
 
@@ -127,12 +127,12 @@ class InitDatabaseCommand extends Command
     {
         $typesRepo = $this->em->getRepository(Types::class);
 
-        $articleType = $typesRepo->findOneBy(['alias' => 'article']);
+        $articleType = $typesRepo->findOneBy(['typeAlias' => 'article']);
         $articleType->setLabel('文章');
         $articleType->setDescription('使用文章发布有关时间的内容，如消息，新闻或日志。');
         $articleType->setTranslatableLocale('zh_CN');
 
-        $pageType = $typesRepo->findOneBy(['alias' => 'page']);
+        $pageType = $typesRepo->findOneBy(['typeAlias' => 'page']);
         $pageType->setLabel('基本页面');
         $pageType->setDescription('对您的静态内容使用基本页面，比如“关于我们”页面。');
         $pageType->setTranslatableLocale('zh_CN');

@@ -26,9 +26,9 @@ class ListIntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getAllowedValues(): array
+    public function getAllowedValues(): ?array
     {
         return $this->allowed_values;
     }

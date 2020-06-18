@@ -134,12 +134,12 @@
     $(document).on('change', 'select#select_field_limit', function (e) {
         var $parentAnchor = $(this).closest('div.select-field-limit');
 
-        if ($(this).val() === '-1') {
-            $parentAnchor.find('input[type=number].input-field-limit').attr("disabled", 'disabled');
+        if ($(this).val() === '0') {
+            $parentAnchor.find('input[type=number].input-field-limit').attr("value", '0');
             $parentAnchor.find('input[type=number].input-field-limit').addClass('d-none');
         }
         if ($(this).val() === 'limit') {
-            $parentAnchor.find('input[type=number].input-field-limit').removeAttr('disabled');
+            $parentAnchor.find('input[type=number].input-field-limit').attr("value", '1');
             $parentAnchor.find('input[type=number].input-field-limit').removeClass('d-none');
         }
     });

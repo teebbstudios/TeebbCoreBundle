@@ -38,19 +38,19 @@ trait MetadataTrait
     }
 
     /**
-     * @param \ReflectionClass $reflectionClass
      * @param FieldType $annotation
      * @return Definition
      * @throws \Exception
      */
-    public function createFieldTypeMetadataDefinition(\ReflectionClass $reflectionClass, FieldType $annotation): Definition
+    public function createFieldTypeMetadataDefinition(FieldType $annotation): Definition
     {
         return new Definition(FieldMetadata::class, [
             $annotation->id,
             $this->createTranslatableMarkupDefinition($annotation->label),
             $this->createTranslatableMarkupDefinition($annotation->description),
             $this->createTranslatableMarkupDefinition($annotation->category),
-            $annotation->entity
+            $annotation->entity,
+            $annotation->formConfigType
         ]);
     }
 

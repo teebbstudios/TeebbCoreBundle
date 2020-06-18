@@ -34,9 +34,9 @@ class BooleanItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getOnLabel(): string
+    public function getOnLabel(): ?string
     {
         return $this->on_label;
     }
@@ -50,9 +50,9 @@ class BooleanItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getOffLabel(): string
+    public function getOffLabel(): ?string
     {
         return $this->off_label;
     }

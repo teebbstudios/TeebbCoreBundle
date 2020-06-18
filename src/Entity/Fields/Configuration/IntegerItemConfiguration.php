@@ -44,9 +44,9 @@ class IntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getMin(): int
+    public function getMin(): ?int
     {
         return $this->min;
     }
@@ -60,9 +60,9 @@ class IntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getMax(): int
+    public function getMax(): ?int
     {
         return $this->max;
     }
@@ -76,9 +76,9 @@ class IntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPrefix(): string
+    public function getPrefix(): ?string
     {
         return $this->prefix;
     }
@@ -92,9 +92,9 @@ class IntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSuffix(): string
+    public function getSuffix(): ?string
     {
         return $this->suffix;
     }

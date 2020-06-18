@@ -54,7 +54,7 @@ class Types implements TypeInterface, Translatable
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      * @Assert\Regex("/^(?!_)(?!.*?_$)[a-zA-Z0-9_]+$/")
      */
-    protected $alias;
+    protected $typeAlias;
 
     /**
      * @Gedmo\Translatable
@@ -111,17 +111,17 @@ class Types implements TypeInterface, Translatable
     /**
      * @return string|null
      */
-    public function getAlias(): ?string
+    public function getTypeAlias(): ?string
     {
-        return $this->alias;
+        return $this->typeAlias;
     }
 
     /**
-     * @param string $alias
+     * @param string $typeAlias
      */
-    public function setAlias(string $alias): void
+    public function setTypeAlias(string $typeAlias): void
     {
-        $this->alias = $alias;
+        $this->typeAlias = $typeAlias;
     }
 
     /**
