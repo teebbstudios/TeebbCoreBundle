@@ -40,7 +40,7 @@ class TextFormatSummaryItemConfiguration extends BaseItemConfiguration
     /**
      * @return bool
      */
-    public function isShowSummaryInput(): bool
+    public function isShowSummaryInput(): ?bool
     {
         return $this->showSummaryInput;
     }
@@ -56,7 +56,7 @@ class TextFormatSummaryItemConfiguration extends BaseItemConfiguration
     /**
      * @return bool
      */
-    public function isSummaryRequired(): bool
+    public function isSummaryRequired(): ?bool
     {
         return $this->summaryRequired;
     }

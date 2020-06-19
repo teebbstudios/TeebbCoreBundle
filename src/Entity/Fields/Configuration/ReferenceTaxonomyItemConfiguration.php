@@ -4,6 +4,9 @@
 namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Teebb\CoreBundle\Entity\Types\Types;
+
 class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
 {
     /**
@@ -15,13 +18,13 @@ class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
 
     /**
      * 要引用的taxonomy类型别名数组
-     * @var array
+     * @var Types[]
      */
     protected $referenceTypes;
 
     /**
      * 如果标签不存在则添加标签到某个Taxonomy类型
-     * @var string
+     * @var Types
      */
     protected $autoCreateToType;
 
@@ -34,33 +37,33 @@ class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return array
+     * @return Types[]|null
      */
-    public function getReferenceTypes(): array
+    public function getReferenceTypes(): ?array
     {
         return $this->referenceTypes;
     }
 
     /**
-     * @param array $referenceTypes
+     * @param ArrayCollection $referenceTypes
      */
-    public function setReferenceTypes(array $referenceTypes): void
+    public function setReferenceTypes(ArrayCollection $referenceTypes): void
     {
-        $this->referenceTypes = $referenceTypes;
+        $this->referenceTypes = $referenceTypes->toArray();
     }
 
     /**
-     * @return string
+     * @return Types|null
      */
-    public function getAutoCreateToType(): string
+    public function getAutoCreateToType(): ?Types
     {
         return $this->autoCreateToType;
     }
 
     /**
-     * @param string $autoCreateToType
+     * @param Types $autoCreateToType
      */
-    public function setAutoCreateToType(string $autoCreateToType): void
+    public function setAutoCreateToType(Types $autoCreateToType): void
     {
         $this->autoCreateToType = $autoCreateToType;
     }

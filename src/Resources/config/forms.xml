@@ -27,8 +27,14 @@
             <tag name="form.type"/>
         </service>
 
-        <service id="teebb.core.form.field_list_type_right_format"
-                 class="Teebb\CoreBundle\Form\Type\FieldListTypeAllowValuesType">
+        <service id="teebb.core.form.field_list_type_allow_values_type"
+                 class="Teebb\CoreBundle\Form\Type\FieldConfigurationListTypeAllowValuesType">
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.form.reference_entity_type"
+                 class="Teebb\CoreBundle\Form\Type\FieldReferenceEntityType">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <tag name="form.type"/>
         </service>
 
@@ -38,9 +44,5 @@
             <tag name="validator.constraint_validator"/>
         </service>
 
-        <service id="teebb.core.validator.list_numeric_right_format"
-                 class="FieldListTypeRowRightFormatValidator">
-            <tag name="validator.constraint_validator"/>
-        </service>
     </services>
 </container>

@@ -4,14 +4,12 @@
 namespace Teebb\CoreBundle\Form\Type\FieldConfiguration;
 
 
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 use Teebb\CoreBundle\Entity\Fields\Configuration\DecimalItemConfiguration;
+use Teebb\CoreBundle\Form\Type\FieldConfigurationValueWriteOnceType;
 
 class DecimalItemConfigurationType extends BaseItemConfigurationType
 {
@@ -20,7 +18,7 @@ class DecimalItemConfigurationType extends BaseItemConfigurationType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('precision', IntegerType::class, [
+            ->add('precision', FieldConfigurationValueWriteOnceType::class, [
                 'label' => 'teebb.core.fields.configuration.precision',
                 'attr' => [
                     'class' => 'col-12 col-sm-6 form-control-sm',
@@ -32,7 +30,7 @@ class DecimalItemConfigurationType extends BaseItemConfigurationType
                 ],
                 'help' => 'teebb.core.fields.configuration.precision_help'
             ])
-            ->add('scale', IntegerType::class, [
+            ->add('scale', FieldConfigurationValueWriteOnceType::class, [
                 'label' => 'teebb.core.fields.configuration.scale',
                 'attr' => [
                     'class' => 'col-12 col-sm-6 form-control-sm',

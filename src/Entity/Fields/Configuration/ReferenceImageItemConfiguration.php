@@ -24,7 +24,7 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
      * 文件上传目录,可用变量 年：date.Y=2020 date.y=20 月：date.m=01 日：date.d=31
      * @var string
      */
-    protected $uploadDir = "['date.Y']-['date.m']";
+    protected $uploadDir = "[date.Y]-[date.m]";
 
     /**
      * 最大文件上传大小
@@ -72,9 +72,9 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getAllowExt(): array
+    public function getAllowExt(): ?array
     {
         return $this->allowExt;
     }
@@ -88,9 +88,9 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUploadDir(): string
+    public function getUploadDir(): ?string
     {
         return $this->uploadDir;
     }
@@ -104,9 +104,9 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMaxSize(): string
+    public function getMaxSize(): ?string
     {
         return $this->maxSize;
     }
@@ -120,25 +120,25 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function getMaxResolution()
+    public function getMaxResolution(): ?array
     {
         return $this->maxResolution;
     }
 
     /**
-     * @param mixed $maxResolution
+     * @param array $maxResolution
      */
-    public function setMaxResolution($maxResolution): void
+    public function setMaxResolution(array $maxResolution): void
     {
         $this->maxResolution = $maxResolution;
     }
 
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function getMinResolution()
+    public function getMinResolution(): ?array
     {
         return $this->minResolution;
     }

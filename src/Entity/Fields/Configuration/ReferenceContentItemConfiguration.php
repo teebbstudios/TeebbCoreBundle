@@ -4,6 +4,9 @@
 namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Teebb\CoreBundle\Entity\Types\Types;
+
 class ReferenceContentItemConfiguration extends BaseItemConfiguration
 {
     /**
@@ -14,8 +17,8 @@ class ReferenceContentItemConfiguration extends BaseItemConfiguration
     protected $type = 'entity';
 
     /**
-     * 要引用的内容类型别名数组
-     * @var array
+     * 要引用的内容类型别名typeAlias数组
+     * @var Types[]
      */
     protected $referenceTypes;
 
@@ -28,19 +31,19 @@ class ReferenceContentItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return array
+     * @return Types[]|null
      */
-    public function getReferenceTypes(): array
+    public function getReferenceTypes(): ?array
     {
         return $this->referenceTypes;
     }
 
     /**
-     * @param array $referenceTypes
+     * @param ArrayCollection $referenceTypes
      */
-    public function setReferenceTypes(array $referenceTypes): void
+    public function setReferenceTypes(ArrayCollection $referenceTypes): void
     {
-        $this->referenceTypes = $referenceTypes;
+        $this->referenceTypes = $referenceTypes->toArray();
     }
 
 }

@@ -31,9 +31,9 @@ class StringFormatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getLength(): int
+    public function getLength(): ?int
     {
         return $this->length;
     }

@@ -4,20 +4,15 @@
 namespace Teebb\CoreBundle\Form\Type;
 
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Unique;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
-use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Validator\FieldAliasUnique;
 
 /**
@@ -54,6 +49,9 @@ class AddFieldsType extends AbstractType
                 'choices' => $allFieldsInfo,
                 'attr' => [
                     'class' => 'col-12 col-sm-4 select-new-field form-control-sm'
+                ],
+                'constraints'=>[
+                    new NotBlank()
                 ],
                 'placeholder' => '-Please select a field-',
                 'help' => 'teebb.core.form.fields.add_fields.help'

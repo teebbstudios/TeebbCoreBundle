@@ -22,5 +22,4 @@ class TextFormatItemConfiguration extends BaseItemConfiguration
     {
         return $this->type;
     }
-
 }

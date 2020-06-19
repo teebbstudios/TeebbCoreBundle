@@ -4,7 +4,21 @@
 namespace Teebb\CoreBundle\Form\Type\FieldConfiguration;
 
 
-class TimestampItemConfigurationType
-{
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Teebb\CoreBundle\Entity\Fields\Configuration\TimestampItemConfiguration;
 
+class TimestampItemConfigurationType extends BaseItemConfigurationType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => TimestampItemConfiguration::class
+        ]);
+    }
 }

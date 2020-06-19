@@ -18,6 +18,16 @@ use Teebb\CoreBundle\Form\Type\FieldConfiguration\FloatItemConfigurationType;
 use Teebb\CoreBundle\Form\Type\FieldConfiguration\IntegerItemConfigurationType;
 use Teebb\CoreBundle\Form\Type\FieldConfiguration\ListFloatItemConfigurationType;
 use Teebb\CoreBundle\Form\Type\FieldConfiguration\ListIntegerItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceContentItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceFileItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceImageItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceTaxonomyItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\StringFormatItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\StringItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\TextFormatItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\TextFormatSummaryItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\TextItemConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldConfiguration\TimestampItemConfigurationType;
 
 /**
  * 编辑字段表单
@@ -40,7 +50,7 @@ class FieldConfigurationType extends AbstractType
             ])
             ->add('fieldType', HiddenType::class)
 
-            ->add('settings', ListIntegerItemConfigurationType::class, [
+            ->add('settings', ReferenceImageItemConfigurationType::class, [
                 'label' => 'teebb.core.fields.configuration.settings'
             ]);
     }

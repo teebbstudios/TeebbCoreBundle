@@ -69,9 +69,9 @@ class ReferenceFileItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getAllowExt(): array
+    public function getAllowExt(): ?array
     {
         return $this->allowExt;
     }
@@ -85,9 +85,9 @@ class ReferenceFileItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUploadDir(): string
+    public function getUploadDir(): ?string
     {
         return $this->uploadDir;
     }
@@ -101,9 +101,9 @@ class ReferenceFileItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMaxSize(): string
+    public function getMaxSize(): ?string
     {
         return $this->maxSize;
     }

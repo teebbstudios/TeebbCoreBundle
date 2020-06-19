@@ -7,7 +7,7 @@ namespace Teebb\CoreBundle\Form\Type\FieldConfiguration;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\ListFloatItemConfiguration;
-use Teebb\CoreBundle\Form\Type\FieldListTypeAllowValuesType;
+use Teebb\CoreBundle\Form\Type\FieldConfigurationListTypeAllowValuesType;
 
 class ListFloatItemConfigurationType extends BaseItemConfigurationType
 {
@@ -15,7 +15,7 @@ class ListFloatItemConfigurationType extends BaseItemConfigurationType
     {
         parent::buildForm($builder, $options);
 
-        $builder->add('allowedValues', FieldListTypeAllowValuesType::class, [
+        $builder->add('allowedValues', FieldConfigurationListTypeAllowValuesType::class, [
             'label' => 'teebb.core.fields.configuration.list_float_allow_values',
             'help' => 'teebb.core.fields.configuration.list_float_allow_values_help',
             'format' => 'float' //每行键值对的值将格式化为float类型

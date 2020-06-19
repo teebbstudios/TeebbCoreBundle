@@ -14,8 +14,10 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 /**
  * 列表类型字段，将textarea中的值转为array, 或者将array转为textarea中的值,
  * textarea中的格式为xxx|xxx键值对，其他格式键值对解析出错会出现意外情况。
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class FieldListTypeAllowValuesType extends AbstractType
+class FieldConfigurationListTypeAllowValuesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

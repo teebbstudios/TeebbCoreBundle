@@ -24,7 +24,6 @@ class FieldAliasUniqueValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         /* @var $constraint FieldAliasUnique */
-
         if (null === $value || '' === $value) {
             return;
         }

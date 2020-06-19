@@ -57,13 +57,13 @@ teebb:
                 description: 字段描述
                 description_help: 该字段在添加编辑内容时表单行的帮助文本。
                 limit: 数量限制
-                require: 是否必填
+                require: 该字段是否必填
                 on_label: 布尔值为真时显示的标签
                 off_label: 布尔值为真时显示的标签
                 precision: 精度
-                precision_help: 在数据库中存储的数字的总位数，包括小数点右边的位数，该值最小为2。
+                precision_help: 在数据库中存储的数字的总位数，包括小数点右边的位数，该值最小为2。该设置影响数据库的存储一但设置不可更改。
                 scale: 小数点后保留位数
-                scale_help: 小数点后面的位数,该值最小为0。
+                scale_help: 小数点后面的位数,该值最小为0。该设置影响数据库的存储一但设置不可更改。
                 min: 最小值
                 min_help: 此字段允许的最小值。无最小值留空。
                 max: 最大值
@@ -76,7 +76,39 @@ teebb:
                 list_float_allow_values_help: 每行输入一个键值对，形如：标签|键，示例：123.1|123.1。"键"值将进行类型转换，请输入正确的格式及数值类型。在添加编辑内容页面，"标签"用于选择列表的option标签，"键"用于选择列表的value值。
                 list_integer_allow_values: 整数列表允许的键值
                 list_integer_allow_values_help: 每行输入一个键值对，形如：标签|键，示例：123|123。"键"值将进行类型转换，请输入正确的格式及数值类型。在添加编辑内容页面，"标签"用于选择列表的option标签，"键"用于选择列表的value值。
-
+                length: 文本长度
+                length_help: 此字段字符的最大数量。该设置影响数据库的存储一但设置不可更改。
+                show_summary_input_label: 是否显示摘要输入框
+                show_summary_input_label_help: 是否显示摘要输入框, 如果不显示则自动提取正文内容生成摘要。
+                summary_require_label: 摘要是否必填
+                reference_content: 引用的内容类型
+                reference_content_help: 当前字段可以引用的内容类型，至少勾选一项。
+                reference_taxonomy: 引用的分类
+                reference_taxonomy_help: 当前字段可以引用的分类，至少勾选一项。
+                auto_create_to_type: 新增标签保存在
+                auto_create_to_type_help: 如果引用的标签不存在，则创建此标签，并保存到选择的分类。
+                show_control: 是否启用显示控件
+                show_control_help: 当查看内容时，显示控件选项允许用户选择一个文件字段是否被显示。
+                allow_ext: 允许的后缀
+                allow_ext_help: 用英文逗号隔开后缀名，不包括后缀名前面的点。自动替换部分符号为英文逗号。如果留空，则设置为默认后缀txt
+                upload_dir: 上传目录
+                upload_dir_help: 文件上传后被存储于“上传目的地”中的子目录。开始和结尾不要包含"-"、"_"、"."符号，不可包含"["、"]"、下划线和连字符以外的其他符号。
+                max_size: 最大上传大小
+                max_size_help: 输入文字如"512"，"123k"，"1M"以限制允许文件的尺寸，可用单位：k，M，Ki，Mi，不填写单位则代表byte。详见：https://symfony.com/doc/current/reference/constraints/File.html#maxsize。如果留空则使用PHP的最大发表和文件上传尺寸限制（当前限制为 %value% ）。
+                use_description: 使用文件描述
+                use_description_help: 用于显示文件链接的名称。
+                image_width: 宽度
+                image_height: 高度
+                max_resolution: 允许的最大分辨率(单位：像素)
+                max_resolution_help: 允许的最大图像大小，以宽度×高度（例如，640×480）格式表示。将此选项留空则表示无限制。如果上传的图像尺寸较大，那么将调整其大小以反映给定的宽度和高度。上传时调整图像大小将导致丢失图像中的 EXIF 数据。
+                min_resolution: 允许的最小分辨率(单位：像素)
+                min_resolution_help: 允许的最小图像大小，以宽度×高度（例如，640×480）格式表示。将此选项留空则表示无限制。如果上传的图像尺寸较小，那么将拒绝该图像。
+                use_alt: 启用图片Alt字段
+                use_alt_help: 图片未加载时显示图片的alt属性，有利于SEO，推荐使用。
+                alt_required: 图片Alt字段是否必填
+                alt_required_help: 图片未加载时显示图片的alt属性，建议将此字段设置为必填字段。
+                use_title: 启用图片Title字段
+                use_title_help: 鼠标划动到图片上时显示的图片标题。
         form:
             label: 标题
             alias: 机读别名
