@@ -11,14 +11,16 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration;
 use Teebb\CoreBundle\Form\Type\FieldConfigurationLimitType;
-use Teebb\CoreBundle\Form\Type\FieldConfigurationValueWriteOnceType;
-use Teebb\CoreBundle\Form\Type\FieldFileAllowExtType;
 
 class BaseItemConfigurationType extends AbstractType
 {
@@ -49,21 +51,31 @@ class BaseItemConfigurationType extends AbstractType
      */
     protected function buildStringFieldsForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('length', FieldConfigurationValueWriteOnceType::class, [
-            'label' => 'teebb.core.fields.configuration.length',
-            'help' => 'teebb.core.fields.configuration.length_help',
-            'constraints' => [
-                new NotBlank(),
-                new GreaterThan(0),
-                new LessThan(256)
-            ],
-            'data' => 255,
-            'attr' => [
-                'min' => 1,
-                'max' => 255,
-                'class' => 'col-12 col-sm-6 form-control form-control-sm',
-            ]
-        ]);
+        //在预加载表单之前，如果此表单行有数据则设置为disabled不可更改
+        $builder->addEventListener(FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                /**@var StringItemConfiguration $data * */
+                $data = $event->getData();
+
+                $event->getForm()->add('length', IntegerType::class, [
+                    'label' => 'teebb.core.fields.configuration.length',
+                    'help' => 'teebb.core.fields.configuration.length_help',
+                    'constraints' => [
+                        new NotBlank(),
+                        new GreaterThan(0),
+                        new LessThan(256)
+                    ],
+                    'attr' => [
+                        'min' => 1,
+                        'max' => 255,
+                        'class' => 'col-12 col-sm-6 form-control form-control-sm',
+                    ],
+                    'data' => $data ? $data->getLength() : 255,
+                    'disabled' => $data ? true : false
+                ]);
+            }
+        );
+
     }
 
     /**
@@ -90,7 +102,7 @@ class BaseItemConfigurationType extends AbstractType
             ->add('maxSize', TextType::class, [
                 'label' => 'teebb.core.fields.configuration.max_size',
                 'help' => 'teebb.core.fields.configuration.max_size_help',
-                'help_translation_parameters'=>[
+                'help_translation_parameters' => [
                     '%value%' => ini_get('upload_max_filesize')
                 ],
                 'required' => false,
@@ -106,12 +118,12 @@ class BaseItemConfigurationType extends AbstractType
     /**
      * 构建数值类型字段通用部分表单
      *
-     * @param FormBuilderInterface $builder
+     * @param FormInterface $form
      * @param array $options
      */
-    protected function buildNumericFieldsForm(FormBuilderInterface $builder, array $options)
+    protected function buildNumericFieldsForm(FormInterface $form, array $options)
     {
-        $builder
+        $form
             ->add('min', NumberType::class, [
                 'label' => 'teebb.core.fields.configuration.min',
                 'attr' => [

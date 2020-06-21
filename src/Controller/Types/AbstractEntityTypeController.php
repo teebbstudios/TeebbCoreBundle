@@ -23,7 +23,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\TypeInterface;
-use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\AddFieldsType;
 use Teebb\CoreBundle\Form\Type\FieldConfigurationType;
@@ -31,6 +30,8 @@ use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 
 /**
  * 内容实体类型EntityType的Controller
@@ -216,7 +217,7 @@ class AbstractEntityTypeController extends AbstractController
 
             //添加完类型，跳转到添加字段页面
             return $this->redirectToRoute($this->entityTypeService->getRouteName('add_field'), [
-                'typeAlias' => $this->aliasToNormal($data->getTypeAlias())
+                'typeAlias' => $data->getTypeAlias()
             ]);
         }
 
@@ -237,11 +238,12 @@ class AbstractEntityTypeController extends AbstractController
      */
     public function updateAction(Request $request)
     {
-        $typeAlias = $this->aliasToMachine($request->get('typeAlias'));
+        $typeAlias = $request->get('typeAlias');
 
         $entityTypeRepo = $this->entityTypeService->getRepository();
 
         $entityType = $entityTypeRepo->findOneBy(['typeAlias' => $typeAlias]);
+
         if (null === $entityType) {
             throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('typeAlias')));
         }
@@ -257,7 +259,7 @@ class AbstractEntityTypeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /**@var TypeInterface $data**/
+            /**@var TypeInterface $data * */
             $data = $form->getData();
             $entityTypeRepo->save($data);
 
@@ -267,7 +269,7 @@ class AbstractEntityTypeController extends AbstractController
 
             //添加完类型，跳转到列表页面
             return $this->redirectToRoute($this->entityTypeService->getRouteName('index'), [
-                'typeAlias' => $this->aliasToNormal($data->getTypeAlias())
+                'typeAlias' => $data->getTypeAlias()
             ]);
         }
 
@@ -289,12 +291,9 @@ class AbstractEntityTypeController extends AbstractController
      */
     public function addFieldAction(Request $request)
     {
-        $typeAlias = $this->aliasToMachine($request->get('typeAlias'));
+        $typeAlias = $request->get('typeAlias');
 
-        //检测URL中类型实体Types是否存在，如果不存在404
-        if (null === $this->entityTypeService->getRepository()->findOneBy(['typeAlias' => $typeAlias])) {
-            throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('typeAlias')));
-        }
+        $this->checkTypeObjectExist($typeAlias);
 
         $bundle = $this->entityTypeService->getEntityTypeMetadata()->getBundle();
 
@@ -324,8 +323,8 @@ class AbstractEntityTypeController extends AbstractController
 
             return $this->redirectToRoute(
                 $this->entityTypeService->getRouteName('update_field'), [
-                    'typeAlias' => $this->aliasToNormal($typeAlias),
-                    'fieldAlias' => $this->aliasToNormal($fieldAlias)
+                    'typeAlias' => $typeAlias,
+                    'fieldAlias' => $fieldAlias
                 ]
             );
         }
@@ -345,12 +344,9 @@ class AbstractEntityTypeController extends AbstractController
      */
     public function indexFieldAction(Request $request)
     {
-        $typeAlias = $this->aliasToMachine($request->get('typeAlias'));
+        $typeAlias = $request->get('typeAlias');
 
-        //检测URL中类型实体Types是否存在，如果不存在404
-        if (null === $this->entityTypeService->getRepository()->findOneBy(['typeAlias' => $typeAlias])) {
-            throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('typeAlias')));
-        }
+        $this->checkTypeObjectExist($typeAlias);
 
         $fieldConfigurations = $this->fieldConfigurationRepository
             ->getBySortableGroupsQuery(['typeAlias' => $typeAlias])
@@ -364,28 +360,30 @@ class AbstractEntityTypeController extends AbstractController
 
 
     /**
-     * 编辑字段
-     *
      * @param Request $request
      * @return Response
      */
     public function updateFieldAction(Request $request)
     {
-        $typeAlias = $this->aliasToMachine($request->get('typeAlias'));
-        $fieldAlias = $this->aliasToMachine($request->get('fieldAlias'));
+        $typeAlias = $request->get('typeAlias');
+        $fieldAlias = $request->get('fieldAlias');
 
-        //检测URL中类型实体Types是否存在，如果不存在404
-        if (null === $this->entityTypeService->getRepository()->findOneBy(['typeAlias' => $typeAlias])) {
-            throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('typeAlias')));
-        }
+        $this->checkTypeObjectExist($typeAlias);
 
+        /**@var FieldConfiguration $fieldConfiguration * */
         $fieldConfiguration = $this->fieldConfigurationRepository->findOneBy(['typeAlias' => $typeAlias, 'fieldAlias' => $fieldAlias]);
 
         $form = $this->createForm(FieldConfigurationType::class, $fieldConfiguration);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->getData());
+            $fieldConfiguration = $form->getData();
+            //clone一下，否则doctrine认为没有修改object，从而persist失败
+            $newSettings = clone $fieldConfiguration->getSettings();
+
+            $fieldConfiguration->setSettings($newSettings);
+            $this->entityManager->persist($fieldConfiguration);
+            $this->entityManager->flush();
         }
 
         return $this->render($this->templateRegistry->getTemplate('update_field', 'fields'), [
@@ -407,22 +405,14 @@ class AbstractEntityTypeController extends AbstractController
     }
 
     /**
-     * 机读别名下划线转成连字符
-     * @param string $alias
-     * @return string
+     * 检查URL参数中类型object是否存在
+     * @param string $typeAlias
      */
-    protected function aliasToNormal(string $alias): string
+    protected function checkTypeObjectExist(string $typeAlias)
     {
-        return str_replace('_', '-', $alias);
-    }
-
-    /**
-     * 机读别名连字符转成下划线
-     * @param string $alias
-     * @return string
-     */
-    protected function aliasToMachine(string $alias): string
-    {
-        return str_replace('-', '_', $alias);
+        //检测URL中类型实体Types是否存在，如果不存在报404
+        if (null === $this->entityTypeService->getRepository()->findOneBy(['typeAlias' => $typeAlias])) {
+            throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $typeAlias));
+        }
     }
 }

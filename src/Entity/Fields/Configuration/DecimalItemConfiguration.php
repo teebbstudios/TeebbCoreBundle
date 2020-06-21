@@ -66,9 +66,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param int $precision
+     * @param int|null $precision
      */
-    public function setPrecision(int $precision): void
+    public function setPrecision(?int $precision): void
     {
         $this->precision = $precision;
     }
@@ -82,9 +82,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param int $scale
+     * @param int|null $scale
      */
-    public function setScale(int $scale): void
+    public function setScale(?int $scale): void
     {
         $this->scale = $scale;
     }
@@ -98,9 +98,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param float $min
+     * @param float|null $min
      */
-    public function setMin(float $min): void
+    public function setMin(?float $min): void
     {
         $this->min = $min;
     }
@@ -114,9 +114,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param float $max
+     * @param float|null $max
      */
-    public function setMax(float $max): void
+    public function setMax(?float $max): void
     {
         $this->max = $max;
     }
@@ -130,9 +130,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $prefix
+     * @param string|null $prefix
      */
-    public function setPrefix(string $prefix): void
+    public function setPrefix(?string $prefix): void
     {
         $this->prefix = $prefix;
     }
@@ -146,9 +146,9 @@ class DecimalItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $suffix
+     * @param string|null $suffix
      */
-    public function setSuffix(string $suffix): void
+    public function setSuffix(?string $suffix): void
     {
         $this->suffix = $suffix;
     }

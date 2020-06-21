@@ -28,5 +28,10 @@
             <argument type="service" id="teebb.core.template.registry"/>
         </service>
 
+        <service id="teebbo.core.event.route_parameter_underline_fix_subscriber"
+                 class="Teebb\CoreBundle\Subscriber\RouteParameterUnderlineFixSubscriber">
+            <argument type="service" id="router.default"/>
+            <tag name="kernel.event_subscriber" event="kernel.request"/>
+        </service>
     </services>
 </container>

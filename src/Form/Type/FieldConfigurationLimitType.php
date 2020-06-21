@@ -35,7 +35,7 @@ class FieldConfigurationLimitType extends AbstractType
     {
         $resolver->setDefaults([
             'default_value' => 1,
-            'unlimited_value' => -1,
+            'unlimited_value' => 0,
             'min' => 0,
             'attr' => [
                 'class' => 'form-control form-control-sm input-field-limit'

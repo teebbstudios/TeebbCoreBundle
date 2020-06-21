@@ -23,5 +23,4 @@ class StringItemConfigurationType extends BaseItemConfigurationType
             'data_class' => StringItemConfiguration::class
         ]);
     }
-
 }

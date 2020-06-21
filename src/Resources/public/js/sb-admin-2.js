@@ -133,14 +133,18 @@
     // 编辑字段设置，选择字段的数量
     $(document).on('change', 'select#select_field_limit', function (e) {
         var $parentAnchor = $(this).closest('div.select-field-limit');
+        var $inputAnchor = $parentAnchor.find('input[type=number].input-field-limit');
+        var $inputWrapper = $parentAnchor.find('div#select_field_limit_input_wrapper');
 
         if ($(this).val() === '0') {
-            $parentAnchor.find('input[type=number].input-field-limit').attr("value", '0');
-            $parentAnchor.find('input[type=number].input-field-limit').addClass('d-none');
+            $inputAnchor.attr("value", '0');
+            $inputAnchor.addClass('d-none');
+            $inputWrapper.toggleClass('d-none');
         }
         if ($(this).val() === 'limit') {
-            $parentAnchor.find('input[type=number].input-field-limit').attr("value", '1');
-            $parentAnchor.find('input[type=number].input-field-limit').removeClass('d-none');
+            $inputAnchor.attr("value", '1');
+            $inputAnchor.removeClass('d-none');
+            $inputWrapper.toggleClass('d-none');
         }
     });
 
@@ -207,7 +211,7 @@
     });
 
     //编辑菜单项页面，展开收缩菜单项，点击事件
-    $('.dd-item .accordion-arrow').on('click', function(e){
+    $('.dd-item .accordion-arrow').on('click', function (e) {
         var $collapse = $(e.target).closest('.dd-item').find('.collapse');
         $collapse.collapse('toggle');
     });
@@ -215,14 +219,14 @@
     //评论列表页评论操作列表显示
     $('td.js-comment-td').hover(function (e) {
         var $tdEl = $(e.target);
-        $tdEl.find('.comment-option').css('left','0px');
-    },function (e) {
+        $tdEl.find('.comment-option').css('left', '0px');
+    }, function (e) {
         var $tdEl = $(e.target);
-        $tdEl.find('.comment-option').css('left','-9999em');
+        $tdEl.find('.comment-option').css('left', '-9999em');
     });
 
     //编辑评论页面修改提交时间事件
-    $('button#edit_comment_time_btn').on('click',function (e) {
+    $('button#edit_comment_time_btn').on('click', function (e) {
         var $timeInput = $(e.target).closest('.comment-time').find('input#comment_time');
         console.log($timeInput);
         $timeInput.removeAttr('disabled');

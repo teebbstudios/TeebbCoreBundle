@@ -4,12 +4,16 @@
 namespace Teebb\CoreBundle\Form\Type\FieldConfiguration;
 
 
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 use Teebb\CoreBundle\Entity\Fields\Configuration\DecimalItemConfiguration;
-use Teebb\CoreBundle\Form\Type\FieldConfigurationValueWriteOnceType;
+use Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration;
 
 class DecimalItemConfigurationType extends BaseItemConfigurationType
 {
@@ -17,33 +21,48 @@ class DecimalItemConfigurationType extends BaseItemConfigurationType
     {
         parent::buildForm($builder, $options);
 
-        $builder
-            ->add('precision', FieldConfigurationValueWriteOnceType::class, [
-                'label' => 'teebb.core.fields.configuration.precision',
-                'attr' => [
-                    'class' => 'col-12 col-sm-6 form-control-sm',
-                    'min' => 1
-                ],
-                'data' => 2,
-                'constraints' => [
-                    new GreaterThan(['value' => 1])
-                ],
-                'help' => 'teebb.core.fields.configuration.precision_help'
-            ])
-            ->add('scale', FieldConfigurationValueWriteOnceType::class, [
-                'label' => 'teebb.core.fields.configuration.scale',
-                'attr' => [
-                    'class' => 'col-12 col-sm-6 form-control-sm',
-                    'min' => 0
-                ],
-                'data' => 0,
-                'constraints' => [
-                    new PositiveOrZero()
-                ],
-                'help' => 'teebb.core.fields.configuration.scale_help'
-            ]);
+        //在预加载表单之前，如果此表单行有数据则设置为disabled不可更改
+        $builder->addEventListener(FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($builder, $options) {
+                /**@var DecimalItemConfiguration $data * */
+                $data = $event->getData();
 
-        $this->buildNumericFieldsForm($builder, $options);
+                $form = $event->getForm();
+
+                $form
+                    ->add('precision', IntegerType::class, [
+                        'label' => 'teebb.core.fields.configuration.precision',
+                        'attr' => [
+                            'class' => 'col-12 col-sm-6 form-control-sm',
+                            'min' => 1
+                        ],
+                        'constraints' => [
+                            new GreaterThan(['value' => 1])
+                        ],
+                        'data' => $data ? $data->getPrecision() : 5,
+                        'disabled' => $data ? true : false,
+                        'help' => 'teebb.core.fields.configuration.precision_help'
+                    ])
+                    ->add('scale', IntegerType::class, [
+                        'label' => 'teebb.core.fields.configuration.scale',
+                        'attr' => [
+                            'class' => 'col-12 col-sm-6 form-control-sm',
+                            'min' => 0
+                        ],
+                        'constraints' => [
+                            new PositiveOrZero()
+                        ],
+                        'data' => $data ? $data->getScale() : 2,
+                        'disabled' => $data ? true : false,
+                        'help' => 'teebb.core.fields.configuration.scale_help'
+                    ]);
+
+                //添加表单其他行
+                $this->buildNumericFieldsForm($form, $options);
+            }
+        );
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

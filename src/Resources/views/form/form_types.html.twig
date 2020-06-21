@@ -21,10 +21,12 @@
 {% block teebb_field_limit_widget %}
     <div class="form-inline select-field-limit">
         <select id="select_field_limit" class="form-control form-control-sm mr-0 mr-sm-2">
-            <option value="limit">限制</option>
-            <option value="0">不限</option>
+            <option value="limit" {% if value != 0 %}selected{% endif %}>限制</option>
+            <option value="0" {% if value == 0 %}selected{% endif %}>不限</option>
         </select>
-        <input type="number" {{ block('widget_attributes') }}
-                {% if value is not empty %}value="{{ value }}"{% else %}value="{{ form.vars.default_value }}" {% endif %}/>
+        <div id="select_field_limit_input_wrapper" class="{% if value == 0 %}d-none{% else %}d-block{% endif %}">
+            <input type="number" {{ block('widget_attributes') }}
+                    {% if value is not empty %}value="{{ value }}"{% else %}value="{{ form.vars.default_value }}" {% endif %}/>
+        </div>
     </div>
 {% endblock %}
