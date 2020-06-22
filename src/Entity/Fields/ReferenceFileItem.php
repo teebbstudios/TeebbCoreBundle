@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Teebb\CoreBundle\Entity\File;
 
 /**
  * 引用文件字段在库中的存储
@@ -17,8 +18,8 @@ class ReferenceFileItem extends BaseFieldItem
 {
     /**
      * 多对一关系 对应文件库的entity_id
-     * @todo 需要修改为文件类型entity
-     * @var integer
+     * @var File
+     * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\File")
      */
     private $targetFile;
 
@@ -38,17 +39,17 @@ class ReferenceFileItem extends BaseFieldItem
     private $description;
 
     /**
-     * @return int
+     * @return File
      */
-    public function getTargetFile(): int
+    public function getTargetFile(): File
     {
         return $this->targetFile;
     }
 
     /**
-     * @param int $targetFile
+     * @param File $targetFile
      */
-    public function setTargetFile(int $targetFile): void
+    public function setTargetFile(File $targetFile): void
     {
         $this->targetFile = $targetFile;
     }

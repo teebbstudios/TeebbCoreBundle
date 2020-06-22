@@ -1,0 +1,13 @@
+{% set serviceId = app.request.get('_teebb_entity_type') %}
+{% set typeAlias = app.request.get('typeAlias') %}
+
+{#Todo：还需要添加权限判断#}
+{% if entity_type.hasRoute(serviceId, 'index_field') %}
+
+    <a href="{{ entity_type.pathInfoGenerator.generate(entity_type.EntityTypeMetadata.bundle ~ '_index_field', {'typeAlias':typeAlias}) }}"
+       class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-list fa-sm text-white-50 pr-2"></i>
+        {{ 'index_field'|trans }}
+    </a>
+
+{% endif %}

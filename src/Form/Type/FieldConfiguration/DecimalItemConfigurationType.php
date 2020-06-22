@@ -8,18 +8,19 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 use Teebb\CoreBundle\Entity\Fields\Configuration\DecimalItemConfiguration;
-use Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration;
 
 class DecimalItemConfigurationType extends BaseItemConfigurationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
+
+        //添加表单其他行
+        $this->buildNumericFieldsForm($builder, $options);
 
         //在预加载表单之前，如果此表单行有数据则设置为disabled不可更改
         $builder->addEventListener(FormEvents::PRE_SET_DATA,
@@ -56,9 +57,6 @@ class DecimalItemConfigurationType extends BaseItemConfigurationType
                         'disabled' => $data ? true : false,
                         'help' => 'teebb.core.fields.configuration.scale_help'
                     ]);
-
-                //添加表单其他行
-                $this->buildNumericFieldsForm($form, $options);
             }
         );
 

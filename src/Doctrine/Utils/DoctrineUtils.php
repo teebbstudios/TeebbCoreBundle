@@ -5,7 +5,7 @@ namespace Teebb\CoreBundle\Doctrine\Utils;
 
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
@@ -32,6 +32,11 @@ class DoctrineUtils
      */
     private $entityManager;
 
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
+
     public function __construct(Registry $registry)
     {
         $this->registry = $registry;
@@ -41,11 +46,23 @@ class DoctrineUtils
 
         $managerName = $registry->getDefaultManagerName();
         $this->entityManager = $registry->getManager($managerName);
+
+        $this->eventManager = $this->entityManager->getEventManager();
     }
 
     public function __destruct()
     {
         $this->connect->close();
+    }
+
+    public function getEventManager()
+    {
+        return $this->eventManager;
+    }
+
+    public function getObjectManager()
+    {
+        return $this->registry->getManager();
     }
 
     /**
@@ -153,6 +170,21 @@ class DoctrineUtils
     }
 
     /**
+     * @param array $metadataArray
+     */
+    public function dropSchema(array $metadataArray): void
+    {
+        $schemaTool = new SchemaTool($this->entityManager);
+        $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
+        foreach ($metadataArray as $metadata) {
+            $tableName = $metadata->getTableName();
+            if ($schemaManager->tablesExist($tableName)) {
+                $schemaTool->dropSchema([$metadata]);;
+            }
+        }
+    }
+
+    /**
      * @param array $classNames
      * @return array
      */
@@ -164,5 +196,15 @@ class DoctrineUtils
             $metadataArray[] = $metadata;
         }
         return $metadataArray;
+    }
+
+    /**
+     * 获取entity类ClassMetadata
+     * @param string $className
+     * @return ClassMetadata
+     */
+    public function getSingleClassMetadata(string $className): ClassMetadata
+    {
+        return $this->entityManager->getClassMetadata($className);
     }
 }

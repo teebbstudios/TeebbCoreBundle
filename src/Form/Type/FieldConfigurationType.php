@@ -15,24 +15,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\BooleanItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\DatetimeItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\DecimalItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\EmailItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\FloatItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\IntegerItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\ListFloatItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\ListIntegerItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceContentItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceFileItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceImageItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceTaxonomyItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\StringFormatItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\StringItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\TextFormatItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\TextFormatSummaryItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\TextItemConfigurationType;
-use Teebb\CoreBundle\Form\Type\FieldConfiguration\TimestampItemConfigurationType;
 
 /**
  * 编辑字段表单
@@ -76,7 +58,7 @@ class FieldConfigurationType extends AbstractType
                     if (null === $fieldService) {
                         throw new ServiceNotFoundException(sprintf('Field Service "%s" does not exist.', 'teebb.core.field.' . $fieldType));
                     }
-                    $FormType = $fieldService->getFieldMetadata()->getFieldConfigType();
+                    $FormType = $fieldService->getFieldConfigType();
 
                     $event->getForm()->add('settings', $FormType, [
                         'label' => 'teebb.core.fields.configuration.settings'

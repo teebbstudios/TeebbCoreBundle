@@ -23,6 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\TypeInterface;
+use Teebb\CoreBundle\Event\SchemaEvent;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\AddFieldsType;
 use Teebb\CoreBundle\Form\Type\FieldConfigurationType;
@@ -30,8 +31,6 @@ use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 
 /**
  * 内容实体类型EntityType的Controller
@@ -384,6 +383,19 @@ class AbstractEntityTypeController extends AbstractController
             $fieldConfiguration->setSettings($newSettings);
             $this->entityManager->persist($fieldConfiguration);
             $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans(
+                'teebb.core.field.update_success', ['%value%' => $fieldConfiguration->getFieldLabel()], 'TeebbCoreBundle'
+            ));
+
+            //事件添加完字段在动态添加数据库表
+            $event = new SchemaEvent($fieldConfiguration);
+            $this->dispatcher->dispatch($event, SchemaEvent::CREATE_SCHEMA);
+
+            //更新完字段跳转到管理字段页面
+            return $this->redirectToRoute($this->entityTypeService->getRouteName('index_field'),[
+                'typeAlias' => $typeAlias
+            ]);
         }
 
         return $this->render($this->templateRegistry->getTemplate('update_field', 'fields'), [

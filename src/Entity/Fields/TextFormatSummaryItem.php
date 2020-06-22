@@ -24,7 +24,7 @@ class TextFormatSummaryItem extends BaseFieldItem
 
     /**
      * 摘要
-     * @var string
+     * @var string|null
      * @Gedmo\Translatable
      * @ORM\Column(type="text", nullable=true)
      */
@@ -36,4 +36,53 @@ class TextFormatSummaryItem extends BaseFieldItem
      * @ORM\Column(type="string")
      */
     private $formatter;
+
+    /**
+     * @return string
+     */
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSummary(): ?string
+    {
+        return $this->summary;
+    }
+
+    /**
+     * @param string|null $summary
+     */
+    public function setSummary(?string $summary): void
+    {
+        $this->summary = $summary;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormatter(): string
+    {
+        return $this->formatter;
+    }
+
+    /**
+     * @param string $formatter
+     */
+    public function setFormatter(string $formatter): void
+    {
+        $this->formatter = $formatter;
+    }
+
 }

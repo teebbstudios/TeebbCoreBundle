@@ -28,10 +28,26 @@
             <argument type="service" id="teebb.core.template.registry"/>
         </service>
 
-        <service id="teebbo.core.event.route_parameter_underline_fix_subscriber"
+        <service id="teebb.core.event.route_parameter_underline_fix_subscriber"
                  class="Teebb\CoreBundle\Subscriber\RouteParameterUnderlineFixSubscriber">
             <argument type="service" id="router.default"/>
             <tag name="kernel.event_subscriber" event="kernel.request"/>
         </service>
+
+        <service id="teebb.core.event.schema_subscriber" class="Teebb\CoreBundle\Subscriber\SchemaSubscriber">
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="teebb.core.orm.doctrine_utils"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+<!--        <service id="teebb.core.orm.modify_class_metadata_listener"-->
+<!--                 class="Teebb\CoreBundle\Listener\DynamicModifyMetadataListener">-->
+<!--            <tag name="doctrine.event_listener" event="loadClassMetadata"/>-->
+<!--        </service>-->
+        <service id="teebb.core.orm.modify_class_metadata_subscriber"
+                 class="Teebb\CoreBundle\Subscriber\ModifyClassMetadataSubscriber">
+            <tag name="doctrine.event_subscriber"/>
+        </service>
+
     </services>
 </container>

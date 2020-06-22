@@ -22,7 +22,7 @@ class LinkItem extends BaseFieldItem
     private $url;
 
     /**
-     * @var string
+     * @var string|null
      * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -45,17 +45,17 @@ class LinkItem extends BaseFieldItem
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
-     * @param string $title
+     * @param string|null $title
      */
-    public function setTitle(string $title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }

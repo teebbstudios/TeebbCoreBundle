@@ -14,6 +14,7 @@ boolean: 布尔值
 datetime: 日期
 timestamp: 时间戳
 email: 邮件地址
+link: 链接
 reference: 引用
 referenceUser: 用户
 referenceContent: 内容
@@ -50,6 +51,7 @@ teebb:
         fields:
             add: 添加字段
             index: 管理字段
+            update: 更新字段
             configuration:
                 settings: 字段设置：
                 label_help: 该字段是在添加编辑对应内容时表单行的标签。
@@ -73,9 +75,9 @@ teebb:
                 suffix: 后缀
                 suffix_help: 定义一个作为该值的后缀的字符串，如“m”，“kb/s”。
                 list_float_allow_values: 浮点数列表允许的键值
-                list_float_allow_values_help: 每行输入一个键值对，形如：标签|键，示例：123.1|123.1。"键"值将进行类型转换，请输入正确的格式及数值类型。在添加编辑内容页面，"标签"用于选择列表的option标签，"键"用于选择列表的value值。
+                list_float_allow_values_help: 每行输入一个键值对，形如：标签|键，示例：123.1|123.1。"键"值将进行类型转换，请输入正确的格式及数值类型，不正确的"键"将强转为0.0。在添加编辑内容页面，"标签"用于选择列表的option标签，"键"用于选择列表的value值。
                 list_integer_allow_values: 整数列表允许的键值
-                list_integer_allow_values_help: 每行输入一个键值对，形如：标签|键，示例：123|123。"键"值将进行类型转换，请输入正确的格式及数值类型。在添加编辑内容页面，"标签"用于选择列表的option标签，"键"用于选择列表的value值。
+                list_integer_allow_values_help: 每行输入一个键值对，形如：标签|键，示例：123|123。"键"值将进行类型转换，请输入正确的格式及数值类型，不正确的"键"将强转为0。在添加编辑内容页面，"标签"用于选择列表的option标签，"键"用于选择列表的value值。
                 length: 文本长度
                 length_help: 此字段字符的最大数量。该设置影响数据库的存储一但设置不可更改。
                 show_summary_input_label: 是否显示摘要输入框

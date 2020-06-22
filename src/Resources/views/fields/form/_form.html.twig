@@ -1,5 +1,13 @@
 {% extends '@TeebbCore/fields/base_form.html.twig' %}
 
+{% block head_label %}
+    {{ 'teebb.core.fields.update'|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/fields/buttons/head_index_field_button.html.twig' with _context %}
+{% endblock %}
+
 {% block form_widget %}
     {{ form_start(form) }}
     {{ form_widget(form) }}

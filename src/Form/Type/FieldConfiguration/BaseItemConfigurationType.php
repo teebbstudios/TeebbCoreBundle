@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Teebb\CoreBundle\Entity\Fields\Configuration\StringFormatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration;
 use Teebb\CoreBundle\Form\Type\FieldConfigurationLimitType;
 
@@ -54,7 +55,7 @@ class BaseItemConfigurationType extends AbstractType
         //在预加载表单之前，如果此表单行有数据则设置为disabled不可更改
         $builder->addEventListener(FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
-                /**@var StringItemConfiguration $data * */
+                /**@var StringItemConfiguration|StringFormatItemConfiguration $data * */
                 $data = $event->getData();
 
                 $event->getForm()->add('length', IntegerType::class, [
@@ -118,10 +119,10 @@ class BaseItemConfigurationType extends AbstractType
     /**
      * 构建数值类型字段通用部分表单
      *
-     * @param FormInterface $form
+     * @param FormBuilderInterface $form
      * @param array $options
      */
-    protected function buildNumericFieldsForm(FormInterface $form, array $options)
+    protected function buildNumericFieldsForm(FormBuilderInterface $form, array $options)
     {
         $form
             ->add('min', NumberType::class, [

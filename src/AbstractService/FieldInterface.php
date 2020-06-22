@@ -27,7 +27,7 @@ interface FieldInterface
      * @return string
      * @throws \Exception
      */
-    public function getFieldId():string;
+    public function getFieldId(): string;
 
     /**
      * 设置字段Metadata
@@ -41,7 +41,17 @@ interface FieldInterface
      */
     public function getFieldMetadata(): FieldMetadataInterface;
 
+    /**
+     * 获取字段Entity类名
+     * @return string
+     */
+    public function getFieldEntity(): string;
 
+    /**
+     * 获取字段设置表单Type全类名
+     * @return string
+     */
+    public function getFieldConfigType(): string;
 
 //    /**
 //     * 获取字段设置

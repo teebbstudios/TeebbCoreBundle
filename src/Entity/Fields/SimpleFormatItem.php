@@ -16,7 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class SimpleFormatItem extends BaseFieldItem
 {
     /**
-     *
+     * @var string
+     * @ORM\Column(type="string")
      */
     private $value;
 
@@ -27,4 +28,37 @@ class SimpleFormatItem extends BaseFieldItem
      * @ORM\Column(type="string")
      */
     private $formatter;
+
+    /**
+     * @return string
+     */
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormatter(): string
+    {
+        return $this->formatter;
+    }
+
+    /**
+     * @param string $formatter
+     */
+    public function setFormatter(string $formatter): void
+    {
+        $this->formatter = $formatter;
+    }
+
 }
