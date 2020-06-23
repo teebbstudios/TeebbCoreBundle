@@ -1,0 +1,23 @@
+{#  Todo: 需要添加权限及获取可用操作  #}
+{% set bundle = entity_type.EntityTypeMetadata.bundle %}
+
+<div class="btn-group btn-group-sm" role="group" aria-label="内容类型操作按钮组">
+    <a href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_update', {'typeAlias':item.typeAlias|replace({'_':'-'}) }) }}"
+       class="btn btn-primary text-white">{{ 'update'|trans }}</a>
+    <a href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_delete', {'typeAlias':item.typeAlias|replace({'_':'-'}) }) }}"
+       class="btn btn-danger text-white">{{ 'delete'|trans }}</a>
+
+    <div class="btn-group btn-group-sm" role="group">
+        <button id="btnGroupDrop_{{ item.id }}" type="button"
+                class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            {{ 'index_field'|trans }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop_{{ item.id }}">
+            <a class="dropdown-item"
+               href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_index_field', {'typeAlias':item.typeAlias|replace({'_':'-'})}) }}">管理字段</a>
+            <a class="dropdown-item"
+               href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_display_field', {'typeAlias':item.typeAlias|replace({'_':'-'})}) }}">管理字段显示</a>
+        </div>
+    </div>
+</div>

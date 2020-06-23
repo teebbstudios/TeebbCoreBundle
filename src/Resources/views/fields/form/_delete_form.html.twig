@@ -1,0 +1,35 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ 'teebb.core.fields.delete'|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/fields/buttons/head_index_field_button.html.twig' with _context %}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/fields/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_help %}
+    <!-- 提示 -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle"></i>
+        <span class="small text-muted">
+            {% block top_help_message %}
+                {{ 'teebb.core.help.delete_field'|trans({'%field%': subject.fieldLabel}) }}
+            {% endblock %}
+        </span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endblock %}
+
+{% block card_body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {% include '@TeebbCore/fields/buttons/form_delete_field_button.html.twig' %}
+    {{ form_end(form) }}
+{% endblock %}

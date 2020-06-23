@@ -3,7 +3,7 @@
 {# Todo: 可增加annotation配置，在不同action下设置不同的操作，可在service中添加方法获取当前action对应的其他可用操作 #}
 
 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    <h6 class="m-0 font-weight-bold text-primary">{{ action|trans }}{{ trans_markup(label) }}</h6>
+    <h6 class="m-0 font-weight-bold text-primary">{{ action|trans }}{% if subject is defined %}{{'" '~ subject.label ~' "'}}{% endif %}{{ trans_markup(label) }}</h6>
     {% block dropdown_actions %}
         <div class="dropdown no-arrow">
             <a class="dropdown-toggle" role="button" id="dropdownNewContentsMenuLink"

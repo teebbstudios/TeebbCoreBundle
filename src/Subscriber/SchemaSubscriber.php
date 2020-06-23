@@ -1,13 +1,9 @@
 <?php
 
-
 namespace Teebb\CoreBundle\Subscriber;
 
 
-use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Teebb\CoreBundle\Event\ModifyClassMetadataEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
@@ -18,7 +14,14 @@ use Teebb\CoreBundle\Entity\Fields\ReferenceEntityItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleFormatItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 use Teebb\CoreBundle\Event\SchemaEvent;
+use Doctrine\ORM\Mapping\MappingException;
+use Doctrine\ORM\Tools\ToolsException;
 
+/**
+ * 用于动态生成或删除字段表
+ *
+ * @author Quan Weiwei <qww.zone@gmail.com>
+ */
 class SchemaSubscriber implements EventSubscriberInterface
 {
     /**
@@ -45,64 +48,33 @@ class SchemaSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param SchemaEvent $event
+     * @throws MappingException
+     * @throws ToolsException
+     */
     public function onCreateSchemaEvent(SchemaEvent $event)
     {
         /**@var FieldConfiguration $fieldConfiguration * */
         $fieldConfiguration = $event->getSubject();
 
-        /**@var FieldInterface $fieldService * */
-        $fieldService = $this->getFieldService($fieldConfiguration->getFieldType());
+        $classMetadata = $this->getFieldEntityClassMetaData($fieldConfiguration);
 
-        $fieldEntity = $fieldService->getFieldEntity();
-
-        $evm = $this->doctrineUtils->getEventManager();
-
-        $classmate = new ClassMetadata($fieldEntity);
-        $em = $this->doctrineUtils->getEntityManager();
-        $args = new ModifyClassMetadataEventArgs($classmate,$em,$fieldConfiguration,$this->doctrineUtils);
-//        $args = new LoadClassMetadataEventArgs($classmate,$em);
-        $evm->dispatchEvent(Events::loadClassMetadata, $args);
-
-        $classmate = $this->doctrineUtils->getSingleClassMetadata($fieldEntity);
-
-        //设置字段表名
-        $fieldAlias = $fieldConfiguration->getFieldAlias();
-        $classmate->setPrimaryTable(['name' => $fieldConfiguration->getBundle() . '__field_' . $fieldAlias]);
-        $classmate->fieldMappings['value']['type'] = 'integer';
-
-        switch ($fieldEntity) {
-            case SimpleValueItem::class:
-
-                //如果是普通文本类型需要设置数据库length
-                /**@var FieldDepartConfigurationInterface $fieldDepartConfiguration * */
-                $fieldDepartConfiguration = $fieldConfiguration->getSettings();
-
-                if (method_exists($fieldDepartConfiguration, 'getLength')) {
-                    $overrideMapping['length'] = $fieldDepartConfiguration->getLength();
-                }
-
-                $overrideMapping['type'] = $doctrineType = $fieldDepartConfiguration->getType();
-                if ($doctrineType == 'decimal') {
-                    $overrideMapping['precision'] = $fieldDepartConfiguration->getPrecision();
-                    $overrideMapping['scale'] = $fieldDepartConfiguration->getScale();
-                }
-
-                break;
-            case SimpleFormatItem::class:
-
-                break;
-
-            case ReferenceEntityItem::class:
-                break;
-        }
-
-        $this->doctrineUtils->createSchema([$classmate]);
-
+        $this->doctrineUtils->createSchema([$classMetadata]);
     }
 
+    /**
+     * @param SchemaEvent $event
+     * @throws MappingException
+     */
     public function onDropSchemaEvent(SchemaEvent $event)
     {
-        dd(2, $event->getSubject());
+        /**@var FieldConfiguration $fieldConfiguration * */
+        $fieldConfiguration = $event->getSubject();
+
+        $classMetadata = $this->getFieldEntityClassMetaData($fieldConfiguration);
+
+        $this->doctrineUtils->dropSchema([$classMetadata]);
     }
 
     /**
@@ -114,5 +86,69 @@ class SchemaSubscriber implements EventSubscriberInterface
     private function getFieldService(string $fieldType)
     {
         return $this->container->get('teebb.core.field.' . $fieldType);
+    }
+
+    /**
+     * @param FieldConfiguration $fieldConfiguration
+     * @return ClassMetadata
+     * @throws MappingException
+     */
+    private function getFieldEntityClassMetaData(FieldConfiguration $fieldConfiguration): ClassMetadata
+    {
+        /**@var FieldInterface $fieldService * */
+        $fieldService = $this->getFieldService($fieldConfiguration->getFieldType());
+
+        $fieldEntity = $fieldService->getFieldEntity();
+        $classMetadata = $this->doctrineUtils->getSingleClassMetadata($fieldEntity);
+
+        //设置字段表名
+        $fieldAlias = $fieldConfiguration->getFieldAlias();
+        $classMetadata->setPrimaryTable(['name' => $fieldConfiguration->getBundle() . '__field_' . $fieldAlias]);
+
+        /**@var FieldDepartConfigurationInterface $fieldDepartConfiguration * */
+        $fieldDepartConfiguration = $fieldConfiguration->getSettings();
+
+        $doctrineType = $fieldDepartConfiguration->getType();
+
+        if (!$classMetadata->hasField('value')) {
+            //动态Mapping字段value,
+            $fieldMapping = array(
+                'fieldName' => 'value',
+                'type' => $doctrineType,
+                'nullable' => false
+            );
+
+            switch ($fieldEntity) {
+                case SimpleValueItem::class:
+
+                    //如果是文本类型需要设置数据库length
+                    if (method_exists($fieldDepartConfiguration, 'getLength')) {
+                        $fieldMapping['length'] = $fieldDepartConfiguration->getLength();
+                    }
+
+                    //如果是小数类型则需要添加precision，scale
+                    if ($doctrineType == 'decimal') {
+                        $fieldMapping['precision'] = $fieldDepartConfiguration->getPrecision();
+                        $fieldMapping['scale'] = $fieldDepartConfiguration->getScale();
+                    }
+                    break;
+
+                case SimpleFormatItem::class:
+                    //如果是文本类型需要设置数据库length
+                    if (method_exists($fieldDepartConfiguration, 'getLength')) {
+                        $fieldMapping['length'] = $fieldDepartConfiguration->getLength();
+                    }
+                    break;
+
+                case ReferenceEntityItem::class:
+                    //Todo: 需要定义好 Entity
+                    $fieldMapping['columnName'] = 'target_entity_id';
+                    break;
+            }
+
+            $classMetadata->mapField($fieldMapping);
+        }
+        
+        return $classMetadata;
     }
 }

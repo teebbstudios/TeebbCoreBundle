@@ -1,0 +1,19 @@
+{% extends '@TeebbCore/standard_layout.html.twig' %}
+
+{% block content %}
+    <!-- FULL WIDTH Content -->
+    <div class="full-width-wrapper">
+        <!-- card -->
+        <div class="card {% block card_top_border %}border-top-primary{% endblock %} shadow mb-4">
+            {% block card_title %}
+            {% endblock %}
+            <div class="card-body">
+                {% block card_help %}
+                {% endblock %}
+
+                {% block card_body %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

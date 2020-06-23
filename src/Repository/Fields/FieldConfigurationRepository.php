@@ -32,4 +32,37 @@ class FieldConfigurationRepository extends SortableRepository
         $this->_em->remove($fieldConfiguration);
         $this->_em->flush();
     }
+
+    /**
+     * 查询某类型所有字段
+     *
+     * @param string $typeAlias
+     * @return array
+     */
+    public function findAllTypesFields(string $typeAlias)
+    {
+        return $this->findBy(['typeAlias' => $typeAlias]);
+    }
+
+    /**
+     * 获取SortableRepository config 调整排序方式
+     * @return array|null
+     */
+    public function getSortableConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * 获取升序结果
+     *
+     * @param array $groupValues
+     * @return \Doctrine\ORM\Query
+     */
+    public function getBySortableGroupsQueryAsc(array $groupValues = array())
+    {
+        return $this->getBySortableGroupsQueryBuilder($groupValues)
+            ->orderBy('n.' . $this->config['position'], 'ASC')
+            ->getQuery();
+    }
 }

@@ -1,0 +1,13 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ trans_markup(label) }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/types/buttons/head_create_button.html.twig' with _context %}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/types/common/card_title.html.twig' with _context %}
+{% endblock %}

@@ -10,6 +10,9 @@ use Doctrine\ORM\EntityManager;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 
+/**
+ * @deprecated 使用 classMetadata->mapField() 动态映射字段，
+ */
 class ModifyClassMetadataEventArgs extends LoadClassMetadataEventArgs
 {
     /**

@@ -5,8 +5,8 @@ delete: 删除
 add_field: 添加字段
 index_field: 管理字段
 display_field: 管理字段显示
-update_field: '更新 %field% 字段设置'
-delete_field: '删除 %field% 字段设置'
+update_field: '更新 "%field%" 字段设置'
+delete_field: '删除 "%field%" 字段'
 
 Select fields: 选择字段
 simple: 常规类型
@@ -29,7 +29,7 @@ listInteger: 整数列表
 listFloat: 浮点数列表
 writing: 文本
 string: 文本
-stringFormat: 文本，已格工化
+stringFormat: 文本，已格式化
 text: 长文本
 textFormat: 长文本，已格式化
 textFormatSummary: 长文本，已格式化带摘要
@@ -47,11 +47,25 @@ teebb:
             types: 内容类型由不同的内容字段组成，字段可以是图像、文本、数字、标签或者其他。任意搭配字段生成您的内容类型。
             taxonomy: 分类用于内容的分类。术语（term）由分类（taxonomy）进行组织。比如，一个叫做 "水果" 的分类可能会包含术语 "苹果" 和 "香蕉"。
             add_fields: 不同的字段会在添加内容页面生成不同的表单行类型。选择已有的字段数据会存储在已有字段的数据表中，而不会生成新的数据库表。
+            delete_types: 删除"%types%"类型，与此类型相关的字段及字段数据也将删除，且无法恢复，请谨慎操作！！！确定要删除吗？
+            cannot_delete_types: 类型"%types%"中已有内容，如要删除，请先将"%types%"中内容删除后再进行操作！
+            delete_field: 删除"%field%"字段，使用该字段的类型将不再使用此字段，此字段中所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
+            sortable: 拖动行前箭头以修改每个字段的权重，用于调整在创建编辑显示内容时字段的顺序, 按升序排列。
+
+        list:
+            name: 名称
+            description: 描述
+            options: 操作
+            alias: 机读别名
+            field_type: 字段类型
+            delta: 排序权重
 
         fields:
             add: 添加字段
             index: 管理字段
             update: 更新字段
+            display: 管理字段显示
+            delete: 删除字段
             configuration:
                 settings: 字段设置：
                 label_help: 该字段是在添加编辑对应内容时表单行的标签。
@@ -119,9 +133,11 @@ teebb:
             save: 保存
             update: 更新
             delete: 删除
+            back_list: 返回列表
             save_add_field: 保存并添加字段
             set_field: 确定并设置字段
             update_field: 更新字段
+            delete_field: 删除字段
 
             fields:
                 field_label:

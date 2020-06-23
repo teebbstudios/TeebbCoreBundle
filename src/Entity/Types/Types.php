@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * 类型Entity. 删除类型删除所有字段和所有字段表
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Types\EntityTypeRepository")
- * @ORM\Table(name="types")
+ * @ORM\Table(name="type_entity")
  * @Assert\EnableAutoMapping
  *
  * @author Quan Weiwei <qww.zone@gmail.com>

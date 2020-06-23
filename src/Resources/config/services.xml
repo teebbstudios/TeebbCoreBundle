@@ -40,14 +40,5 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
-<!--        <service id="teebb.core.orm.modify_class_metadata_listener"-->
-<!--                 class="Teebb\CoreBundle\Listener\DynamicModifyMetadataListener">-->
-<!--            <tag name="doctrine.event_listener" event="loadClassMetadata"/>-->
-<!--        </service>-->
-        <service id="teebb.core.orm.modify_class_metadata_subscriber"
-                 class="Teebb\CoreBundle\Subscriber\ModifyClassMetadataSubscriber">
-            <tag name="doctrine.event_subscriber"/>
-        </service>
-
     </services>
 </container>

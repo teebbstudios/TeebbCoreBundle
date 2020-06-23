@@ -1,36 +1,28 @@
 {#添加字段页面#}
-
-{% extends '@TeebbCore/standard_layout.html.twig' %}
+{% extends '@TeebbCore/base_content.html.twig' %}
 
 {% block head_label %}
     {{ 'teebb.core.fields.add'|trans }}
 {% endblock %}
 
-{% block content %}
-    <!-- FULL WIDTH Content -->
-    <div class="full-width-wrapper">
-
-        {% block top_help %}
-            <!-- 提示 -->
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                <i class="fas fa-info-circle"></i>
-                <span class="small text-muted">{% block top_help_message %}{{ 'teebb.core.help.add_fields'|trans }}{% endblock %}</span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endblock %}
-
-        <!-- card body -->
-        <div class="card shadow mb-4">
-            {% include '@TeebbCore/fields/common/card_title.html.twig' with _context %}
-            <div class="card-body">
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                {% include '@TeebbCore/fields/buttons/form_set_field_button.html.twig' %}
-                {{ form_end(form) }}
-            </div>
-        </div>
-
+{% block card_help %}
+    <!-- 提示 -->
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle"></i>
+        <span class="small text-muted">{% block top_help_message %}{{ 'teebb.core.help.add_fields'|trans }}{% endblock %}</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/fields/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {% include '@TeebbCore/fields/buttons/form_set_field_button.html.twig' %}
+    {{ form_end(form) }}
 {% endblock %}

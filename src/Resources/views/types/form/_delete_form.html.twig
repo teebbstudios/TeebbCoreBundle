@@ -1,0 +1,35 @@
+{% extends '@TeebbCore/types/base_types.html.twig' %}
+
+{% block card_title %}
+    {% include '@TeebbCore/types/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_help %}
+    <!-- 提示 -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle"></i>
+        <span class="small text-muted">
+            {% block top_help_message %}
+                {% if deletable == true %}
+                    {{ 'teebb.core.help.delete_types'|trans({'%types%': subject.label}) }}
+                {% else %}
+                    {{ 'teebb.core.help.cannot_delete_types'|trans({'%types%': subject.label}) }}
+                {% endif %}
+            {% endblock %}
+        </span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endblock %}
+
+{% block card_body %}
+    {% if deletable == true %}
+        <div class="{{ action }}-{{ entity_type.EntityTypeMetadata.bundle }}-form">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {% include '@TeebbCore/types/buttons/form_submit_button.html.twig' with {'action':action} %}
+            {{ form_end(form) }}
+        </div>
+    {% endif %}
+{% endblock %}

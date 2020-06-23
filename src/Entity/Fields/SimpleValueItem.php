@@ -16,7 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class SimpleValueItem extends BaseFieldItem
 {
     /**
-     * @ORM\Column
+     * 动态映射
+     * @var mixed
      */
     private $value;
 

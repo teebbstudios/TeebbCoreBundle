@@ -15,26 +15,27 @@ use Doctrine\ORM\Mapping as ORM;
 class ReferenceEntityItem extends BaseFieldItem
 {
     /**
-     * 多对一关系 对应文件库的entity_id
-     * @todo 需要修改为文件类型entity
+     * 多对一关系 对应Entity的entity_id 动态映射
+     *
      * @var integer
      */
-    private $targetEntity;
+    private $value;
 
     /**
      * @return int
      */
-    public function getTargetEntity(): int
+    public function getValue(): int
     {
-        return $this->targetEntity;
+        return $this->value;
     }
 
     /**
-     * @param int $targetEntity
+     * Todo: 参数类型有错，应修改为具体entity
+     * @param int $value
      */
-    public function setTargetEntity(int $targetEntity): void
+    public function setValue(int $value): void
     {
-        $this->targetEntity = $targetEntity;
+        $this->value = $value;
     }
 
 }

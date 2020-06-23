@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -27,6 +28,7 @@ use Teebb\CoreBundle\Event\SchemaEvent;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\AddFieldsType;
 use Teebb\CoreBundle\Form\Type\FieldConfigurationType;
+use Teebb\CoreBundle\Form\Type\FieldSortableDisplayType;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
@@ -160,7 +162,7 @@ class AbstractEntityTypeController extends AbstractController
     }
 
     /**
-     * 显示不同内容实体类型EntityType列表
+     * 显示类型EntityType列表
      *
      * @param Request $request
      * @return Response
@@ -230,7 +232,7 @@ class AbstractEntityTypeController extends AbstractController
     }
 
     /**
-     * 更新内容类型
+     * 更新类型
      *
      * @param Request $request
      * @return Response
@@ -267,19 +269,76 @@ class AbstractEntityTypeController extends AbstractController
             ));
 
             //添加完类型，跳转到列表页面
-            return $this->redirectToRoute($this->entityTypeService->getRouteName('index'), [
-                'typeAlias' => $data->getTypeAlias()
-            ]);
+            return $this->redirectToRoute($this->entityTypeService->getRouteName('index'));
         }
 
         return $this->render($this->templateRegistry->getTemplate('update', 'types'), [
             'label' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
             'action' => $request->get('_teebb_action'),
             'buttons' => $this->entityTypeService->getActionButtons(),
+            'subject' => $entityType,
             'form' => $form->createView(),
             'extra_assets' => ['transliteration'], //当前页面需要额外添加的assets库
         ]);
 
+    }
+
+    /**
+     * 删除类型
+     *
+     * @param Request $request
+     * @return Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteAction(Request $request)
+    {
+        $typeAlias = $request->get('typeAlias');
+
+        $typesRepo = $this->entityTypeService->getRepository();
+
+        $entityType = $typesRepo->findOneBy(['typeAlias' => $typeAlias]);
+
+        if (null === $entityType) {
+            throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('typeAlias')));
+        }
+
+        $formName = $request->get('_route');
+        $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, $entityType, ['allow_extra_fields' => true]);
+        $formBuilder->add('_method', HiddenType::class, ['data' => 'DELETE', 'mapped' => false]);
+        $form = $formBuilder->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('_method')->getData() === 'DELETE') {
+                $fieldConfigurationRepo = $this->getFieldConfigurationRepository();
+                $fieldConfigurations = $fieldConfigurationRepo->findAllTypesFields($typeAlias);
+                //删除所有字段及删除所有字段表
+                foreach ($fieldConfigurations as $fieldConfiguration) {
+                    $schemaEvent = new SchemaEvent($fieldConfiguration);
+                    $this->dispatcher->dispatch($schemaEvent, SchemaEvent::DROP_SCHEMA);
+
+                    $fieldConfigurationRepo->remove($fieldConfiguration);
+                }
+                //删除类型
+                $typesRepo->remove($entityType);
+
+                $this->addFlash('success', $this->translator->trans(
+                    'teebb.core.entity_type.delete_success', ['%value%' => $entityType->getLabel()], 'TeebbCoreBundle'
+                ));
+
+                return $this->redirectToRoute($this->entityTypeService->getRouteName('index'));
+            }
+        }
+        return $this->render($this->templateRegistry->getTemplate('delete', 'types'), [
+            'label' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
+            'action' => $request->get('_teebb_action'),
+            'buttons' => $this->entityTypeService->getActionButtons(),
+            'subject' => $entityType,
+            'deletable' => true,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -347,8 +406,9 @@ class AbstractEntityTypeController extends AbstractController
 
         $this->checkTypeObjectExist($typeAlias);
 
+        /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQuery(['typeAlias' => $typeAlias])
+            ->getBySortableGroupsQueryAsc(['typeAlias' => $typeAlias])
             ->getResult();
 
         return $this->render($this->templateRegistry->getTemplate('list_fields', 'fields'), [
@@ -393,7 +453,7 @@ class AbstractEntityTypeController extends AbstractController
             $this->dispatcher->dispatch($event, SchemaEvent::CREATE_SCHEMA);
 
             //更新完字段跳转到管理字段页面
-            return $this->redirectToRoute($this->entityTypeService->getRouteName('index_field'),[
+            return $this->redirectToRoute($this->entityTypeService->getRouteName('index_field'), [
                 'typeAlias' => $typeAlias
             ]);
         }
@@ -401,9 +461,104 @@ class AbstractEntityTypeController extends AbstractController
         return $this->render($this->templateRegistry->getTemplate('update_field', 'fields'), [
             'action' => 'update_field',
             'form' => $form->createView(),
-            'fieldConfig' => $fieldConfiguration
+            'subject' => $fieldConfiguration
         ]);
 
+    }
+
+    /**
+     * 删除字段
+     * @param Request $request
+     * @return Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteFieldAction(Request $request)
+    {
+        $typeAlias = $request->get('typeAlias');
+        $fieldAlias = $request->get('fieldAlias');
+
+        $this->checkTypeObjectExist($typeAlias);
+
+        /**@var FieldConfiguration $fieldConfiguration * */
+        $fieldConfiguration = $this->fieldConfigurationRepository->findOneBy(['typeAlias' => $typeAlias, 'fieldAlias' => $fieldAlias]);
+        if (null === $fieldConfiguration) {
+            throw new NotFoundHttpException(sprintf('The field alias "%s" does not exist. Maybe the field is deleted or URL path is wrong!', $fieldAlias));
+        }
+
+        $formBuilder = $this->createFormBuilder($fieldConfiguration, ['allow_extra_fields' => true]);
+        $formBuilder->add('_method', HiddenType::class, ['mapped' => false, 'data' => 'DELETE']);
+        $form = $formBuilder->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('_method')->getData() === 'DELETE') {
+                $schemaEvent = new SchemaEvent($fieldConfiguration);
+                $this->dispatcher->dispatch($schemaEvent, SchemaEvent::DROP_SCHEMA);
+                $this->fieldConfigurationRepository->remove($fieldConfiguration);
+
+                $this->addFlash('success', $this->translator->trans(
+                    'teebb.core.field.delete_success', ['%value%' => $fieldConfiguration->getFieldLabel()], 'TeebbCoreBundle'
+                ));
+
+                return $this->redirectToRoute($this->entityTypeService->getRouteName('index_field'), [
+                    'typeAlias' => $typeAlias
+                ]);
+            }
+        }
+
+        return $this->render($this->templateRegistry->getTemplate('delete_field', 'fields'), [
+            'action' => 'delete_field',
+            'form' => $form->createView(),
+            'subject' => $fieldConfiguration
+        ]);
+    }
+
+    /**
+     * 管理字段显示顺序
+     * @param Request $request
+     * @return Response
+     */
+    public function displayFieldAction(Request $request)
+    {
+        $typeAlias = $request->get('typeAlias');
+
+        /**@var FieldConfiguration[] $fieldConfigurations * */
+        $fieldConfigurations = $this->fieldConfigurationRepository
+            ->getBySortableGroupsQueryAsc(['typeAlias' => $typeAlias])
+            ->getResult();
+
+        $form = $this->createForm(FieldSortableDisplayType::class, $fieldConfigurations);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            foreach ($data as $key => $value) {
+                if (!$value instanceof FieldConfiguration) {
+                    /**@var FieldConfiguration $fieldConfig * */
+                    $fieldConfig = $this->fieldConfigurationRepository->findOneBy(['fieldAlias' => $key]);
+                    $fieldConfig->setDelta($value);
+
+                    $this->entityManager->persist($fieldConfig);
+                }
+            }
+            $this->entityManager->flush();
+            
+            $this->addFlash('success', $this->translator->trans(
+                'teebb.core.field.sortable_success', [], 'TeebbCoreBundle'
+            ));
+
+            return $this->redirectToRoute($this->entityTypeService->getRouteName('index_field'), [
+                'typeAlias' => $typeAlias
+            ]);
+        }
+
+        return $this->render($this->templateRegistry->getTemplate('display_field', 'fields'), [
+            'action' => 'display_field',
+            'form' => $form->createView(),
+            'extra_assets' => ['sortablejs'], //当前页面需要额外添加的assets库
+        ]);
     }
 
     /**

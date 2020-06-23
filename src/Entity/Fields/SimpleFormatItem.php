@@ -16,8 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class SimpleFormatItem extends BaseFieldItem
 {
     /**
+     * 需要动态映射 type= string 或者 text
      * @var string
-     * @ORM\Column(type="string")
      */
     private $value;
 

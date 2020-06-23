@@ -22,7 +22,8 @@
             <link href="{{ asset(style) }}" rel="stylesheet" type="text/css">
         {% endfor %}
     {% endblock %}
-
+    {% block page_stylesheets %}
+    {% endblock %}
 </head>
 
 <body id="page-top">
@@ -526,7 +527,8 @@
         <script src="{{ asset(javascript) }}"></script>
     {% endfor %}
 {% endblock %}
-
+{% block page_java_scripts %}
+{% endblock %}
 {#{{ sylius_template_event('sylius.shop.layout.after_body') }}#}
 </body>
 

@@ -3,7 +3,7 @@
         {% if action in ['add_field', 'index_field', 'display_field'] %}
             {{ action|trans }}
         {% else %}
-            {{ action|trans({'%field%': fieldConfig.fieldLabel}) }}
+            {{ action|trans({'%field%': subject.fieldLabel}) }}
         {% endif %}
     </h6>
 </div>

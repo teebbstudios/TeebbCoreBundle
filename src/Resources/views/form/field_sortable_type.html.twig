@@ -1,0 +1,51 @@
+{% extends 'form_table_layout.html.twig' %}
+
+{%- block form_widget_compound -%}
+    <table {{ block('widget_container_attributes') }}>
+        <thead>
+        <tr>
+            <th scope="col">{{ 'teebb.core.list.name'|trans }}</th>
+            <th scope="col" class="d-none d-sm-table-cell">{{ 'teebb.core.list.field_type'|trans }}</th>
+            <th scope="col">{{ 'teebb.core.list.delta'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody id="js_sortable_tbody">
+        {%- if form is rootform and errors|length > 0 -%}
+            <tr>
+                <td colspan="2">
+                    {{- form_errors(form) -}}
+                </td>
+            </tr>
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+        </tbody>
+    </table>
+{%- endblock form_widget_compound -%}
+
+{%- block form_row -%}
+    {% set bundle = entity_type.EntityTypeMetadata.bundle %}
+
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <tr{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        <td>
+            <a href="#" class="js-modify-field-weight js-sortable"><i class="fas fa-arrows-alt"></i></a>
+            {{- form_label(form) -}}
+        </td>
+        <td class="d-none d-sm-table-cell">
+            {#Todo: 添加权限判断！！！如果没权限则不生成超链接#}
+            <a href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_update_field',
+                {'typeAlias':form.vars['type_alias'], 'fieldAlias': form.vars['field_alias']|replace({'_':'-'})}) }}">
+                {{ form.vars['field_type']|trans }}
+            </a>
+        </td>
+        <td>
+            {{- form_errors(form) -}}
+            {{- form_widget(form, widget_attr) -}}
+            {{- form_help(form) -}}
+        </td>
+    </tr>
+{%- endblock form_row -%}

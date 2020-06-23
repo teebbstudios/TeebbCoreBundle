@@ -1,0 +1,55 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ 'teebb.core.fields.display'|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/fields/buttons/head_index_field_button.html.twig' with _context %}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/tab_card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_help %}
+    <!-- 提示 -->
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle"></i>
+        <span class="small text-muted">
+            {% block top_help_message %}
+                {{ 'teebb.core.help.sortable'|trans }}
+            {% endblock %}
+        </span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endblock %}
+
+{% block card_body %}
+    {% form_theme form '@TeebbCore/form/field_sortable_type.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {% include '@TeebbCore/fields/buttons/save_button.html.twig' %}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block page_java_scripts %}
+    <script type="text/javascript">
+        //内容类型字段管理 使用sortablejs库调整字段权重
+        var el = document.getElementById('js_sortable_tbody');
+        var sortable = new Sortable(el, {
+            handle: '.js-sortable', // handle's class
+            animation: 150,
+            ghostClass: 'bg-gray-200',
+            // Element dragging ended
+            onEnd: function (/**Event*/evt) {
+                var $weightInputs = $(el).find('input[type=number].input-field-weight');
+                $.each($weightInputs, function (index, input) {
+                    $(input).val(index);
+                });
+            },
+        });
+    </script>
+{% endblock %}

@@ -1,6 +1,5 @@
 {#管理字段页面#}
-
-{% extends '@TeebbCore/standard_layout.html.twig' %}
+{% extends '@TeebbCore/base_content.html.twig' %}
 
 {% block head_label %}
     {{ 'teebb.core.fields.index'|trans }}
@@ -10,41 +9,33 @@
     {% include '@TeebbCore/fields/buttons/head_add_field_button.html.twig' with _context %}
 {% endblock %}
 
-{% block content %}
-    <!-- FULL WIDTH Content -->
-    <div class="full-width-wrapper">
+{% block card_title %}
+    {% include '@TeebbCore/tab_card_title.html.twig' with _context %}
+{% endblock %}
 
-        <!-- card body -->
-        <div class="card shadow mb-4">
-            {% include '@TeebbCore/fields/common/tab_card_title.html.twig' with _context %}
-            <div class="card-body">
-                <div class="table-responsive mt-3">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">标签</th>
-                            <th scope="col">机读别名</th>
-                            <th scope="col" class="d-none d-sm-table-cell">字段类型</th>
-                            <th scope="col">操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for field in fields %}
-                            <tr>
-                                <td>{{ field.fieldLabel }}</td>
-                                <td>{{ field.fieldAlias }}</td>
-                                <td class="d-none d-sm-table-cell">{{ field.fieldType|trans }}</td>
-                                <td class="text-nowrap">
-                                    {% include '@TeebbCore/fields/buttons/row_manage_field_button.html.twig' with _context %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-
+{% block card_body %}
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'teebb.core.list.name'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.alias'|trans }}</th>
+                <th scope="col" class="d-none d-sm-table-cell">{{ 'teebb.core.list.field_type'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.options'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for field in fields %}
+                <tr>
+                    <td>{{ field.fieldLabel }}</td>
+                    <td>{{ field.fieldAlias }}</td>
+                    <td class="d-none d-sm-table-cell">{{ field.fieldType|trans }}</td>
+                    <td class="text-nowrap">
+                        {% include '@TeebbCore/fields/buttons/item_manage_fields_button.html.twig' with _context %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
