@@ -58,6 +58,13 @@ interface EntityTypeMetadataInterface
     public function getRepository(): string;
 
     /**
+     * 获取 EntityType 全路径类名
+     *
+     * @return string
+     */
+    public function getTypeEntity(): string;
+
+    /**
      * 获取 Entity 全路径类名
      *
      * @return string

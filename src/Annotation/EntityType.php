@@ -28,40 +28,46 @@ use Doctrine\ORM\Mapping\Annotation;
 class EntityType implements TeebbAnnotationInterface
 {
     /**
-     * 内容实体类型标题
+     * 类型标题
      * @Required()
      */
     public $label;
 
     /**
-     * 内容实体类型bundle别名用于URL构建
+     * 类型bundle别名用于URL构建
      *
      * @var string
      */
     public $bundle;
 
     /**
-     * 简短描述内容实体类型
+     * 简短描述类型
      */
     public $description;
 
     /**
-     * 当前内容实体的Controller类
+     * 当前类型的Controller类
      *
      * @var string
      */
     public $controller;
 
     /**
-     * 当前内容实体的Repository类
+     * 当前类型的Repository类
      *
      * @var string
      */
     public $repository;
 
     /**
-     * 当前内容实体的Entity类
+     * 当前类型的Entity类
      *
+     * @var string
+     */
+    public $typeEntity;
+
+    /**
+     * 内容实体Entity类
      * @var string
      */
     public $entity;

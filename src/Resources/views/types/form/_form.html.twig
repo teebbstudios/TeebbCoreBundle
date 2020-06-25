@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block card_title %}
-    {% if action == app.request.attributes.get('_teebb_action') %}
+    {% if action == 'update' %}
         {% include '@TeebbCore/tab_card_title.html.twig' %}
     {% else %}
         {% include '@TeebbCore/types/common/card_title.html.twig' with _context %}

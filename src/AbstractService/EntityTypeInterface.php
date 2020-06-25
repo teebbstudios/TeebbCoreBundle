@@ -60,11 +60,11 @@ interface EntityTypeInterface
     public function getEntityTypeMetadata(): EntityTypeMetadataInterface;
 
     /**
-     * 获取Repository
+     * 获取EntityType Repository
      *
      * @return RepositoryInterface
      */
-    public function getRepository(): RepositoryInterface;
+    public function getEntityTypeRepository(): RepositoryInterface;
 
     /**
      * 获取当前内容实体类型的所有routes
@@ -88,18 +88,6 @@ interface EntityTypeInterface
     public function hasRoute(string $serviceId, string $name): bool;
 
     /**
-     * 获取该类型所有字段Field
-     */
-    public function getFields();
-
-    /**
-     * 当前内容实体类型添加字段
-     *
-     * @param FieldInterface $field
-     */
-    public function addField(FieldInterface $field): void;
-
-    /**
      * 根据用户权限获取所有可用操作
      */
     public function getActionButtons(): array;
@@ -110,10 +98,16 @@ interface EntityTypeInterface
     public function getPathInfoGenerator(): PathInfoGeneratorInterface;
 
     /**
-     * 获取entity全类名
+     * 获取entity type全类名
      * @return string
      */
-    public function getEntityClass(): string;
+    public function getTypeEntityClass(): string;
+
+    /**
+     * 获取保存内容的具体entity全类名
+     * @return string
+     */
+    public function getEntityClassName():string;
 
     /**
      * 获取类型注释中的Bundle别名

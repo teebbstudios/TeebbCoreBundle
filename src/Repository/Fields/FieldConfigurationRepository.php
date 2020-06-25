@@ -54,15 +54,15 @@ class FieldConfigurationRepository extends SortableRepository
     }
 
     /**
-     * 获取升序结果
+     * 获取降序结果
      *
      * @param array $groupValues
      * @return \Doctrine\ORM\Query
      */
-    public function getBySortableGroupsQueryAsc(array $groupValues = array())
+    public function getBySortableGroupsQueryDesc(array $groupValues = array())
     {
         return $this->getBySortableGroupsQueryBuilder($groupValues)
-            ->orderBy('n.' . $this->config['position'], 'ASC')
+            ->orderBy('n.' . $this->config['position'], 'DESC')
             ->getQuery();
     }
 }

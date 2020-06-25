@@ -127,7 +127,7 @@ class AbstractEntityTypeController extends AbstractController
             ));
         }
 
-        $this->entityTypeRepository = $this->entityTypeService->getRepository();
+        $this->entityTypeRepository = $this->entityTypeService->getEntityTypeRepository();
 
         if (!$this->entityTypeService) {
             throw new \RuntimeException(sprintf(
@@ -187,7 +187,7 @@ class AbstractEntityTypeController extends AbstractController
     }
 
     /**
-     * 创建内容实体类型EntityType
+     * 创建类型EntityType
      *
      * @param Request $request
      * @return Response
@@ -196,11 +196,11 @@ class AbstractEntityTypeController extends AbstractController
     {
         $formName = $request->get('_route');
 
-        $entityClass = $this->entityTypeService->getEntityClass();
+        $typeEntityClass = $this->entityTypeService->getTypeEntityClass();
 
-        $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, null, ['data_class' => $entityClass]);
+        $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, null, ['data_class' => $typeEntityClass]);
 
-        $form = $this->formContractor->buildEntityTypeForm($formBuilder, $entityClass,
+        $form = $this->formContractor->buildEntityTypeForm($formBuilder, $typeEntityClass,
             $this->entityTypeService->getEntityTypeMetadata()->getFormSettings(), $this->entityTypeService->getBundle());
 
         $form->handleRequest($request);
@@ -209,8 +209,7 @@ class AbstractEntityTypeController extends AbstractController
             /**@var TypeInterface $data * */
             $data = $form->getData();
 
-            $repository = $this->entityTypeService->getRepository();
-            $repository->save($data);
+            $this->entityTypeRepository->save($data);
 
             $this->addFlash('success', $this->translator->trans(
                 'teebb.core.entity_type.create_success', ['%value%' => $data->getLabel()], 'TeebbCoreBundle'
@@ -241,20 +240,18 @@ class AbstractEntityTypeController extends AbstractController
     {
         $typeAlias = $request->get('typeAlias');
 
-        $entityTypeRepo = $this->entityTypeService->getRepository();
-
-        $entityType = $entityTypeRepo->findOneBy(['typeAlias' => $typeAlias]);
+        $entityType = $this->entityTypeRepository->findOneBy(['typeAlias' => $typeAlias]);
 
         if (null === $entityType) {
             throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('typeAlias')));
         }
 
-        $entityClass = $this->entityTypeService->getEntityClass();
+        $typeEntityClass = $this->entityTypeService->getTypeEntityClass();
 
         $formName = $request->get('_route');
-        $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, $entityType, ['data_class' => $entityClass]);
+        $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, $entityType, ['data_class' => $typeEntityClass]);
 
-        $form = $this->formContractor->buildEntityTypeForm($formBuilder, $entityClass,
+        $form = $this->formContractor->buildEntityTypeForm($formBuilder, $typeEntityClass,
             $this->entityTypeService->getEntityTypeMetadata()->getFormSettings(), $this->entityTypeService->getBundle());
 
         $form->handleRequest($request);
@@ -262,7 +259,7 @@ class AbstractEntityTypeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /**@var TypeInterface $data * */
             $data = $form->getData();
-            $entityTypeRepo->save($data);
+            $this->entityTypeRepository->save($data);
 
             $this->addFlash('success', $this->translator->trans(
                 'teebb.core.entity_type.update_success', ['%value%' => $data->getLabel()], 'TeebbCoreBundle'
@@ -295,9 +292,7 @@ class AbstractEntityTypeController extends AbstractController
     {
         $typeAlias = $request->get('typeAlias');
 
-        $typesRepo = $this->entityTypeService->getRepository();
-
-        $entityType = $typesRepo->findOneBy(['typeAlias' => $typeAlias]);
+        $entityType = $this->entityTypeRepository->findOneBy(['typeAlias' => $typeAlias]);
 
         if (null === $entityType) {
             throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $request->get('typeAlias')));
@@ -317,12 +312,13 @@ class AbstractEntityTypeController extends AbstractController
                 //删除所有字段及删除所有字段表
                 foreach ($fieldConfigurations as $fieldConfiguration) {
                     $schemaEvent = new SchemaEvent($fieldConfiguration);
+                    $schemaEvent->setContentEntity($this->entityTypeService->getEntityClassName());
                     $this->dispatcher->dispatch($schemaEvent, SchemaEvent::DROP_SCHEMA);
 
                     $fieldConfigurationRepo->remove($fieldConfiguration);
                 }
                 //删除类型
-                $typesRepo->remove($entityType);
+                $this->entityTypeRepository->remove($entityType);
 
                 $this->addFlash('success', $this->translator->trans(
                     'teebb.core.entity_type.delete_success', ['%value%' => $entityType->getLabel()], 'TeebbCoreBundle'
@@ -408,7 +404,7 @@ class AbstractEntityTypeController extends AbstractController
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQueryAsc(['typeAlias' => $typeAlias])
+            ->getBySortableGroupsQuery(['typeAlias' => $typeAlias])
             ->getResult();
 
         return $this->render($this->templateRegistry->getTemplate('list_fields', 'fields'), [
@@ -450,6 +446,7 @@ class AbstractEntityTypeController extends AbstractController
 
             //事件添加完字段在动态添加数据库表
             $event = new SchemaEvent($fieldConfiguration);
+            $event->setContentEntity($this->entityTypeService->getEntityClassName());
             $this->dispatcher->dispatch($event, SchemaEvent::CREATE_SCHEMA);
 
             //更新完字段跳转到管理字段页面
@@ -526,7 +523,7 @@ class AbstractEntityTypeController extends AbstractController
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQueryAsc(['typeAlias' => $typeAlias])
+            ->getBySortableGroupsQuery(['typeAlias' => $typeAlias])
             ->getResult();
 
         $form = $this->createForm(FieldSortableDisplayType::class, $fieldConfigurations);
@@ -578,7 +575,7 @@ class AbstractEntityTypeController extends AbstractController
     protected function checkTypeObjectExist(string $typeAlias)
     {
         //检测URL中类型实体Types是否存在，如果不存在报404
-        if (null === $this->entityTypeService->getRepository()->findOneBy(['typeAlias' => $typeAlias])) {
+        if (null === $this->entityTypeRepository->findOneBy(['typeAlias' => $typeAlias])) {
             throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $typeAlias));
         }
     }

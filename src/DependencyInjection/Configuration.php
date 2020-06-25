@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('fields')
                         ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('select_fields')->defaultValue('@TeebbCore/fields/list/select_fields.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('select_fields')->defaultValue('@TeebbCore/fields/form/select_fields.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('list_fields')->defaultValue('@TeebbCore/fields/list/list_fields.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('update_field')->defaultValue('@TeebbCore/fields/form/_form.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('delete_field')->defaultValue('@TeebbCore/fields/form/_delete_form.html.twig')->cannotBeEmpty()->end()

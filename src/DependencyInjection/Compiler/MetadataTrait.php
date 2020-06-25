@@ -31,6 +31,7 @@ trait MetadataTrait
             $this->createTranslatableMarkupDefinition($annotation->description),
             $annotation->controller,
             $annotation->repository,
+            $annotation->typeEntity,
             $annotation->entity,
             $reflectionClass->getName(),
             $this->createFormSettingsDefinition($annotation->form)

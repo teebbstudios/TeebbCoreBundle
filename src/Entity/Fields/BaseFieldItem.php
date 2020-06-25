@@ -35,8 +35,7 @@ class BaseFieldItem
 
     /**
      * 具体内容entity， many-to-one, 多个字段值对应一个内容entity
-     * @var integer
-     *
+     * @var object|null
      */
     protected $entity;
 
@@ -83,6 +82,22 @@ class BaseFieldItem
     public function setTypes(string $types): void
     {
         $this->types = $types;
+    }
+
+    /**
+     * @return object|null
+     */
+    public function getEntity(): ?object
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @param object|null $entity
+     */
+    public function setEntity(?object $entity): void
+    {
+        $this->entity = $entity;
     }
 
     /**

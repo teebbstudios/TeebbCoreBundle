@@ -25,22 +25,22 @@ final class EntityTypeActions
     public const INDEX = 'index';
 
     /**
-     * 创建实体类型
+     * 创建类型
      */
     public const CREATE = 'create';
 
     /**
-     * 更新实体类型
+     * 更新类型
      */
     public const UPDATE = 'update';
 
     /**
-     * 删除实体类型
+     * 删除类型
      */
     public const DELETE = 'delete';
 
     /**
-     * 显示实体类型所有字段
+     * 显示类型所有字段
      */
     public const INDEX_FIELD = 'index_field';
 

@@ -33,6 +33,9 @@ class FieldType implements TeebbAnnotationInterface
      */
     public $label;
 
+    /**
+     * @deprecated 
+     */
     public $description;
 
     /**

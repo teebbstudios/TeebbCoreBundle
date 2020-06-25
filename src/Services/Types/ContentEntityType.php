@@ -28,7 +28,8 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *     description=@Translation(message="teebb.core.entity_type.content.description"),
  *     repository="Teebb\CoreBundle\Repository\Types\EntityTypeRepository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
- *     entity="Teebb\CoreBundle\Entity\Types\Types",
+ *     typeEntity="Teebb\CoreBundle\Entity\Types\Types",
+ *     entity="Teebb\CoreBundle\Entity\Content",
  *     form=@TypesForm(formRows={
  *          @FormRow(
  *              property="label",formType="Symfony\Component\Form\Extension\Core\Type\TextType",

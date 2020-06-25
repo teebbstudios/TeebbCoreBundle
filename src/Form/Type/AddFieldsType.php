@@ -9,9 +9,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Validator\FieldAliasUnique;
 
@@ -33,6 +36,11 @@ class AddFieldsType extends AbstractType
      */
     private $container;
 
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
     public function __construct(array $fields, ContainerInterface $container)
     {
         $this->fields = $fields;
@@ -50,7 +58,7 @@ class AddFieldsType extends AbstractType
                 'attr' => [
                     'class' => 'col-12 col-sm-4 select-new-field form-control-sm'
                 ],
-                'constraints'=>[
+                'constraints' => [
                     new NotBlank()
                 ],
                 'placeholder' => '-Please select a field-',

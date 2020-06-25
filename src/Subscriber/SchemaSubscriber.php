@@ -57,8 +57,9 @@ class SchemaSubscriber implements EventSubscriberInterface
     {
         /**@var FieldConfiguration $fieldConfiguration * */
         $fieldConfiguration = $event->getSubject();
+        $entityClassName = $event->getContentEntity();
 
-        $classMetadata = $this->getFieldEntityClassMetaData($fieldConfiguration);
+        $classMetadata = $this->getFieldEntityClassMetaData($fieldConfiguration, $entityClassName);
 
         $this->doctrineUtils->createSchema([$classMetadata]);
     }
@@ -71,8 +72,9 @@ class SchemaSubscriber implements EventSubscriberInterface
     {
         /**@var FieldConfiguration $fieldConfiguration * */
         $fieldConfiguration = $event->getSubject();
+        $entityClassName = $event->getContentEntity();
 
-        $classMetadata = $this->getFieldEntityClassMetaData($fieldConfiguration);
+        $classMetadata = $this->getFieldEntityClassMetaData($fieldConfiguration, $entityClassName);
 
         $this->doctrineUtils->dropSchema([$classMetadata]);
     }
@@ -90,10 +92,11 @@ class SchemaSubscriber implements EventSubscriberInterface
 
     /**
      * @param FieldConfiguration $fieldConfiguration
+     * @param string $entityClassName
      * @return ClassMetadata
      * @throws MappingException
      */
-    private function getFieldEntityClassMetaData(FieldConfiguration $fieldConfiguration): ClassMetadata
+    private function getFieldEntityClassMetaData(FieldConfiguration $fieldConfiguration, string $entityClassName): ClassMetadata
     {
         /**@var FieldInterface $fieldService * */
         $fieldService = $this->getFieldService($fieldConfiguration->getFieldType());
@@ -109,6 +112,15 @@ class SchemaSubscriber implements EventSubscriberInterface
         $fieldDepartConfiguration = $fieldConfiguration->getSettings();
 
         $doctrineType = $fieldDepartConfiguration->getType();
+
+        //mapping 字段entity
+        if (!$classMetadata->hasAssociation('entity')) {
+            $classMetadata->mapManyToOne([
+                'fieldName' => 'entity',
+                'targetEntity' => $entityClassName,
+                'cascade' => ['remove', 'persist']
+            ]);
+        }
 
         if (!$classMetadata->hasField('value')) {
             //动态Mapping字段value,
@@ -148,7 +160,7 @@ class SchemaSubscriber implements EventSubscriberInterface
 
             $classMetadata->mapField($fieldMapping);
         }
-        
+
         return $classMetadata;
     }
 }

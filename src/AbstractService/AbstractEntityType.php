@@ -88,9 +88,9 @@ abstract class AbstractEntityType implements EntityTypeInterface
     /**
      * @inheritDoc
      */
-    public function getRepository(): RepositoryInterface
+    public function getEntityTypeRepository(): RepositoryInterface
     {
-        return $this->entityManager->getRepository($this->getEntityClass());
+        return $this->entityManager->getRepository($this->getTypeEntityClass());
     }
 
     /**
@@ -130,7 +130,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
         return $this->pathInfoGenerator->hasRoute($serviceId, $routeName);
     }
 
-    /**
+    /**￿
      * @return EntityTypePathBuilder
      */
     public function getPathBuilder(): EntityTypePathBuilder
@@ -148,22 +148,6 @@ abstract class AbstractEntityType implements EntityTypeInterface
     protected function configureRoutes(EntityTypeRouteCollection $routeCollection): void
     {
         //$this->routing->addRoute('example', 'pattern');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getFields()
-    {
-        // TODO: Implement getFields() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addField(FieldInterface $field): void
-    {
-        // TODO: Implement addField() method.
     }
 
     /**
@@ -190,7 +174,15 @@ abstract class AbstractEntityType implements EntityTypeInterface
     /**
      * @inheritDoc
      */
-    public function getEntityClass(): string
+    public function getTypeEntityClass(): string
+    {
+        return $this->metadata->getTypeEntity();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntityClassName(): string
     {
         return $this->metadata->getEntity();
     }

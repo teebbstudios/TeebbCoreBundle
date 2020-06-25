@@ -18,7 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * 类型Entity. 删除类型删除所有字段和所有字段表
  *

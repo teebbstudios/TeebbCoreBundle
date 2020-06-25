@@ -28,8 +28,9 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *     description=@Translation(message="teebb.core.entity_type.comment.description"),
  *     repository="Teebb\CoreBundle\Repository\Types\EntityTypeRepository",
  *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
- *     entity="Teebb\CoreBundle\Entity\Types\Types",
- **     form=@TypesForm(formRows={
+ *     typeEntity="Teebb\CoreBundle\Entity\Types\Types",
+ *     entity="Teebb\CoreBundle\Entity\Comment",
+ *     form=@TypesForm(formRows={
  *          @FormRow(
  *              property="label",formType="Symfony\Component\Form\Extension\Core\Type\TextType",
  *              options={
