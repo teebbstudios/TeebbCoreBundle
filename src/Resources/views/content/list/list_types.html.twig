@@ -1,0 +1,37 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ 'teebb.core.content.create'|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/content/buttons/head_index_content_button.html.twig' %}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/content/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_body %}
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'teebb.core.list.name'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.description'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for type in data %}
+                <tr>
+                    <td><a href="{{ path('teebb_content_create',{'typeAlias': type.typeAlias}) }}">
+                            <i class="fas fa-arrow-alt-circle-right fa-sm pr-2"></i>
+                            {{ type.label }}</a>
+                    </td>
+                    <td>{{ type.description }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

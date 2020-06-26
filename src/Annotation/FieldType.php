@@ -61,4 +61,10 @@ class FieldType implements TeebbAnnotationInterface
      * @var string
      */
     public $formConfigType;
+
+    /**
+     * 字段表单Type
+     * @var string
+     */
+    public $formType;
 }
