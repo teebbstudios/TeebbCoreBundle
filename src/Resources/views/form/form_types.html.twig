@@ -30,3 +30,18 @@
         </div>
     </div>
 {% endblock %}
+
+{% block text_summary_widget %}
+    {% set show_summary = form.vars['show_summary'] %}
+    {% set summary_required = form.vars['summary_required'] %}
+    <button class="btn btn-sm btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseSummary"
+            aria-expanded="{{ show_summary }}" aria-controls="collapseSummary">
+        <span class="font-italic small">{{ 'teebb.core.form.show_summary'|trans }}</span>
+    </button>
+    <div class="collapse {% if show_summary==true %}show{% endif %}" id="collapseSummary">
+        <div class="card">
+            {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+            <textarea {{ block('widget_attributes') }} {% if summary_required==true %}required{% endif %}>{{ value }}</textarea>
+        </div>
+    </div>
+{% endblock %}

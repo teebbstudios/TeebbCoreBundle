@@ -17,7 +17,8 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     type="simple",
  *     category=@Translation(message="teebb.core.field.category.simple"),
  *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem",
- *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\EmailItemConfigurationType"
+ *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\EmailItemConfigurationType",
+ *     formType="Teebb\CoreBundle\Form\Type\FieldType\EmailFieldType"
  * )
  */
 class EmailField extends AbstractField

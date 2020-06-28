@@ -44,6 +44,19 @@
             <tag name="form.type"/>
         </service>
 
+        <service id="teebb.core.form.content_type"
+                 class="Teebb\CoreBundle\Form\Type\ContentType">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="service_container"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.form.field.boolean_type"
+                 class="Teebb\CoreBundle\Form\Type\FieldType\BooleanFieldType">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <tag name="form.type"/>
+        </service>
+
         <service id="teebb.core.validator.field_alias_unique"
                  class="Teebb\CoreBundle\Validator\FieldAliasUniqueValidator">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>

@@ -143,6 +143,12 @@ teebb:
             update_field: 更新字段
             delete_field: 删除字段
 
+            create_content: 创建内容
+            update_content: 更新内容
+            delete_content: 删除内容
+
+            show_summary: 编辑摘要
+
             fields:
                 field_label:
                     help: 此字段的名称，用于添加内容时表单行的名称。

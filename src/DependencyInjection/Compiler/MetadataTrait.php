@@ -51,7 +51,8 @@ trait MetadataTrait
             $this->createTranslatableMarkupDefinition($annotation->description),
             $this->createTranslatableMarkupDefinition($annotation->category),
             $annotation->entity,
-            $annotation->formConfigType
+            $annotation->formConfigType,
+            $annotation->formType
         ]);
     }
 

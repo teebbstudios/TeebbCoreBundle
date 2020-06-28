@@ -24,7 +24,8 @@
         "symfony/twig-pack": "^1.0",
         "pagerfanta/pagerfanta": "^2.3",
         "symfony/form": "^5.1",
-        "symfony/mime": "^5.1"
+        "symfony/mime": "^5.1",
+        "friendsofsymfony/ckeditor-bundle": "^2.2"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.0",

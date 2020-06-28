@@ -51,15 +51,11 @@ interface FieldInterface
      * 获取字段设置表单Type全类名
      * @return string
      */
-    public function getFieldConfigType(): string;
+    public function getFieldConfigFormType(): string;
 
-//    /**
-//     * 获取字段设置
-//     *
-//     * @param string $type 内容类型
-//     * @param string $alias
-//     * @param string $fieldName
-//     * @return FieldConfiguration
-//     */
-//    public function getFieldConfiguration(string $type, string $alias, string $fieldName): FieldConfiguration;
+    /**
+     * 获取字段entity表单Type全类名
+     * @return string
+     */
+    public function getFieldFormType(): string;
 }

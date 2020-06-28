@@ -39,8 +39,14 @@ class FieldMetadata implements FieldMetadataInterface
      */
     private $formConfigType;
 
+    /**
+     * 字段表单Type全类名
+     * @var string
+     */
+    private $formType;
+
     public function __construct(string $id, TranslatableMarkup $label, TranslatableMarkup $description,
-                                TranslatableMarkup $category, string $entity, string $formConfigType)
+                                TranslatableMarkup $category, string $entity, string $formConfigType, string $formType)
     {
         $this->id = $id;
         $this->label = $label;
@@ -48,6 +54,7 @@ class FieldMetadata implements FieldMetadataInterface
         $this->category = $category;
         $this->entity = $entity;
         $this->formConfigType = $formConfigType;
+        $this->formType = $formType;
     }
 
     public function getId(): string
@@ -75,10 +82,14 @@ class FieldMetadata implements FieldMetadataInterface
         return $this->entity;
     }
 
-    public function getFieldConfigType(): string
+    public function getFieldFormConfigType(): string
     {
         return $this->formConfigType;
     }
 
+    public function getFieldFormType(): string
+    {
+        return  $this->formType;
+    }
 
 }

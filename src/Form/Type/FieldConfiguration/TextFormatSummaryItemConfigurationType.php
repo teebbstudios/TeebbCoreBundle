@@ -19,8 +19,7 @@ class TextFormatSummaryItemConfigurationType extends BaseItemConfigurationType
             ->add('showSummaryInput', CheckboxType::class, [
                 'label' => 'teebb.core.fields.configuration.show_summary_input_label',
                 'help' => 'teebb.core.fields.configuration.show_summary_input_label_help',
-                'required' => false,
-                'data' => true
+                'required' => false
             ])
             ->add('summaryRequired', CheckboxType::class, [
                 'label' => 'teebb.core.fields.configuration.summary_require_label',

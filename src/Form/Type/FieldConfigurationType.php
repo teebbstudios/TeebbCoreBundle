@@ -58,7 +58,7 @@ class FieldConfigurationType extends AbstractType
                     if (null === $fieldService) {
                         throw new ServiceNotFoundException(sprintf('Field Service "%s" does not exist.', 'teebb.core.field.' . $fieldType));
                     }
-                    $FormType = $fieldService->getFieldConfigType();
+                    $FormType = $fieldService->getFieldConfigFormType();
 
                     $event->getForm()->add('settings', $FormType, [
                         'label' => 'teebb.core.fields.configuration.settings'

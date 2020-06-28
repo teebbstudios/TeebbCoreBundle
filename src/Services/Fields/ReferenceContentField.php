@@ -17,7 +17,8 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     type="reference",
  *     category=@Translation(message="teebb.core.field.category.reference"),
  *     entity="Teebb\CoreBundle\Entity\Fields\ReferenceEntityItem",
- *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceContentItemConfigurationType"
+ *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\ReferenceContentItemConfigurationType",
+ *     formType="Teebb\CoreBundle\Form\Type\FieldType\ReferenceContentFieldType"
  * )
  */
 class ReferenceContentField extends AbstractField

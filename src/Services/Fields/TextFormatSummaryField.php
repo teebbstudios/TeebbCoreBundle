@@ -15,7 +15,8 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     type="writing",
  *     category=@Translation(message="teebb.core.field.category.text"),
  *     entity="Teebb\CoreBundle\Entity\Fields\TextFormatSummaryItem",
- *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\TextFormatSummaryItemConfigurationType"
+ *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\TextFormatSummaryItemConfigurationType",
+ *     formType="Teebb\CoreBundle\Form\Type\FieldType\TextFormatSummaryFieldType"
  * )
  */
 class TextFormatSummaryField extends AbstractField

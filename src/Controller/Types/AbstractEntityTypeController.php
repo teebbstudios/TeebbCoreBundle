@@ -399,12 +399,13 @@ class AbstractEntityTypeController extends AbstractController
     public function indexFieldAction(Request $request)
     {
         $typeAlias = $request->get('typeAlias');
+        $bundle = $this->entityTypeService->getBundle();
 
         $this->checkTypeObjectExist($typeAlias);
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQuery(['typeAlias' => $typeAlias])
+            ->getBySortableGroupsQuery(['bundle' => $bundle, 'typeAlias' => $typeAlias])
             ->getResult();
 
         return $this->render($this->templateRegistry->getTemplate('list_fields', 'fields'), [
@@ -520,10 +521,11 @@ class AbstractEntityTypeController extends AbstractController
     public function displayFieldAction(Request $request)
     {
         $typeAlias = $request->get('typeAlias');
+        $bundle = $this->entityTypeService->getBundle();
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQuery(['typeAlias' => $typeAlias])
+            ->getBySortableGroupsQuery(['bundle' => $bundle, 'typeAlias' => $typeAlias])
             ->getResult();
 
         $form = $this->createForm(FieldSortableDisplayType::class, $fieldConfigurations);
@@ -541,7 +543,7 @@ class AbstractEntityTypeController extends AbstractController
                 }
             }
             $this->entityManager->flush();
-            
+
             $this->addFlash('success', $this->translator->trans(
                 'teebb.core.field.sortable_success', [], 'TeebbCoreBundle'
             ));

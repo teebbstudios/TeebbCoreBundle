@@ -8,8 +8,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
+use Teebb\CoreBundle\Form\Type\ContentType;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\Types\EntityTypeRepository;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
@@ -76,12 +78,20 @@ class AbstractContentController extends AbstractController
      * 创建内容
      *
      * @param Request $request
+     * @param Types $types
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, Types $types)
     {
+        $form = $this->createForm(ContentType::class, null, ['bundle' => $types->getBundle(), 'type_alias' => $types->getTypeAlias()]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($form->get('bu_er_zhi')->getData(),$form->get('zheng_wen')->getData(),$form->get('biao_ti')->getData());
+        }
         return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
-            'action' => 'create_content'
+            'action' => 'create_content',
+            'form' => $form->createView()
         ]);
     }
 }

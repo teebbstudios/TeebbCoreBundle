@@ -28,6 +28,7 @@ class FieldConfiguration
     /**
      * 字段所属的内容实体类型注释中的别名。"comment","types","taxonomy"等
      *
+     * @Gedmo\SortableGroup
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $bundle;

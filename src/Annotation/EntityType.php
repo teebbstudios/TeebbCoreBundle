@@ -29,13 +29,13 @@ class EntityType implements TeebbAnnotationInterface
 {
     /**
      * 类型标题
-     * @Required()
+     * @Required
      */
     public $label;
 
     /**
      * 类型bundle别名用于URL构建
-     *
+     * @Required
      * @var string
      */
     public $bundle;
@@ -47,27 +47,28 @@ class EntityType implements TeebbAnnotationInterface
 
     /**
      * 当前类型的Controller类
-     *
+     * @Required
      * @var string
      */
     public $controller;
 
     /**
      * 当前类型的Repository类
-     *
+     * @Required
      * @var string
      */
     public $repository;
 
     /**
      * 当前类型的Entity类
-     *
+     * @Required
      * @var string
      */
     public $typeEntity;
 
     /**
-     * 内容实体Entity类
+     * 内容Entity类
+     * @Required
      * @var string
      */
     public $entity;

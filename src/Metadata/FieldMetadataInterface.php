@@ -44,5 +44,11 @@ interface FieldMetadataInterface
      * 获取字段配置表单Type类名
      * @return string
      */
-    public function getFieldConfigType(): string;
+    public function getFieldFormConfigType(): string;
+
+    /**
+     * 获取字段表单Type类名
+     * @return string
+     */
+    public function getFieldFormType(): string;
 }

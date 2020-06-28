@@ -17,7 +17,8 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     type="numeric",
  *     category=@Translation(message="teebb.core.field.category.numeric"),
  *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem",
- *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\ListIntegerItemConfigurationType"
+ *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\ListIntegerItemConfigurationType",
+ *     formType="Teebb\CoreBundle\Form\Type\FieldType\ListIntegerFieldType"
  * )
  */
 class ListIntegerField extends AbstractField

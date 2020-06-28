@@ -13,5 +13,8 @@
 {% endblock %}
 
 {% block card_body %}
-
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {% include '@TeebbCore/content/buttons/form_submit_button.html.twig' with _context %}
+    {{ form_end(form) }}
 {% endblock %}

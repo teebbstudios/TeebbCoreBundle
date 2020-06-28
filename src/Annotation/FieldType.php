@@ -12,6 +12,8 @@
 
 namespace Teebb\CoreBundle\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\Required;
+
 /**
  * 所有可配置的字段Field添加此注解.
  *
@@ -24,7 +26,7 @@ class FieldType implements TeebbAnnotationInterface
 {
     /**
      * @var string
-     * @Required()
+     * @Required
      */
     public $id;
 
@@ -39,31 +41,35 @@ class FieldType implements TeebbAnnotationInterface
     public $description;
 
     /**
+     * @Required
      * @var string
      */
     public $type;
     
     /**
      * 字段类型的分组名称
+     *
      * @deprecated
      */
     public $category;
 
     /**
      * 字段类型对应的实体类
-     *
+     * @Required
      * @var string
      */
     public $entity;
 
     /**
      * 字段配置表单Type
+     * @Required
      * @var string
      */
     public $formConfigType;
 
     /**
      * 字段表单Type
+     * @Required
      * @var string
      */
     public $formType;

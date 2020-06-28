@@ -17,7 +17,8 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     type="simple",
  *     category=@Translation(message="teebb.core.field.category.simple"),
  *     entity="Teebb\CoreBundle\Entity\Fields\LinkItem",
- *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\LinkItemConfigurationType"
+ *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\LinkItemConfigurationType",
+ *     formType="Teebb\CoreBundle\Form\Type\FieldType\LinkFieldType"
  * )
  */
 class LinkField extends AbstractField
