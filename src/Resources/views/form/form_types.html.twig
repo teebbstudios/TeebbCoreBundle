@@ -34,14 +34,52 @@
 {% block text_summary_widget %}
     {% set show_summary = form.vars['show_summary'] %}
     {% set summary_required = form.vars['summary_required'] %}
-    <button class="btn btn-sm btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseSummary"
+    <a href="#" data-toggle="collapse" data-target="#collapseSummary"
             aria-expanded="{{ show_summary }}" aria-controls="collapseSummary">
         <span class="font-italic small">{{ 'teebb.core.form.show_summary'|trans }}</span>
-    </button>
+    </a>
     <div class="collapse {% if show_summary==true %}show{% endif %}" id="collapseSummary">
-        <div class="card">
-            {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
-            <textarea {{ block('widget_attributes') }} {% if summary_required==true %}required{% endif %}>{{ value }}</textarea>
-        </div>
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+        <textarea {{ block('widget_attributes') }} {% if summary_required==true %}required{% endif %}>{{ value }}</textarea>
     </div>
+{% endblock %}
+
+{#{% block teebb_string_field_widget %}#}
+{#    <div class="form-inline">#}
+{#        <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>#}
+{#        {% if form.parent.vars.limit == 0 %}#}
+{#            <button type="button" class="form-field-remove-item ml-3 btn btn-sm btn-danger"><small>{{ 'teebb.core.form.remove_field_item'|trans }}</small></button>#}
+{#        {% endif %}#}
+{#    </div>#}
+{# {% endblock %}#}
+
+{% block base_field_widget %}
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {% for child in form|filter(child => not child.rendered) %}
+            {%- if compound is defined and compound -%}
+                {%- set element = 'fieldset' -%}
+            {%- endif -%}
+            {%- set widget_attr = {} -%}
+            {%- if help is not empty -%}
+                {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+            {%- endif -%}
+            <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group mb-0')|trim})} %}{{ block('attributes') }}{% endwith %}>
+            {{- form_label(child) -}}
+            {{- form_widget(child, widget_attr) -}}
+            {{- form_help(child) -}}
+            </{{ element|default('div') }}>
+        {% endfor %}
+        {{- form_rest(form) -}}
+    </div>
+
+    {% if form.vars.limit == 0 %}
+        <button type="button" class="form-field-add-item btn btn-outline-primary btn-sm"><small>{{'teebb.core.form.add_field_item'|trans}}</small></button>
+    {% endif %}
 {% endblock %}

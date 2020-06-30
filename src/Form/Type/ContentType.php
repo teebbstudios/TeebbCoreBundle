@@ -7,17 +7,11 @@ namespace Teebb\CoreBundle\Form\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
-use Teebb\CoreBundle\Entity\BaseContent;
-use Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration;
-use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatSummaryItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Form\Type\FieldType\BooleanFieldType;
+use Teebb\CoreBundle\Form\Type\FieldType\BaseFieldType;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 
 class ContentType extends AbstractType
@@ -47,6 +41,8 @@ class ContentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $data = $builder->getData();
+
+        //获取当前内容类型所有字段
         $fields = $this->fieldConfigurationsRepository
             ->getBySortableGroupsQuery([
                 'bundle' => $options['bundle'],
@@ -59,28 +55,50 @@ class ContentType extends AbstractType
             /**@var FieldInterface $fieldService * */
             $fieldService = $this->container->get('teebb.core.field.' . $fieldType);
 
-            $fieldOptions = $this->getFieldsOptions($fieldType, $fieldConfiguration, $fieldService, $data);
-
             $fieldSettings = $fieldConfiguration->getSettings();
-            //动态修改表单行 options
+            $limit = $fieldSettings->getLimit();
+
             $options = [
                 'label' => $fieldConfiguration->getFieldLabel(),
+                'label_attr' => ['class' => 'font-weight-bold'],
                 'help' => $fieldSettings->getDescription(),
                 'required' => $fieldSettings->isRequired(),
-                'limit' => $fieldSettings->getLimit(),
-                'field_configuration' => $fieldConfiguration,
-                'field_service' => $fieldService
+                'limit' => $limit,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'entry_type' => $fieldService->getFieldFormType(),
+                'entry_options' => [
+                    'label' => false,
+                    'field_configuration' => $fieldConfiguration,
+                    'field_service' => $fieldService,
+                ],
             ];
+
+            //配置options['data']以生成创建表单时初始空表单
+            if (null == $data) {
+                $fieldEntity = $fieldService->getFieldEntity();
+
+                $blankDataArray = [];
+                for ($i = 0; $i < $limit; $i++) {
+                    $blankDataArray[$i] = new $fieldEntity();
+                }
+
+                $options['data'] = $limit == 0 ? ['0' => new $fieldEntity()] : $blankDataArray;
+            }
 
             //循环添加表单行
             $builder->add($fieldConfiguration->getFieldAlias(),
-                $fieldService->getFieldFormType(),
-                array_merge_recursive($fieldOptions, $options));
+                BaseFieldType::class,
+                $options);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefaults([
+            'allow_extra_fields' => true,
+        ]);
+
         $resolver->setDefined('bundle');
         $resolver->setDefined('type_alias');
 
@@ -91,85 +109,4 @@ class ContentType extends AbstractType
         $resolver->setAllowedTypes('type_alias', 'string');
     }
 
-    /**
-     * 获取不同字段表单Type的options
-     *
-     * @param string $fieldType
-     * @param FieldConfiguration $fieldConfiguration
-     * @param FieldInterface $fieldService
-     * @param BaseContent $content
-     * @return array
-     */
-    private function getFieldsOptions(string $fieldType, FieldConfiguration $fieldConfiguration,
-                                      FieldInterface $fieldService, BaseContent $content = null): array
-    {
-        $fieldSettings = $fieldConfiguration->getSettings();
-        $options = [];
-        switch ($fieldType) {
-            case 'boolean':
-
-                break;
-            case 'datetime':
-                break;
-            case 'decimal':
-                break;
-            case 'email':
-                break;
-            case 'float':
-                break;
-            case 'integer':
-                break;
-            case 'link':
-                break;
-            case 'listFloat':
-                break;
-            case 'listInteger':
-                break;
-            case 'referenceContent':
-                break;
-            case 'referenceFile':
-                break;
-            case 'referenceImage':
-                break;
-            case 'referenceTaxonomy':
-                break;
-            case 'referenceUser':
-                break;
-            case 'string':
-                /**@var StringItemConfiguration $fieldSettings **/
-                if ($fieldSettings->isRequired()) {
-                    $options['constraints'] = [
-                        new NotBlank(),
-                        new Length([
-                            'min' => 1,
-                            'max' => $fieldSettings->getLength()
-                        ])
-                    ];
-                }
-                $options['attr'] = [
-                    'class' => 'form-control form-control-sm col-12 col-sm-6',
-                    'maxlength' => $fieldSettings->getLength()
-                ];
-                break;
-            case 'stringFormat':
-                break;
-            case 'text':
-                break;
-            case 'textFormat':
-                break;
-            case 'textFormatSummary':
-                /**@var TextFormatSummaryItemConfiguration $fieldSettings **/
-                if ($fieldSettings->isRequired()) {
-                    $options['constraints'] = [
-                        new NotBlank(),
-                    ];
-                }
-                $options['show_summary'] = $fieldSettings->isShowSummaryInput();
-                $options['summary_required'] = $fieldSettings->isSummaryRequired();
-                break;
-            case 'timestamp':
-                break;
-        }
-        return $options;
-    }
 }

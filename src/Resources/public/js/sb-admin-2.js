@@ -59,46 +59,42 @@
         });
     });
 
-    // Sweetalert2 提醒删除内容警告
-    $(document).on('click', 'a.btn-delete-content', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        Swal.fire({
-            title: '您将要删除内容!',
-            text: "删除操作不可恢复，确定要删除吗？",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '删除',
-            cancelButtonText: '取消'
-        }).then(function (result) {
-            if (result.value) {
-
-                /**
-                 * Todo: 此处要使用ajax判断alias是否唯一，如果不唯一则替换为服务器返回的唯一alias
-                 */
-
-                Swal.fire({
-                    title: '删除成功!',
-                    text: '内容已经删除成功.',
-                    type: 'success',
-                    confirmButtonText: '确定'
-                })
-            }
-        })
-    });
+    // // Sweetalert2 提醒删除内容警告
+    // $(document).on('click', 'a.btn-delete-content', function (e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //
+    //     Swal.fire({
+    //         title: '您将要删除内容!',
+    //         text: "删除操作不可恢复，确定要删除吗？",
+    //         type: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: '删除',
+    //         cancelButtonText: '取消'
+    //     }).then(function (result) {
+    //         if (result.value) {
+    //
+    //             /**
+    //              * Todo: 此处要使用ajax判断alias是否唯一，如果不唯一则替换为服务器返回的唯一alias
+    //              */
+    //
+    //             Swal.fire({
+    //                 title: '删除成功!',
+    //                 text: '内容已经删除成功.',
+    //                 type: 'success',
+    //                 confirmButtonText: '确定'
+    //             })
+    //         }
+    //     })
+    // });
 
     // 机器别名的自动生成
     $(document).on('input', 'input[type=text].transliterate', function (e) {
         var inputValue = $(this).val();
         var $parentAnchor = $(this).closest("form");
         var alias = slugify(inputValue).replace(/-/ig, '_');
-
-        /**
-         * Todo: 此处要使用ajax判断alias是否唯一，如果不唯一则替换为服务器返回的唯一alias
-         */
 
         $parentAnchor.find("span.text-alias").text(alias);
 
@@ -148,37 +144,37 @@
         }
     });
 
-
-    // Sweetalert2 提醒删除字段警告
-    $(document).on('click', 'a.btn-delete-field', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        Swal.fire({
-            title: '您将要删除字段!',
-            text: "删除后该字段保存的内容都将删除。删除操作不可恢复，确定要删除吗？",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '删除',
-            cancelButtonText: '取消'
-        }).then(function (result) {
-            if (result.value) {
-
-                /**
-                 * Todo: 此处要使用ajax判断alias是否唯一，如果不唯一则替换为服务器返回的唯一alias
-                 */
-
-                Swal.fire({
-                    title: '删除成功!',
-                    text: '字段已经删除成功.',
-                    type: 'success',
-                    confirmButtonText: '确定'
-                })
-            }
-        })
-    });
+    //
+    // // Sweetalert2 提醒删除字段警告
+    // $(document).on('click', 'a.btn-delete-field', function (e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //
+    //     Swal.fire({
+    //         title: '您将要删除字段!',
+    //         text: "删除后该字段保存的内容都将删除。删除操作不可恢复，确定要删除吗？",
+    //         type: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: '删除',
+    //         cancelButtonText: '取消'
+    //     }).then(function (result) {
+    //         if (result.value) {
+    //
+    //             /**
+    //              * Todo: 此处要使用ajax判断alias是否唯一，如果不唯一则替换为服务器返回的唯一alias
+    //              */
+    //
+    //             Swal.fire({
+    //                 title: '删除成功!',
+    //                 text: '字段已经删除成功.',
+    //                 type: 'success',
+    //                 confirmButtonText: '确定'
+    //             })
+    //         }
+    //     })
+    // });
 
     //允许的扩展名分割符统一替换成小写逗号（,）
     $(document).on('input', 'input[type=text].input-allow-extension-name', function (e) {
@@ -228,9 +224,21 @@
     //编辑评论页面修改提交时间事件
     $('button#edit_comment_time_btn').on('click', function (e) {
         var $timeInput = $(e.target).closest('.comment-time').find('input#comment_time');
-        console.log($timeInput);
         $timeInput.removeAttr('disabled');
         $(e.target).hide();
     });
+
+    //添加编辑内容页面表单 添加表单按钮事件
+    $('button.form-field-add-item').on('click',function(e){
+        var $formPrototypeWrapper = $(this).parent('.form-group').find('div.prototype-wrapper');
+        var $protoTypeHtml = $formPrototypeWrapper.data('prototype');
+        var $index = $formPrototypeWrapper.children().length;
+
+        var $formRowHtml = $protoTypeHtml.replace(/__name__/g, $index);
+
+        $formPrototypeWrapper.append($formRowHtml);
+        console.log($protoTypeHtml, $index);
+    });
+
 
 })(jQuery); // End of use strict

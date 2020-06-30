@@ -148,6 +148,9 @@ teebb:
             delete_content: 删除内容
 
             show_summary: 编辑摘要
+            hide_summary: 隐藏摘要
+            remove_field_item: 移除此行
+            add_field_item: 继续添加
 
             fields:
                 field_label:

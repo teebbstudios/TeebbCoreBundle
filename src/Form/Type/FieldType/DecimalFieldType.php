@@ -5,12 +5,13 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 
-class DecimalFieldType extends BaseFieldType
+class DecimalFieldType extends AbstractType
 {
     /**
      * @var EntityManagerInterface

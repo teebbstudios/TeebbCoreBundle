@@ -493,6 +493,7 @@ class AbstractEntityTypeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('_method')->getData() === 'DELETE') {
                 $schemaEvent = new SchemaEvent($fieldConfiguration);
+                $schemaEvent->setContentEntity($this->entityTypeService->getEntityClassName());
                 $this->dispatcher->dispatch($schemaEvent, SchemaEvent::DROP_SCHEMA);
                 $this->fieldConfigurationRepository->remove($fieldConfiguration);
 

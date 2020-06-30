@@ -4,36 +4,50 @@
 namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatSummaryItemConfiguration;
+use Teebb\CoreBundle\Entity\Fields\TextFormatSummaryItem;
 use Teebb\CoreBundle\Form\Type\SummaryType;
-use Teebb\CoreBundle\Form\Type\TextFormatterType;
 use Teebb\CoreBundle\Form\Type\TextFormatTextareaType;
 
-class TextFormatSummaryFieldType extends BaseFieldType
+class TextFormatSummaryFieldType extends AbstractType
 {
+    use FieldConfigOptionsTrait;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /**@var TextFormatSummaryItemConfiguration $fieldSettings * */
+        $fieldSettings = $options['field_configuration']->getSettings();
+
+        if ($fieldSettings->isRequired()) {
+            $fieldOptions['constraints'] = [
+                new NotBlank(),
+            ];
+        }
+        $fieldOptions['show_summary'] = $fieldSettings->isShowSummaryInput();
+        $fieldOptions['summary_required'] = $fieldSettings->isSummaryRequired() && $fieldSettings->isRequired();
+        $fieldOptions['label'] = false;
+
         $builder
-            ->add('summary', SummaryType::class, [
-                'show_summary' => $options['show_summary'],
-                'summary_required' => $options['summary_required'],
-                'label_attr' => [
-                    'class' => 'sr-only'
-                ]
+            ->add('summary', SummaryType::class, $fieldOptions)
+            ->add('value', TextFormatTextareaType::class, [
+                'required' => $fieldSettings->isRequired(),
+                'constraints' => $fieldSettings->isRequired() ? [new NotBlank()] : []
             ])
-            ->add('value', TextFormatTextareaType::class)
-//            ->add('formatter', TextFormatterType::class)
+            //->add('formatter', TextFormatterType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $this->baseOptions($resolver);
-        $resolver->setDefined('show_summary');
-        $resolver->setDefined('summary_required');
+        $resolver->setDefaults([
+            'data_class' => TextFormatSummaryItem::class
+        ]);
 
-        $resolver->setAllowedTypes('show_summary', 'boolean');
-        $resolver->setAllowedTypes('summary_required', 'boolean');
+        $this->baseConfigOptions($resolver);
     }
+
 }

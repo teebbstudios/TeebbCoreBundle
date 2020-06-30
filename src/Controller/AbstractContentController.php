@@ -87,7 +87,7 @@ class AbstractContentController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->get('bu_er_zhi')->getData(),$form->get('zheng_wen')->getData(),$form->get('biao_ti')->getData());
+            dd($form->get('biao_ti')->getData(),$form->get('zheng_wen')->getData());
         }
         return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
             'action' => 'create_content',
