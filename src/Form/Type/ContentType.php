@@ -44,10 +44,7 @@ class ContentType extends AbstractType
 
         //获取当前内容类型所有字段
         $fields = $this->fieldConfigurationsRepository
-            ->getBySortableGroupsQuery([
-                'bundle' => $options['bundle'],
-                'typeAlias' => $options['type_alias']
-            ])->getResult();
+            ->getBySortableGroupsQueryDesc(['bundle' => $options['bundle'], 'typeAlias' => $options['type_alias']])->getResult();
 
         /**@var FieldConfiguration $fieldConfiguration * */
         foreach ($fields as $fieldConfiguration) {
@@ -64,8 +61,9 @@ class ContentType extends AbstractType
                 'help' => $fieldSettings->getDescription(),
                 'required' => $fieldSettings->isRequired(),
                 'limit' => $limit,
-                'allow_add' => true,
-                'allow_delete' => true,
+                'field_type' => $fieldType,
+                'allow_add' => !in_array($fieldType, ['boolean', 'listInteger', 'listFloat']),
+                'allow_delete' => !in_array($fieldType, ['boolean', 'listInteger', 'listFloat']),
                 'entry_type' => $fieldService->getFieldFormType(),
                 'entry_options' => [
                     'label' => false,
@@ -75,15 +73,18 @@ class ContentType extends AbstractType
             ];
 
             //配置options['data']以生成创建表单时初始空表单
-            if (null == $data) {
-                $fieldEntity = $fieldService->getFieldEntity();
-
-                $blankDataArray = [];
-                for ($i = 0; $i < $limit; $i++) {
-                    $blankDataArray[$i] = new $fieldEntity();
+            //如果 $fieldType 是 boolean listInteger listFloat 则只生成一个字段
+            $fieldEntity = $fieldService->getFieldEntity();
+            if (!in_array($fieldType, ['boolean', 'listInteger', 'listFloat'])) {
+                if (null == $data) {
+                    $blankDataArray = [];
+                    for ($i = 0; $i < $limit; $i++) {
+                        $blankDataArray[$i] = new $fieldEntity();
+                    }
+                    $options['data'] = $limit == 0 ? ['0' => new $fieldEntity()] : $blankDataArray;
                 }
-
-                $options['data'] = $limit == 0 ? ['0' => new $fieldEntity()] : $blankDataArray;
+            } else {
+                $options['data'] = ['0' => new $fieldEntity()];
             }
 
             //循环添加表单行

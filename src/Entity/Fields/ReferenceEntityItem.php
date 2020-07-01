@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
+use Teebb\CoreBundle\Entity\BaseContent;
 
 /**
  * 引用内容，taxonomy，用:户字段在库中的存储
@@ -17,23 +18,23 @@ class ReferenceEntityItem extends BaseFieldItem
     /**
      * 多对一关系 对应Entity的entity_id 动态映射
      *
-     * @var integer
+     * @var BaseContent|null
      */
     private $value;
 
     /**
-     * @return int
+     * @return BaseContent|null
      */
-    public function getValue(): int
+    public function getValue(): ?BaseContent
     {
         return $this->value;
     }
 
     /**
      * Todo: 参数类型有错，应修改为具体entity
-     * @param int $value
+     * @param BaseContent|null $value
      */
-    public function setValue(int $value): void
+    public function setValue(?BaseContent $value): void
     {
         $this->value = $value;
     }

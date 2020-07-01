@@ -405,7 +405,7 @@ class AbstractEntityTypeController extends AbstractController
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQuery(['bundle' => $bundle, 'typeAlias' => $typeAlias])
+            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
             ->getResult();
 
         return $this->render($this->templateRegistry->getTemplate('list_fields', 'fields'), [
@@ -526,7 +526,7 @@ class AbstractEntityTypeController extends AbstractController
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQuery(['bundle' => $bundle, 'typeAlias' => $typeAlias])
+            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
             ->getResult();
 
         $form = $this->createForm(FieldSortableDisplayType::class, $fieldConfigurations);

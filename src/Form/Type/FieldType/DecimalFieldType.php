@@ -4,38 +4,46 @@
 namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Teebb\CoreBundle\Entity\Fields\Configuration\DecimalItemConfiguration;
+use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class DecimalFieldType extends AbstractType
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
-     * @var FieldConfigurationRepository
-     */
-    protected $fieldConfigurationsRepository;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-        $this->fieldConfigurationsRepository = $entityManager->getRepository(FieldConfiguration::class);
-    }
+    use FieldConfigOptionsTrait;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        dd($options);
+        /**@var DecimalItemConfiguration $fieldSettings * */
+        $fieldSettings = $options['field_configuration']->getSettings();
+
+        $fieldOptions = [
+            'label' => false,
+            'help' => 'teebb.core.form.decimal_input_help',
+            'help_translation_parameters' => [
+                '%precision%' => $fieldSettings->getPrecision(),
+                '%scale%' => $fieldSettings->getScale(),
+            ],
+            'scale' => $fieldSettings->getScale(),
+            'attr' => [
+                'class' => 'col-12 col-sm-6 form-control-sm'
+            ]
+        ];
+
+        $fieldOptions = $this->configNumericFieldOptions($fieldSettings, $fieldOptions);
+
+        $builder->add('value', NumberType::class, $fieldOptions);
     }
 
-    public function getParent()
+    public function configureOptions(OptionsResolver $resolver)
     {
-        return CheckboxType::class;
+        $resolver->setDefaults([
+            'data_class' => SimpleValueItem::class,
+        ]);
+
+        $this->baseConfigOptions($resolver);
     }
 }

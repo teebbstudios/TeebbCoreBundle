@@ -30,33 +30,33 @@ class SimpleFormatItem extends BaseFieldItem
     private $formatter;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      */
-    public function setValue(string $value): void
+    public function setValue(?string $value): void
     {
         $this->value = $value;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFormatter(): string
+    public function getFormatter(): ?string
     {
         return $this->formatter;
     }
 
     /**
-     * @param string $formatter
+     * @param string|null $formatter
      */
-    public function setFormatter(string $formatter): void
+    public function setFormatter(?string $formatter): void
     {
         $this->formatter = $formatter;
     }

@@ -13,7 +13,7 @@ class ListIntegerItemConfiguration extends BaseItemConfiguration
      *
      * @var string
      */
-    protected $type = 'integer';
+    protected $type = 'array';
 
     /**
      * @var array

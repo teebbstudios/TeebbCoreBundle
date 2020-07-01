@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\Type\ContentType;
@@ -87,7 +86,7 @@ class AbstractContentController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->get('biao_ti')->getData(),$form->get('zheng_wen')->getData());
+            dd($form->get('biao_ti2')->getData());
         }
         return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
             'action' => 'create_content',

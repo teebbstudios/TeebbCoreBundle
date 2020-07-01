@@ -17,7 +17,6 @@
 {% endblock %}
 
 {#字段设置限制数量widget#}
-
 {% block teebb_field_limit_widget %}
     <div class="form-inline select-field-limit">
         <select id="select_field_limit" class="form-control form-control-sm mr-0 mr-sm-2">
@@ -43,15 +42,6 @@
         <textarea {{ block('widget_attributes') }} {% if summary_required==true %}required{% endif %}>{{ value }}</textarea>
     </div>
 {% endblock %}
-
-{#{% block teebb_string_field_widget %}#}
-{#    <div class="form-inline">#}
-{#        <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>#}
-{#        {% if form.parent.vars.limit == 0 %}#}
-{#            <button type="button" class="form-field-remove-item ml-3 btn btn-sm btn-danger"><small>{{ 'teebb.core.form.remove_field_item'|trans }}</small></button>#}
-{#        {% endif %}#}
-{#    </div>#}
-{# {% endblock %}#}
 
 {% block base_field_widget %}
     {% if prototype is defined and not prototype.rendered %}
@@ -79,7 +69,7 @@
         {{- form_rest(form) -}}
     </div>
 
-    {% if form.vars.limit == 0 %}
+    {% if form.vars.limit == 0 and form.vars.field_type not in ['boolean', 'listInteger', 'listFloat'] %}
         <button type="button" class="form-field-add-item btn btn-outline-primary btn-sm"><small>{{'teebb.core.form.add_field_item'|trans}}</small></button>
     {% endif %}
 {% endblock %}

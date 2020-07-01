@@ -54,7 +54,7 @@ teebb:
             delete_types: 删除"%types%"类型，与此类型相关的字段及字段数据也将删除，且无法恢复，请谨慎操作！！！确定要删除吗？
             cannot_delete_types: 类型"%types%"中已有内容，如要删除，请先将"%types%"中内容删除后再进行操作！
             delete_field: 删除"%field%"字段，使用该字段的类型将不再使用此字段，此字段中所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
-            sortable: 拖动行前箭头以修改每个字段的权重，用于调整在创建编辑显示内容时字段的顺序, 按升序排列。
+            sortable: 拖动行前箭头以修改每个字段的权重，用于调整在创建编辑显示内容时字段的顺序，按降序排列，权重高的优先显示。
 
         list:
             name: 名称
@@ -79,7 +79,7 @@ teebb:
                 limit: 数量限制
                 require: 该字段是否必填
                 on_label: 布尔值为真时显示的标签
-                off_label: 布尔值为真时显示的标签
+                off_label: 布尔值为假时显示的标签
                 precision: 精度
                 precision_help: 在数据库中存储的数字的总位数，包括小数点右边的位数，该值最小为2。该设置影响数据库的存储一但设置不可更改。
                 scale: 小数点后保留位数
@@ -151,6 +151,15 @@ teebb:
             hide_summary: 隐藏摘要
             remove_field_item: 移除此行
             add_field_item: 继续添加
+
+            decimal_input_help: 当前小数精度(总位数) %precision% ,小数点后保留位数 %scale% ,输入数字超出精度限制将丢失数据精度。
+
+            url: 链接地址
+            url_help: 默认链接协议：http 。如果此链接地址不包含协议头，则把默认链接协议http://添加于链接前面。
+            url_title: 链接标题
+            url_title_help: 如果链接标题为空，则使用链接地址作为标题。
+
+            select_list_numeric: 请选择您的数据
 
             fields:
                 field_label:

@@ -13,7 +13,7 @@ class ListFloatItemConfiguration extends BaseItemConfiguration
      *
      * @var string
      */
-    protected $type = 'float';
+    protected $type = 'array';
 
     /**
      * @var array

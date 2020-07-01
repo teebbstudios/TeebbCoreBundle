@@ -16,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class LinkItem extends BaseFieldItem
 {
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $url;
@@ -29,17 +29,17 @@ class LinkItem extends BaseFieldItem
     private $title;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
     /**
-     * @param string $url
+     * @param string|null $url
      */
-    public function setUrl(string $url): void
+    public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
