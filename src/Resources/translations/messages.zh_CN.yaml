@@ -112,15 +112,15 @@ teebb:
                 allow_ext: 允许的后缀
                 allow_ext_help: 用英文逗号隔开后缀名，不包括后缀名前面的点。自动替换部分符号为英文逗号。如果留空，则设置为默认后缀txt
                 upload_dir: 上传目录
-                upload_dir_help: 文件上传后被存储于“上传目的地”中的子目录。开始和结尾不要包含"-"、"_"、"."符号，不可包含"["、"]"、下划线和连字符以外的其他符号。
+                upload_dir_help: 文件上传后存储于“上传目的地”的子目录。开头和结尾不可包含-、_、.、~、"符号，如用表达式请以%做为开头和结尾。默认可用表达式date.Year、date.month、date.day，当前表达式格式：2020-01-01。表达式语法请参考https://symfony.com/doc/current/components/expression_language/syntax.html。
                 max_size: 最大上传大小
-                max_size_help: 输入文字如"512"，"123k"，"1M"以限制允许文件的尺寸，可用单位：k，M，Ki，Mi，不填写单位则代表byte。详见：https://symfony.com/doc/current/reference/constraints/File.html#maxsize。如果留空则使用PHP的最大发表和文件上传尺寸限制（当前限制为 %value% ）。
+                max_size_help: 输入文字如"512"，"123k"，"1M"以限制允许文件的尺寸，可用单位：k，M，Ki，Mi，不填写单位则代表byte。详见：https://symfony.com/doc/current/reference/constraints/FileManaged.html#maxsize。如果留空则使用PHP的最大发表和文件上传尺寸限制（当前限制为 %value% ）。
                 use_description: 使用文件描述
                 use_description_help: 用于显示文件链接的名称。
                 image_width: 宽度
                 image_height: 高度
                 max_resolution: 允许的最大分辨率(单位：像素)
-                max_resolution_help: 允许的最大图像大小，以宽度×高度（例如，640×480）格式表示。将此选项留空则表示无限制。如果上传的图像尺寸较大，那么将调整其大小以反映给定的宽度和高度。上传时调整图像大小将导致丢失图像中的 EXIF 数据。
+                max_resolution_help: 允许的最大图像大小，以宽度×高度（例如，640×480）格式表示。将此选项留空则表示无限制。如果上传的图像尺寸较大，那么将拒绝该图像。
                 min_resolution: 允许的最小分辨率(单位：像素)
                 min_resolution_help: 允许的最小图像大小，以宽度×高度（例如，640×480）格式表示。将此选项留空则表示无限制。如果上传的图像尺寸较小，那么将拒绝该图像。
                 use_alt: 启用图片Alt字段
@@ -158,6 +158,8 @@ teebb:
             url_help: 默认链接协议：http 。如果此链接地址不包含协议头，则把默认链接协议http://添加于链接前面。
             url_title: 链接标题
             url_title_help: 如果链接标题为空，则使用链接地址作为标题。
+
+            file_upload_help: 当前允许上传的文件后缀为 %ext%，最大允许上传文件大小为 %size%。
 
             select_list_numeric: 请选择您的数据
 

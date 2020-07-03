@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Count;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Form\Type\FieldType\BaseFieldType;
@@ -71,6 +72,12 @@ class ContentType extends AbstractType
                     'field_service' => $fieldService,
                 ],
             ];
+
+            if ($fieldSettings->isRequired()) {
+                $options['constraints'] = [
+                    new Count(['min' => 1])
+                ];
+            }
 
             //配置options['data']以生成创建表单时初始空表单
             //如果 $fieldType 是 boolean listInteger listFloat 则只生成一个字段

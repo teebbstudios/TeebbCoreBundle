@@ -9,7 +9,6 @@
     <route id="teebb_content_create" path="/content/create/{typeAlias}">
         <default key="_controller">Teebb\CoreBundle\Controller\AbstractContentController::createAction</default>
         <default key="route">teebb_content_create</default>
-        <default key="bundle">types</default>
     </route>
 
 

@@ -34,5 +34,19 @@
         <service id="Teebb\CoreBundle\Controller\AbstractContentController"
                  alias="teebb.core.controller.abstract_content_controller" public="true"/>
 
+        <service id="teebb.core.controller.file_controller"
+                 class="Teebb\CoreBundle\Controller\FileController"
+                 public="false">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="validator"/>
+            <argument type="service" id="liip_imagine.cache.manager"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\FileController"
+                 alias="teebb.core.controller.file_controller" public="true"/>
+
     </services>
 </container>

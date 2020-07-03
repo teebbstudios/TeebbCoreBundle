@@ -18,6 +18,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     category=@Translation(message="teebb.core.field.category.simple"),
  *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem",
  *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\BooleanItemConfigurationType",
+ *     formConfigEntity="Teebb\CoreBundle\Entity\Fields\Configuration\BooleanItemConfiguration",
  *     formType="Teebb\CoreBundle\Form\Type\FieldType\BooleanFieldType"
  * )
  */

@@ -61,6 +61,13 @@ class FieldType implements TeebbAnnotationInterface
     public $entity;
 
     /**
+     * 字段配置表单的entity类名
+     *
+     * @var string
+     */
+    public $formConfigEntity;
+
+    /**
      * 字段配置表单Type
      * @Required
      * @var string

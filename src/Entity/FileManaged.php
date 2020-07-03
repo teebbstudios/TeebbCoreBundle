@@ -12,14 +12,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * 文件entity
  *
- * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\FileRepository")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
+ * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\FileManagedRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class File
+class FileManaged
 {
-    use SoftDeleteableEntity;
     use TimestampableEntity;
 
     /**
@@ -36,6 +34,12 @@ class File
      * @ORM\Column(type="string")
      */
     private $fileName;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $originFileName;
 
     /**
      * @var string
@@ -85,6 +89,22 @@ class File
     public function setFileName(string $fileName): void
     {
         $this->fileName = $fileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginFileName(): string
+    {
+        return $this->originFileName;
+    }
+
+    /**
+     * @param string $originFileName
+     */
+    public function setOriginFileName(string $originFileName): void
+    {
+        $this->originFileName = $originFileName;
     }
 
     /**

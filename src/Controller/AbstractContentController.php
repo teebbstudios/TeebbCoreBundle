@@ -46,7 +46,6 @@ class AbstractContentController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager, TemplateRegistry $templateRegistry)
     {
         $this->entityManager = $entityManager;
-
         $this->fieldConfigRepository = $entityManager->getRepository(FieldConfiguration::class);
         $this->typesRepository = $entityManager->getRepository(Types::class);
         $this->templateRegistry = $templateRegistry;

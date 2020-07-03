@@ -57,18 +57,22 @@ class RouteParameterUnderlineFixSubscriber implements EventSubscriberInterface
     {
         $response = $event->getResponse();
         if ($response instanceof RedirectResponse) {
-            $result = $this->router->match($response->getTargetUrl());
-            $parameters = [];
-            if (isset($result['typeAlias'])) {
-                $result['typeAlias'] = $this->aliasToNormal($result['typeAlias']);
-                $parameters['typeAlias'] = $result['typeAlias'];
-            }
-            if (isset($result['fieldAlias'])) {
-                $result['fieldAlias'] = $this->aliasToNormal($result['fieldAlias']);
-                $parameters['fieldAlias'] = $result['fieldAlias'];
-            }
+            $targetUrl = $response->getTargetUrl();
+            //如果$targetUrl不包含'://'，处理url中的下划线转为连字符
+            if (strpos($targetUrl, '://') == false) {
+                $result = $this->router->match($targetUrl);
+                $parameters = [];
+                if (isset($result['typeAlias'])) {
+                    $result['typeAlias'] = $this->aliasToNormal($result['typeAlias']);
+                    $parameters['typeAlias'] = $result['typeAlias'];
+                }
+                if (isset($result['fieldAlias'])) {
+                    $result['fieldAlias'] = $this->aliasToNormal($result['fieldAlias']);
+                    $parameters['fieldAlias'] = $result['fieldAlias'];
+                }
 
-            $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
+                $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
+            }
         }
 
     }

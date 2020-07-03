@@ -27,16 +27,16 @@ class ReferenceFileItemConfiguration extends BaseItemConfiguration
     protected $allowExt = ['txt'];
 
     /**
-     * 文件上传目录,可用变量 年：date.Y=2020 date.y=20 月：date.m=01 日：date.d=31
+     * 文件上传目录,使用Date类 ExpressionLanguage
      * @var string
      */
-    protected $uploadDir = "['date.Y']-['date.m']";
+    protected $uploadDir = '[date.Year~"-"~date.month~"-"~date.day]';
 
     /**
      * 最大文件上传大小
-     * @var string
+     * @var string|null
      */
-    protected $maxSize;
+    protected $maxSize = null;
 
     /**
      * 是否使用文件描述，如果不使用则使用文件名
@@ -109,9 +109,9 @@ class ReferenceFileItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $maxSize
+     * @param string|null $maxSize
      */
-    public function setMaxSize(string $maxSize): void
+    public function setMaxSize(?string $maxSize): void
     {
         $this->maxSize = $maxSize;
     }

@@ -93,9 +93,9 @@ class BaseItemConfigurationType extends AbstractType
                 'constraints' => [
                     new Length(['min' => 1, 'max' => 255]),
                     new NotBlank(),
-                    new Regex('/^(?![-_.])(?!.*?[-_.]$)[a-zA-Z0-9-_.\[\]]+$/')
+                    new Regex('/^(?![-_.~"\]])(?!.*?[-_.~"\[]$)[a-zA-Z0-9-_.~"\[\]]+$/')
                 ],
-                'data' => '[date.Y]-[date.m]',
+                'empty_data' => '[date.Year~"-"~date.month~"-"~date.day]',
                 'attr' => [
                     'class' => 'col-12 col-sm-6 form-control-sm'
                 ]

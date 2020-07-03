@@ -22,6 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
+use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\TypeInterface;
 use Teebb\CoreBundle\Event\SchemaEvent;
@@ -360,6 +361,10 @@ class AbstractEntityTypeController extends AbstractController
             $fieldLabel = $data['field_label'];
             $fieldAlias = $data['field_alias'];
 
+            /**@var FieldInterface $fieldService**/
+            $fieldService = $this->container->get('teebb.core.field.'.$fieldType);
+            $fieldDepartConfigurationName = $fieldService->getFieldConfigFormEntity();
+
             $fieldConfiguration = new FieldConfiguration();
             $fieldConfiguration->setBundle($bundle);
             $fieldConfiguration->setTypeAlias($typeAlias);
@@ -367,6 +372,7 @@ class AbstractEntityTypeController extends AbstractController
             $fieldConfiguration->setFieldAlias($fieldAlias);
             $fieldConfiguration->setFieldType($fieldType);
             $fieldConfiguration->setDelta(0);
+            $fieldConfiguration->setSettings(new $fieldDepartConfigurationName());
 
             $this->entityManager->persist($fieldConfiguration);
             $this->entityManager->flush();

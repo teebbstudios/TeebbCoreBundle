@@ -45,6 +45,7 @@ trait FieldConfigOptionsTrait
         $max ? $fieldOptions['attr']['max'] = $max : $fieldOptions['attr'];
 
         $fieldOptions['constraints'] = [];
+
         if ($fieldSettings->isRequired()) {
             $fieldOptions['constraints'] = [
                 new NotBlank(),
@@ -147,6 +148,26 @@ trait FieldConfigOptionsTrait
         $fieldOptions['label'] = false;
         $fieldOptions['attr'] = [
             'class' => 'form-control form-control-sm',
+        ];
+
+        return $fieldOptions;
+    }
+
+    /**
+     * 配置file、image类型字段value表单options
+     *
+     * @param FieldDepartConfigurationInterface $fieldSettings
+     * @return array
+     */
+    public function configFileFieldOptions(FieldDepartConfigurationInterface $fieldSettings)
+    {
+        $fieldOptions['mapped'] = false;
+        $fieldOptions['label'] = false;
+        $fieldOptions['attr'] = [
+            'class' => 'form-control form-control-sm',
+        ];
+        $fieldOptions['row_attr'] = [
+            'class' => 'col-12 col-sm-6',
         ];
 
         return $fieldOptions;

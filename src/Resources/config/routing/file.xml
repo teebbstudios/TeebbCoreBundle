@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="teebb_file_upload" path="/file/upload" methods="POST">
+        <default key="_controller">Teebb\CoreBundle\Controller\FileController::fileUploadAction</default>
+        <default key="route">teebb_file_upload</default>
+    </route>
+
+    <route id="teebb_file_delete" path="/file/delete" methods="POST">
+        <default key="_controller">Teebb\CoreBundle\Controller\FileController::fileDeleteAction</default>
+        <default key="route">teebb_file_delete</default>
+    </route>
+
+</routes>

@@ -16,10 +16,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class LinkItem extends BaseFieldItem
 {
     /**
+     * 存储值的属性统一为value，用于存储url链接地址
+     *
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $url;
+    private $value;
 
     /**
      * @var string|null
@@ -31,17 +33,17 @@ class LinkItem extends BaseFieldItem
     /**
      * @return string|null
      */
-    public function getUrl(): ?string
+    public function getValue(): ?string
     {
-        return $this->url;
+        return $this->value;
     }
 
     /**
-     * @param string|null $url
+     * @param string|null $value
      */
-    public function setUrl(?string $url): void
+    public function setValue(?string $value): void
     {
-        $this->url = $url;
+        $this->value = $value;
     }
 
     /**

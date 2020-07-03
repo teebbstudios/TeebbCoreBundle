@@ -25,7 +25,7 @@ class ReferenceFileItemConfigurationType extends BaseItemConfigurationType
             ->add('allowExt', FieldFileAllowExtType::class, [
                 'label' => 'teebb.core.fields.configuration.allow_ext',
                 'help' => 'teebb.core.fields.configuration.allow_ext_help',
-                'data' => 'txt,doc'
+                'empty_data' => 'txt,doc'
             ]);
 
         $this->buildFileFieldCommonForm($builder, $options);

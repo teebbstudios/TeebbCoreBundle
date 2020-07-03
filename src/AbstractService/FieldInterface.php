@@ -48,6 +48,12 @@ interface FieldInterface
     public function getFieldEntity(): string;
 
     /**
+     * 获取字段设置表单Entity全类名
+     * @return string
+     */
+    public function getFieldConfigFormEntity(): string;
+
+    /**
      * 获取字段设置表单Type全类名
      * @return string
      */

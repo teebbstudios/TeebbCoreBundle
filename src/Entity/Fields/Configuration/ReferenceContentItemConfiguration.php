@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Types\Types;
 
 class ReferenceContentItemConfiguration extends BaseItemConfiguration
@@ -18,9 +19,16 @@ class ReferenceContentItemConfiguration extends BaseItemConfiguration
 
     /**
      * 要引用的内容类型别名typeAlias数组
-     * @var Types[]
+     * @var ArrayCollection
      */
     protected $referenceTypes;
+
+    protected $referenceTargetEntity = Content::class;
+
+    public function __construct()
+    {
+        $this->referenceTypes = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -31,9 +39,9 @@ class ReferenceContentItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return Types[]|null
+     * @return ArrayCollection|null
      */
-    public function getReferenceTypes(): ?array
+    public function getReferenceTypes(): ?ArrayCollection
     {
         return $this->referenceTypes;
     }
@@ -43,7 +51,15 @@ class ReferenceContentItemConfiguration extends BaseItemConfiguration
      */
     public function setReferenceTypes(ArrayCollection $referenceTypes): void
     {
-        $this->referenceTypes = $referenceTypes->toArray();
+        $this->referenceTypes = $referenceTypes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceTargetEntity(): string
+    {
+        return $this->referenceTargetEntity;
     }
 
 }

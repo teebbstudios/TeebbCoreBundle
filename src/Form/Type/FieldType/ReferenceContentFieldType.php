@@ -5,7 +5,6 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\ListIntegerItemConfiguration;
@@ -21,9 +20,6 @@ class ReferenceContentFieldType extends AbstractType
         /**@var ListIntegerItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
 
-        $fieldOptions = $this->configListNumericFieldOptions($fieldSettings);
-
-        $builder->add('value', ChoiceType::class, $fieldOptions);
     }
 
     public function configureOptions(OptionsResolver $resolver)

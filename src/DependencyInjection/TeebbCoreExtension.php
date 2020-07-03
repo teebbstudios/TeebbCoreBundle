@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Mapping\ReflectionClassRecursiveIterator;
@@ -57,6 +58,14 @@ class TeebbCoreExtension extends Extension
         $container->setParameter('teebb.core.mapping.directories', $mappingDirectories);
 
         $this->setTemplateRegistryArguments($container, $config);
+
+        //设置FileController FileSystemInterface参数
+        $fileServiceId = $config['fly_system']['service'];
+
+        $fileControllerDefinition = $container->getDefinition('teebb.core.controller.file_controller');
+        $fileControllerDefinition->setArgument(3, new Reference($fileServiceId));
+        $fileControllerDefinition->setArgument(4, $config['fly_system']['default_upload_dir']);
+        $fileControllerDefinition->setArgument(5, $config['fly_system']['root_host_url']);
     }
 
     /**

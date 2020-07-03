@@ -32,6 +32,17 @@ class Configuration implements ConfigurationInterface
                                 ->prototype('scalar')->end()
                         ->end()
                     ->end()
+                ->end()
+
+                ->arrayNode('fly_system')
+                    ->info('The file system parameters.')
+//                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('service')->defaultValue('oneup_flysystem.default_filesystem_filesystem')->cannotBeEmpty()->end()
+                        ->scalarNode('default_upload_dir')->defaultValue('[%date.Year~"-"~date.month~"-"~date.day]')->cannotBeEmpty()->end()
+                        ->scalarNode('root_host_url')->defaultValue('')->cannotBeEmpty()->end()
+                    ->end()
+                ->end()
             ->end();
 
         $this->addTemplatesSection($rootNode);

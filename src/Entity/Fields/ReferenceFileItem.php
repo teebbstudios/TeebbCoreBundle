@@ -5,7 +5,7 @@ namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Teebb\CoreBundle\Entity\File;
+use Teebb\CoreBundle\Entity\FileManaged;
 
 /**
  * 引用文件字段在库中的存储
@@ -18,10 +18,10 @@ class ReferenceFileItem extends BaseFieldItem
 {
     /**
      * 多对一关系 对应文件库的entity_id
-     * @var File
-     * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\File")
+     * @var FileManaged|null
+     * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\FileManaged")
      */
-    private $targetFile;
+    private $value;
 
     /**
      * 是否显示此文件
@@ -39,19 +39,19 @@ class ReferenceFileItem extends BaseFieldItem
     private $description;
 
     /**
-     * @return File
+     * @return FileManaged|null
      */
-    public function getTargetFile(): File
+    public function getValue(): ?FileManaged
     {
-        return $this->targetFile;
+        return $this->value;
     }
 
     /**
-     * @param File $targetFile
+     * @param FileManaged|null $value
      */
-    public function setTargetFile(File $targetFile): void
+    public function setValue(?FileManaged $value): void
     {
-        $this->targetFile = $targetFile;
+        $this->value = $value;
     }
 
     /**

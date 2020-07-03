@@ -13,6 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
+use Teebb\CoreBundle\Entity\FileManaged;
 use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
@@ -98,6 +99,7 @@ class InitDatabaseCommand extends Command
             Types::class,
             Translation::class,
             FieldConfiguration::class,
+            FileManaged::class,
         ];
     }
 

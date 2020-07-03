@@ -23,7 +23,7 @@ class LinkFieldType extends AbstractType
         $fieldSettings = $options['field_configuration']->getSettings();
 
         $builder
-            ->add('url', UrlType::class, [
+            ->add('value', UrlType::class, [
                 'label' => 'teebb.core.form.url',
                 'help' => 'teebb.core.form.url_help',
                 'attr' => [

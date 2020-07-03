@@ -5,7 +5,7 @@ namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Teebb\CoreBundle\Entity\File;
+use Teebb\CoreBundle\Entity\FileManaged;
 
 /**
  * 引用图像字段在库中的存储
@@ -18,10 +18,10 @@ class ReferenceImageItem extends BaseFieldItem
 {
     /**
      * 单向多对一关系 对应文件库的entity_id
-     * @var File
-     * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\File")
+     * @var FileManaged|null
+     * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\FileManaged")
      */
-    private $targetImageFile;
+    private $value;
 
     /**
      * 图像alt信息
@@ -54,19 +54,19 @@ class ReferenceImageItem extends BaseFieldItem
     private $height;
 
     /**
-     * @return File
+     * @return FileManaged|null
      */
-    public function getTargetImageFile(): File
+    public function getValue(): ?FileManaged
     {
-        return $this->targetImageFile;
+        return $this->value;
     }
 
     /**
-     * @param File $targetImageFile
+     * @param FileManaged|null $value
      */
-    public function setTargetImageFile(File $targetImageFile): void
+    public function setValue(?FileManaged $value): void
     {
-        $this->targetImageFile = $targetImageFile;
+        $this->value = $value;
     }
 
     /**

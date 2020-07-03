@@ -55,6 +55,15 @@ abstract class AbstractField implements FieldInterface
     }
 
     /**
+     * 获取字段设置表单Entity全类名
+     * @return string
+     */
+    public function getFieldConfigFormEntity(): string
+    {
+        return $this->metadata->getFieldFormConfigEntity();
+    }
+
+    /**
      * 获取字段设置表单Type全类名
      * @return string
      */

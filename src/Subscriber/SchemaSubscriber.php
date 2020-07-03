@@ -92,7 +92,7 @@ class SchemaSubscriber implements EventSubscriberInterface
 
     /**
      * @param FieldConfiguration $fieldConfiguration
-     * @param string $entityClassName
+     * @param string $entityClassName 字段entity全类名
      * @return ClassMetadata
      * @throws MappingException
      */
@@ -113,16 +113,45 @@ class SchemaSubscriber implements EventSubscriberInterface
 
         $doctrineType = $fieldDepartConfiguration->getType();
 
-        //mapping 字段entity
+        //mapping字段entity
         if (!$classMetadata->hasAssociation('entity')) {
             $classMetadata->mapManyToOne([
                 'fieldName' => 'entity',
                 'targetEntity' => $entityClassName,
-                'cascade' => ['remove', 'persist']
+                'cascade' => ['remove', 'persist'],
+                'joinColumns' => [
+                    [
+                        'name' => 'entity_id',
+                        'referencedColumnName' => 'id',
+                        'nullable' => false,
+                    ]
+                ]
             ]);
         }
 
-        if (!$classMetadata->hasField('value')) {
+        //处理引用类型的value属性mapping
+        if ($doctrineType === 'entity' && !$classMetadata->hasAssociation('value')) {
+
+            if (!method_exists($fieldDepartConfiguration, 'getReferenceTargetEntity')) {
+                throw new \RuntimeException(sprintf('Reference field configuration "%s" must define "getReferenceTargetEntity" method.', get_class($fieldDepartConfiguration)));
+            }
+
+            $classMetadata->mapManyToOne([
+                'fieldName' => 'value',
+                'targetEntity' => $fieldDepartConfiguration->getReferenceTargetEntity(),
+                'cascade' => ['remove', 'persist'],
+                'joinColumns' => [
+                    [
+                        'name' => 'reference_entity_id',
+                        'referencedColumnName' => 'id',
+                        'nullable' => false,
+                    ]
+                ]
+            ]);
+        }
+
+        //对于非引用类型value属性的映射
+        if ($doctrineType !== 'entity' && !$classMetadata->hasField('value')) {
             //动态Mapping字段value,
             $fieldMapping = array(
                 'fieldName' => 'value',
@@ -132,7 +161,6 @@ class SchemaSubscriber implements EventSubscriberInterface
 
             switch ($fieldEntity) {
                 case SimpleValueItem::class:
-
                     //如果是文本类型需要设置数据库length
                     if (method_exists($fieldDepartConfiguration, 'getLength')) {
                         $fieldMapping['length'] = $fieldDepartConfiguration->getLength();
@@ -150,11 +178,6 @@ class SchemaSubscriber implements EventSubscriberInterface
                     if (method_exists($fieldDepartConfiguration, 'getLength')) {
                         $fieldMapping['length'] = $fieldDepartConfiguration->getLength();
                     }
-                    break;
-
-                case ReferenceEntityItem::class:
-                    //Todo: 需要定义好 Entity
-                    $fieldMapping['columnName'] = 'target_entity_id';
                     break;
             }
 

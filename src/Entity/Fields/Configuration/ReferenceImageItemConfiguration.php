@@ -21,16 +21,16 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     protected $allowExt = ['jpg,jpeg,png'];
 
     /**
-     * 文件上传目录,可用变量 年：date.Y=2020 date.y=20 月：date.m=01 日：date.d=31
+     * 文件上传目录,使用Date类 ExpressionLanguage
      * @var string
      */
-    protected $uploadDir = "[date.Y]-[date.m]";
+    protected $uploadDir = '[date.Year~"-"~date.month~"-"~date.day]';
 
     /**
      * 最大文件上传大小
-     * @var string
+     * @var string|null
      */
-    protected $maxSize;
+    protected $maxSize = null;
 
     /**
      * 允许的最大图像尺寸，超出将裁剪 $maxResolution['height'], $maxResolution['width']
@@ -112,9 +112,9 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $maxSize
+     * @param string|null $maxSize
      */
-    public function setMaxSize(string $maxSize): void
+    public function setMaxSize(?string $maxSize): void
     {
         $this->maxSize = $maxSize;
     }
@@ -128,9 +128,9 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param array $maxResolution
+     * @param array|null $maxResolution
      */
-    public function setMaxResolution(array $maxResolution): void
+    public function setMaxResolution(?array $maxResolution): void
     {
         $this->maxResolution = $maxResolution;
     }
@@ -144,9 +144,9 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param mixed $minResolution
+     * @param array|null $minResolution
      */
-    public function setMinResolution($minResolution): void
+    public function setMinResolution(?array $minResolution): void
     {
         $this->minResolution = $minResolution;
     }

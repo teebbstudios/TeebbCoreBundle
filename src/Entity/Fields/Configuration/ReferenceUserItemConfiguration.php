@@ -4,6 +4,8 @@
 namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 
 
+
+
 class ReferenceUserItemConfiguration extends BaseItemConfiguration
 {
     /**
@@ -14,11 +16,25 @@ class ReferenceUserItemConfiguration extends BaseItemConfiguration
     protected $type = 'entity';
 
     /**
+     * @todo  此处修改为user entity类
+     * @var string
+     */
+    protected $referenceTargetEntity = '';
+
+    /**
      * @return string
      */
     public function getType(): string
     {
         return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceTargetEntity(): string
+    {
+        return $this->referenceTargetEntity;
     }
 
 }

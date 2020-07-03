@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\Types\Types;
 
 class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
@@ -18,7 +19,7 @@ class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
 
     /**
      * 要引用的taxonomy类型别名数组
-     * @var Types[]
+     * @var ArrayCollection
      */
     protected $referenceTypes;
 
@@ -27,6 +28,13 @@ class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
      * @var Types
      */
     protected $autoCreateToType;
+
+    protected $referenceTargetEntity = Taxonomy::class;
+
+    public function __construct()
+    {
+        $this->referenceTypes = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -37,9 +45,9 @@ class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @return Types[]|null
+     * @return ArrayCollection|null
      */
-    public function getReferenceTypes(): ?array
+    public function getReferenceTypes(): ?ArrayCollection
     {
         return $this->referenceTypes;
     }
@@ -49,7 +57,7 @@ class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
      */
     public function setReferenceTypes(ArrayCollection $referenceTypes): void
     {
-        $this->referenceTypes = $referenceTypes->toArray();
+        $this->referenceTypes = $referenceTypes;
     }
 
     /**
@@ -67,5 +75,13 @@ class ReferenceTaxonomyItemConfiguration extends BaseItemConfiguration
     {
         $this->autoCreateToType = $autoCreateToType;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getReferenceTargetEntity(): string
+    {
+        return $this->referenceTargetEntity;
+    }
+
 }

@@ -41,6 +41,12 @@ interface FieldMetadataInterface
     public function getEntity(): string;
 
     /**
+     * 获取字段配置表单Entity类名
+     * @return string
+     */
+    public function getFieldFormConfigEntity(): string;
+
+    /**
      * 获取字段配置表单Type类名
      * @return string
      */
