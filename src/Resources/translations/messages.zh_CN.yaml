@@ -151,6 +151,15 @@ teebb:
             hide_summary: 隐藏摘要
             remove_field_item: 移除此行
             add_field_item: 继续添加
+            show_file: 是否显示此文件
+            file_description: 文件的描述
+            file_description_help: 文件的描述信息，用于文件链接名字。
+
+            image_alt: Alt文本
+            image_alt_help: 图片未加载时显示图片的alt属性，有利于SEO，推荐使用。
+
+            image_title: 图像标题
+            image_title_help: 鼠标划动到图片上时显示的图片标题。
 
             decimal_input_help: 当前小数精度(总位数) %precision% ,小数点后保留位数 %scale% ,输入数字超出精度限制将丢失数据精度。
 

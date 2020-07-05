@@ -4,6 +4,8 @@
 namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -11,6 +13,8 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
+use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
+use Teebb\CoreBundle\Form\Type\FieldFileType;
 
 trait FieldConfigOptionsTrait
 {
@@ -171,5 +175,50 @@ trait FieldConfigOptionsTrait
         ];
 
         return $fieldOptions;
+    }
+
+    /**
+     * 创建文件、图像表单通用文件上传表单
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @param FieldConfiguration $fieldConfiguration
+     */
+    public function buildCommonFileInputForm(FormBuilderInterface $builder, array $options, FieldConfiguration $fieldConfiguration)
+    {
+        $builder
+            ->add('file', FieldFileType::class, [
+                'label' => false,
+                'help' => 'teebb.core.form.file_upload_help',
+                'help_translation_parameters' => [
+                    '%ext%' => implode(',', $fieldConfiguration->getSettings()->getAllowExt()),
+                    '%size%' => $fieldConfiguration->getSettings()->getMaxSize() ?: ini_get('upload_max_filesize')
+                ],
+                'mapped' => false,
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'file-upload-file-wrapper'
+                ],
+                'attr' => [
+                    'class' => 'file-upload-input',
+                    'onchange' => 'fieldUploadFile(this)',
+                    'data-field-alias' => $fieldConfiguration->getFieldAlias()
+                ]
+            ]);
+    }
+
+    public function getExtMimeTypes(array $exts)
+    {
+        $mimeTypes = new MimeTypes();
+
+        $extMimeTypeArray = [];
+        foreach ($exts as $ext) {
+            $result = $mimeTypes->getMimeTypes($ext);
+            if (!empty($result)) {
+                array_walk_recursive($result, function ($value) use (&$extMimeTypeArray) {
+                    array_push($extMimeTypeArray, $value);
+                });
+            }
+        }
+        return $extMimeTypeArray;
     }
 }

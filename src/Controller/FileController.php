@@ -179,7 +179,15 @@ class FileController extends AbstractController
         //生成文件绝对路径
         $absoluteUrl = $fileUploader->generateAbsoluteUrlPath($request, $this->rootHost, $distDirectory . '/' . $newFileName);
 
-        return $this->json(['file' => $fileManaged, 'url' => $absoluteUrl]);
+        $result = ['file' => $fileManaged, 'url' => $absoluteUrl];
+
+        //如果mimetype是image添加缩略图url
+        if (false !== strpos($file->getMimeType(),'image/')){
+            $thumbnailUrl = $this->cacheManager->generateUrl($distDirectory . '/' . $newFileName, 'squared_thumbnail_small');
+            $result['thumbnailUrl'] = $thumbnailUrl;
+        }
+
+        return $this->json($result);
     }
 
     /**
@@ -198,6 +206,9 @@ class FileController extends AbstractController
         }
         /**@var FileManaged $fileManaged * */
         $fileManaged = $this->fileManagedRepository->findOneBy(['id' => $id]);
+        if (null == $fileManaged) {
+            throw new \InvalidArgumentException('The "id" parameter wrong. Don\'t hack the html code!!!');
+        }
 
         //删除fileManaged Entity
         $this->entityManager->remove($fileManaged);

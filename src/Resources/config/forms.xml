@@ -57,6 +57,12 @@
             <tag name="form.type"/>
         </service>
 
+        <service id="teebb.core.form.field.file_entity_value"
+                 class="Teebb\CoreBundle\Form\Type\FileEntityValueType">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <tag name="form.type"/>
+        </service>
+
         <service id="teebb.core.validator.field_alias_unique"
                  class="Teebb\CoreBundle\Validator\FieldAliasUniqueValidator">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>

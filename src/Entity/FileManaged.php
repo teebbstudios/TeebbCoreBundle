@@ -154,4 +154,9 @@ class FileManaged
     {
         $this->filePath = $filePath;
     }
+
+    public function __toString(): string
+    {
+        return $this->id;
+    }
 }

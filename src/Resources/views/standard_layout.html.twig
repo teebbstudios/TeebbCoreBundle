@@ -523,13 +523,14 @@
 </a>
 
 {% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     {% for javascript in teebb_core.templateRegistry.allJavaScripts %}
         <script src="{{ asset(javascript) }}"></script>
     {% endfor %}
 {% endblock %}
 {% block page_java_scripts %}
 {% endblock %}
-{#{{ sylius_template_event('sylius.shop.layout.after_body') }}#}
 </body>
 
 </html>

@@ -34,7 +34,7 @@
     {% set show_summary = form.vars['show_summary'] %}
     {% set summary_required = form.vars['summary_required'] %}
     <a href="#" data-toggle="collapse" data-target="#collapseSummary"
-            aria-expanded="{{ show_summary }}" aria-controls="collapseSummary">
+       aria-expanded="{{ show_summary }}" aria-controls="collapseSummary">
         <span class="font-italic small">{{ 'teebb.core.form.show_summary'|trans }}</span>
     </a>
     <div class="collapse {% if show_summary==true %}show{% endif %}" id="collapseSummary">
@@ -48,28 +48,72 @@
         {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
     {% endif %}
 
-    <div {{ block('widget_container_attributes') }}>
-        {%- if form is rootform -%}
-            {{ form_errors(form) }}
+<div {{ block('widget_container_attributes') }}>
+    {%- if form is rootform -%}
+        {{ form_errors(form) }}
+    {%- endif -%}
+    {% for child in form|filter(child => not child.rendered) %}
+        {%- if compound is defined and compound -%}
+            {%- set element = 'fieldset' -%}
         {%- endif -%}
-        {% for child in form|filter(child => not child.rendered) %}
-            {%- if compound is defined and compound -%}
-                {%- set element = 'fieldset' -%}
-            {%- endif -%}
-            {%- set widget_attr = {} -%}
-            {%- if help is not empty -%}
-                {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
-            {%- endif -%}
-            <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group mb-0')|trim})} %}{{ block('attributes') }}{% endwith %}>
-            {{- form_label(child) -}}
-            {{- form_widget(child, widget_attr) -}}
-            {{- form_help(child) -}}
-            </{{ element|default('div') }}>
-        {% endfor %}
-        {{- form_rest(form) -}}
+        {%- set widget_attr = {} -%}
+        {%- if help is not empty -%}
+            {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+        {%- endif -%}
+        <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group mb-0')|trim})} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(child) -}}
+        {{- form_widget(child, widget_attr) -}}
+        {{- form_help(child) -}}
+        </{{ element|default('div') }}>
+    {% endfor %}
+    {{- form_rest(form) -}}
     </div>
 
     {% if form.vars.limit == 0 and form.vars.field_type not in ['boolean', 'listInteger', 'listFloat'] %}
-        <button type="button" class="form-field-add-item btn btn-outline-primary btn-sm"><small>{{'teebb.core.form.add_field_item'|trans}}</small></button>
+        <button type="button" class="form-field-add-item btn btn-outline-primary btn-sm">
+            <small>{{ 'teebb.core.form.add_field_item'|trans }}</small></button>
     {% endif %}
+{% endblock %}
+
+{% block field_file_widget %}
+    {# 如果value表单有数据则不显示input #}
+    <{{ element|default('div') }} class="custom-file {% if form.parent.children.value.vars.data is not null %}d-none{% endif %}">
+    {%- set type = type|default('file') -%}
+    {{- block('form_widget_simple') -}}
+    {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' custom-file-label')|trim }) -%}
+    <label for="{{ form.vars.id }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
+        {%- if attr.placeholder is defined and attr.placeholder is not none -%}
+            {{- translation_domain is same as(false) ? attr.placeholder : attr.placeholder|trans({}, translation_domain) -}}
+        {%- endif -%}
+    </label>
+    </{{ element|default('div') }}>
+{% endblock %}
+
+{% block file_show_widget %}
+    {# 如果value表单有数据则显示文件 #}
+    {% set file = form.parent.children.value.vars.data %}
+    <div class="file-show pl-0 {% if file is null %}d-none{% endif %}">
+        <div class="d-flex justify-content-between">
+            <a class="file small"
+               href="{% if file is not null %} {{ show_file_url(app.request,file.filePath) }} {% endif %}">
+                <i class="fas fa-file pr-2"></i>{% if file is not null %} {{ file.originFileName }} {% endif %}</a>
+            <button type="button" onclick="fieldFileDelete(this)" data-file-id
+                    class="btn-file-delete btn btn-sm btn-danger">
+                <small>{{ 'teebb.core.form.remove_field_item'|trans }}</small></button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block image_show_widget %}
+    {# 如果value表单有数据则显示文件 #}
+    {% set file = form.parent.children.value.vars.data %}
+    <div class="file-show pl-0 {% if file is null %}d-none{% endif %}">
+        <div class="d-flex justify-content-between align-items-center">
+            <img class="file small"
+                 src="{% if file is not null %} {{ asset(file.filePath)|imagine_filter('squared_thumbnail_small') }} {% endif %}"/>
+            <button type="button" onclick="fieldFileDelete(this)" data-file-id
+                    class="btn-file-delete btn btn-sm btn-danger">
+                <small>{{ 'teebb.core.form.remove_field_item'|trans }}</small></button>
+        </div>
+    </div>
 {% endblock %}

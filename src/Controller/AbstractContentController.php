@@ -84,9 +84,12 @@ class AbstractContentController extends AbstractController
         $form = $this->createForm(ContentType::class, null, ['bundle' => $types->getBundle(), 'type_alias' => $types->getTypeAlias()]);
 
         $form->handleRequest($request);
+//        dd($form, $form->isValid());
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->get('biao_ti2')->getData());
+            dd($form->get('biao_ti')->getData(),$form->get('wen_jian')->getData(),$form->get('tu_xiang')->getData());
+
         }
+
         return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
             'action' => 'create_content',
             'form' => $form->createView()

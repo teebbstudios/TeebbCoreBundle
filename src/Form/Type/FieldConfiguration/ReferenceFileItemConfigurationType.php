@@ -20,7 +20,7 @@ class ReferenceFileItemConfigurationType extends BaseItemConfigurationType
             ->add('showControl', CheckboxType::class, [
                 'label' => 'teebb.core.fields.configuration.show_control',
                 'help' => 'teebb.core.fields.configuration.show_control_help',
-                'data' => true
+                'required' => false,
             ])
             ->add('allowExt', FieldFileAllowExtType::class, [
                 'label' => 'teebb.core.fields.configuration.allow_ext',
@@ -33,7 +33,7 @@ class ReferenceFileItemConfigurationType extends BaseItemConfigurationType
         $builder->add('useDescription', CheckboxType::class, [
             'label' => 'teebb.core.fields.configuration.use_description',
             'help' => 'teebb.core.fields.configuration.use_description_help',
-            'data' => true
+            'required' => false,
         ]);
     }
 

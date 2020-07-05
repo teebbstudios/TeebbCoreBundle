@@ -60,12 +60,19 @@ class TeebbCoreExtension extends Extension
         $this->setTemplateRegistryArguments($container, $config);
 
         //设置FileController FileSystemInterface参数
-        $fileServiceId = $config['fly_system']['service'];
+        $flySystemServiceId = $config['fly_system']['service'];
 
         $fileControllerDefinition = $container->getDefinition('teebb.core.controller.file_controller');
-        $fileControllerDefinition->setArgument(3, new Reference($fileServiceId));
+        $fileControllerDefinition->setArgument(3, new Reference($flySystemServiceId));
         $fileControllerDefinition->setArgument(4, $config['fly_system']['default_upload_dir']);
         $fileControllerDefinition->setArgument(5, $config['fly_system']['root_host_url']);
+
+        //设置文件显示twig Extension 参数
+        $uploadFileShowExtensionDefinition = $container->getDefinition('teebb.core.twig.upload_file_show');
+        $uploadFileShowExtensionDefinition->setArguments([
+            new Reference($flySystemServiceId),
+            $config['fly_system']['root_host_url']
+        ]);
     }
 
     /**

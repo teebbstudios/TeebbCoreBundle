@@ -28,11 +28,11 @@ class ReferenceFileItem extends BaseFieldItem
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    private $showFile;
+    private $showFile = true;
 
     /**
      * 文件描述
-     * @var string
+     * @var string|null
      * @Gedmo\Translatable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -71,17 +71,17 @@ class ReferenceFileItem extends BaseFieldItem
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
