@@ -12,6 +12,8 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
+use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 
 class BaseFieldType extends AbstractType
 {
@@ -22,10 +24,27 @@ class BaseFieldType extends AbstractType
 
 //        });
 
-//        $builder->addEventListener(FormEvents::PRE_SUBMIT,
-//            function (FormEvent $event) use ($options) {
-//
-//            });
+        //表单提交时如果字段entity types属性为null，修改为对应的类型
+        $builder->addEventListener(FormEvents::SUBMIT,
+            function (FormEvent $event) use ($options) {
+                $entities = $event->getData();
+
+                /**@var FieldConfiguration $fieldConfiguration * */
+                $fieldConfiguration = $options['entry_options']['field_configuration'];
+
+                $changedEntities = [];
+                /**@var BaseFieldItem $entity * */
+                foreach ($entities as $index => $entity) {
+                    if (null == $entity->getTypes()) {
+                        $entity->setTypes($fieldConfiguration->getTypeAlias());
+                        $entity->setDelta($index);
+                        $changedEntities[] = $entity;
+                    }
+                }
+                if (!empty($changedEntities)) {
+                    $event->setData($changedEntities);
+                }
+            });
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
@@ -42,7 +61,6 @@ class BaseFieldType extends AbstractType
     {
         $resolver->setDefaults([
             'mapped' => false,
-            'allow_extra_fields' => true,
             'attr' => [
                 'class' => 'prototype-wrapper'
             ]

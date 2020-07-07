@@ -4,13 +4,19 @@
 namespace Teebb\CoreBundle\Controller;
 
 
+use Doctrine\Common\EventArgs;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Events;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
+use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\Type\ContentType;
+use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\Types\EntityTypeRepository;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
@@ -84,9 +90,29 @@ class AbstractContentController extends AbstractController
         $form = $this->createForm(ContentType::class, null, ['bundle' => $types->getBundle(), 'type_alias' => $types->getTypeAlias()]);
 
         $form->handleRequest($request);
-//        dd($form, $form->isValid());
+
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->get('biao_ti')->getData(),$form->get('wen_jian')->getData(),$form->get('tu_xiang')->getData());
+
+            $evm = $this->entityManager->getEventManager();
+
+            $evm->addEventListener(Events::loadClassMetadata,
+                new DynamicChangeFieldMetadataListener(new FieldConfiguration(), Content::class));
+
+            $value = new SimpleValueItem();
+            $value->setTypes('article');
+            $value->setValue('aaaaa');
+            $value->setDelta(0);
+//            $class = $this->entityManager->getClassMetadata(SimpleValueItem::class);
+
+            $this->entityManager->persist($value);
+            $this->entityManager->flush();
+
+            dd($form->get('biao_ti')->getData(),
+                $form->get('wen_jian')->getData(),
+                $form->get('tu_xiang')->getData(),
+                $form->get('lian_jie')->getData(),
+                $form->get('you_jian')->getData()
+            );
 
         }
 

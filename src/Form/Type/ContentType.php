@@ -65,6 +65,9 @@ class ContentType extends AbstractType
                 'field_type' => $fieldType,
                 'allow_add' => !in_array($fieldType, ['boolean', 'listInteger', 'listFloat']),
                 'allow_delete' => !in_array($fieldType, ['boolean', 'listInteger', 'listFloat']),
+                'delete_empty' => function ($entity) use ($fieldSettings) {
+                    return false == $fieldSettings->isRequired() && (null == $entity || $entity->getValue() == null);
+                },
                 'entry_type' => $fieldService->getFieldFormType(),
                 'entry_options' => [
                     'label' => false,
@@ -104,7 +107,7 @@ class ContentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'allow_extra_fields' => true,
+            'allow_extra_fields' => true
         ]);
 
         $resolver->setDefined('bundle');

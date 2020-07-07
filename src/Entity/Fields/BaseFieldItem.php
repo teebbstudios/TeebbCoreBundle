@@ -69,17 +69,17 @@ class BaseFieldItem
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTypes(): string
+    public function getTypes(): ?string
     {
         return $this->types;
     }
 
     /**
-     * @param string $types
+     * @param string|null $types
      */
-    public function setTypes(string $types): void
+    public function setTypes(?string $types): void
     {
         $this->types = $types;
     }

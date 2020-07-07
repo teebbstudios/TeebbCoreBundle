@@ -10,7 +10,6 @@ use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Entity\Fields\ReferenceEntityItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleFormatItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 use Teebb\CoreBundle\Event\SchemaEvent;
@@ -92,7 +91,7 @@ class SchemaSubscriber implements EventSubscriberInterface
 
     /**
      * @param FieldConfiguration $fieldConfiguration
-     * @param string $entityClassName 字段entity全类名
+     * @param string $entityClassName content entity全类名
      * @return ClassMetadata
      * @throws MappingException
      */

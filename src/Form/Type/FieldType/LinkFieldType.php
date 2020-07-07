@@ -27,7 +27,7 @@ class LinkFieldType extends AbstractType
                 'label' => 'teebb.core.form.url',
                 'help' => 'teebb.core.form.url_help',
                 'attr' => [
-                    'class' => 'col-12 col-sm-6 form-control-sm'
+                    'class' => 'form-control-sm'
                 ],
                 'required' => $fieldSettings->isRequired(),
                 'constraints' => $fieldSettings->isRequired() ? [new NotBlank()] : []
@@ -36,7 +36,7 @@ class LinkFieldType extends AbstractType
                 'label' => 'teebb.core.form.url_title',
                 'help' => 'teebb.core.form.url_title_help',
                 'attr' => [
-                    'class' => 'col-12 col-sm-6 form-control-sm'
+                    'class' => 'form-control-sm'
                 ],
                 'required' => false,
             ]);
@@ -46,6 +46,9 @@ class LinkFieldType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => LinkItem::class,
+            'attr' => [
+                'class' => 'col-12 col-sm-6 p-3 border mb-3'
+            ]
         ]);
 
         $this->baseConfigOptions($resolver);
