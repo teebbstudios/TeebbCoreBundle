@@ -60,7 +60,7 @@ class ReferenceFileFieldType extends AbstractType
             'label' => 'teebb.core.form.file_description',
             'help' => 'teebb.core.form.file_description_help',
             'attr' => [
-                'class' => 'form-control form-control-sm'
+                'class' => 'form-control-sm'
             ],
             'row_attr' => [
                 'class' => 'file-other-info-wrapper'
@@ -76,7 +76,7 @@ class ReferenceFileFieldType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ReferenceFileItem::class,
             'attr'=>[
-                'class' => 'col-12 col-sm-6 p-3 border mb-3 file-upload-wrapper'
+                'class' => 'p-3 border mb-3 file-upload-wrapper'
             ]
         ]);
 

@@ -27,7 +27,7 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *     bundle="comment",
  *     description=@Translation(message="teebb.core.entity_type.comment.description"),
  *     repository="Teebb\CoreBundle\Repository\Types\EntityTypeRepository",
- *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
+ *     controller="Teebb\CoreBundle\Controller\Types\CommentTypeController",
  *     typeEntity="Teebb\CoreBundle\Entity\Types\Types",
  *     entity="Teebb\CoreBundle\Entity\Comment",
  *     form=@TypesForm(formRows={

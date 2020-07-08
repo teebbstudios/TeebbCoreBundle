@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
-class FileUploader
+class FileHelper
 {
     /**
      * @var FilesystemInterface
@@ -122,4 +122,5 @@ class FileUploader
         }
         return $request->getSchemeAndHttpHost() . $path;
     }
+
 }

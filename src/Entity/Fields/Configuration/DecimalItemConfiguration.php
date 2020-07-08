@@ -20,14 +20,14 @@ class DecimalItemConfiguration extends BaseItemConfiguration
      *
      * @var integer
      */
-    protected $precision;
+    protected $precision = null;
 
     /**
      * 小数点后面的位数。
      *
      * @var integer
      */
-    protected $scale;
+    protected $scale = null;
 
     /**
      * @var float

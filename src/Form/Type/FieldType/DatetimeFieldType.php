@@ -26,7 +26,7 @@ class DatetimeFieldType extends AbstractType
             'widget' => 'single_text',
             'data' => new \DateTime(),
             'attr' => [
-                'class' => 'form-control-sm col-12 col-sm-6'
+                'class' => 'form-control-sm '
             ]
         ];
 

@@ -12,8 +12,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
+use Teebb\CoreBundle\Entity\Comment;
+use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\FileManaged;
+use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
@@ -100,6 +103,9 @@ class InitDatabaseCommand extends Command
             Translation::class,
             FieldConfiguration::class,
             FileManaged::class,
+            Content::class,
+            Taxonomy::class,
+            Comment::class
         ];
     }
 

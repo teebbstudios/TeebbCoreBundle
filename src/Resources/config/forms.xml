@@ -38,6 +38,11 @@
             <tag name="form.type"/>
         </service>
 
+        <service id="teebb.core.form.reference_image_type"
+                 class="Teebb\CoreBundle\Form\Type\FieldType\ReferenceImageFieldType">
+            <tag name="form.type"/>
+        </service>
+
         <service id="teebb.core.form.reference_entity_type"
                  class="Teebb\CoreBundle\Form\Type\FieldReferenceEntityType">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
@@ -45,7 +50,7 @@
         </service>
 
         <service id="teebb.core.form.content_type"
-                 class="Teebb\CoreBundle\Form\Type\ContentType">
+                 class="Teebb\CoreBundle\Form\Type\Content\ContentType">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument type="service" id="service_container"/>
             <tag name="form.type"/>

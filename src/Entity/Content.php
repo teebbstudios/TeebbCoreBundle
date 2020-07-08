@@ -18,10 +18,34 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Content extends BaseContent
 {
     /**
+     * 内容标题
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $title;
+
+    /**
+     * 内容类型别名
      * @var string|null
      * @ORM\Column(type="string", length=255)
      */
     protected $type;
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|null $title
+     */
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
 
     /**
      * @return string|null

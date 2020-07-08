@@ -4,8 +4,8 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="teebb.core.controller.abstract_entity_type_controller"
-                 class="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController"
+        <service id="teebb.core.controller.content_type_controller"
+                 class="Teebb\CoreBundle\Controller\Types\ContentTypeController"
                  public="false">
             <argument type="service" id="teebb.core.template.registry"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
@@ -17,12 +17,44 @@
             </call>
             <call method="configure"/>
         </service>
-        <service id="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController"
-                 alias="teebb.core.controller.abstract_entity_type_controller" public="true"/>
+        <service id="Teebb\CoreBundle\Controller\Types\ContentTypeController"
+                 alias="teebb.core.controller.content_type_controller" public="true"/>
+
+        <service id="teebb.core.controller.comment_type_controller"
+                 class="Teebb\CoreBundle\Controller\Types\CommentTypeController"
+                 public="false">
+            <argument type="service" id="teebb.core.template.registry"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="debug.event_dispatcher"/>
+            <argument type="service" id="teebb.core.form.contractor"/>
+            <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <call method="configure"/>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\Types\CommentTypeController"
+                 alias="teebb.core.controller.comment_type_controller" public="true"/>
+
+        <service id="teebb.core.controller.taxonomy_type_controller"
+                 class="Teebb\CoreBundle\Controller\Types\TaxonomyTypeController"
+                 public="false">
+            <argument type="service" id="teebb.core.template.registry"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="debug.event_dispatcher"/>
+            <argument type="service" id="teebb.core.form.contractor"/>
+            <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <call method="configure"/>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\Types\TaxonomyTypeController"
+                 alias="teebb.core.controller.taxonomy_type_controller" public="true"/>
 
 
-        <service id="teebb.core.controller.abstract_content_controller"
-                 class="Teebb\CoreBundle\Controller\AbstractContentController"
+        <service id="teebb.core.controller.content_controller"
+                 class="Teebb\CoreBundle\Controller\Content\ContentController"
                  public="false">
             <tag name="controller.service_arguments"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
@@ -31,8 +63,35 @@
                 <argument type="service" id="service_container"/>
             </call>
         </service>
-        <service id="Teebb\CoreBundle\Controller\AbstractContentController"
-                 alias="teebb.core.controller.abstract_content_controller" public="true"/>
+        <service id="Teebb\CoreBundle\Controller\Content\ContentController"
+                 alias="teebb.core.controller.content_controller" public="true"/>
+
+        <service id="teebb.core.controller.comment_controller"
+                 class="Teebb\CoreBundle\Controller\Content\CommentController"
+                 public="false">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="teebb.core.template.registry"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\Content\CommentController"
+                 alias="teebb.core.controller.comment_controller" public="true"/>
+
+        <service id="teebb.core.controller.taxonomy_controller"
+                 class="Teebb\CoreBundle\Controller\Content\TaxonomyController"
+                 public="false">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="teebb.core.template.registry"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\Content\TaxonomyController"
+                 alias="teebb.core.controller.taxonomy_controller" public="true"/>
+
 
         <service id="teebb.core.controller.file_controller"
                  class="Teebb\CoreBundle\Controller\FileController"

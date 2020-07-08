@@ -23,7 +23,7 @@ class FloatFieldType extends AbstractType
         $fieldOptions = [
             'label' => false,
             'attr' => [
-                'class' => 'col-12 col-sm-6 form-control-sm'
+                'class' => 'form-control-sm'
             ]
         ];
 

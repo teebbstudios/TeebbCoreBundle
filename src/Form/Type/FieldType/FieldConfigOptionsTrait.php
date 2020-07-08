@@ -83,7 +83,7 @@ trait FieldConfigOptionsTrait
 
         if ($limit == 1) {
             $fieldOptions['attr'] = [
-                'class' => 'col-12 col-sm-6 form-control-sm'
+                'class' => 'form-control-sm'
             ];
         }
 
@@ -129,7 +129,7 @@ trait FieldConfigOptionsTrait
         }
         $fieldOptions['label'] = false;
         $fieldOptions['attr'] = [
-            'class' => 'form-control form-control-sm col-12 col-sm-6',
+            'class' => 'form-control-sm ',
             'maxlength' => $fieldSettings->getLength()
         ];
 
@@ -151,7 +151,7 @@ trait FieldConfigOptionsTrait
         }
         $fieldOptions['label'] = false;
         $fieldOptions['attr'] = [
-            'class' => 'form-control form-control-sm',
+            'class' => 'form-control-sm',
         ];
 
         return $fieldOptions;
@@ -168,10 +168,7 @@ trait FieldConfigOptionsTrait
         $fieldOptions['mapped'] = false;
         $fieldOptions['label'] = false;
         $fieldOptions['attr'] = [
-            'class' => 'form-control form-control-sm',
-        ];
-        $fieldOptions['row_attr'] = [
-            'class' => 'col-12 col-sm-6',
+            'class' => 'form-control-sm',
         ];
 
         return $fieldOptions;

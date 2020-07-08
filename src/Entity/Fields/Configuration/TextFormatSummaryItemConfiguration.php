@@ -30,6 +30,12 @@ class TextFormatSummaryItemConfiguration extends BaseItemConfiguration
     protected $summaryRequired = false;
 
     /**
+     * 摘要的长度
+     * @var int|null
+     */
+    protected $summaryLength = 140;
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -67,6 +73,22 @@ class TextFormatSummaryItemConfiguration extends BaseItemConfiguration
     public function setSummaryRequired(bool $summaryRequired): void
     {
         $this->summaryRequired = $summaryRequired;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSummaryLength(): ?int
+    {
+        return $this->summaryLength;
+    }
+
+    /**
+     * @param int|null $summaryLength
+     */
+    public function setSummaryLength(?int $summaryLength): void
+    {
+        $this->summaryLength = $summaryLength;
     }
 
 }

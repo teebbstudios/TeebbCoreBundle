@@ -27,7 +27,7 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *     bundle="taxonomy",
  *     description=@Translation(message="teebb.core.entity_type.taxonomy.description"),
  *     repository="Teebb\CoreBundle\Repository\Types\EntityTypeRepository",
- *     controller="Teebb\CoreBundle\Controller\Types\AbstractEntityTypeController",
+ *     controller="Teebb\CoreBundle\Controller\Types\TaxonomyTypeController",
  *     typeEntity="Teebb\CoreBundle\Entity\Types\Types",
  *     entity="\Teebb\CoreBundle\Entity\Taxonomy",
  *     form=@TypesForm(formRows={

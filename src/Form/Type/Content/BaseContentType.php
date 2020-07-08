@@ -1,21 +1,24 @@
 <?php
 
 
-namespace Teebb\CoreBundle\Form\Type;
+namespace Teebb\CoreBundle\Form\Type\Content;
 
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Form\Type\FieldType\BaseFieldType;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 
-class ContentType extends AbstractType
+class BaseContentType extends AbstractType
 {
     /**
      * @var EntityManagerInterface
@@ -39,10 +42,31 @@ class ContentType extends AbstractType
         $this->container = $container;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $data = $builder->getData();
+        $resolver->setDefaults([
+            'allow_extra_fields' => true
+        ]);
 
+        $resolver->setDefined('bundle');
+        $resolver->setDefined('type_alias');
+
+        $resolver->setRequired('bundle');
+        $resolver->setRequired('type_alias');
+
+        $resolver->setAllowedTypes('bundle', 'string');
+        $resolver->setAllowedTypes('type_alias', 'string');
+    }
+
+    /**
+     * 动态添加字段的表单
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @param null $data
+     */
+    protected function dynamicAddFieldForm(FormBuilderInterface $builder, array $options, $data = null)
+    {
         //获取当前内容类型所有字段
         $fields = $this->fieldConfigurationsRepository
             ->getBySortableGroupsQueryDesc(['bundle' => $options['bundle'], 'typeAlias' => $options['type_alias']])->getResult();
@@ -56,7 +80,7 @@ class ContentType extends AbstractType
             $fieldSettings = $fieldConfiguration->getSettings();
             $limit = $fieldSettings->getLimit();
 
-            $options = [
+            $baseFieldOptions = [
                 'label' => $fieldConfiguration->getFieldLabel(),
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'help' => $fieldSettings->getDescription(),
@@ -77,47 +101,32 @@ class ContentType extends AbstractType
             ];
 
             if ($fieldSettings->isRequired()) {
-                $options['constraints'] = [
+                $baseFieldOptions['constraints'] = [
                     new Count(['min' => 1])
                 ];
             }
 
-            //配置options['data']以生成创建表单时初始空表单
-            //如果 $fieldType 是 boolean listInteger listFloat 则只生成一个字段
-            $fieldEntity = $fieldService->getFieldEntity();
-            if (!in_array($fieldType, ['boolean', 'listInteger', 'listFloat'])) {
-                if (null == $data) {
+            //如果是创建表单，配置options['data']以生成创建表单时初始空表单
+            if (null == $data) {
+                $fieldEntity = $fieldService->getFieldEntity();
+                //如果 $fieldType 是 boolean listInteger listFloat 则只生成一个字段
+                if (!in_array($fieldType, ['boolean', 'listInteger', 'listFloat'])) {
                     $blankDataArray = [];
                     for ($i = 0; $i < $limit; $i++) {
                         $blankDataArray[$i] = new $fieldEntity();
                     }
-                    $options['data'] = $limit == 0 ? ['0' => new $fieldEntity()] : $blankDataArray;
+                    $baseFieldOptions['data'] = $limit == 0 ? ['0' => new $fieldEntity()] : $blankDataArray;
+                } else {
+                    $baseFieldOptions['data'] = ['0' => new $fieldEntity()];
                 }
-            } else {
-                $options['data'] = ['0' => new $fieldEntity()];
+            }else{
+                //Todo: 解析字段的值并设置$baseFieldOptions['data']
             }
 
             //循环添加表单行
             $builder->add($fieldConfiguration->getFieldAlias(),
                 BaseFieldType::class,
-                $options);
+                $baseFieldOptions);
         }
     }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'allow_extra_fields' => true
-        ]);
-
-        $resolver->setDefined('bundle');
-        $resolver->setDefined('type_alias');
-
-        $resolver->setRequired('bundle');
-        $resolver->setRequired('type_alias');
-
-        $resolver->setAllowedTypes('bundle', 'string');
-        $resolver->setAllowedTypes('type_alias', 'string');
-    }
-
 }

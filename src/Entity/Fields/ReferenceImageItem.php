@@ -102,33 +102,33 @@ class ReferenceImageItem extends BaseFieldItem
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getWidth(): int
+    public function getWidth(): ?int
     {
         return $this->width;
     }
 
     /**
-     * @param int $width
+     * @param int|null $width
      */
-    public function setWidth(int $width): void
+    public function setWidth(?int $width): void
     {
         $this->width = $width;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getHeight(): int
+    public function getHeight(): ?int
     {
         return $this->height;
     }
 
     /**
-     * @param int $height
+     * @param int|null $height
      */
-    public function setHeight(int $height): void
+    public function setHeight(?int $height): void
     {
         $this->height = $height;
     }

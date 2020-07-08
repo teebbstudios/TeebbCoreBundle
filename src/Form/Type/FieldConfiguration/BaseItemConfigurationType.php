@@ -71,8 +71,8 @@ class BaseItemConfigurationType extends AbstractType
                         'max' => 255,
                         'class' => 'col-12 col-sm-6 form-control form-control-sm',
                     ],
-                    'data' => $data ? $data->getLength() : 255,
-                    'disabled' => $data ? true : false
+                    'data' => $data->getLength() ? $data->getLength() : 255,
+                    'disabled' => $data->getLength() ? true : false
                 ]);
             }
         );

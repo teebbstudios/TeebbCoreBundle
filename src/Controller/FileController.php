@@ -27,7 +27,7 @@ use Teebb\CoreBundle\Exception\FileUploadException;
 use Teebb\CoreBundle\ExpressionLanguage\Date;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\FileManagedRepository;
-use Teebb\CoreBundle\Utils\FileUploader;
+use Teebb\CoreBundle\Utils\FileHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FileController extends AbstractController
@@ -163,7 +163,7 @@ class FileController extends AbstractController
             $distDirectory = $this->defaultUploadDir;
         }
 
-        $fileUploader = new FileUploader($this->filesystem);
+        $fileUploader = new FileHelper($this->filesystem);
         $newFileName = $fileUploader->uploadFile($file, $distDirectory);
 
         $fileManaged = new FileManaged();
@@ -215,7 +215,7 @@ class FileController extends AbstractController
         $this->entityManager->flush();
 
         //删除原文件
-        $fileUploader = new FileUploader($this->filesystem);
+        $fileUploader = new FileHelper($this->filesystem);
         $fileUploader->deleteFile($fileManaged->getFilePath());
 
         //删除liip_imagine cache文件

@@ -20,7 +20,7 @@ class StringItemConfiguration extends BaseItemConfiguration
      *
      * @var int
      */
-    protected $length = 255;
+    protected $length = null;
 
     /**
      * @return string

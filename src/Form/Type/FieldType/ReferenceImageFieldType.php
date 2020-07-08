@@ -4,6 +4,8 @@
 namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
+use League\Flysystem\Adapter\AbstractAdapter;
+use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,8 +23,36 @@ class ReferenceImageFieldType extends AbstractType
 {
     use FieldConfigOptionsTrait;
 
+    /**
+     * @var FilesystemInterface
+     */
+    private $filesystem;
+
+    public function __construct(FilesystemInterface $filesystem)
+    {
+        $this->filesystem = $filesystem;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //初次提交数据时设置图像的宽和高
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            /**@var ReferenceImageItem $imageItem * */
+            $imageItem = $event->getData();
+            if ($imageItem->getWidth() == null || $imageItem->getHeight() == null) {
+                $filePath = $imageItem->getValue()->getFilePath();
+                /**@var AbstractAdapter $adapter**/
+                $adapter = $this->filesystem->getAdapter();
+                $absolutePath = $adapter->applyPathPrefix($filePath);
+
+                list($width,$height) = getimagesize($absolutePath);
+                $imageItem->setWidth($width);
+                $imageItem->setHeight($height);
+
+                $event->setData($imageItem);
+            }
+        });
+
         /**@var FieldConfiguration $fieldConfiguration * */
         $fieldConfiguration = $options['field_configuration'];
         /**@var ReferenceImageItemConfiguration $fieldSettings * */
@@ -49,7 +79,7 @@ class ReferenceImageFieldType extends AbstractType
                 'required' => $fieldSettings->isAltRequired(),
                 'constraints' => $fieldSettings->isAltRequired() && $fieldSettings->isRequired() ? [new NotBlank()] : [],
                 'attr' => [
-                    'class' => 'form-control form-control-sm'
+                    'class' => 'form-control-sm'
                 ],
                 'row_attr' => [
                     'class' => 'file-other-info-wrapper'
@@ -63,7 +93,7 @@ class ReferenceImageFieldType extends AbstractType
                 'help' => 'teebb.core.form.image_title_help',
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control form-control-sm'
+                    'class' => 'form-control-sm'
                 ],
                 'row_attr' => [
                     'class' => 'file-other-info-wrapper'
@@ -78,7 +108,7 @@ class ReferenceImageFieldType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ReferenceImageItem::class,
             'attr' => [
-                'class' => 'col-12 col-sm-6 p-3 border mb-3 file-upload-wrapper'
+                'class' => 'p-3 border mb-3 file-upload-wrapper'
             ]
         ]);
 

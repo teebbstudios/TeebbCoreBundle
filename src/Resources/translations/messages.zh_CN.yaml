@@ -99,8 +99,10 @@ teebb:
                 length: 文本长度
                 length_help: 此字段字符的最大数量。该设置影响数据库的存储一但设置不可更改。
                 show_summary_input_label: 是否显示摘要输入框
-                show_summary_input_label_help: 是否显示摘要输入框, 如果不显示则自动提取正文内容生成摘要。
+                show_summary_input_label_help: 是否显示摘要输入框, 如果不显示或摘要框留空则自动提取正文内容生成摘要。
                 summary_require_label: 摘要是否必填
+                summary_length: 摘要长度
+                summary_length_help: 自动生成摘要时，摘要文字的长度。
                 reference_content: 引用的内容类型
                 reference_content_help: 当前字段可以引用的内容类型，至少勾选一项。
                 reference_taxonomy: 引用的分类
@@ -130,7 +132,8 @@ teebb:
                 use_title: 启用图片Title字段
                 use_title_help: 鼠标划动到图片上时显示的图片标题。
         form:
-            label: 标题
+            title: 标题
+            label: 标签
             alias: 机读别名
             alias_help: 唯一的机读内容类型名字。这个名字必须只能包含小写字母，数字和下划线，下划线不能出现在开头和结尾。此名字将用于页面的链接，在链接中下划线将被转换成连字符。
             description: 描述

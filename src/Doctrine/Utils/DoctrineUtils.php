@@ -207,4 +207,12 @@ class DoctrineUtils
     {
         return $this->entityManager->getClassMetadata($className);
     }
+
+    /**
+     * @return EventManager
+     */
+    public function getDoctrineEventManager():EventManager
+    {
+        return $this->entityManager->getEventManager();
+    }
 }

@@ -18,6 +18,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Comment extends BaseContent
 {
     /**
+     * 评论类型别名
      * @var string|null
      * @ORM\Column(type="string", length=255)
      */

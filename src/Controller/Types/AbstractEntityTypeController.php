@@ -40,7 +40,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class AbstractEntityTypeController extends AbstractController
+abstract class AbstractEntityTypeController extends AbstractController
 {
     /**
      * @var EntityTypeInterface

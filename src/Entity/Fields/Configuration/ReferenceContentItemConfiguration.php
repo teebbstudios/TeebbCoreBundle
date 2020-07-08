@@ -6,7 +6,6 @@ namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Teebb\CoreBundle\Entity\Content;
-use Teebb\CoreBundle\Entity\Types\Types;
 
 class ReferenceContentItemConfiguration extends BaseItemConfiguration
 {

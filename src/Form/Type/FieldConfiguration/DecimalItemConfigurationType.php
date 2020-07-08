@@ -40,8 +40,8 @@ class DecimalItemConfigurationType extends BaseItemConfigurationType
                         'constraints' => [
                             new GreaterThan(['value' => 1])
                         ],
-                        'data' => $data ? $data->getPrecision() : 5,
-                        'disabled' => $data ? true : false,
+                        'data' => $data->getPrecision() ? $data->getPrecision() : 5,
+                        'disabled' => $data->getPrecision() ? true : false,
                         'help' => 'teebb.core.fields.configuration.precision_help'
                     ])
                     ->add('scale', IntegerType::class, [
@@ -53,8 +53,8 @@ class DecimalItemConfigurationType extends BaseItemConfigurationType
                         'constraints' => [
                             new PositiveOrZero()
                         ],
-                        'data' => $data ? $data->getScale() : 2,
-                        'disabled' => $data ? true : false,
+                        'data' => $data->getScale() ? $data->getScale() : 2,
+                        'disabled' => $data->getScale() ? true : false,
                         'help' => 'teebb.core.fields.configuration.scale_help'
                     ]);
             }

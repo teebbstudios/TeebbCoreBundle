@@ -27,7 +27,7 @@ class TimestampFieldType extends AbstractType
             'widget' => 'single_text',
             'input' => 'timestamp',
             'attr' => [
-                'class' => 'form-control-sm col-12 col-sm-6'
+                'class' => 'form-control-sm'
             ],
             'data' => (new \DateTime())->getTimestamp()
         ];

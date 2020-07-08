@@ -3,8 +3,13 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
-    <services>
+    <parameters>
+        <parameter key="entity_type.content.service">teebb.core.entity_type.content_entity_type</parameter>
+        <parameter key="entity_type.taxonomy.service">teebb.core.entity_type.taxonomy_entity_type</parameter>
+        <parameter key="entity_type.comment.service">teebb.core.entity_type.comment_entity_type</parameter>
+    </parameters>
 
+    <services>
         <service id="teebb.core.orm.doctrine_utils"
                  class="Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils" public="true">
             <argument type="service" id="doctrine"/>

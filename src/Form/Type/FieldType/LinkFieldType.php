@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\LinkItemConfiguration;
@@ -19,6 +21,16 @@ class LinkFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //如果链接标题为空则将链接地址做为链接标题
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            /**@var LinkItem $linkItem * */
+            $linkItem = $event->getData();
+            if (null == $linkItem->getTitle()) {
+                $linkItem->setTitle($linkItem->getValue());
+            }
+            $event->setData($linkItem);
+        });
+
         /**@var LinkItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
 
@@ -47,7 +59,7 @@ class LinkFieldType extends AbstractType
         $resolver->setDefaults([
             'data_class' => LinkItem::class,
             'attr' => [
-                'class' => 'col-12 col-sm-6 p-3 border mb-3'
+                'class' => 'p-3 border mb-3'
             ]
         ]);
 

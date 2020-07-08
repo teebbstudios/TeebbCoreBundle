@@ -7,7 +7,7 @@ namespace Teebb\CoreBundle\Twig\Extensions;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Translation\TranslatableMarkup;
-use Teebb\CoreBundle\Utils\FileUploader;
+use Teebb\CoreBundle\Utils\FileHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -19,7 +19,7 @@ class UploadFileShowExtension extends AbstractExtension
     private $filesystem;
 
     /**
-     * @var FileUploader
+     * @var FileHelper
      */
     private $fileUploader;
 
@@ -31,7 +31,7 @@ class UploadFileShowExtension extends AbstractExtension
     public function __construct(FilesystemInterface $filesystem, string $baseRootHost)
     {
         $this->filesystem = $filesystem;
-        $this->fileUploader = new FileUploader($filesystem);
+        $this->fileUploader = new FileHelper($filesystem);
         $this->baseRootHost = $baseRootHost;
     }
 

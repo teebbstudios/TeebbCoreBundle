@@ -16,7 +16,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class BaseContent implements ContentInterface
+class BaseContent
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
