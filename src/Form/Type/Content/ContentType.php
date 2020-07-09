@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Form\Type\Content;
 
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -36,7 +37,7 @@ class ContentType extends BaseContentType
         $builder->add('title', TextType::class, [
             'label' => 'teebb.core.form.title',
             'label_attr' => [
-                'class' => 'font-weight-bold '
+                'class' => 'font-weight-bold'
             ],
             'constraints' => [
                 new NotBlank(),
@@ -48,5 +49,18 @@ class ContentType extends BaseContentType
         ]);
 
         $this->dynamicAddFieldForm($builder, $options, $data);
+
+        //内容发布状态 草稿 已发布
+        $builder->add('status', ChoiceType::class, [
+            'label' => 'teebb.core.form.publish_status',
+            'label_attr' => ['class' => 'font-weight-bold'],
+            'choices' => ['publish' => 'publish', 'draft' => 'draft'],
+            'multiple' => false,
+            'expanded' => true,
+            'attr' => [
+                'class' => 'form-check-inline'
+            ],
+            'data' => $data ? $data->getStatus() : 'publish'
+        ]);
     }
 }

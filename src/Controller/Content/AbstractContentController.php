@@ -48,7 +48,7 @@ abstract class AbstractContentController extends AbstractController
     /**
      * @var TemplateRegistry
      */
-    private $templateRegistry;
+    protected $templateRegistry;
 
     public function __construct(EntityManagerInterface $entityManager, TemplateRegistry $templateRegistry)
     {
@@ -59,53 +59,11 @@ abstract class AbstractContentController extends AbstractController
     }
 
     /**
-     * 列表页显示所有内容
-     *
+     * 显示所有内容
      * @param Request $request
      * @return Response
      */
-    public function indexAction(Request $request)
-    {
-        $entityTypeService= $this->getEntityTypeService($request);
-
-        $page = $request->get('page', 1);
-
-        /**
-         * @var Pagerfanta $paginator
-         */
-        $paginator = $this->typesRepository->createPaginator(['bundle' => 'types']);
-        $paginator->setCurrentPage($page);
-
-        return $this->render($this->templateRegistry->getTemplate('index', 'content'), [
-            'data' => $paginator->getCurrentPageResults(),
-            'action' => 'index',
-            'entity_type' => $entityTypeService
-        ]);
-    }
-
-    /**
-     * 创建内容首页，选择内容类型
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function createIndexAction(Request $request)
-    {
-        $entityTypeService= $this->getEntityTypeService($request);
-
-        $page = $request->get('page', 1);
-        /**
-         * @var Pagerfanta $paginator
-         */
-        $paginator = $this->typesRepository->createPaginator(['bundle' => $entityTypeService->getBundle()]);
-        $paginator->setCurrentPage($page);
-
-        return $this->render($this->templateRegistry->getTemplate('list_types', 'content'), [
-            'data' => $paginator->getCurrentPageResults(),
-            'action' => 'create',
-            'entity_type' => $entityTypeService
-        ]);
-    }
+    abstract public function indexAction(Request $request);
 
     /**
      * 创建内容
@@ -114,31 +72,26 @@ abstract class AbstractContentController extends AbstractController
      * @param Types $types
      * @return Response
      */
-    public function createAction(Request $request, Types $types)
-    {
-        $entityTypeService= $this->getEntityTypeService($request);
+    abstract public function createAction(Request $request, Types $types);
 
-        $data_class = $entityTypeService->getEntityClassName();
-        $entityFormType = $entityTypeService->getEntityFormType();
 
-        $form = $this->createForm($entityFormType,
-            null,
-            ['bundle' => $types->getBundle(), 'type_alias' => $types->getTypeAlias(), 'data_class' => $data_class]
-        );
+    /**
+     * 更新内容
+     *
+     * @param Request $request
+     * @param Content $content
+     * @return Response
+     */
+    abstract public function updateAction(Request $request, Content $content);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            //持久化内容和字段
-            $this->persistSubstance($form, $types->getBundle(), $types->getTypeAlias(), $data_class);
-        }
-
-        return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
-            'action' => 'create',
-            'form' => $form->createView(),
-            'entity_type' => $entityTypeService
-        ]);
-    }
+    /**
+     * 删除内容
+     *
+     * @param Request $request
+     * @param Content $content
+     * @return Response
+     */
+    abstract public function deleteAction(Request $request, Content $content);
 
     /**
      * 持久化内容及所有字段数据
