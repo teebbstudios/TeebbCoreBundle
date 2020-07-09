@@ -1,3 +1,7 @@
+content: 内容
+taxonomy: 分类
+comment: 评论
+
 index: 管理
 create: 创建
 update: 编辑
@@ -7,10 +11,6 @@ index_field: 管理字段
 display_field: 管理字段显示
 update_field: '更新 "%field%" 字段设置'
 delete_field: '删除 "%field%" 字段'
-
-create_content: 创建内容
-update_content: 更新内容
-delete_content: 删除内容
 
 Select fields: 选择字段
 simple: 常规类型
@@ -150,7 +150,7 @@ teebb:
             update_content: 更新内容
             delete_content: 删除内容
 
-            show_summary: 编辑摘要
+            show_summary: 显示摘要
             hide_summary: 隐藏摘要
             remove_field_item: 移除此行
             add_field_item: 继续添加
@@ -181,14 +181,9 @@ teebb:
                 add_fields:
                     help: 请选择您需要的字段类型，并设置字段的属性。
 
-
             types:
                 label:
                     help: 此类型的名称。此文本将显示于添加内容页面的列表中。此名称须唯一。
                 description:
                     help: 简短的描述该类型的帮助信息，此信息只在类型列表页面显示。
 
-
-        content:
-            index: 管理内容
-            create: 创建内容

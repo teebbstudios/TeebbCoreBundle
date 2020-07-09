@@ -202,4 +202,12 @@ abstract class AbstractEntityType implements EntityTypeInterface
     {
         return $this->metadata->getBundle() . '_' . $name;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntityFormType(): string
+    {
+        return $this->metadata->getEntityFormType();
+    }
 }

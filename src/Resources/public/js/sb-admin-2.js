@@ -273,3 +273,17 @@ function fieldFileDelete(element) {
     });
 }
 
+//显示隐藏摘要按钮文字处理
+$('a.toggle-show-summary').on('click', function (e) {
+    var $boolShow = $(this).attr('aria-expanded');
+    console.log($boolShow, $boolShow === "true", $boolShow === "false");
+    var $showText = $(this).data('show-text');
+    var $hideText = $(this).data('hide-text');
+    var $span = $(this).find('span.font-italic');
+    if ($boolShow === "true" || $boolShow) {
+        $span.text($showText);
+    }
+    if ($boolShow === "false" || !$boolShow) {
+        $span.text($hideText);
+    }
+});

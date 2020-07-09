@@ -112,14 +112,14 @@ class InitDatabaseCommand extends Command
     private function initEntityTypes(){
 
         $articleType = new Types();
-        $articleType->setBundle('types');
+        $articleType->setBundle('content');
         $articleType->setLabel('Article');
         $articleType->setTypeAlias('article');
         $articleType->setDescription('Use articles to post content about time, such as news, news or logs.');
         $articleType->setTranslatableLocale('en_US');
 
         $pageType = new Types();
-        $pageType->setBundle('types');
+        $pageType->setBundle('content');
         $pageType->setLabel('Page');
         $pageType->setTypeAlias('page');
         $pageType->setDescription('Use basic pages for your static content, such as the "About Us" page.');

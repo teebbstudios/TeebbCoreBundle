@@ -49,7 +49,7 @@ class EntityTypeRouteCollection extends BaseRouteCollection implements RouteColl
                              array $requirements = [], array $options = [], $host = '',
                              array $schemes = [], array $methods = [], $condition = ''): void
     {
-        $pattern = "/" . $this->metadata->getBundle() . "/" . ($pattern ?: $name);
+        $pattern = "/type/" . $this->metadata->getBundle() . "/" . ($pattern ?: $name);
         $routeName = $this->metadata->getBundle() . '_' . $name;
 
         $actionCode = $this->getCode($name);

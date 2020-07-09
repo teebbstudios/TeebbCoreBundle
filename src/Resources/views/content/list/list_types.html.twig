@@ -1,11 +1,12 @@
 {% extends '@TeebbCore/base_content.html.twig' %}
+{% set bundle = entity_type.bundle %}
 
 {% block head_label %}
-    {{ 'teebb.core.content.create'|trans }}
+    {{ action|trans }}{{ bundle|trans }}
 {% endblock %}
 
 {% block head_actions %}
-    {% include '@TeebbCore/content/buttons/head_index_content_button.html.twig' %}
+    {% include '@TeebbCore/content/buttons/head_index_content_button.html.twig' with _context %}
 {% endblock %}
 
 {% block card_title %}
@@ -24,9 +25,9 @@
             <tbody>
             {% for type in data %}
                 <tr>
-                    <td><a href="{{ path('teebb_content_create',{'typeAlias': type.typeAlias}) }}">
-                            <i class="fas fa-arrow-alt-circle-right fa-sm pr-2"></i>
-                            {{ type.label }}</a>
+                    <td>
+                        <a href="{{ path('teebb_'~bundle~'_create',{'typeAlias': type.typeAlias}) }}">
+                            <i class="fas fa-arrow-alt-circle-right fa-sm pr-2"></i>{{ type.label }}</a>
                     </td>
                     <td>{{ type.description }}</td>
                 </tr>

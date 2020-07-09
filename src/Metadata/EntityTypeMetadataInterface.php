@@ -83,4 +83,10 @@ interface EntityTypeMetadataInterface
      * @return array
      */
     public function getFormSettings(): array;
+
+    /**
+     * 获取Entity的表单类型
+     * @return string
+     */
+    public function getEntityFormType(): string;
 }

@@ -121,4 +121,10 @@ interface EntityTypeInterface
      * @return string
      */
     public function getRouteName(string $actionName): string;
+
+    /**
+     * 获取对应的Entity FormType
+     * @return string
+     */
+    public function getEntityFormType():string;
 }

@@ -24,7 +24,7 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *
  * @EntityType(
  *     label=@Translation(message="teebb.core.entity_type.content.label"),
- *     bundle="types",
+ *     bundle="content",
  *     description=@Translation(message="teebb.core.entity_type.content.description"),
  *     repository="Teebb\CoreBundle\Repository\Types\EntityTypeRepository",
  *     controller="Teebb\CoreBundle\Controller\Types\ContentTypeController",
@@ -61,7 +61,8 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *                  "required"=false
  *              }
  *          ),
- *     })
+ *     }),
+ *     entityFormType="Teebb\CoreBundle\Form\Type\Content\ContentType"
  *
  * )
  */

@@ -59,6 +59,31 @@ abstract class AbstractContentController extends AbstractController
     }
 
     /**
+     * 列表页显示所有内容
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function indexAction(Request $request)
+    {
+        $entityTypeService= $this->getEntityTypeService($request);
+
+        $page = $request->get('page', 1);
+
+        /**
+         * @var Pagerfanta $paginator
+         */
+        $paginator = $this->typesRepository->createPaginator(['bundle' => 'types']);
+        $paginator->setCurrentPage($page);
+
+        return $this->render($this->templateRegistry->getTemplate('index', 'content'), [
+            'data' => $paginator->getCurrentPageResults(),
+            'action' => 'index',
+            'entity_type' => $entityTypeService
+        ]);
+    }
+
+    /**
      * 创建内容首页，选择内容类型
      *
      * @param Request $request
@@ -66,16 +91,19 @@ abstract class AbstractContentController extends AbstractController
      */
     public function createIndexAction(Request $request)
     {
+        $entityTypeService= $this->getEntityTypeService($request);
+
         $page = $request->get('page', 1);
         /**
          * @var Pagerfanta $paginator
          */
-        $paginator = $this->typesRepository->createPaginator(['bundle' => 'types']);
+        $paginator = $this->typesRepository->createPaginator(['bundle' => $entityTypeService->getBundle()]);
         $paginator->setCurrentPage($page);
 
         return $this->render($this->templateRegistry->getTemplate('list_types', 'content'), [
             'data' => $paginator->getCurrentPageResults(),
-            'action' => 'create_content'
+            'action' => 'create',
+            'entity_type' => $entityTypeService
         ]);
     }
 
@@ -88,11 +116,12 @@ abstract class AbstractContentController extends AbstractController
      */
     public function createAction(Request $request, Types $types)
     {
-        /**@var EntityTypeInterface $entityTypeService * */
-        $entityTypeService = $this->container->get($request->get('_teebb_entity_type'));
-        $data_class = $entityTypeService->getEntityClassName();
+        $entityTypeService= $this->getEntityTypeService($request);
 
-        $form = $this->createForm(ContentType::class,
+        $data_class = $entityTypeService->getEntityClassName();
+        $entityFormType = $entityTypeService->getEntityFormType();
+
+        $form = $this->createForm($entityFormType,
             null,
             ['bundle' => $types->getBundle(), 'type_alias' => $types->getTypeAlias(), 'data_class' => $data_class]
         );
@@ -101,21 +130,13 @@ abstract class AbstractContentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //持久化内容和字段
-            $this->persistContent($form, $types->getBundle(), $types->getTypeAlias(), $data_class);
-
-            dd($form->getData()
-//                $form->get('biao_ti')->getData(),
-//                $form->get('wen_jian')->getData(),
-//                $form->get('tu_xiang')->getData(),
-//                $form->get('lian_jie')->getData(),
-//                $form->get('you_jian')->getData()
-            );
-
+            $this->persistSubstance($form, $types->getBundle(), $types->getTypeAlias(), $data_class);
         }
 
         return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
-            'action' => 'create_content',
-            'form' => $form->createView()
+            'action' => 'create',
+            'form' => $form->createView(),
+            'entity_type' => $entityTypeService
         ]);
     }
 
@@ -126,12 +147,12 @@ abstract class AbstractContentController extends AbstractController
      * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
      * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
      */
-    protected function persistContent(FormInterface $form, string $bundle, string $typeAlias, string $contentClassName)
+    protected function persistSubstance(FormInterface $form, string $bundle, string $typeAlias, string $contentClassName)
     {
         //内容Entity object
-        $baseContent = $form->getData();
+        $substance = $form->getData();
 
-        $this->entityManager->persist($baseContent);
+        $this->entityManager->persist($substance);
 
         //获取当前内容类型所有字段
         $fields = $this->fieldConfigRepository
@@ -152,7 +173,7 @@ abstract class AbstractContentController extends AbstractController
                 /**@var BaseFieldItem $dataItem * */
                 foreach ($fieldDataArray as $index => $dataItem) {
                     //处理字段和内容Entity的关系
-                    $dataItem->setEntity($baseContent);
+                    $dataItem->setEntity($substance);
 
                     $this->entityManager->persist($dataItem);
                 }
@@ -162,5 +183,21 @@ abstract class AbstractContentController extends AbstractController
         }
 
         $this->entityManager->flush();
+    }
+
+    /**
+     * 获取EntityType Service
+     *
+     * @param Request $request
+     * @return EntityTypeInterface
+     */
+    protected function getEntityTypeService(Request $request): EntityTypeInterface
+    {
+        $entityTypeServiceId = $request->get('entity_type_service');
+        if (null == $entityTypeServiceId) {
+            throw new \RuntimeException(sprintf('The route "%s" config must define "entity_type_service" key.', $request->attributes->get('_route')));
+        }
+
+        return $this->container->get($entityTypeServiceId);
     }
 }

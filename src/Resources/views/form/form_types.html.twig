@@ -33,9 +33,17 @@
 {% block text_summary_widget %}
     {% set show_summary = form.vars['show_summary'] %}
     {% set summary_required = form.vars['summary_required'] %}
-    <a href="#" data-toggle="collapse" data-target="#collapseSummary"
-       aria-expanded="{{ show_summary }}" aria-controls="collapseSummary">
-        <span class="font-italic small">{{ 'teebb.core.form.show_summary'|trans }}</span>
+    <a class="toggle-show-summary" href="#" data-toggle="collapse" data-target="#collapseSummary"
+       aria-expanded="{{ show_summary }}"
+       data-show-text="{{ 'teebb.core.form.show_summary'|trans }}"
+       data-hide-text="{{ 'teebb.core.form.hide_summary'|trans }}" aria-controls="collapseSummary">
+        <span class="font-italic small">
+            {% if show_summary==true %}
+                {{ 'teebb.core.form.hide_summary'|trans }}
+            {% else %}
+                {{ 'teebb.core.form.show_summary'|trans }}
+            {% endif %}
+        </span>
     </a>
     <div class="collapse {% if show_summary==true %}show{% endif %}" id="collapseSummary">
         {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}

@@ -61,7 +61,9 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *                  "required"=false
  *              }
  *          ),
- *     })
+ *     }),
+ *     entityFormType="Teebb\CoreBundle\Form\Type\Content\CommentType"
+ *
  * )
  */
 class CommentEntityType extends AbstractEntityType

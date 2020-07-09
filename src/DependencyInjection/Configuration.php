@@ -62,6 +62,7 @@ class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('list_types')->defaultValue('@TeebbCore/content/list/list_types.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('index')->defaultValue('@TeebbCore/content/list/_list.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('create')->defaultValue('@TeebbCore/content/form/_form.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()

@@ -2,7 +2,7 @@
 <routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="teebb_content_create_index" path="/content/create">
+    <route id="teebb_content_create_index" path="/content/create/index">
         <default key="_controller">Teebb\CoreBundle\Controller\Content\ContentController::createIndexAction</default>
         <default key="route">teebb_content_create_index</default>
     </route>
@@ -10,8 +10,6 @@
     <route id="teebb_content_create" path="/content/create/{typeAlias}">
         <default key="_controller">Teebb\CoreBundle\Controller\Content\ContentController::createAction</default>
         <default key="route">teebb_content_create</default>
-        <default key="_teebb_entity_type">%entity_type.content.service%</default>
     </route>
-
 
 </routes>

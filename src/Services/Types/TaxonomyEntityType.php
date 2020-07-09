@@ -61,7 +61,8 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *                  "required"=false
  *              }
  *          ),
- *     })
+ *     }),
+ *     entityFormType="Teebb\CoreBundle\Form\Type\Content\TaxonomyType"
  * )
  */
 class TaxonomyEntityType extends AbstractEntityType

@@ -1,7 +1,8 @@
 {% extends '@TeebbCore/base_content.html.twig' %}
+{% set bundle = entity_type.bundle %}
 
 {% block head_label %}
-    {{ 'teebb.core.content.create'|trans }}
+    {{ action|trans }}{{ bundle|trans }}
 {% endblock %}
 
 {% block head_actions %}

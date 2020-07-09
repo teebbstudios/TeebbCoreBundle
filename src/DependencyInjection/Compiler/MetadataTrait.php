@@ -34,7 +34,8 @@ trait MetadataTrait
             $annotation->typeEntity,
             $annotation->entity,
             $reflectionClass->getName(),
-            $this->createFormSettingsDefinition($annotation->form)
+            $this->createFormSettingsDefinition($annotation->form),
+            $annotation->entityFormType
         ]);
     }
 
@@ -85,8 +86,7 @@ trait MetadataTrait
      * @param FormRow $formRow
      * @return Definition
      */
-    public
-    function createEntityTypeFormMarkup(FormRow $formRow): Definition
+    public function createEntityTypeFormMarkup(FormRow $formRow): Definition
     {
         return new Definition(FormRowMarkup::class, [
             $formRow->property,

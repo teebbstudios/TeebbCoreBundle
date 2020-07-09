@@ -37,13 +37,20 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
     private $service;
 
     private $formSettings;
+
     /**
      * @var string
      */
     private $typeEntity;
 
+    /**
+     * @var string
+     */
+    private $entityFormType;
+
     public function __construct(TranslatableMarkup $label, string $bundle, TranslatableMarkup $description,
-                                string $controller, string $repository, string $typeEntity, string $entity, string $service, array $formSettings)
+                                string $controller, string $repository, string $typeEntity, string $entity,
+                                string $service, array $formSettings, string $entityFormType)
     {
         $this->label = $label;
         $this->bundle = $bundle;
@@ -54,6 +61,7 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
         $this->service = $service;
         $this->formSettings = $formSettings;
         $this->typeEntity = $typeEntity;
+        $this->entityFormType = $entityFormType;
     }
 
     /**
@@ -120,6 +128,11 @@ class EntityTypeMetadata implements EntityTypeMetadataInterface
     public function getFormSettings(): array
     {
         return $this->formSettings;
+    }
+
+    public function getEntityFormType(): string
+    {
+        return $this->entityFormType;
     }
 
 }
