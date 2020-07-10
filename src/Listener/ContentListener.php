@@ -10,17 +10,22 @@ use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
  * Doctrine entity listener
- *
- * 用于内容Entity从数据库中加载时，设置对应的内容类型
  */
-class ContentPostLoadListener
+class ContentListener
 {
+    /**
+     * 用于内容Entity从数据库中加载时，设置对应的内容类型
+     *
+     * @param Content $content
+     * @param LifecycleEventArgs $event
+     */
     public function postLoad(Content $content, LifecycleEventArgs $event)
     {
         $em = $event->getEntityManager();
         $typesRepository = $em->getRepository(Types::class);
-        /**@var Types $type**/
+        /**@var Types $type * */
         $type = $typesRepository->findOneBy(['typeAlias' => $content->getTypeAlias()]);
         $content->setType($type);
     }
+
 }

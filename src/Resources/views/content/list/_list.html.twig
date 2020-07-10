@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block card_body %}
+    {# 获取当前页面URL 用于 limit 切换跳转   #}
     {% set path = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query)) %}
     {{ form_start(batch_action_form) }}
     {{ form_row(batch_action_form.batch) }}
@@ -53,7 +54,7 @@
                     <td>{{ content.status|trans }}</td>
                     <td>{{ content.updatedAt|date('Y-m-d H:i') }}</td>
                     <td>
-
+                        {% include '@TeebbCore/content/buttons/item_manage_types_button.html.twig' with {item:content} %}
                     </td>
                 </tr>
             {% endfor %}

@@ -176,6 +176,8 @@ teebb:
             url_title_help: 如果链接标题为空，则使用链接地址作为标题。
             file_upload_help: 当前允许上传的文件后缀为 %ext%，最大允许上传文件大小为 %size%。
             select_list_numeric: 请选择您的数据
+            slug: URL别名
+            slug_help: 如果留空则自动生成别名，仅允许使用字母、数字和连字符。
             publish_status: 发布状态
             batch_action: 批量操作
             submit: 确定
@@ -191,4 +193,8 @@ teebb:
                     help: 此类型的名称。此文本将显示于添加内容页面的列表中。此名称须唯一。
                 description:
                     help: 简短的描述该类型的帮助信息，此信息只在类型列表页面显示。
+        content:
+            create_success: 内容 "%value%" 创建成功。
+            update_success: 内容 "%value%" 更新成功。
+            delete_success: 内容 "%value%" 删除成功。
 

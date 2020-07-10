@@ -3,7 +3,7 @@
         {% if action in ['create', 'index'] %}
             {{ action|trans }}{{ entity_type.bundle|trans }}
         {% else %}
-            {{ dump() }}
+            {{ action|trans }} "{{ subject.title }}"
         {% endif %}
     </h6>
 </div>

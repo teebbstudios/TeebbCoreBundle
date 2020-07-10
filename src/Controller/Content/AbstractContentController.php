@@ -10,6 +10,7 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Content;
@@ -45,6 +46,7 @@ abstract class AbstractContentController extends AbstractController
      * @var EntityTypeRepository
      */
     protected $typesRepository;
+
     /**
      * @var TemplateRegistry
      */
@@ -99,6 +101,7 @@ abstract class AbstractContentController extends AbstractController
      * @param string $bundle 用于排序显示所有字段
      * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
      * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
+     * @return mixed
      */
     protected function persistSubstance(FormInterface $form, string $bundle, string $typeAlias, string $contentClassName)
     {
@@ -136,6 +139,8 @@ abstract class AbstractContentController extends AbstractController
         }
 
         $this->entityManager->flush();
+
+        return $substance;
     }
 
     /**

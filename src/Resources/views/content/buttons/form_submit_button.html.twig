@@ -1,15 +1,15 @@
 {#types 表单 按钮#}
 <div class="form-row">
     <div class="col-12">
-        {% if action != 'delete_content' %}
+        {% if action != 'delete' %}
             <button class="btn btn-primary btn-sm btn-icon-split">
                 <span class="icon text-white-50"><i class="fas fa-arrow-right"></i></span>
-                <span class="text">{% if action=='create_content' %}{{ 'teebb.core.form.create_content'|trans }}{% else %}{{ 'teebb.core.form.update_content'|trans }}{% endif %}</span>
+                <span class="text">{% if action=='create' %}{{ 'teebb.core.form.create_content'|trans }}{% else %}{{ 'teebb.core.form.update_content'|trans }}{% endif %}</span>
             </button>
         {% else %}
             <button class="btn btn-danger btn-sm btn-icon-split">
                 <span class="icon text-white-50"><i class="fas fa-trash"></i></span>
-                <span class="text">{{ 'teebb.core.form.delete_content'|trans }}</span>
+                <span class="text">{{ 'teebb.core.form.delete'|trans }}</span>
             </button>
         {% endif %}
     </div>

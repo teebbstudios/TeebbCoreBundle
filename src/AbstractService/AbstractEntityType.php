@@ -15,6 +15,7 @@ namespace Teebb\CoreBundle\AbstractService;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;
@@ -209,5 +210,14 @@ abstract class AbstractEntityType implements EntityTypeInterface
     public function getEntityFormType(): string
     {
         return $this->metadata->getEntityFormType();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAllFieldsAlias(string $typeAlias): array
+    {
+        $fieldConfigRepository = $this->entityManager->getRepository(FieldConfiguration::class);
+        return $fieldConfigRepository->findBy(['bundle' => $this->getBundle(), 'typeAlias' => $typeAlias], ['delta' => 'DESC']);
     }
 }

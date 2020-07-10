@@ -1,0 +1,6 @@
+{#  Todo: 需要添加权限及获取可用操作  #}
+
+<div class="btn-group btn-group-sm" role="group">
+    <a href="{{ path('teebb_content_update', {'slug':item.slug}) }}" class="btn btn-primary text-white">{{ 'update'|trans }}</a>
+    <a href="{{ path('teebb_content_delete', {'slug':item.slug}) }}" class="btn btn-danger text-white">{{ 'delete'|trans }}</a>
+</div>

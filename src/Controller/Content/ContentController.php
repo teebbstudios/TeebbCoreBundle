@@ -110,13 +110,22 @@ class ContentController extends AbstractContentController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //持久化内容和字段
-            $this->persistSubstance($form, $types->getBundle(), $types->getTypeAlias(), $data_class);
+            /**@var Content $content * */
+            $content = $this->persistSubstance($form, $types->getBundle(), $types->getTypeAlias(), $data_class);
+
+            $this->addFlash('success', $this->container->get('translator')->trans(
+                'teebb.core.content.create_success', ['%value%' => $content->getTitle()]
+            ));
+
+            //内容添加完成，跳转到内容列表页
+            return $this->redirectToRoute('teebb_content_index');
         }
 
         return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
             'action' => 'create',
             'form' => $form->createView(),
-            'entity_type' => $entityTypeService
+            'entity_type' => $entityTypeService,
+            'type_alias' => $types->getTypeAlias()
         ]);
     }
 
@@ -135,25 +144,35 @@ class ContentController extends AbstractContentController
         $data_class = $entityTypeService->getEntityClassName();
         $entityFormType = $entityTypeService->getEntityFormType();
 
-        $form = $this->createForm($entityFormType, null,
+        $form = $this->createForm($entityFormType, $content,
             [
                 'bundle' => $entityTypeService->getBundle(),
-                'type_alias' => $content->getType(), '
-                data_class' => $data_class
+                'type_alias' => $content->getTypeAlias(),
+                'data_class' => $data_class
             ]
         );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             //持久化内容和字段
-            $this->persistSubstance($form, $entityTypeService->getBundle(), $content->getType(), $data_class);
+            $this->persistSubstance($form, $entityTypeService->getBundle(), $content->getTypeAlias(), $data_class);
+
+            $this->addFlash('success', $this->container->get('translator')->trans(
+                'teebb.core.content.update_success', ['%value%' => $content->getTitle()]
+            ));
+
+            //内容更新完成，跳转到内容列表页
+            return $this->redirectToRoute('teebb_content_index');
         }
 
-        return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
-            'action' => 'create',
+        return $this->render($this->templateRegistry->getTemplate('update', 'content'), [
+            'action' => 'update',
             'form' => $form->createView(),
-            'entity_type' => $entityTypeService
+            'entity_type' => $entityTypeService,
+            'subject' => $content,
+            'type_alias' => $content->getTypeAlias()
         ]);
     }
 

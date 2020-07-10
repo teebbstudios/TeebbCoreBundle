@@ -107,13 +107,13 @@ interface EntityTypeInterface
      * 获取保存内容的具体entity全类名
      * @return string
      */
-    public function getEntityClassName():string;
+    public function getEntityClassName(): string;
 
     /**
      * 获取类型注释中的Bundle别名
      * @return string
      */
-    public function getBundle():string;
+    public function getBundle(): string;
 
     /**
      * 根据action名称获取route名称
@@ -126,5 +126,12 @@ interface EntityTypeInterface
      * 获取对应的Entity FormType
      * @return string
      */
-    public function getEntityFormType():string;
+    public function getEntityFormType(): string;
+
+    /**
+     * 获取当前类型所有字段的别名
+     * @param string $typeAlias 当前类型Entity别名
+     * @return array
+     */
+    public function getAllFieldsAlias(string $typeAlias): array;
 }

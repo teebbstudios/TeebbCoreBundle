@@ -11,7 +11,7 @@ use Teebb\CoreBundle\Entity\Types\Types;
  * Types类型内容
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\BaseContentRepository")
- * @ORM\EntityListeners({"Teebb\CoreBundle\Listener\ContentPostLoadListener"})
+ * @ORM\EntityListeners({"Teebb\CoreBundle\Listener\ContentListener"})
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */

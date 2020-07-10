@@ -11,6 +11,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Unique;
 use Teebb\CoreBundle\Entity\Content;
 
 /**
@@ -51,16 +53,27 @@ class ContentType extends BaseContentType
         $this->dynamicAddFieldForm($builder, $options, $data);
 
         //内容发布状态 草稿 已发布
-        $builder->add('status', ChoiceType::class, [
-            'label' => 'teebb.core.form.publish_status',
-            'label_attr' => ['class' => 'font-weight-bold'],
-            'choices' => ['publish' => 'publish', 'draft' => 'draft'],
-            'multiple' => false,
-            'expanded' => true,
-            'attr' => [
-                'class' => 'form-check-inline'
-            ],
-            'data' => $data ? $data->getStatus() : 'publish'
-        ]);
+        $builder
+            ->add('slug', TextType::class, [
+                'label' => 'teebb.core.form.slug',
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'help' => 'teebb.core.form.slug_help',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control-sm'
+                ],
+                'constraints'=>[
+                    new Regex('/^[a-zA-Z0-9-]+$/')
+                ]
+            ])
+            ->add('status', ChoiceType::class, [
+                'label' => 'teebb.core.form.publish_status',
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'choices' => ['publish' => 'publish', 'draft' => 'draft'],
+                'attr' => [
+                    'class' => 'form-control-sm'
+                ],
+                'data' => $data ? $data->getStatus() : 'publish'
+            ]);
     }
 }

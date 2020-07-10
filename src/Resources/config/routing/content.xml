@@ -22,4 +22,9 @@
         <default key="route">teebb_content_update</default>
     </route>
 
+    <route id="teebb_content_delete" path="/content/delete/{slug}">
+        <default key="_controller">Teebb\CoreBundle\Controller\Content\ContentController::deleteAction</default>
+        <default key="route">teebb_content_delete</default>
+    </route>
+
 </routes>

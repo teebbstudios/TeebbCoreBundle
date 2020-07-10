@@ -53,6 +53,7 @@
                  alias="teebb.core.controller.taxonomy_type_controller" public="true"/>
 
 
+
         <service id="teebb.core.controller.content_controller"
                  class="Teebb\CoreBundle\Controller\Content\ContentController"
                  public="false">
