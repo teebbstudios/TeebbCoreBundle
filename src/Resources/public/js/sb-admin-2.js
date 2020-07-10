@@ -287,3 +287,49 @@ $('a.toggle-show-summary').on('click', function (e) {
         $span.text($hideText);
     }
 });
+
+//获取URL参数
+function getQueryString(name) {
+    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    let r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return decodeURIComponent(r[2]);
+    }
+    return null;
+}
+
+// 替换参数
+function replaceUrlParamVal(url, paramName, replaceWith) {
+    var re = eval('/(' + paramName + '=)([^&]*)/gi');
+    return url.replace(re, paramName + '=' + replaceWith);
+}
+
+/**
+ * 设置select选中
+ * @param selectId select的id值
+ * @param checkValue 选中option的值
+ * @author lqy
+ * @since 2015-08-21
+ */
+function setSelectChecked(selectId, checkValue) {
+    var select = $(selectId);
+    for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].innerHTML === checkValue) {
+            select.options[i].selected = true;
+            break;
+        }
+    }
+}
+//每页显示数量
+$('select.page-limit-select').on('change', function (e) {
+    var currentUrl = $(this).data('path');
+    var newUrl = '';
+    var limit = getQueryString('limit');
+    if (limit !== null) {
+        newUrl = replaceUrlParamVal(currentUrl, 'limit', $(this).val());
+    } else {
+        var question = currentUrl.indexOf('?') === -1 ? "?" : "&";
+        newUrl = currentUrl + question + 'limit=' + $(this).val();
+    }
+    window.location = newUrl;
+});

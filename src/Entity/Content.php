@@ -5,11 +5,13 @@ namespace Teebb\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
  * Types类型内容
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\BaseContentRepository")
+ * @ORM\EntityListeners({"Teebb\CoreBundle\Listener\ContentPostLoadListener"})
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
@@ -27,7 +29,7 @@ class Content extends BaseContent
      * @var string|null
      * @ORM\Column(type="string", length=255)
      */
-    protected $type;
+    protected $typeAlias;
 
     /**
      * 内容发布状态 draft publish
@@ -43,6 +45,11 @@ class Content extends BaseContent
      * @Gedmo\Slug(fields={"title"},unique=true)
      */
     protected $slug;
+
+    /**
+     * @var Types|null
+     */
+    private $type;
 
     /**
      * @return string|null
@@ -63,17 +70,17 @@ class Content extends BaseContent
     /**
      * @return string|null
      */
-    public function getType(): ?string
+    public function getTypeAlias(): ?string
     {
-        return $this->type;
+        return $this->typeAlias;
     }
 
     /**
-     * @param string|null $type
+     * @param string|null $typeAlias
      */
-    public function setType(?string $type): void
+    public function setTypeAlias(?string $typeAlias): void
     {
-        $this->type = $type;
+        $this->typeAlias = $typeAlias;
     }
 
     /**
@@ -106,6 +113,22 @@ class Content extends BaseContent
     public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    /**
+     * @return Types|null
+     */
+    public function getType(): ?Types
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param Types|null $type
+     */
+    public function setType(?Types $type): void
+    {
+        $this->type = $type;
     }
 
 }

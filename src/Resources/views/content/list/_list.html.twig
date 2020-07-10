@@ -14,8 +14,16 @@
 {% endblock %}
 
 {% block card_body %}
+    {% set path = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query)) %}
     {{ form_start(batch_action_form) }}
-    {{ form_widget(batch_action_form) }}
+    {{ form_row(batch_action_form.batch) }}
+    {{ form_row(batch_action_form.submit) }}
+
+    {{ form_row(batch_action_form.limit,{
+        'attr':{'data-path':path},
+        'label_translation_parameters':{'%total%':paginator.nbResults},
+        'value':app.request.get('limit')
+    }) }}
 
     <div class="table-responsive mt-3">
         <table class="table table-striped">
@@ -25,13 +33,14 @@
                     <input type="checkbox" class="form-check check-all" title="{{ 'teebb.core.list.check_all'|trans }}">
                 </th>
                 <th scope="col">{{ 'teebb.core.list.title'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.type'|trans }}</th>
                 <th scope="col">{{ 'teebb.core.list.publish_status'|trans }}</th>
                 <th scope="col">{{ 'teebb.core.list.update_date'|trans }}</th>
                 <th scope="col">{{ 'teebb.core.list.options'|trans }}</th>
             </tr>
             </thead>
             <tbody>
-            {% for content in data %}
+            {% for content in paginator %}
                 <tr>
                     <td>
                         <input type="checkbox" name="content[]" class="form-check" value="{{ content.id }}">
@@ -40,6 +49,7 @@
                         <a href="{{ path('teebb_'~bundle~'_update',{'slug': content.slug}) }}">
                             <i class="fas fa-file-alt fa-sm pr-2"></i>{{ content.title }}</a>
                     </td>
+                    <td>{{ content.type.label }}</td>
                     <td>{{ content.status|trans }}</td>
                     <td>{{ content.updatedAt|date('Y-m-d H:i') }}</td>
                     <td>
@@ -52,4 +62,12 @@
     </div>
 
     {{ form_end(batch_action_form) }}
+
+    {#  页码  #}
+    {% if paginator.haveToPaginate %}
+        <div class="my-3">
+            {{ pagerfanta(paginator, 'twitter_bootstrap4_translated') }}
+        </div>
+    {% endif %}
+
 {% endblock %}

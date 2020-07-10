@@ -43,7 +43,7 @@ class ContentBatchOptionsType extends AbstractType
                 'label' => 'teebb.core.form.page_limit',
                 'choices' => ['10' => 10, '25' => 25, '50' => 50, '100' => 100],
                 'attr' => [
-                    'class' => 'form-control-sm page_limit_select'
+                    'class' => 'form-control-sm page-limit-select'
                 ],
                 'row_attr' => [
                     'class' => 'ml-auto'

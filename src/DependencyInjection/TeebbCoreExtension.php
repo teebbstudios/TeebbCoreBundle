@@ -39,6 +39,7 @@ class TeebbCoreExtension extends Extension
             'commands',
             'controllers',
             'forms',
+            'listeners',
             'routes',
             'services',
         ];

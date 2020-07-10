@@ -69,6 +69,7 @@ teebb:
             field_type: 字段类型
             delta: 排序权重
             title: 标题
+            type: 类型
             publish_status: 发布状态
             update_date: 更新日期
             check_all: 选择当前所有行
@@ -178,7 +179,7 @@ teebb:
             publish_status: 发布状态
             batch_action: 批量操作
             submit: 确定
-            page_limit: 每页显示
+            page_limit: 共%total%条  每页显示
 
             fields:
                 field_label:

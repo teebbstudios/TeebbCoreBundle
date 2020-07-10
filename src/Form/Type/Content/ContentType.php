@@ -25,8 +25,8 @@ class ContentType extends BaseContentType
             function (FormEvent $event) use ($options) {
                 /**@var Content $content * */
                 $content = $event->getData();
-                if (null == $content->getType()) {
-                    $content->setType($options['type_alias']);
+                if (null == $content->getTypeAlias()) {
+                    $content->setTypeAlias($options['type_alias']);
                     $event->setData($content);
                 }
             });

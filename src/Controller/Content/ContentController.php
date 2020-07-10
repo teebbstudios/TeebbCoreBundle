@@ -39,22 +39,24 @@ class ContentController extends AbstractContentController
         $entityTypeService = $this->getEntityTypeService($request);
 
         $page = $request->get('page', 1);
+        $limit = $request->get('limit', 10);
 
         $baseContentRepository = $this->entityManager->getRepository($entityTypeService->getEntityClassName());
         /**
          * @var Pagerfanta $paginator
          */
-        $paginator = $baseContentRepository->createPaginator(['bundle' => $entityTypeService->getBundle()]);
+        $paginator = $baseContentRepository->createPaginator(['bundle' => $entityTypeService->getBundle()], ['id' => 'DESC']);
+        $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);
 
         $batchActionForm = $this->createForm(ContentBatchOptionsType::class);
         $batchActionForm->handleRequest($request);
-        if ($batchActionForm->isSubmitted() && $batchActionForm->isValid()){
+        if ($batchActionForm->isSubmitted() && $batchActionForm->isValid()) {
             $data = $batchActionForm->getData();
             dd($data, $request);
         }
         return $this->render($this->templateRegistry->getTemplate('index', 'content'), [
-            'data' => $paginator->getCurrentPageResults(),
+            'paginator' => $paginator,
             'action' => 'index',
             'entity_type' => $entityTypeService,
             'batch_action_form' => $batchActionForm->createView()

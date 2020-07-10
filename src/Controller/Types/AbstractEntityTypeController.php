@@ -182,7 +182,7 @@ abstract class AbstractEntityTypeController extends AbstractController
         return $this->render($this->templateRegistry->getTemplate('list', 'types'), [
             'label' => $this->entityTypeService->getEntityTypeMetadata()->getLabel(),
             'action' => $request->get('_teebb_action'),
-            'data' => $paginator->getCurrentPageResults(),
+            'paginator' => $paginator,
             'buttons' => $this->entityTypeService->getActionButtons()
         ]);
     }
