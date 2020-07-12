@@ -102,10 +102,9 @@
     {% set file = form.parent.children.value.vars.data %}
     <div class="file-show pl-0 {% if file is null %}d-none{% endif %}">
         <div class="d-flex justify-content-between">
-            <a class="file small"
-               href="{% if file is not null %} {{ show_file_url(app.request,file.filePath) }} {% endif %}">
+            <a class="file small" href="{% if file is not null %}{{ show_file_url(app.request,file.filePath) }}{% endif %}">
                 <i class="fas fa-file pr-2"></i>{% if file is not null %} {{ file.originFileName }} {% endif %}</a>
-            <button type="button" onclick="fieldFileDelete(this)" data-file-id
+            <button type="button" onclick="fieldFileDelete(this)" data-file-id="{% if file is not null %}{{ file.id }}{% endif %}"
                     class="btn-file-delete btn btn-sm btn-danger">
                 <small>{{ 'teebb.core.form.remove_field_item'|trans }}</small></button>
         </div>
@@ -119,7 +118,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <img class="file small"
                  src="{% if file is not null %} {{ asset(file.filePath)|imagine_filter('squared_thumbnail_small') }} {% endif %}"/>
-            <button type="button" onclick="fieldFileDelete(this)" data-file-id
+            <button type="button" onclick="fieldFileDelete(this)" data-file-id="{% if file is not null %}{{ file.id }}{% endif %}"
                     class="btn-file-delete btn btn-sm btn-danger">
                 <small>{{ 'teebb.core.form.remove_field_item'|trans }}</small></button>
         </div>

@@ -5,6 +5,8 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
@@ -87,24 +89,22 @@ trait FieldConfigOptionsTrait
             ];
         }
 
-        if ($fieldSettings->isRequired()) {
-            switch ($limit) {
-                case 0:
-                    $fieldOptions['constraints'] = [
-                        new Count(['min' => 1, 'max' => sizeof($fieldSettings->getAllowedValues())])
-                    ];
-                    break;
-                case 1:
-                    $fieldOptions['constraints'] = [
-                        new NotBlank()
-                    ];
-                    break;
-                default:
-                    $fieldOptions['constraints'] = [
-                        new Count(['min' => 1, 'max' => $limit])
-                    ];
-                    break;
-            }
+        switch ($limit) {
+            case 0:
+                $fieldOptions['constraints'] = [
+                    new Count(['min' => 1, 'max' => sizeof($fieldSettings->getAllowedValues())])
+                ];
+                break;
+            case 1:
+                $fieldOptions['constraints'] = [
+                    new NotBlank()
+                ];
+                break;
+            default:
+                $fieldOptions['constraints'] = [
+                    new Count(['min' => 1, 'max' => $limit])
+                ];
+                break;
         }
 
         return $fieldOptions;
@@ -217,5 +217,20 @@ trait FieldConfigOptionsTrait
             }
         }
         return $extMimeTypeArray;
+    }
+
+    /**
+     * 如果字段表单提交数据为空则创建对应的Entity对象
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function transformSubmitNullDataToObject(FormBuilderInterface $builder, array $options)
+    {
+        //如果为表单数据为空则创建空对象
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
+            $data = $event->getData();
+            $data = $data == null ? new $options['data_class']() : $data;
+            $event->setData($data);
+        });
     }
 }

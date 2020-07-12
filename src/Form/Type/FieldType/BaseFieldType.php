@@ -19,16 +19,11 @@ class BaseFieldType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-//        $builder->addEventListener(FormEvents::PRE_SET_DATA,
-//            function (FormEvent $event) use ($options) {
-
-//        });
-
         //表单提交时如果字段entity types属性为null，修改为对应的类型
         $builder->addEventListener(FormEvents::SUBMIT,
             function (FormEvent $event) use ($options) {
                 $entities = $event->getData();
-
+//dd($entities);
                 /**@var FieldConfiguration $fieldConfiguration * */
                 $fieldConfiguration = $options['entry_options']['field_configuration'];
 

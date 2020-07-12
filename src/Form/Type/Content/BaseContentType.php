@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
+use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Form\Type\FieldType\BaseFieldType;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
@@ -63,7 +64,7 @@ class BaseContentType extends AbstractType
      *
      * @param FormBuilderInterface $builder
      * @param array $options
-     * @param null $data
+     * @param BaseContent|null $data
      */
     protected function dynamicAddFieldForm(FormBuilderInterface $builder, array $options, $data = null)
     {
@@ -89,9 +90,9 @@ class BaseContentType extends AbstractType
                 'field_type' => $fieldType,
                 'allow_add' => !in_array($fieldType, ['boolean', 'listInteger', 'listFloat']),
                 'allow_delete' => !in_array($fieldType, ['boolean', 'listInteger', 'listFloat']),
-                'delete_empty' => function ($entity) use ($fieldSettings) {
-                    return false == $fieldSettings->isRequired() && (null == $entity || $entity->getValue() == null);
-                },
+//                'delete_empty' => function ($entity) use ($fieldSettings) {
+//                    return false == $fieldSettings->isRequired() && (null == $entity || $entity->getValue() == null);
+//                },
                 'entry_type' => $fieldService->getFieldFormType(),
                 'entry_options' => [
                     'label' => false,
@@ -119,8 +120,14 @@ class BaseContentType extends AbstractType
                 } else {
                     $baseFieldOptions['data'] = ['0' => new $fieldEntity()];
                 }
-            }else{
+            } else {
                 //Todo: 解析字段的值并设置$baseFieldOptions['data']
+                $fieldData = $fieldService->getFieldEntityData($data, $fieldConfiguration, $options['data_class']);
+                dump($fieldData);
+                $baseFieldOptions['data'] = $fieldData;
+                if ($limit !== 0) {
+
+                }
             }
 
             //循环添加表单行

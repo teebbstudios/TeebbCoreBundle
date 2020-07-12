@@ -12,6 +12,8 @@
 
 namespace Teebb\CoreBundle\AbstractService;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Metadata\FieldMetadataInterface;
 
@@ -64,4 +66,13 @@ interface FieldInterface
      * @return string
      */
     public function getFieldFormType(): string;
+
+    /**
+     * 获取内容Entity某字段数据
+     * @param BaseContent $contentEntity 内容Entity
+     * @param FieldConfiguration $fieldConfiguration 字段
+     * @param string $targetEntityClassName 字段所属于的内容Entity类名
+     * @return array
+     */
+    public function getFieldEntityData(BaseContent $contentEntity, FieldConfiguration $fieldConfiguration, string $targetEntityClassName): array;
 }

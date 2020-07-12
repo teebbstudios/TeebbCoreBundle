@@ -120,7 +120,7 @@ class DynamicChangeFieldMetadataListener
             $fieldMapping = array(
                 'fieldName' => 'value',
                 'type' => $doctrineType,
-                'nullable' => false
+                'nullable' => true
             );
 
             switch ($classMetadata->getName()) {
@@ -147,6 +147,5 @@ class DynamicChangeFieldMetadataListener
 
             $classMetadata->mapField($fieldMapping);
         }
-
     }
 }

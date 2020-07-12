@@ -21,6 +21,8 @@ class TextFormatSummaryFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->transformSubmitNullDataToObject($builder, $options);
+
         /**@var TextFormatSummaryItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
 

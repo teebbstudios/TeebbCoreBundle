@@ -25,6 +25,9 @@ class LinkFieldType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /**@var LinkItem $linkItem * */
             $linkItem = $event->getData();
+
+            //如果$linkItem为空则创建空对象
+            $linkItem = $linkItem == null? new LinkItem() : $linkItem;
             if (null == $linkItem->getTitle()) {
                 $linkItem->setTitle($linkItem->getValue());
             }

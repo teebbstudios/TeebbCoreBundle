@@ -12,7 +12,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Unique;
 use Teebb\CoreBundle\Entity\Content;
 
 /**
@@ -51,7 +50,7 @@ class ContentType extends BaseContentType
         ]);
 
         $this->dynamicAddFieldForm($builder, $options, $data);
-
+die;
         //内容发布状态 草稿 已发布
         $builder
             ->add('slug', TextType::class, [

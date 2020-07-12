@@ -18,6 +18,8 @@ class EmailFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->transformSubmitNullDataToObject($builder, $options);
+
         /**@var EmailItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
 

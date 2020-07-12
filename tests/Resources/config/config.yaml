@@ -1,5 +1,7 @@
 parameters:
     locale: 'en_us'
+    fly_system_service: oneup_flysystem.public_dir_filesystem_filesystem
+    fly_system_host: 'http://localhost:8000'
 
 teebb_core:
     assets:
@@ -11,15 +13,57 @@ teebb_core:
                 css_path: path/to/extra2.min.css
                 js_path: path/to/extra2.min.js
 
+    fly_system:
+        service: '%fly_system_service%'
+        #此变量用于生成上传文件的链接
+        root_host_url: '%fly_system_host%/uploads'
+
+oneup_flysystem:
+    adapters:
+        public_dir_adapter:
+            local:
+                directory: '%kernel.project_dir%/public/uploads'
+
+    filesystems:
+        public_dir_filesystem:
+            adapter: public_dir_adapter
+            alias: League\Flysystem\Filesystem
+
+liip_imagine:
+
+    resolvers:
+        flysystem_images_resolver:
+            flysystem:
+                filesystem_service: '%fly_system_service%'
+                root_url:           '%fly_system_host%/uploads' #用于生成图像链接
+                cache_prefix:       media/cache
+                visibility:         public
+    # default cache resolver for saving thumbnails
+    cache: flysystem_images_resolver
+
+    loaders:
+        flysystem_images:
+            flysystem:
+                filesystem_service: '%fly_system_service%'
+    # default loader to use for all filter sets
+    data_loader: flysystem_images
+
+    filter_sets:
+        squared_thumbnail_small:
+            filters:
+                thumbnail:
+                    size:          [100, 100]
+                    mode:          outbound
+                    allow_upscale: true
 
 framework:
     default_locale: '%locale%'
+    secret: '%env(APP_SECRET)%'
 
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-        types:
-            field_depart_config: Teebb\CoreBundle\Doctrine\Type\FieldDepartConfigurationType
+
     orm:
         auto_generate_proxy_classes: true
         entity_managers:

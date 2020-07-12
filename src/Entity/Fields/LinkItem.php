@@ -19,7 +19,7 @@ class LinkItem extends BaseFieldItem
      * 存储值的属性统一为value，用于存储url链接地址
      *
      * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $value;
 

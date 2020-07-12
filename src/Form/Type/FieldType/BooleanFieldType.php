@@ -7,10 +7,9 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Count;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 use Teebb\CoreBundle\Entity\Fields\Configuration\BooleanItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
@@ -33,8 +32,6 @@ class BooleanFieldType extends AbstractType
             'attr' => [
                 'class' => 'form-check-inline'
             ],
-            'empty_data' => $fieldSettings->getOnLabel(),
-            'data' => true
         ];
 
         $builder->add('value', ChoiceType::class, $fieldOptions);

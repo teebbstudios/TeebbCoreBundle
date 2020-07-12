@@ -18,13 +18,14 @@ class DatetimeFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->transformSubmitNullDataToObject($builder, $options);
+
         /**@var DatetimeItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
 
         $fieldOptions = [
             'label' => false,
             'widget' => 'single_text',
-            'data' => new \DateTime(),
             'attr' => [
                 'class' => 'form-control-sm '
             ]

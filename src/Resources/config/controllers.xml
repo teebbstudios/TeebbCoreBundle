@@ -101,6 +101,9 @@
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument type="service" id="validator"/>
             <argument type="service" id="liip_imagine.cache.manager"/>
+            <argument/>
+            <argument/>
+            <argument/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>

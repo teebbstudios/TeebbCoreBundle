@@ -31,7 +31,7 @@ class FileEntityValueType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event){
             $fileManaged = $event->getData();
             if ($fileManaged && $fileManaged instanceof FileManaged){
-                $event->setData($fileManaged->getId());
+                $event->setData($fileManaged);
             }
         });
 

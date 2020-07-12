@@ -19,6 +19,8 @@ class TimestampFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->transformSubmitNullDataToObject($builder, $options);
+
         /**@var TimestampItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
 
@@ -28,8 +30,7 @@ class TimestampFieldType extends AbstractType
             'input' => 'timestamp',
             'attr' => [
                 'class' => 'form-control-sm'
-            ],
-            'data' => (new \DateTime())->getTimestamp()
+            ]
         ];
 
         if ($fieldSettings->isRequired()) {

@@ -18,6 +18,8 @@ class IntegerFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->transformSubmitNullDataToObject($builder, $options);
+
         /**@var FloatItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
 

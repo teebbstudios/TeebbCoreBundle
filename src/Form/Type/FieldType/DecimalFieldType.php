@@ -17,6 +17,8 @@ class DecimalFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->transformSubmitNullDataToObject($builder, $options);
+
         /**@var DecimalItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
 

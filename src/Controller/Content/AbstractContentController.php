@@ -121,6 +121,7 @@ abstract class AbstractContentController extends AbstractController
         foreach ($fields as $field) {
             //获取当前字段的所有表单数据
             $fieldDataArray = $form->get($field->getFieldAlias())->getData();
+            dump($fieldDataArray);
             if (!empty($fieldDataArray)) {
                 //动态修改字段entity的mapping
                 $dynamicChangeFieldMetadataListener = new DynamicChangeFieldMetadataListener($field, $contentClassName);
