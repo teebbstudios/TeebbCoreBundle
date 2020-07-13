@@ -50,7 +50,7 @@ class ContentType extends BaseContentType
         ]);
 
         $this->dynamicAddFieldForm($builder, $options, $data);
-die;
+
         //内容发布状态 草稿 已发布
         $builder
             ->add('slug', TextType::class, [

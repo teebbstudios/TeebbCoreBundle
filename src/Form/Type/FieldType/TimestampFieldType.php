@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\DatetimeItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\Configuration\TimestampItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
+use Teebb\CoreBundle\Entity\Fields\TimestampItem;
 
 class TimestampFieldType extends AbstractType
 {
@@ -45,7 +46,7 @@ class TimestampFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleValueItem::class,
+            'data_class' => TimestampItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

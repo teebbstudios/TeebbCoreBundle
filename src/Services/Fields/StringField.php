@@ -14,7 +14,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     description=@Translation(message="teebb.core.field.string.description"),
  *     type="writing",
  *     category=@Translation(message="teebb.core.field.category.text"),
- *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem",
+ *     entity="Teebb\CoreBundle\Entity\Fields\StringItem",
  *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\StringItemConfigurationType",
  *     formConfigEntity="Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration",
  *     formType="Teebb\CoreBundle\Form\Type\FieldType\StringFieldType"

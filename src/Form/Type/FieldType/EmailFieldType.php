@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\EmailItemConfiguration;
+use Teebb\CoreBundle\Entity\Fields\EmailItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class EmailFieldType extends AbstractType
@@ -42,7 +43,7 @@ class EmailFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleValueItem::class,
+            'data_class' => EmailItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

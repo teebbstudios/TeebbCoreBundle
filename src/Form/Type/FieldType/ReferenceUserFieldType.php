@@ -6,6 +6,7 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Teebb\CoreBundle\Entity\Fields\ReferenceUserItem;
 
 class ReferenceUserFieldType extends AbstractType
 {
@@ -15,7 +16,7 @@ class ReferenceUserFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-//            'data_class' => ReferenceFileItem::class,
+            'data_class' => ReferenceUserItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

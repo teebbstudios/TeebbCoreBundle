@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Teebb\CoreBundle\Entity\Fields\BooleanItem;
 use Teebb\CoreBundle\Entity\Fields\Configuration\BooleanItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
@@ -40,7 +41,7 @@ class BooleanFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleValueItem::class,
+            'data_class' => BooleanItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

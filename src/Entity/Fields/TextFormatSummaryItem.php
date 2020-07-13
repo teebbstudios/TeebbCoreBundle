@@ -18,7 +18,7 @@ class TextFormatSummaryItem extends BaseFieldItem
     /**
      * @var string
      * @Gedmo\Translatable
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true, name="text_body_value")
      */
     private $value;
 

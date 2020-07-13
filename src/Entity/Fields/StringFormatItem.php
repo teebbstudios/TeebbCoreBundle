@@ -7,28 +7,27 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * 用于存储链接类型字段的值
+ * 文本已格式化类型
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class LinkItem extends BaseFieldItem
+class StringFormatItem extends BaseFieldItem
 {
     /**
-     * 存储值的属性统一为value，用于存储url链接地址
-     *
+     * 需要动态映射 type= string
      * @var string|null
-     * @ORM\Column(type="string", name="link_url", length=255, nullable=true)
      */
     private $value;
 
     /**
-     * @var string|null
-     * @Gedmo\Translatable
-     * @ORM\Column(type="string", name="link_title", length=255, nullable=true)
+     * 格式化器的名称
+     *
+     * @var string
+     * @ORM\Column(type="string")
      */
-    private $title;
+    private $formatter;
 
     /**
      * @return string|null
@@ -49,17 +48,17 @@ class LinkItem extends BaseFieldItem
     /**
      * @return string|null
      */
-    public function getTitle(): ?string
+    public function getFormatter(): ?string
     {
-        return $this->title;
+        return $this->formatter;
     }
 
     /**
-     * @param string|null $title
+     * @param string|null $formatter
      */
-    public function setTitle(?string $title): void
+    public function setFormatter(?string $formatter): void
     {
-        $this->title = $title;
+        $this->formatter = $formatter;
     }
 
 }

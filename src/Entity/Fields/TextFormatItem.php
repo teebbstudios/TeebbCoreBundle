@@ -7,17 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * 文本已格式化类型、长文本已格式化类型
+ * 长文本已格式化类型
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class SimpleFormatItem extends BaseFieldItem
+class TextFormatItem extends BaseFieldItem
 {
     /**
-     * 需要动态映射 type= string 或者 text
-     * @var string
+     * 需要动态映射 type=text
+     * @var string|null
      */
     private $value;
 

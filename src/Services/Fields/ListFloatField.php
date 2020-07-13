@@ -16,7 +16,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     description=@Translation(message="teebb.core.field.listFloat.description"),
  *     type="numeric",
  *     category=@Translation(message="teebb.core.field.category.numeric"),
- *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem",
+ *     entity="Teebb\CoreBundle\Entity\Fields\ListFloatItem",
  *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\ListFloatItemConfigurationType",
  *     formConfigEntity="Teebb\CoreBundle\Entity\Fields\Configuration\ListFloatItemConfiguration",
  *     formType="Teebb\CoreBundle\Form\Type\FieldType\ListFloatFieldType"

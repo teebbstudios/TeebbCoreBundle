@@ -7,6 +7,7 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\ReferenceEntityItem;
+use Teebb\CoreBundle\Entity\Fields\ReferenceTaxonomyItem;
 
 class ReferenceTaxonomyFieldType extends AbstractType
 {
@@ -17,7 +18,7 @@ class ReferenceTaxonomyFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ReferenceEntityItem::class,
+            'data_class' => ReferenceTaxonomyItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

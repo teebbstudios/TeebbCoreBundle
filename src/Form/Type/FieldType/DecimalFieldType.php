@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\DecimalItemConfiguration;
+use Teebb\CoreBundle\Entity\Fields\DecimalItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class DecimalFieldType extends AbstractType
@@ -43,7 +44,7 @@ class DecimalFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleValueItem::class,
+            'data_class' => DecimalItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

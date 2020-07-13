@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FloatItemConfiguration;
+use Teebb\CoreBundle\Entity\Fields\FloatItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class FloatFieldType extends AbstractType
@@ -37,7 +38,7 @@ class FloatFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleValueItem::class,
+            'data_class' => FloatItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

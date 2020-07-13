@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\DatetimeItemConfiguration;
+use Teebb\CoreBundle\Entity\Fields\DatetimeItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class DatetimeFieldType extends AbstractType
@@ -43,7 +44,7 @@ class DatetimeFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleValueItem::class,
+            'data_class' => DatetimeItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

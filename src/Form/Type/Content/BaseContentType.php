@@ -108,25 +108,16 @@ class BaseContentType extends AbstractType
             }
 
             //如果是创建表单，配置options['data']以生成创建表单时初始空表单
-            if (null == $data) {
-                $fieldEntity = $fieldService->getFieldEntity();
-                //如果 $fieldType 是 boolean listInteger listFloat 则只生成一个字段
-                if (!in_array($fieldType, ['boolean', 'listInteger', 'listFloat'])) {
-                    $blankDataArray = [];
-                    for ($i = 0; $i < $limit; $i++) {
-                        $blankDataArray[$i] = new $fieldEntity();
-                    }
-                    $baseFieldOptions['data'] = $limit == 0 ? ['0' => new $fieldEntity()] : $blankDataArray;
-                } else {
-                    $baseFieldOptions['data'] = ['0' => new $fieldEntity()];
-                }
-            } else {
-                //Todo: 解析字段的值并设置$baseFieldOptions['data']
-                $fieldData = $fieldService->getFieldEntityData($data, $fieldConfiguration, $options['data_class']);
-                dump($fieldData);
-                $baseFieldOptions['data'] = $fieldData;
-                if ($limit !== 0) {
+            $fieldEntityClassName = $fieldService->getFieldEntity();
 
+            if (null == $data) {
+                $baseFieldOptions = $this->addNewEntityDataForShowBlankFormRow($limit, $fieldType, $fieldEntityClassName, $baseFieldOptions);
+            } else {
+                $fieldData = $fieldService->getFieldEntityData($data, $fieldConfiguration, $options['data_class']);
+                $baseFieldOptions['data'] = $fieldData;
+                //如果当前行字段没有数据则生成空表单行
+                if (empty($fieldData)) {
+                    $baseFieldOptions = $this->addNewEntityDataForShowBlankFormRow($limit, $fieldType, $fieldEntityClassName, $baseFieldOptions);
                 }
             }
 
@@ -135,5 +126,30 @@ class BaseContentType extends AbstractType
                 BaseFieldType::class,
                 $baseFieldOptions);
         }
+    }
+
+    /**
+     * @param int $limit 此字段限制的数量
+     * @param string $fieldType 字段类型
+     * @param string $fieldEntityClassName 字段entity全类名
+     * @param array $fieldOptions
+     * @param int $needAddNumRows 需要额外增加的字段行数，用于更新表单时空表单的显示
+     * @return array
+     */
+    private function addNewEntityDataForShowBlankFormRow(int $limit, string $fieldType, string $fieldEntityClassName,
+                                                         array $fieldOptions, int $needAddNumRows = 0): array
+    {
+        //如果 $fieldType 是 boolean listInteger listFloat 则只生成一个字段
+        if (!in_array($fieldType, ['boolean', 'listInteger', 'listFloat'])) {
+            $blankDataArray = [];
+            for ($i = 0; $i < $limit - $needAddNumRows; $i++) {
+                $blankDataArray[$i] = new $fieldEntityClassName();
+            }
+            $fieldOptions['data'] = $limit == 0 ? ['0' => new $fieldEntityClassName()] : $blankDataArray;
+        } else {
+            $fieldOptions['data'] = ['0' => new $fieldEntityClassName()];
+        }
+
+        return $fieldOptions;
     }
 }

@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\ListIntegerItemConfiguration;
+use Teebb\CoreBundle\Entity\Fields\ListIntegerItem;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class ListIntegerFieldType extends AbstractType
@@ -28,7 +29,7 @@ class ListIntegerFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleValueItem::class,
+            'data_class' => ListIntegerItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

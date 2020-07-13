@@ -16,7 +16,7 @@ use Teebb\CoreBundle\Annotation\Translation;
  *     description=@Translation(message="teebb.core.field.datetime.description"),
  *     type="simple",
  *     category=@Translation(message="teebb.core.field.category.simple"),
- *     entity="Teebb\CoreBundle\Entity\Fields\SimpleValueItem",
+ *     entity="Teebb\CoreBundle\Entity\Fields\DatetimeItem",
  *     formConfigType="Teebb\CoreBundle\Form\Type\FieldConfiguration\DatetimeItemConfigurationType",
  *     formConfigEntity="Teebb\CoreBundle\Entity\Fields\Configuration\DatetimeItemConfiguration",
  *     formType="Teebb\CoreBundle\Form\Type\FieldType\DatetimeFieldType"

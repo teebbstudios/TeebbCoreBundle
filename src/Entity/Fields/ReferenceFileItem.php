@@ -20,6 +20,7 @@ class ReferenceFileItem extends BaseFieldItem
      * 多对一关系 对应文件库的entity_id
      * @var FileManaged|null
      * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\FileManaged")
+     * @ORM\JoinColumn(name="reference_file_id")
      */
     private $value;
 

@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
+use Teebb\CoreBundle\Entity\Fields\StringItem;
 
 class StringFieldType extends AbstractType
 {
@@ -30,7 +31,7 @@ class StringFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleValueItem::class,
+            'data_class' => StringItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);

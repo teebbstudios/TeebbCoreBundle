@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\SimpleFormatItem;
+use Teebb\CoreBundle\Entity\Fields\TextFormatItem;
 use Teebb\CoreBundle\Form\Type\TextFormatTextareaType;
 
 class TextFormatFieldType extends AbstractType
@@ -35,7 +36,7 @@ class TextFormatFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SimpleFormatItem::class,
+            'data_class' => TextFormatItem::class,
         ]);
 
         $this->baseConfigOptions($resolver);
