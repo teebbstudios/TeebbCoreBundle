@@ -1,22 +1,22 @@
-<?php
+<?= "<?php\n" ?>
 
 
-namespace Teebb\CoreBundle\Entity\Fields;
+namespace <?= $namespace ?>;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * 长文本已格式化类型
+ * 文本已格式化类型、长文本已格式化类型
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class TextFormatItem extends BaseFieldItem
+class <?= $class_name ?> extends BaseFieldItem
 {
     /**
-     * 需要动态映射 type=text
-     * @var string|null
+     * 需要动态映射 type= string 或者 text
+     * @var string
      */
     private $value;
 

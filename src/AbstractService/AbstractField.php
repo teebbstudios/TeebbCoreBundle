@@ -4,14 +4,14 @@
 namespace Teebb\CoreBundle\AbstractService;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
+use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Metadata\FieldMetadataInterface;
-use Teebb\CoreBundle\Repository\Fields\FieldRepository;
+use Doctrine\ORM\Mapping\MappingException;
 
 /**
  * Class AbstractField
@@ -99,6 +99,7 @@ abstract class AbstractField implements FieldInterface
 
     /**
      * @inheritDoc
+     * @throws MappingException
      */
     public function getFieldEntityData(BaseContent $contentEntity, FieldConfiguration $fieldConfiguration, string $targetEntityClassName): array
     {
@@ -106,15 +107,57 @@ abstract class AbstractField implements FieldInterface
         $dynamicChangeMetadataListener = new DynamicChangeFieldMetadataListener($fieldConfiguration, $targetEntityClassName);
         $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
 
-        $fieldEntityClassName = $this->getFieldEntity();
+        $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $fieldConfiguration);
 
-        /**@var FieldRepository $fieldEntityRepository * */
-        $fieldEntityRepository = $this->entityManager->getRepository($fieldEntityClassName);
+        $qb = $this->entityManager->getConnection()->createQueryBuilder();
 
-        $fieldData = $fieldEntityRepository->findBy(['entity' => $contentEntity, 'types' => $fieldConfiguration->getTypeAlias()], ['delta' => 'ASC']);
+        $conditions = [$qb->expr()->eq('entity_id', '?'), $qb->expr()->eq('types', '?')];
+        $parameters = [$contentEntity->getId(), $fieldConfiguration->getTypeAlias()];
+        $orderBy = ['delta' => 'ASC'];
+
+        $fieldRows = $fieldDBALUtils->fetchFieldItem($qb, $conditions, $parameters, $orderBy);
+
+        $fieldData = [];
+        foreach ($fieldRows as $fieldRow) {
+            $fieldEntity = $this->transformFieldRowToFieldEntity($fieldRow);
+            array_push($fieldData, $fieldEntity);
+        }
 
         $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
 
         return $fieldData;
+    }
+
+    /**
+     * 把从数据库中读取到的表数据转为字段Entity对象
+     * @param array $fieldRow
+     * @return object
+     * @throws MappingException
+     */
+    private function transformFieldRowToFieldEntity(array $fieldRow)
+    {
+        $fieldEntityClassName = $this->getFieldEntity();
+        $fieldEntity = new $fieldEntityClassName();
+        $classMetadata = $this->entityManager->getClassMetadata($fieldEntityClassName);
+
+        foreach ($fieldRow as $columnName => $value) {
+            $fieldName = $classMetadata->getFieldForColumn($columnName);
+
+            if ($classMetadata->hasField($fieldName)) {
+                $classMetadata->setFieldValue($fieldEntity, $fieldName, $value);
+            }
+
+            if ($classMetadata->hasAssociation($fieldName)) {
+                $fieldAssociationMapping = $classMetadata->getAssociationMapping($fieldName);
+                $targetEntityRepository = $this->entityManager->getRepository($fieldAssociationMapping['targetEntity']);
+
+                $targetEntityKey = $fieldAssociationMapping['sourceToTargetKeyColumns'][$columnName];
+                $targetEntity = $targetEntityRepository->findOneBy([$targetEntityKey => $value]);
+
+                $classMetadata->setFieldValue($fieldEntity, $fieldName, $targetEntity);
+            }
+        }
+
+        return $fieldEntity;
     }
 }

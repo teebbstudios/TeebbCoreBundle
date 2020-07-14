@@ -52,5 +52,10 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="teebb.core.field.entity_generator" class="Teebb\CoreBundle\Generator\FieldEntityGenerator">
+            <argument type="service" id="maker.generator"/>
+            <argument type="service" id="service_container"/>
+        </service>
+
     </services>
 </container>

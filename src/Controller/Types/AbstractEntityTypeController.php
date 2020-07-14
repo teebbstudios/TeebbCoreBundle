@@ -339,6 +339,30 @@ abstract class AbstractEntityTypeController extends AbstractController
     }
 
     /**
+     * 管理当前类型所有字段
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function indexFieldAction(Request $request)
+    {
+        $typeAlias = $request->get('typeAlias');
+        $bundle = $this->entityTypeService->getBundle();
+
+        $this->checkTypeObjectExist($typeAlias);
+
+        /**@var FieldConfiguration[] $fieldConfigurations * */
+        $fieldConfigurations = $this->fieldConfigurationRepository
+            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
+            ->getResult();
+
+        return $this->render($this->templateRegistry->getTemplate('list_fields', 'fields'), [
+            'fields' => $fieldConfigurations,
+            'action' => 'index_field'
+        ]);
+    }
+
+    /**
      * 添加字段
      *
      * @param Request $request
@@ -361,8 +385,8 @@ abstract class AbstractEntityTypeController extends AbstractController
             $fieldLabel = $data['field_label'];
             $fieldAlias = $data['field_alias'];
 
-            /**@var FieldInterface $fieldService**/
-            $fieldService = $this->container->get('teebb.core.field.'.$fieldType);
+            /**@var FieldInterface $fieldService * */
+            $fieldService = $this->container->get('teebb.core.field.' . $fieldType);
             $fieldDepartConfigurationName = $fieldService->getFieldConfigFormEntity();
 
             $fieldConfiguration = new FieldConfiguration();
@@ -395,31 +419,6 @@ abstract class AbstractEntityTypeController extends AbstractController
             'extra_assets' => ['transliteration'], //当前页面需要额外添加的assets库
         ]);
     }
-
-    /**
-     * 管理当前类型所有字段
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function indexFieldAction(Request $request)
-    {
-        $typeAlias = $request->get('typeAlias');
-        $bundle = $this->entityTypeService->getBundle();
-
-        $this->checkTypeObjectExist($typeAlias);
-
-        /**@var FieldConfiguration[] $fieldConfigurations * */
-        $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
-            ->getResult();
-
-        return $this->render($this->templateRegistry->getTemplate('list_fields', 'fields'), [
-            'fields' => $fieldConfigurations,
-            'action' => 'index_field'
-        ]);
-    }
-
 
     /**
      * @param Request $request

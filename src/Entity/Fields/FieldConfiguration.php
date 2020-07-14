@@ -199,5 +199,4 @@ class FieldConfiguration
     {
         $this->settings = $settings;
     }
-
 }

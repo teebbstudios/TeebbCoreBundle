@@ -78,6 +78,8 @@ class TeebbCoreExtension extends Extension
         //设置ReferenceImageFieldType构造参数
         $referenceImageFieldType = $container->getDefinition('teebb.core.form.reference_image_type');
         $referenceImageFieldType->setArgument(0, new Reference($flySystemServiceId));
+
+        //设置参数
     }
 
     /**

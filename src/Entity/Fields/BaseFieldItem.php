@@ -5,20 +5,16 @@ namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 /**
  * Field Entity基类
  *
  * @ORM\MappedSuperclass()
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
 class BaseFieldItem
 {
-    use SoftDeleteableEntity;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

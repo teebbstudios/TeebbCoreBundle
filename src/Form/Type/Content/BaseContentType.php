@@ -7,12 +7,9 @@ namespace Teebb\CoreBundle\Form\Type\Content;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
@@ -97,7 +94,7 @@ class BaseContentType extends AbstractType
                 'entry_options' => [
                     'label' => false,
                     'field_configuration' => $fieldConfiguration,
-                    'field_service' => $fieldService,
+                    'field_service' => $fieldService
                 ],
             ];
 
@@ -114,6 +111,7 @@ class BaseContentType extends AbstractType
                 $baseFieldOptions = $this->addNewEntityDataForShowBlankFormRow($limit, $fieldType, $fieldEntityClassName, $baseFieldOptions);
             } else {
                 $fieldData = $fieldService->getFieldEntityData($data, $fieldConfiguration, $options['data_class']);
+
                 $baseFieldOptions['data'] = $fieldData;
                 //如果当前行字段没有数据则生成空表单行
                 if (empty($fieldData)) {

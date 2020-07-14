@@ -42,6 +42,15 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('root_host_url')->isRequired()->end()
                     ->end()
                 ->end()
+
+                ->arrayNode('field_settings')
+                    ->info('The field system settings.')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('dynamic_field_namespace')->defaultValue('App\Entity\Fields')->info("Dynamic generate field entity Namespace")->cannotBeEmpty()->end()
+                        ->scalarNode('field_skeleton_dir')->defaultValue('@TeebbCore\skeleton')->cannotBeEmpty()->end()
+                    ->end()
+                ->end()
             ->end();
 
         $this->addTemplatesSection($rootNode);

@@ -1,28 +1,37 @@
-<?php
+<?= "<?php\n" ?>
 
 
-namespace Teebb\CoreBundle\Entity\Fields;
+namespace <?= $namespace ?>;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * 长文本已格式化类型
+ * 长文本已格式化带摘要类型
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldRepository")
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class TextFormatItem extends BaseFieldItem
+class <?= $class_name ?> extends BaseFieldItem
 {
     /**
-     * 需要动态映射 type=text
-     * @var string|null
+     * @var string
+     * @Gedmo\Translatable
+     * @ORM\Column(type="text", nullable=true, name="text_body_value")
      */
     private $value;
 
     /**
+     * 摘要
+     * @var string|null
+     * @Gedmo\Translatable
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $summary;
+
+    /**
      * 格式化器的名称
-     *
      * @var string
      * @ORM\Column(type="string")
      */
@@ -42,6 +51,22 @@ class TextFormatItem extends BaseFieldItem
     public function setValue(?string $value): void
     {
         $this->value = $value;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSummary(): ?string
+    {
+        return $this->summary;
+    }
+
+    /**
+     * @param string|null $summary
+     */
+    public function setSummary(?string $summary): void
+    {
+        $this->summary = $summary;
     }
 
     /**

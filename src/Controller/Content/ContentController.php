@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Content;
+use Teebb\CoreBundle\Entity\Fields\BooleanItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
@@ -20,6 +21,7 @@ use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\Types\EntityTypeRepository;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 /**
@@ -92,7 +94,8 @@ class ContentController extends AbstractContentController
      *
      * @param Request $request
      * @param Types $types
-     * @return Response
+     * @return RedirectResponse|Response
+     * @throws \Exception
      */
     public function createAction(Request $request, Types $types)
     {
@@ -135,7 +138,8 @@ class ContentController extends AbstractContentController
      *
      * @param Request $request
      * @param Content $content
-     * @return Response
+     * @return RedirectResponse|Response
+     * @throws \Exception
      */
     public function updateAction(Request $request, Content $content)
     {

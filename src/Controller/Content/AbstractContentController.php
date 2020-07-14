@@ -4,6 +4,8 @@
 namespace Teebb\CoreBundle\Controller\Content;
 
 
+use Doctrine\DBAL\ConnectionException;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Pagerfanta\Pagerfanta;
@@ -12,6 +14,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
+use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
@@ -102,6 +105,7 @@ abstract class AbstractContentController extends AbstractController
      * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
      * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
      * @return mixed
+     * @throws
      */
     protected function persistSubstance(FormInterface $form, string $bundle, string $typeAlias, string $contentClassName)
     {
@@ -117,26 +121,41 @@ abstract class AbstractContentController extends AbstractController
         //doctrine Event manager
         $evm = $this->entityManager->getEventManager();
 
-        /**@var FieldConfiguration $field * */
-        foreach ($fields as $field) {
-            //获取当前字段的所有表单数据
-            $fieldDataArray = $form->get($field->getFieldAlias())->getData();
-            dump($fieldDataArray);
-            if (!empty($fieldDataArray)) {
-                //动态修改字段entity的mapping
-                $dynamicChangeFieldMetadataListener = new DynamicChangeFieldMetadataListener($field, $contentClassName);
-                $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
+        $conn = $this->entityManager->getConnection();
 
-                /**@var BaseFieldItem $dataItem * */
-                foreach ($fieldDataArray as $index => $dataItem) {
-                    //处理字段和内容Entity的关系
-                    $dataItem->setEntity($substance);
+        $conn->beginTransaction();
+        try {
+            /**@var FieldConfiguration $field * */
+            foreach ($fields as $field) {
+                //获取当前字段的所有表单数据
+                $fieldDataArray = $form->get($field->getFieldAlias())->getData();
 
-                    $this->entityManager->persist($dataItem);
+                if (!empty($fieldDataArray)) {
+                    //动态修改字段entity的mapping
+                    $dynamicChangeFieldMetadataListener = new DynamicChangeFieldMetadataListener($field, $contentClassName);
+                    $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
+
+                    /**@var BaseFieldItem $fieldItem * */
+                    foreach ($fieldDataArray as $index => $fieldItem) {
+                        //处理字段和内容Entity的关系
+                        $fieldItem->setEntity($substance);
+
+                        $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $field);
+
+                        $fieldDBALUtils->persistFieldItem($fieldItem);
+
+                    }
+                    //移除doctrine监听器
+                    $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
                 }
-                //移除doctrine监听器
-                $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
             }
+            $conn->commit();
+        } catch (\Exception $exception) {
+            $conn->rollBack();
+            $this->entityManager->remove($substance);
+            $this->entityManager->flush();
+
+            throw $exception;
         }
 
         $this->entityManager->flush();

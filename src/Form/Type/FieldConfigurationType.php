@@ -61,7 +61,7 @@ class FieldConfigurationType extends AbstractType
                     $FormType = $fieldService->getFieldConfigFormType();
 
                     $event->getForm()->add('settings', $FormType, [
-                        'label' => 'teebb.core.fields.configuration.settings'
+                        'label' => false,
                     ]);
                 }
             });
