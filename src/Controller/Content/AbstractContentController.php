@@ -14,12 +14,14 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
+use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
+use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\Content\ContentType;
 use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
@@ -55,12 +57,19 @@ abstract class AbstractContentController extends AbstractController
      */
     protected $templateRegistry;
 
-    public function __construct(EntityManagerInterface $entityManager, TemplateRegistry $templateRegistry)
+    /**
+     * @var FormContractorInterface
+     */
+    protected $formContractor;
+
+    public function __construct(EntityManagerInterface $entityManager, TemplateRegistry $templateRegistry,
+                                FormContractorInterface $formContractor)
     {
         $this->entityManager = $entityManager;
         $this->fieldConfigRepository = $entityManager->getRepository(FieldConfiguration::class);
         $this->typesRepository = $entityManager->getRepository(Types::class);
         $this->templateRegistry = $templateRegistry;
+        $this->formContractor = $formContractor;
     }
 
     /**
@@ -106,7 +115,8 @@ abstract class AbstractContentController extends AbstractController
      * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
      * @param BaseContent $data
      * @return mixed
-     * @throws
+     * @throws ConnectionException
+     * @throws \Exception
      */
     protected function persistSubstance(FormInterface $form, string $bundle, string $typeAlias,
                                         string $contentClassName, BaseContent $data = null)
@@ -170,6 +180,50 @@ abstract class AbstractContentController extends AbstractController
         return $substance;
     }
 
+
+    /**
+     * 删除内容及其字段数据
+     *
+     * @param string $bundle
+     * @param string $typeAlias
+     * @param BaseContent $data
+     * @throws ConnectionException
+     * @throws \Exception
+     */
+    protected function deleteSubstance(string $bundle, string $typeAlias, BaseContent $data)
+    {
+        //获取当前内容类型所有字段
+        $fields = $this->fieldConfigRepository
+            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
+            ->getResult();
+
+        $conn = $this->entityManager->getConnection();
+
+        $conn->beginTransaction();
+        try {
+            /**@var FieldConfiguration $field * */
+            foreach ($fields as $field) {
+                /**@var FieldInterface $fieldService * */
+                $fieldService = $this->container->get('teebb.core.field.' . $field->getFieldType());
+
+                $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $field);
+
+                $fieldItems = $fieldService->getFieldEntityData($data, $field, get_class($data));
+
+                foreach ($fieldItems as $fieldItem) {
+                    $fieldDBALUtils->deleteFieldItem($fieldItem);
+                }
+            }
+            $conn->commit();
+        } catch (\Exception $e) {
+            $conn->rollBack();
+            throw $e;
+        }
+
+        $this->entityManager->remove($data);
+        $this->entityManager->flush();
+    }
+
     /**
      * 获取EntityType Service
      *
@@ -185,4 +239,5 @@ abstract class AbstractContentController extends AbstractController
 
         return $this->container->get($entityTypeServiceId);
     }
+
 }

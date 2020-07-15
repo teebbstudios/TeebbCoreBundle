@@ -147,7 +147,7 @@ abstract class AbstractField implements FieldInterface
             if ($classMetadata->hasField($fieldName)) {
                 $fieldMapping = $classMetadata->getFieldMapping($fieldName);
 
-                if ($fieldMapping['type'] === 'datetime'){
+                if ($fieldMapping['type'] === 'datetime') {
                     $value = new \DateTime($value);
                 }
 

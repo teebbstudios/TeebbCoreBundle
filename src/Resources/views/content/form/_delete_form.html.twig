@@ -1,17 +1,18 @@
 {% extends '@TeebbCore/base_content.html.twig' %}
+{% set bundle = entity_type.bundle %}
 
 {% block head_label %}
-    {{ 'teebb.core.fields.delete'|trans }}
+    {{ action|trans }}{{ bundle|trans }}
 {% endblock %}
 
 {% block head_actions %}
-    {% include '@TeebbCore/fields/buttons/head_index_field_button.html.twig' with _context %}
+    {% include '@TeebbCore/content/buttons/head_index_content_button.html.twig' %}
 {% endblock %}
 
 {% block card_top_border %}border-top-danger{% endblock %}
 
 {% block card_title %}
-    {% include '@TeebbCore/fields/common/card_title.html.twig' with _context %}
+    {% include '@TeebbCore/content/common/card_title.html.twig' with _context %}
 {% endblock %}
 
 {% block card_help %}
@@ -20,7 +21,7 @@
         <i class="fas fa-info-circle"></i>
         <span class="small text-muted">
             {% block top_help_message %}
-                {{ 'teebb.core.help.delete_field'|trans({'%field%': subject.fieldLabel}) }}
+                {{ 'teebb.core.help.delete_content'|trans({'%title%': subject.title}) }}
             {% endblock %}
         </span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -30,8 +31,8 @@
 {% endblock %}
 
 {% block card_body %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {% include '@TeebbCore/fields/buttons/form_delete_field_button.html.twig' %}
-    {{ form_end(form) }}
+    {{ form_start(delete_form) }}
+    {{ form_widget(delete_form) }}
+    {% include '@TeebbCore/content/buttons/form_delete_content_button.html.twig' %}
+    {{ form_end(delete_form) }}
 {% endblock %}

@@ -4,9 +4,14 @@
 namespace Teebb\CoreBundle\Controller\Content;
 
 
+use Doctrine\DBAL\ConnectionException;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
+use Teebb\CoreBundle\AbstractService\FieldInterface;
+use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\Content;
+use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,16 +106,23 @@ class ContentController extends AbstractContentController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //持久化内容和字段
-            /**@var Content $content * */
-            $content = $this->persistSubstance($form, $types->getBundle(), $types->getTypeAlias(), $data_class);
 
-            $this->addFlash('success', $this->container->get('translator')->trans(
-                'teebb.core.content.create_success', ['%value%' => $content->getTitle()]
-            ));
+            try {
+                //持久化内容和字段
+                /**@var Content $content * */
+                $content = $this->persistSubstance($form, $types->getBundle(), $types->getTypeAlias(), $data_class);
 
-            //内容添加完成，跳转到内容列表页
-            return $this->redirectToRoute('teebb_content_index');
+                $this->addFlash('success', $this->container->get('translator')->trans(
+                    'teebb.core.content.create_success', ['%value%' => $content->getTitle()]
+                ));
+
+                //内容添加完成，跳转到内容列表页
+                return $this->redirectToRoute('teebb_content_index');
+
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+
         }
 
         return $this->render($this->templateRegistry->getTemplate('create', 'content'), [
@@ -149,15 +161,21 @@ class ContentController extends AbstractContentController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //持久化内容和字段
-            $this->persistSubstance($form, $entityTypeService->getBundle(), $content->getTypeAlias(), $data_class, $content);
+            try {
+                //持久化内容和字段
+                $this->persistSubstance($form, $entityTypeService->getBundle(), $content->getTypeAlias(), $data_class, $content);
 
-            $this->addFlash('success', $this->container->get('translator')->trans(
-                'teebb.core.content.update_success', ['%value%' => $content->getTitle()]
-            ));
+                $this->addFlash('success', $this->container->get('translator')->trans(
+                    'teebb.core.content.update_success', ['%value%' => $content->getTitle()]
+                ));
 
-            //内容更新完成，跳转到内容列表页
-            return $this->redirectToRoute('teebb_content_index');
+                //内容更新完成，跳转到内容列表页
+                return $this->redirectToRoute('teebb_content_index');
+
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+
         }
 
         return $this->render($this->templateRegistry->getTemplate('update', 'content'), [
@@ -175,11 +193,41 @@ class ContentController extends AbstractContentController
      * @param Request $request
      * @param Content $content
      * @return Response
+     * @throws \Exception
      */
     public function deleteAction(Request $request, Content $content)
     {
-        // TODO: Implement deleteAction() method.
-    }
+        $entityTypeService = $this->getEntityTypeService($request);
 
+        $deleteForm = $this->formContractor->generateDeleteForm($request->attributes->get('_route'), FormType::class, $content);
+
+        $deleteForm->handleRequest($request);
+
+        if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
+            if ($deleteForm->get('_method')->getData() === 'DELETE') {
+                try {
+                    $this->deleteSubstance($entityTypeService->getBundle(), $content->getTypeAlias(), $content);
+
+                    $this->addFlash('success', $this->container->get('translator')->trans(
+                        'teebb.core.content.delete_success', ['%value%' => $content->getTitle()]
+                    ));
+
+                    //内容更新完成，跳转到内容列表页
+                    return $this->redirectToRoute('teebb_content_index');
+
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
+            }
+        }
+
+        return $this->render($this->templateRegistry->getTemplate('delete', 'content'), [
+            'action' => 'delete',
+            'delete_form' => $deleteForm->createView(),
+            'entity_type' => $entityTypeService,
+            'subject' => $content,
+            'type_alias' => $content->getTypeAlias()
+        ]);
+    }
 
 }

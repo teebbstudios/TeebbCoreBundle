@@ -3,6 +3,7 @@
 namespace Teebb\CoreBundle\Subscriber;
 
 
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -51,7 +52,6 @@ class SchemaSubscriber implements EventSubscriberInterface
 
     /**
      * @param SchemaEvent $event
-     * @throws MappingException
      * @throws ToolsException
      */
     public function onCreateSchemaEvent(SchemaEvent $event)
@@ -61,13 +61,13 @@ class SchemaSubscriber implements EventSubscriberInterface
         $entityClassName = $event->getContentEntity();
 
         $classMetadata = $this->getFieldEntityClassMetaData($fieldConfiguration, $entityClassName);
+        $classMetadata->setPrimaryTable(['name' => $fieldConfiguration->getBundle() . '__field_' . $fieldConfiguration->getFieldAlias()]);
 
         $this->doctrineUtils->createSchema([$classMetadata]);
     }
 
     /**
      * @param SchemaEvent $event
-     * @throws MappingException
      */
     public function onDropSchemaEvent(SchemaEvent $event)
     {
@@ -76,6 +76,7 @@ class SchemaSubscriber implements EventSubscriberInterface
         $entityClassName = $event->getContentEntity();
 
         $classMetadata = $this->getFieldEntityClassMetaData($fieldConfiguration, $entityClassName);
+        $classMetadata->setPrimaryTable(['name' => $fieldConfiguration->getBundle() . '__field_' . $fieldConfiguration->getFieldAlias()]);
 
         $this->doctrineUtils->dropSchema([$classMetadata]);
     }

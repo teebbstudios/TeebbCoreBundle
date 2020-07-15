@@ -38,4 +38,16 @@ interface FormContractorInterface
      * @return FormInterface
      */
     public function buildEntityTypeForm(FormBuilderInterface $formBuilder, string $entity, array $formRows, string $bundle): FormInterface;
+
+
+    /**
+     * 生成删除表单
+     * @param string $formName
+     * @param string $formType
+     * @param mixed $data
+     * @param array $options
+     * @return FormInterface
+     */
+    public function generateDeleteForm(string $formName, string $formType, $data, array $options = ['allow_extra_fields' => true]): FormInterface;
+
 }

@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Form;
 
 
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -60,7 +61,7 @@ class FormContractor implements FormContractorInterface
     {
         $data = $formBuilder->getData();
         $typeGuesser = $this->formRegistry->getTypeGuesser();
-        /**@var FormRowMarkup $formRow **/
+        /**@var FormRowMarkup $formRow * */
         foreach ($formRows as $formRow) {
             if (!property_exists(new $entity, $formRow->getProperty())) {
                 throw new \RuntimeException(
@@ -94,5 +95,16 @@ class FormContractor implements FormContractorInterface
 
         return $formBuilder->getForm();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function generateDeleteForm(string $formName, string $formType, $data, array $options = ['allow_extra_fields' => true]): FormInterface
+    {
+        $formBuilder = $this->getFormBuilder($formName, FormType::class, $data, $options);
+        $formBuilder->add('_method', HiddenType::class, ['data' => 'DELETE', 'mapped' => false]);
+        return $formBuilder->getForm();
+    }
+
 
 }

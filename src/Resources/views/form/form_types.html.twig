@@ -3,7 +3,6 @@
 {#字段别名widget#}
 {% block teebb_field_alias_widget %}
     <div class="input-alias-wrapper form-inline">
-        <span>field_</span>
         <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     </div>
 {% endblock %}
@@ -11,7 +10,6 @@
 {#字段别名值widget#}
 {% block teebb_alias_value_widget %}
     <div class="input-alias-wrapper form-inline">
-        <span>field_</span>
         <span>{% if value is not empty %}{{ value }}{% endif %}</span>
     </div>
 {% endblock %}

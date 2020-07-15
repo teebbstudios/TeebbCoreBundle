@@ -73,6 +73,19 @@ class FieldDBALUtils
     }
 
     /**
+     * 删除字段表行
+     * @param BaseFieldItem $fieldItem
+     */
+    public function deleteFieldItem(BaseFieldItem $fieldItem)
+    {
+        $queryBuilder = $this->conn->createQueryBuilder();
+        $queryBuilder->delete($this->fieldTableName)->andWhere('id = ?');
+        $queryBuilder->setParameter(0, $fieldItem->getId());
+
+        $queryBuilder->execute();
+    }
+
+    /**
      * 查询当前字段的数据
      *
      * @param QueryBuilder $queryBuilder

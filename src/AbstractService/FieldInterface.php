@@ -75,4 +75,5 @@ interface FieldInterface
      * @return array
      */
     public function getFieldEntityData(BaseContent $contentEntity, FieldConfiguration $fieldConfiguration, string $targetEntityClassName): array;
+
 }

@@ -13,6 +13,8 @@
 namespace Teebb\CoreBundle\Controller\Types;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -286,8 +288,6 @@ abstract class AbstractEntityTypeController extends AbstractController
      *
      * @param Request $request
      * @return Response
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function deleteAction(Request $request)
     {
@@ -300,32 +300,51 @@ abstract class AbstractEntityTypeController extends AbstractController
         }
 
         $formName = $request->get('_route');
-        $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, $entityType, ['allow_extra_fields' => true]);
-        $formBuilder->add('_method', HiddenType::class, ['data' => 'DELETE', 'mapped' => false]);
-        $form = $formBuilder->getForm();
+        $form = $this->formContractor->generateDeleteForm($formName, FormType::class, $entityType);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('_method')->getData() === 'DELETE') {
-                $fieldConfigurationRepo = $this->getFieldConfigurationRepository();
-                $fieldConfigurations = $fieldConfigurationRepo->findAllTypesFields($typeAlias);
-                //删除所有字段及删除所有字段表
-                foreach ($fieldConfigurations as $fieldConfiguration) {
-                    $schemaEvent = new SchemaEvent($fieldConfiguration);
-                    $schemaEvent->setContentEntity($this->entityTypeService->getEntityClassName());
-                    $this->dispatcher->dispatch($schemaEvent, SchemaEvent::DROP_SCHEMA);
 
-                    $fieldConfigurationRepo->remove($fieldConfiguration);
+                $this->entityManager->beginTransaction();
+                try {
+                    $fieldConfigurationRepo = $this->getFieldConfigurationRepository();
+                    $fieldConfigurations = $fieldConfigurationRepo->findAllTypesFields($typeAlias);
+
+                    //删除所有字段及删除所有字段表
+                    foreach ($fieldConfigurations as $fieldConfiguration) {
+                        $schemaEvent = new SchemaEvent($fieldConfiguration);
+                        $schemaEvent->setContentEntity($this->entityTypeService->getEntityClassName());
+                        $this->dispatcher->dispatch($schemaEvent, SchemaEvent::DROP_SCHEMA);
+
+                        $fieldConfigurationRepo->remove($fieldConfiguration);
+                    }
+
+                    //获取当前类型对应的内容Entity Repository,用于删除所有对应的内容
+                    $baseContentRepository = $this->entityManager->getRepository($this->entityTypeService->getEntityClassName());
+                    $substances = $baseContentRepository->findAll();
+                    foreach ($substances as $substance)
+                    {
+                        $this->entityManager->remove($substance);
+                        $this->entityManager->flush();
+                    }
+
+                    //删除类型
+                    $this->entityTypeRepository->remove($entityType);
+                    $this->addFlash('success', $this->translator->trans(
+                        'teebb.core.entity_type.delete_success', ['%value%' => $entityType->getLabel()], 'TeebbCoreBundle'
+                    ));
+
+                    $this->entityManager->commit();
+                    return $this->redirectToRoute($this->entityTypeService->getRouteName('index'));
+
+                } catch (\Exception $e) {
+                    $this->entityManager->rollback();
+
+                    $this->addFlash('danger', $e->getMessage());
                 }
-                //删除类型
-                $this->entityTypeRepository->remove($entityType);
 
-                $this->addFlash('success', $this->translator->trans(
-                    'teebb.core.entity_type.delete_success', ['%value%' => $entityType->getLabel()], 'TeebbCoreBundle'
-                ));
-
-                return $this->redirectToRoute($this->entityTypeService->getRouteName('index'));
             }
         }
         return $this->render($this->templateRegistry->getTemplate('delete', 'types'), [
@@ -473,8 +492,6 @@ abstract class AbstractEntityTypeController extends AbstractController
      * 删除字段
      * @param Request $request
      * @return Response
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function deleteFieldAction(Request $request)
     {
@@ -489,27 +506,34 @@ abstract class AbstractEntityTypeController extends AbstractController
             throw new NotFoundHttpException(sprintf('The field alias "%s" does not exist. Maybe the field is deleted or URL path is wrong!', $fieldAlias));
         }
 
-        $formBuilder = $this->createFormBuilder($fieldConfiguration, ['allow_extra_fields' => true]);
-        $formBuilder->add('_method', HiddenType::class, ['mapped' => false, 'data' => 'DELETE']);
-        $form = $formBuilder->getForm();
+        $formName = $request->get('_route');
+        $form = $this->formContractor->generateDeleteForm($formName, FormType::class, $fieldConfiguration);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('_method')->getData() === 'DELETE') {
-                $schemaEvent = new SchemaEvent($fieldConfiguration);
-                $schemaEvent->setContentEntity($this->entityTypeService->getEntityClassName());
-                $this->dispatcher->dispatch($schemaEvent, SchemaEvent::DROP_SCHEMA);
-                $this->fieldConfigurationRepository->remove($fieldConfiguration);
 
-                $this->addFlash('success', $this->translator->trans(
-                    'teebb.core.field.delete_success', ['%value%' => $fieldConfiguration->getFieldLabel()], 'TeebbCoreBundle'
-                ));
+                try {
+                    $schemaEvent = new SchemaEvent($fieldConfiguration);
+                    $schemaEvent->setContentEntity($this->entityTypeService->getEntityClassName());
+                    $this->dispatcher->dispatch($schemaEvent, SchemaEvent::DROP_SCHEMA);
 
-                return $this->redirectToRoute($this->entityTypeService->getRouteName('index_field'), [
-                    'typeAlias' => $typeAlias
-                ]);
+                    $this->fieldConfigurationRepository->remove($fieldConfiguration);
+
+                    $this->addFlash('success', $this->translator->trans(
+                        'teebb.core.field.delete_success', ['%value%' => $fieldConfiguration->getFieldLabel()], 'TeebbCoreBundle'
+                    ));
+
+                    return $this->redirectToRoute($this->entityTypeService->getRouteName('index_field'), [
+                        'typeAlias' => $typeAlias
+                    ]);
+
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
             }
+
         }
 
         return $this->render($this->templateRegistry->getTemplate('delete_field', 'fields'), [
