@@ -4,22 +4,11 @@
 namespace Teebb\CoreBundle\Controller\Content;
 
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Events;
 use Pagerfanta\Pagerfanta;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Content;
-use Teebb\CoreBundle\Entity\Fields\BooleanItem;
-use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
-use Teebb\CoreBundle\Form\Type\ContentType;
-use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
-use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
-use Teebb\CoreBundle\Repository\Types\EntityTypeRepository;
-use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -161,7 +150,7 @@ class ContentController extends AbstractContentController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //持久化内容和字段
-            $this->persistSubstance($form, $entityTypeService->getBundle(), $content->getTypeAlias(), $data_class);
+            $this->persistSubstance($form, $entityTypeService->getBundle(), $content->getTypeAlias(), $data_class, $content);
 
             $this->addFlash('success', $this->container->get('translator')->trans(
                 'teebb.core.content.update_success', ['%value%' => $content->getTitle()]

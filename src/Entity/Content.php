@@ -42,7 +42,7 @@ class Content extends BaseContent
      * 内容别名用于URL
      * @var string|null
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Gedmo\Slug(fields={"title"},unique=true)
+     * @Gedmo\Slug(fields={"title"}, unique=true, updatable=false)
      */
     protected $slug;
 

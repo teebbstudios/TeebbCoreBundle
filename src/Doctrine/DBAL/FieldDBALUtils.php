@@ -31,7 +31,7 @@ class FieldDBALUtils
      */
     private $conn;
 
-    public function __construct(EntityManagerInterface $entityManager,  FieldConfiguration $fieldConfiguration)
+    public function __construct(EntityManagerInterface $entityManager, FieldConfiguration $fieldConfiguration)
     {
         $this->conn = $entityManager->getConnection();
         $this->fieldTableName = $fieldConfiguration->getBundle() . '__field_' . $fieldConfiguration->getFieldAlias();
@@ -53,15 +53,20 @@ class FieldDBALUtils
 
         $columnParameters = $this->getFieldEntityColumnsValue($fieldItem, $classMetadata, $columnArray);
 
-        if ($fieldItem->getId() == null){
+        if ($fieldItem->getId() === null) {
             $queryBuilder->insert($this->fieldTableName)->values($columnArray)->setParameters($columnParameters);
-        }else{
+        } else {
             $queryBuilder->update($this->fieldTableName);
 
             foreach ($columnArray as $columnName => $positionHolder) {
-                $queryBuilder->set($columnName , $positionHolder);
+                $queryBuilder->set($columnName, $positionHolder);
             }
+            $queryBuilder->andWhere('id = ?');
+
+            array_push($columnParameters, $fieldItem->getId());
+
             $queryBuilder->setParameters($columnParameters);
+
         }
 
         $queryBuilder->execute();
@@ -141,6 +146,10 @@ class FieldDBALUtils
                 }
 
                 $value = $classMetadata->getFieldValue($fieldItem, $fieldName);
+                if ($value instanceof \DateTime) {
+                    $value = $value->format('Y-m-d H:i:s');
+                }
+
                 array_push($parameters, $value);
             }
 

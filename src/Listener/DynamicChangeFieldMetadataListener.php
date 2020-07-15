@@ -6,7 +6,6 @@ namespace Teebb\CoreBundle\Listener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\MappingException;
 use Teebb\CoreBundle\Entity\Fields\BooleanItem;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
@@ -20,13 +19,10 @@ use Teebb\CoreBundle\Entity\Fields\LinkItem;
 use Teebb\CoreBundle\Entity\Fields\ListFloatItem;
 use Teebb\CoreBundle\Entity\Fields\ListIntegerItem;
 use Teebb\CoreBundle\Entity\Fields\ReferenceContentItem;
-use Teebb\CoreBundle\Entity\Fields\ReferenceEntityItem;
 use Teebb\CoreBundle\Entity\Fields\ReferenceFileItem;
 use Teebb\CoreBundle\Entity\Fields\ReferenceImageItem;
 use Teebb\CoreBundle\Entity\Fields\ReferenceTaxonomyItem;
 use Teebb\CoreBundle\Entity\Fields\ReferenceUserItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleFormatItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 use Teebb\CoreBundle\Entity\Fields\StringFormatItem;
 use Teebb\CoreBundle\Entity\Fields\StringItem;
 use Teebb\CoreBundle\Entity\Fields\TextFormatItem;
@@ -149,7 +145,7 @@ class DynamicChangeFieldMetadataListener
             //动态Mapping字段value,
             $fieldMapping = array(
                 'fieldName' => 'value',
-                'columnName' => 'field_' . $fieldAlias . '_value',
+                'columnName' => 'field_value',
                 'type' => $doctrineType,
                 'nullable' => true
             );

@@ -12,6 +12,7 @@ use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterfa
  * 用于存储字段的设置信息
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository")
+ * @ORM\Table(name="fields")
  * @Assert\EnableAutoMapping
  *
  * @author Quan Weiwei <qww.zone@gmail.com>

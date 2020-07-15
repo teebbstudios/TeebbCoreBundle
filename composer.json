@@ -30,8 +30,7 @@
         "symfony/expression-language": "^5.1",
         "liip/imagine-bundle": "^2.3",
         "friendsofsymfony/jsrouting-bundle": "^2.6",
-        "babdev/pagerfanta-bundle": "^2.4",
-        "symfony/maker-bundle": "^1.20"
+        "babdev/pagerfanta-bundle": "^2.4"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.0",

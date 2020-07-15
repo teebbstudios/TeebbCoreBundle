@@ -104,15 +104,18 @@ abstract class AbstractContentController extends AbstractController
      * @param string $bundle 用于排序显示所有字段
      * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
      * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
+     * @param BaseContent $data
      * @return mixed
      * @throws
      */
-    protected function persistSubstance(FormInterface $form, string $bundle, string $typeAlias, string $contentClassName)
+    protected function persistSubstance(FormInterface $form, string $bundle, string $typeAlias,
+                                        string $contentClassName, BaseContent $data = null)
     {
         //内容Entity object
         $substance = $form->getData();
 
         $this->entityManager->persist($substance);
+        $this->entityManager->flush();
 
         //获取当前内容类型所有字段
         $fields = $this->fieldConfigRepository
@@ -152,13 +155,17 @@ abstract class AbstractContentController extends AbstractController
             $conn->commit();
         } catch (\Exception $exception) {
             $conn->rollBack();
-            $this->entityManager->remove($substance);
-            $this->entityManager->flush();
-
+            //如果原始内容id值为null，则为新建内容需要回滚删除
+            if (null == $data) {
+                $this->entityManager->remove($substance);
+                $this->entityManager->flush();
+            } else {
+                //如果原始内容id值不为null，则为编辑内容需要回滚到原始内容
+                $this->entityManager->persist($data);
+                $this->entityManager->flush();
+            }
             throw $exception;
         }
-
-        $this->entityManager->flush();
 
         return $substance;
     }

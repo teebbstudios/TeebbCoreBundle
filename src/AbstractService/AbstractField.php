@@ -133,6 +133,7 @@ abstract class AbstractField implements FieldInterface
      * @param array $fieldRow
      * @return object
      * @throws MappingException
+     * @throws \Exception
      */
     private function transformFieldRowToFieldEntity(array $fieldRow)
     {
@@ -144,6 +145,12 @@ abstract class AbstractField implements FieldInterface
             $fieldName = $classMetadata->getFieldForColumn($columnName);
 
             if ($classMetadata->hasField($fieldName)) {
+                $fieldMapping = $classMetadata->getFieldMapping($fieldName);
+
+                if ($fieldMapping['type'] === 'datetime'){
+                    $value = new \DateTime($value);
+                }
+
                 $classMetadata->setFieldValue($fieldEntity, $fieldName, $value);
             }
 

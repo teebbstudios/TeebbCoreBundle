@@ -23,22 +23,19 @@ class BaseFieldType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT,
             function (FormEvent $event) use ($options) {
                 $entities = $event->getData();
-//dd($entities);
+
                 /**@var FieldConfiguration $fieldConfiguration * */
                 $fieldConfiguration = $options['entry_options']['field_configuration'];
 
-                $changedEntities = [];
-                /**@var BaseFieldItem $entity * */
+                /**@var BaseFieldItem $entity **/
                 foreach ($entities as $index => $entity) {
                     if (null == $entity->getTypes()) {
                         $entity->setTypes($fieldConfiguration->getTypeAlias());
                         $entity->setDelta($index);
-                        $changedEntities[] = $entity;
+                        $entities[$index] = $entity;
                     }
                 }
-                if (!empty($changedEntities)) {
-                    $event->setData($changedEntities);
-                }
+                $event->setData($entities);
             });
     }
 
