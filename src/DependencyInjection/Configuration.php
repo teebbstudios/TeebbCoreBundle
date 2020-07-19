@@ -47,6 +47,7 @@ class Configuration implements ConfigurationInterface
 
         $this->addTemplatesSection($rootNode);
         $this->addAssetsSection($rootNode);
+        $this->addTextFilterSection($rootNode);
 
         return $treeBuilder;
     }
@@ -59,6 +60,7 @@ class Configuration implements ConfigurationInterface
                 ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('layout')->defaultValue('@TeebbCore/standard_layout.html.twig')->cannotBeEmpty()->end()
+
                         ->arrayNode('content')
                         ->addDefaultsIfNotSet()
                             ->children()
@@ -69,6 +71,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('delete')->defaultValue('@TeebbCore/content/form/_delete_form.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
+
                         ->arrayNode('types')
                         ->addDefaultsIfNotSet()
                             ->children()
@@ -78,6 +81,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('delete')->defaultValue('@TeebbCore/types/form/_delete_form.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
+
                         ->arrayNode('fields')
                         ->addDefaultsIfNotSet()
                             ->children()
@@ -88,6 +92,17 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('display_field')->defaultValue('@TeebbCore/fields/form/_display_field_form.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
+
+                        ->arrayNode('formatter')
+                        ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('index')->defaultValue('@TeebbCore/formatter/list/_list.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('create')->defaultValue('@TeebbCore/formatter/form/_form.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('update')->defaultValue('@TeebbCore/formatter/form/_form.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('delete')->defaultValue('@TeebbCore/formatter/form/_delete_form.html.twig')->cannotBeEmpty()->end()
+                            ->end()
+                        ->end()
+
                     ->end()
             ->end();
     }
@@ -138,4 +153,22 @@ class Configuration implements ConfigurationInterface
             ->end();
     }
 
+    private function addTextFilterSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('filter_settings')->info('Text filters settings')
+                    ->useAttributeAsKey('filter_name')
+                    ->arrayPrototype()
+                        ->children()
+                            ->scalarNode('filter_class')->end()
+                            ->scalarNode('filter_label')->end()
+                            ->scalarNode('extra_form_type')->end()
+                            ->scalarNode('extra_label')->end()
+                            ->scalarNode('extra_help')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
 }

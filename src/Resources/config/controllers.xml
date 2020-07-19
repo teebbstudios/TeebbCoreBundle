@@ -114,5 +114,20 @@
         <service id="Teebb\CoreBundle\Controller\FileController"
                  alias="teebb.core.controller.file_controller" public="true"/>
 
+
+        <service id="teebb.core.controller.formatter_controller"
+                 class="Teebb\CoreBundle\Controller\TextFormatterController"
+                 public="false">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="teebb.core.template.registry"/>
+            <argument type="service" id="teebb.core.form.contractor"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\TextFormatterController"
+                 alias="teebb.core.controller.formatter_controller" public="true"/>
+
     </services>
 </container>

@@ -79,6 +79,8 @@ class TeebbCoreExtension extends Extension
         $referenceImageFieldType = $container->getDefinition('teebb.core.form.reference_image_type');
         $referenceImageFieldType->setArgument(0, new Reference($flySystemServiceId));
 
+        //设置文本过滤器
+        $container->setParameter('filter_settings', $config['filter_settings']);
     }
 
     /**

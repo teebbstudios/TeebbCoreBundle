@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="teebb_formatter_index" path="/formatters">
+        <default key="_controller">Teebb\CoreBundle\Controller\TextFormatterController::indexAction</default>
+        <default key="route">teebb_formatter_index</default>
+    </route>
+
+    <route id="teebb_formatter_create" path="/formatter/create">
+        <default key="_controller">Teebb\CoreBundle\Controller\TextFormatterController::createAction</default>
+        <default key="route">teebb_formatter_create</default>
+    </route>
+
+    <route id="teebb_formatter_update" path="/formatter/{id}/update">
+        <default key="_controller">Teebb\CoreBundle\Controller\TextFormatterController::updateAction</default>
+        <default key="route">teebb_formatter_update</default>
+    </route>
+
+    <route id="teebb_formatter_delete" path="/formatter/{id}/delete">
+        <default key="_controller">Teebb\CoreBundle\Controller\TextFormatterController::deleteAction</default>
+        <default key="route">teebb_formatter_delete</default>
+    </route>
+
+</routes>

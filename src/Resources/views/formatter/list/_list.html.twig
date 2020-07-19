@@ -1,0 +1,39 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ action|trans }}{{ 'formatter'|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/formatter/buttons/head_create_formatter_button.html.twig' %}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/formatter/common/card_title.html.twig' %}
+{% endblock %}
+
+{% block card_body %}
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'teebb.core.list.name'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.alias'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.options'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for formatter in formatters %}
+                <tr>
+                    <td>{{ formatter.name }}</td>
+                    <td>{{ formatter.alias }}</td>
+                    <td>
+                        {% include '@TeebbCore/formatter/buttons/item_manage_formatter_button.html.twig' with {formatter: formatter} %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

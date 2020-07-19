@@ -17,6 +17,7 @@ use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\FileManaged;
 use Teebb\CoreBundle\Entity\Taxonomy;
+use Teebb\CoreBundle\Entity\TextFormat\Formatter;
 use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
@@ -88,6 +89,9 @@ class InitDatabaseCommand extends Command
         $this->initEntityTypes();
         $this->updateEntityTypesTranslation();
 
+        $this->initTextFormatter();
+        $this->updateFormatterTranslation();
+
         $output->writeln(sprintf('<info>Done!</info>'));
         return 0;
     }
@@ -105,11 +109,13 @@ class InitDatabaseCommand extends Command
             FileManaged::class,
             Content::class,
             Taxonomy::class,
-            Comment::class
+            Comment::class,
+            Formatter::class
         ];
     }
 
-    private function initEntityTypes(){
+    private function initEntityTypes()
+    {
 
         $articleType = new Types();
         $articleType->setBundle('content');
@@ -147,6 +153,69 @@ class InitDatabaseCommand extends Command
 
         $this->em->persist($articleType);
         $this->em->persist($pageType);
+
+        $this->em->flush();
+    }
+
+    private function initTextFormatter()
+    {
+        $fullFormatter = new Formatter();
+        $fullFormatter->setName('完整的HTML，允许所有HTML标签');
+        $fullFormatter->setAlias('full_html');
+        $fullFormatter->setFilterSettings([]);
+        $fullFormatter->setTranslatableLocale('zh_CN');
+
+        $standardFormatter = new Formatter();
+        $standardFormatter->setName('基本的HTML，允许部分HTML标签');
+        $standardFormatter->setAlias('standard_html');
+        $standardFormatter->setFilterSettings([
+            'strip_tags' => [
+                'filter_name' => true,
+                'filter_extra' => '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <p> <br> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption>'
+            ]
+        ]);
+        $standardFormatter->setTranslatableLocale('zh_CN');
+
+        $restrictFormatter = new Formatter();
+        $restrictFormatter->setName('严格的HTML，仅允许安全的HTML标签');
+        $restrictFormatter->setAlias('restricted_html');
+        $restrictFormatter->setFilterSettings([
+            'strip_tags' => [
+                'filter_name' => true,
+                'filter_extra' => '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id>'
+            ]
+        ]);
+        $restrictFormatter->setTranslatableLocale('zh_CN');
+
+        $this->em->persist($fullFormatter);
+        $this->em->persist($standardFormatter);
+        $this->em->persist($restrictFormatter);
+
+        $this->em->flush();
+    }
+
+    private function updateFormatterTranslation()
+    {
+        $formatterRepo = $this->em->getRepository(Formatter::class);
+
+        /**@var Formatter $fullFormatter**/
+        $fullFormatter = $formatterRepo->findOneBy(['alias'=> 'full_html']);
+        $fullFormatter->setName('Full Html');
+        $fullFormatter->setTranslatableLocale('en_US');
+
+        /**@var Formatter $standardFormatter**/
+        $standardFormatter = $formatterRepo->findOneBy(['alias'=> 'standard_html']);
+        $standardFormatter->setName('Standard Html');
+        $standardFormatter->setTranslatableLocale('en_US');
+
+        /**@var Formatter $restrictFormatter**/
+        $restrictFormatter = $formatterRepo->findOneBy(['alias'=> 'restricted_html']);
+        $restrictFormatter->setName('Restrict Html');
+        $restrictFormatter->setTranslatableLocale('en_US');
+
+        $this->em->persist($fullFormatter);
+        $this->em->persist($standardFormatter);
+        $this->em->persist($restrictFormatter);
 
         $this->em->flush();
     }

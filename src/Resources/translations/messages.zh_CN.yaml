@@ -47,6 +47,8 @@ batch_delete: 批量删除
 batch_unpublish: 取消内容发布
 batch_publish: 发布内容
 
+formatter: 文本格式化器
+
 teebb:
     core:
         layout:
@@ -60,6 +62,7 @@ teebb:
             cannot_delete_types: 类型"%types%"中已有内容，如要删除，请先将"%types%"中内容删除后再进行操作！
             delete_field: 删除"%field%"字段，使用该字段的类型将不再使用此字段，此字段中所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
             delete_content: 删除"%title%"，此内容中所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
+            delete_formatter: 删除"%name%"格式化器，此格式化器数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
             sortable: 拖动行前箭头以修改每个字段的权重，用于调整在创建编辑显示内容时字段的顺序，按降序排列，权重高的优先显示。
 
         list:
@@ -159,6 +162,7 @@ teebb:
             create_content: 创建内容
             update_content: 更新内容
             delete_content: 删除内容
+            delete_formatter: 删除格式化器
             show_summary: 显示摘要
             hide_summary: 隐藏摘要
             remove_field_item: 移除此行
@@ -194,8 +198,22 @@ teebb:
                     help: 此类型的名称。此文本将显示于添加内容页面的列表中。此名称须唯一。
                 description:
                     help: 简短的描述该类型的帮助信息，此信息只在类型列表页面显示。
+
+            formatter_name: 格式化器名称
+            filter_settings: 过滤器设置
+            strip_tags_filter: 限制允许的 HTML 标签
+            strip_tags_filter_extra: 允许的 HTML 标签
+            strip_tags_filter_extra_help: 可使用的 HTML 标记的列表。
+            nl2br_filter: 将换行符号转换为 HTML（也就是<br>及<p>）
+            escape_html_filter: 将任何HTML显示为纯文本
+
         content:
             create_success: 内容 "%value%" 创建成功。
             update_success: 内容 "%value%" 更新成功。
             delete_success: 内容 "%value%" 删除成功。
+
+        formatter:
+            create_success: 格式化器 "%value%" 创建成功。
+            update_success: 格式化器 "%value%" 更新成功。
+            delete_success: 格式化器 "%value%" 删除成功。
 
