@@ -80,7 +80,7 @@ class TeebbCoreExtension extends Extension
         $referenceImageFieldType->setArgument(0, new Reference($flySystemServiceId));
 
         //设置文本过滤器
-        $container->setParameter('filter_settings', $config['filter_settings']);
+        $container->setParameter('teebb.core.formatter.filter_settings', $config['filter_settings']);
     }
 
     /**

@@ -18,7 +18,7 @@ class StripTagsFilter implements TextFilterInterface
      * 过滤器过滤内容时额外的参数，比如 允许的html标签
      * @var string
      */
-    private ￿$extra;
+    private $extra;
 
     /**
      * @return string

@@ -160,29 +160,29 @@ class InitDatabaseCommand extends Command
     private function initTextFormatter()
     {
         $fullFormatter = new Formatter();
-        $fullFormatter->setName('完整的HTML，允许所有HTML标签');
+        $fullFormatter->setName('完整的HTML');
         $fullFormatter->setAlias('full_html');
         $fullFormatter->setFilterSettings([]);
         $fullFormatter->setTranslatableLocale('zh_CN');
 
         $standardFormatter = new Formatter();
-        $standardFormatter->setName('基本的HTML，允许部分HTML标签');
+        $standardFormatter->setName('基本的HTML');
         $standardFormatter->setAlias('standard_html');
         $standardFormatter->setFilterSettings([
             'strip_tags' => [
                 'filter_name' => true,
-                'filter_extra' => '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <p> <br> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption>'
+                'filter_extra' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <h2> <h3> <h4> <h5> <h6> <p> <br> <span> <img>'
             ]
         ]);
         $standardFormatter->setTranslatableLocale('zh_CN');
 
         $restrictFormatter = new Formatter();
-        $restrictFormatter->setName('严格的HTML，仅允许安全的HTML标签');
+        $restrictFormatter->setName('严格的HTML');
         $restrictFormatter->setAlias('restricted_html');
         $restrictFormatter->setFilterSettings([
             'strip_tags' => [
                 'filter_name' => true,
-                'filter_extra' => '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id>'
+                'filter_extra' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <h2> <h3> <h4> <h5> <h6>'
             ]
         ]);
         $restrictFormatter->setTranslatableLocale('zh_CN');

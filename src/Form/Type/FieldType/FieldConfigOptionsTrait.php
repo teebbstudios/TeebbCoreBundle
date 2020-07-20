@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -16,7 +17,9 @@ use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
+use Teebb\CoreBundle\Entity\TextFormat\Formatter;
 use Teebb\CoreBundle\Form\Type\FieldFileType;
+use Teebb\CoreBundle\TextFilter\TextFilterInterface;
 
 trait FieldConfigOptionsTrait
 {
@@ -231,6 +234,36 @@ trait FieldConfigOptionsTrait
             $data = $event->getData();
             $data = $data == null ? new $options['data_class']() : $data;
             $event->setData($data);
+        });
+    }
+
+    /**
+     * 过滤已格式化字段的文本
+     * @param FormBuilderInterface $builder
+     * @param EntityRepository $formatterRepo
+     * @param array $filterSettings
+     */
+    public function filterFormatFieldValue(FormBuilderInterface $builder, EntityRepository $formatterRepo, array $filterSettings)
+    {
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($formatterRepo, $filterSettings) {
+            $baseFieldItem = $event->getData();
+            $value = $baseFieldItem->getValue();
+
+            /**@var Formatter $formatter * */
+            $formatter = $formatterRepo->findOneBy(['alias' => $baseFieldItem->getFormatter()]);
+
+            foreach ($formatter->getFilterSettings() as $filterName => $filterSetting) {
+                $filterClass = $filterSettings[$filterName]['filter_class'];
+                /**@var TextFilterInterface $filterObject * */
+                $filterObject = new $filterClass();
+                if ($filterObject->hasExtra()) {
+                    $filterObject->setExtra($filterSetting['filter_extra']);
+                }
+                $value = $filterObject->format($value);
+            }
+            $baseFieldItem->setValue($value);
+
+            $event->setData($baseFieldItem);
         });
     }
 }

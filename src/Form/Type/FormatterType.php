@@ -54,7 +54,7 @@ class FormatterType extends AbstractType
         $builder
             ->add('filterSettings', FilterSettingsType::class, [
                 'label' => 'teebb.core.form.filter_settings',
-                'filter_settings' => $this->container->getParameter('filter_settings'),
+                'filter_settings' => $this->container->getParameter('teebb.core.formatter.filter_settings'),
                 'label_attr' => [
                     'class' => 'font-weight-bold'
                 ]

@@ -56,9 +56,27 @@
             <tag name="form.type"/>
         </service>
 
-        <service id="teebb.core.form.field.boolean_type"
+        <service id="teebb.core.form.field.boolean_field_type"
                  class="Teebb\CoreBundle\Form\Type\FieldType\BooleanFieldType">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.form.field.string_format_field_type"
+                 class="Teebb\CoreBundle\Form\Type\FieldType\StringFormatFieldType">
+            <argument type="service" id="service_container"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.form.field.text_format_field_type"
+                 class="Teebb\CoreBundle\Form\Type\FieldType\TextFormatFieldType">
+            <argument type="service" id="service_container"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.form.field.text_format_summary_field_type"
+                 class="Teebb\CoreBundle\Form\Type\FieldType\TextFormatSummaryFieldType">
+            <argument type="service" id="service_container"/>
             <tag name="form.type"/>
         </service>
 

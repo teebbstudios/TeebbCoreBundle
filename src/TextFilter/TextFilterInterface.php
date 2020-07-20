@@ -24,7 +24,7 @@ interface TextFilterInterface
     public function format(string $text): string;
 
     /**
-     * 当前过滤器是否需要额外的过滤参数
+     * 当前过滤器是否需要额外的过滤参数,如果有则需要添加$extra属性并添加setExtra() getExtra()方法。
      * @return bool
      */
     public function hasExtra(): bool;
