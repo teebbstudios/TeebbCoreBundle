@@ -11,8 +11,8 @@ use Symfony\Component\Validator\Constraints\Count;
 use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
- * 引用内容、引用分类字段 表单行Type，在表单中动态显示内容的类型和分类的类型
- *
+ * 字段配置FieldConfiguration表单中引用内容、引用分类字段 表单行Type，
+ * 在表单中动态显示内容的类型和分类的类型
  */
 class FieldReferenceEntityType extends AbstractType
 {
