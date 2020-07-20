@@ -175,13 +175,19 @@ class FieldDBALUtils
                 $targetEntityKeyMethodName = 'get' . ucfirst($targetEntityKey);
 
                 $targetEntity = $classMetadata->getFieldValue($fieldItem, $fieldName);
-                if (!method_exists($targetEntity, $targetEntityKeyMethodName)) {
-                    throw new \RuntimeException(sprintf('The "%s" class must define "%s" method', get_class($targetEntity), $targetEntityKeyMethodName));
+
+                if ($targetEntity) {
+                    if (!method_exists($targetEntity, $targetEntityKeyMethodName)) {
+                        throw new \RuntimeException(sprintf('The "%s" class must define "%s" method', get_class($targetEntity), $targetEntityKeyMethodName));
+                    }
+
+                    $value = $targetEntity->{$targetEntityKeyMethodName}();
+
+                    array_push($parameters, $value);
+                } else {
+                    array_push($parameters, null);
                 }
 
-                $value = $targetEntity->{$targetEntityKeyMethodName}();
-
-                array_push($parameters, $value);
             }
         }
 

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Teebb\CoreBundle\Entity\Fields\Configuration\ReferenceTaxonomyItemConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
-use Teebb\CoreBundle\Form\Type\FieldReferenceEntityType;
+use Teebb\CoreBundle\Form\Type\FieldConfigurationReferenceEntityType;
 use Teebb\CoreBundle\Repository\Types\EntityTypeRepository;
 
 class ReferenceTaxonomyItemConfigurationType extends BaseItemConfigurationType
@@ -22,7 +22,7 @@ class ReferenceTaxonomyItemConfigurationType extends BaseItemConfigurationType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('referenceTypes', FieldReferenceEntityType::class, [
+            ->add('referenceTypes', FieldConfigurationReferenceEntityType::class, [
                 'label' => 'teebb.core.fields.configuration.reference_taxonomy',
                 'query_builder' => function (EntityTypeRepository $er) {
                     $qb = $er->createQueryBuilder('t');

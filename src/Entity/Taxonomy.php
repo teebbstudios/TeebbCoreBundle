@@ -24,6 +24,12 @@ class Taxonomy extends BaseContent
     protected $taxonomyType;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $term;
+
+    /**
      * @return string|null
      */
     public function getTaxonomyType(): ?string
@@ -38,4 +44,21 @@ class Taxonomy extends BaseContent
     {
         $this->taxonomyType = $taxonomyType;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getTerm(): ?string
+    {
+        return $this->term;
+    }
+
+    /**
+     * @param string|null $term
+     */
+    public function setTerm(?string $term): void
+    {
+        $this->term = $term;
+    }
+
 }

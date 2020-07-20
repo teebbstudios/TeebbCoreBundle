@@ -290,8 +290,8 @@ $('a.toggle-show-summary').on('click', function (e) {
 
 //获取URL参数
 function getQueryString(name) {
-    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    let r = window.location.search.substr(1).match(reg);
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
     if (r != null) {
         return decodeURIComponent(r[2]);
     }

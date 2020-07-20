@@ -162,6 +162,7 @@ abstract class AbstractContentController extends AbstractController
                     $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
                 }
             }
+
             $conn->commit();
         } catch (\Exception $exception) {
             $conn->rollBack();

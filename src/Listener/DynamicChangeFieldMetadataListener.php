@@ -134,7 +134,7 @@ class DynamicChangeFieldMetadataListener
                     [
                         'name' => 'reference_entity_id',
                         'referencedColumnName' => 'id',
-                        'nullable' => false,
+                        'nullable' => true,
                     ]
                 ]
             ]);

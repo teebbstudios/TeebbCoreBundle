@@ -44,7 +44,7 @@
         </service>
 
         <service id="teebb.core.form.reference_entity_type"
-                 class="Teebb\CoreBundle\Form\Type\FieldReferenceEntityType">
+                 class="FieldConfigurationReferenceEntityType">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <tag name="form.type"/>
         </service>
@@ -77,6 +77,13 @@
         <service id="teebb.core.form.field.text_format_summary_field_type"
                  class="Teebb\CoreBundle\Form\Type\FieldType\TextFormatSummaryFieldType">
             <argument type="service" id="service_container"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.form.field_reference_entity_type"
+                 class="Teebb\CoreBundle\Form\Type\FieldReferenceEntityType">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="router.default"/>
             <tag name="form.type"/>
         </service>
 

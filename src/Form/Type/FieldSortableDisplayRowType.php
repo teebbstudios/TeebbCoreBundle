@@ -11,6 +11,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * 用于字段显示表单调整字段排序的表单行类型
+ */
 class FieldSortableDisplayRowType extends AbstractType
 {
     public function buildView(FormView $view, FormInterface $form, array $options)

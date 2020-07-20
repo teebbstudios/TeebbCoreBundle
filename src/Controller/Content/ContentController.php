@@ -4,18 +4,15 @@
 namespace Teebb\CoreBundle\Controller\Content;
 
 
-use Doctrine\DBAL\ConnectionException;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
-use Teebb\CoreBundle\AbstractService\FieldInterface;
-use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\Content;
-use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Teebb\CoreBundle\Repository\BaseContentRepository;
 
 
 /**
@@ -37,7 +34,12 @@ class ContentController extends AbstractContentController
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 10);
 
+        //Todo: 此处添加内容过滤器，可写一个单独bundle，用于生成内容过滤器表单，表单的提交生成过滤条件数组，应用到下方查询。
+        //Todo: 参考SonataAdmin 及 Sylius, 暂留空。下个大版本增加吧。
+
+        /**@var BaseContentRepository $baseContentRepository * */
         $baseContentRepository = $this->entityManager->getRepository($entityTypeService->getEntityClassName());
+
         /**
          * @var Pagerfanta $paginator
          */
@@ -49,7 +51,38 @@ class ContentController extends AbstractContentController
         $batchActionForm->handleRequest($request);
         if ($batchActionForm->isSubmitted() && $batchActionForm->isValid()) {
             $data = $batchActionForm->getData();
-            dd($data, $request);
+            $contentIds = $request->get('content');
+
+            /**@var Content[] $contents * */
+            $contents = $baseContentRepository->getBatchContentItems(Content::class, $contentIds);
+
+            //批量操作
+            switch ($data['batch']) {
+                case 'batch_delete':
+                    foreach ($contents as $content) {
+                        $this->entityManager->remove($content);
+                    }
+                    break;
+                case 'batch_unpublish':
+                    foreach ($contents as $content) {
+                        $content->setStatus('draft');
+                        $this->entityManager->persist($content);
+                    }
+                    break;
+                case 'batch_publish':
+                    foreach ($contents as $content) {
+                        $content->setStatus('publish');
+                        $this->entityManager->persist($content);
+                    }
+                    break;
+            }
+            $this->entityManager->flush();
+
+            $batchAction = $this->container->get('translator')->trans($data['batch']);
+            $this->addFlash('success', $this->container->get('translator')->trans(
+                'teebb.core.content.batch_action_success', ['%action%' => $batchAction]
+            ));
+
         }
         return $this->render($this->templateRegistry->getTemplate('index', 'content'), [
             'paginator' => $paginator,
@@ -129,7 +162,8 @@ class ContentController extends AbstractContentController
             'action' => 'create',
             'form' => $form->createView(),
             'entity_type' => $entityTypeService,
-            'type_alias' => $types->getTypeAlias()
+            'type_alias' => $types->getTypeAlias(),
+            'extra_assets' => ['autocompletejs'], //当前页面需要额外添加的assets库
         ]);
     }
 
@@ -183,7 +217,8 @@ class ContentController extends AbstractContentController
             'form' => $form->createView(),
             'entity_type' => $entityTypeService,
             'subject' => $content,
-            'type_alias' => $content->getTypeAlias()
+            'type_alias' => $content->getTypeAlias(),
+            'extra_assets' => ['autocompletejs'], //当前页面需要额外添加的assets库
         ]);
     }
 

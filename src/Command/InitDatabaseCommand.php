@@ -131,8 +131,16 @@ class InitDatabaseCommand extends Command
         $pageType->setDescription('Use basic pages for your static content, such as the "About Us" page.');
         $pageType->setTranslatableLocale('en_US');
 
+        $tags = new Types();
+        $tags->setBundle('taxonomy');
+        $tags->setLabel('Basic tags');
+        $tags->setTypeAlias('tags');
+        $tags->setDescription('Basic tags.');
+        $tags->setTranslatableLocale('en_US');
+
         $this->em->persist($articleType);
         $this->em->persist($pageType);
+        $this->em->persist($tags);
 
         $this->em->flush();
     }
@@ -151,8 +159,14 @@ class InitDatabaseCommand extends Command
         $pageType->setDescription('对您的静态内容使用基本页面，比如“关于我们”页面。');
         $pageType->setTranslatableLocale('zh_CN');
 
+        $tags = $typesRepo->findOneBy(['typeAlias' => 'tags']);
+        $tags->setLabel('基本分类');
+        $tags->setDescription('基本的分类');
+        $tags->setTranslatableLocale('zh_CN');
+
         $this->em->persist($articleType);
         $this->em->persist($pageType);
+        $this->em->persist($tags);
 
         $this->em->flush();
     }
