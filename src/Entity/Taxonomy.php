@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Taxonomy类型内容
@@ -26,6 +27,7 @@ class Taxonomy extends BaseContent
     /**
      * @var string|null
      * @ORM\Column(type="string", length=255)
+     * @Groups("main")
      */
     protected $term;
 

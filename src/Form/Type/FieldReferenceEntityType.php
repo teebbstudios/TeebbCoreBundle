@@ -66,6 +66,7 @@ class FieldReferenceEntityType extends AbstractType
         $class .= 'js-reference-entity-autocomplete';
 
         $attr['class'] = $class;
+        $attr['data-find-label'] = $options['find_label'];
         $attr['data-autocomplete-url'] = $this->router->generate($options['data_autocomplete_route']);
         $view->vars['attr'] = $attr;
     }
@@ -75,7 +76,8 @@ class FieldReferenceEntityType extends AbstractType
         $resolver->setDefaults([
             'label' => false,
             'attr' => [
-                'class' => 'form-control-sm'
+                'class' => 'form-control-sm',
+                'data-autocomplete' => '0',
             ],
             'invalid_message' => 'Hmm, not found that. Check it!',
         ]);

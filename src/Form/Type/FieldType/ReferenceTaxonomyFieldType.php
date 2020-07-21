@@ -34,7 +34,7 @@ class ReferenceTaxonomyFieldType extends AbstractType
             'entity_class' => $fieldSettings->getReferenceTargetEntity(),
             'type_label' => 'taxonomyType',
             'reference_types' => $referenceTypes,
-            'data_autocomplete_route' => 'teebb_content_index'
+            'data_autocomplete_route' => 'teebb_taxonomy_substances_api'
         ]);
     }
 

@@ -35,7 +35,7 @@ class ReferenceContentFieldType extends AbstractType
             'entity_class' => $fieldSettings->getReferenceTargetEntity(),
             'type_label' => 'typeAlias',
             'reference_types' => $referenceTypes,
-            'data_autocomplete_route' => 'teebb_content_index'
+            'data_autocomplete_route' => 'teebb_content_substances_api'
         ]);
     }
 

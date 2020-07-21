@@ -27,4 +27,11 @@
         <default key="route">teebb_content_delete</default>
     </route>
 
+    <route id="teebb_content_substances_api" path="/content/autocomplete">
+        <default key="_controller">Teebb\CoreBundle\Controller\Content\ContentController::getSubstancesApi</default>
+        <default key="route">teebb_content_substances_api</default>
+        <default key="entity_class">Teebb\CoreBundle\Entity\Content</default>
+        <default key="query_label">title</default>
+    </route>
+
 </routes>

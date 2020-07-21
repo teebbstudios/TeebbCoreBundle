@@ -5,14 +5,11 @@ namespace Teebb\CoreBundle\Controller\Content;
 
 
 use Doctrine\DBAL\ConnectionException;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
-use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
@@ -22,7 +19,6 @@ use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\FormContractorInterface;
-use Teebb\CoreBundle\Form\Type\Content\ContentType;
 use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\Types\EntityTypeRepository;
@@ -106,6 +102,25 @@ abstract class AbstractContentController extends AbstractController
      * @return Response
      */
     abstract public function deleteAction(Request $request, Content $content);
+
+    /**
+     * 用户引用内容、分类字段autocomplete
+     */
+    public function getSubstancesApi(Request $request)
+    {
+        $entityClass = $request->get('entity_class');
+        $queryLabel = $request->get('query_label');
+        $query = $request->get('query');
+
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('c')->from($entityClass, 'c')
+            ->where($qb->expr()->like('c.' . $queryLabel, ':query'))
+            ->setParameter('query', '%' . $query . '%');
+
+        $substances = $qb->getQuery()->getResult();
+
+        return $this->json($substances, 200, [], ['groups' => ['main']]);
+    }
 
     /**
      * 持久化内容及所有字段数据

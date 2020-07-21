@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
@@ -21,6 +22,7 @@ class Content extends BaseContent
      * 内容标题
      * @var string|null
      * @ORM\Column(type="string", length=255)
+     * @Groups("main")
      */
     protected $title;
 
