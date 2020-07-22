@@ -4,22 +4,15 @@
 namespace Teebb\CoreBundle\Controller\Content;
 
 
-use Doctrine\DBAL\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Events;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
-use Teebb\CoreBundle\AbstractService\FieldInterface;
-use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
-use Teebb\CoreBundle\Entity\BaseContent;
+use Teebb\CoreBundle\Controller\SubstanceDBALOptionsTrait;
 use Teebb\CoreBundle\Entity\Content;
-use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\FormContractorInterface;
-use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\Types\EntityTypeRepository;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
@@ -33,6 +26,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class AbstractContentController extends AbstractController
 {
+    use SubstanceDBALOptionsTrait;
+
     /**
      * @var EntityManagerInterface
      */
@@ -122,123 +117,123 @@ abstract class AbstractContentController extends AbstractController
         return $this->json($substances, 200, [], ['groups' => ['main']]);
     }
 
-    /**
-     * 持久化内容及所有字段数据
-     * @param FormInterface $form
-     * @param string $bundle 用于排序显示所有字段
-     * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
-     * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
-     * @param BaseContent $data
-     * @return mixed
-     * @throws ConnectionException
-     * @throws \Exception
-     */
-    protected function persistSubstance(FormInterface $form, string $bundle, string $typeAlias,
-                                        string $contentClassName, BaseContent $data = null)
-    {
-        //内容Entity object
-        $substance = $form->getData();
-
-        $this->entityManager->persist($substance);
-        $this->entityManager->flush();
-
-        //获取当前内容类型所有字段
-        $fields = $this->fieldConfigRepository
-            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])->getResult();
-
-        //doctrine Event manager
-        $evm = $this->entityManager->getEventManager();
-
-        $conn = $this->entityManager->getConnection();
-
-        $conn->beginTransaction();
-        try {
-            /**@var FieldConfiguration $field * */
-            foreach ($fields as $field) {
-                //获取当前字段的所有表单数据
-                $fieldDataArray = $form->get($field->getFieldAlias())->getData();
-
-                if (!empty($fieldDataArray)) {
-                    //动态修改字段entity的mapping
-                    $dynamicChangeFieldMetadataListener = new DynamicChangeFieldMetadataListener($field, $contentClassName);
-                    $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
-
-                    /**@var BaseFieldItem $fieldItem * */
-                    foreach ($fieldDataArray as $index => $fieldItem) {
-                        //处理字段和内容Entity的关系
-                        $fieldItem->setEntity($substance);
-
-                        $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $field);
-
-                        $fieldDBALUtils->persistFieldItem($fieldItem);
-
-                    }
-                    //移除doctrine监听器
-                    $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
-                }
-            }
-
-            $conn->commit();
-        } catch (\Exception $exception) {
-            $conn->rollBack();
-            //如果原始内容id值为null，则为新建内容需要回滚删除
-            if (null == $data) {
-                $this->entityManager->remove($substance);
-                $this->entityManager->flush();
-            } else {
-                //如果原始内容id值不为null，则为编辑内容需要回滚到原始内容
-                $this->entityManager->persist($data);
-                $this->entityManager->flush();
-            }
-            throw $exception;
-        }
-
-        return $substance;
-    }
-
-
-    /**
-     * 删除内容及其字段数据
-     *
-     * @param string $bundle
-     * @param string $typeAlias
-     * @param BaseContent $data
-     * @throws ConnectionException
-     * @throws \Exception
-     */
-    protected function deleteSubstance(string $bundle, string $typeAlias, BaseContent $data)
-    {
-        //获取当前内容类型所有字段
-        $fields = $this->fieldConfigRepository
-            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
-            ->getResult();
-
-        $conn = $this->entityManager->getConnection();
-
-        $conn->beginTransaction();
-        try {
-            /**@var FieldConfiguration $field * */
-            foreach ($fields as $field) {
-                /**@var FieldInterface $fieldService * */
-                $fieldService = $this->container->get('teebb.core.field.' . $field->getFieldType());
-
-                $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $field);
-
-                $fieldItems = $fieldService->getFieldEntityData($data, $field, get_class($data));
-
-                foreach ($fieldItems as $fieldItem) {
-                    $fieldDBALUtils->deleteFieldItem($fieldItem);
-                }
-            }
-            $conn->commit();
-        } catch (\Exception $e) {
-            $conn->rollBack();
-            throw $e;
-        }
-
-        $this->entityManager->remove($data);
-        $this->entityManager->flush();
-    }
+//    /**
+//     * 持久化内容及所有字段数据
+//     * @param FormInterface $form
+//     * @param string $bundle 用于排序显示所有字段
+//     * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
+//     * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
+//     * @param BaseContent $data
+//     * @return mixed
+//     * @throws ConnectionException
+//     * @throws \Exception
+//     */
+//    protected function persistSubstance(FormInterface $form, string $bundle, string $typeAlias,
+//                                        string $contentClassName, BaseContent $data = null)
+//    {
+//        //内容Entity object
+//        $substance = $form->getData();
+//
+//        $this->entityManager->persist($substance);
+//        $this->entityManager->flush();
+//
+//        //获取当前内容类型所有字段
+//        $fields = $this->fieldConfigRepository
+//            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])->getResult();
+//
+//        //doctrine Event manager
+//        $evm = $this->entityManager->getEventManager();
+//
+//        $conn = $this->entityManager->getConnection();
+//
+//        $conn->beginTransaction();
+//        try {
+//            /**@var FieldConfiguration $field * */
+//            foreach ($fields as $field) {
+//                //获取当前字段的所有表单数据
+//                $fieldDataArray = $form->get($field->getFieldAlias())->getData();
+//
+//                if (!empty($fieldDataArray)) {
+//                    //动态修改字段entity的mapping
+//                    $dynamicChangeFieldMetadataListener = new DynamicChangeFieldMetadataListener($field, $contentClassName);
+//                    $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
+//
+//                    /**@var BaseFieldItem $fieldItem * */
+//                    foreach ($fieldDataArray as $index => $fieldItem) {
+//                        //处理字段和内容Entity的关系
+//                        $fieldItem->setEntity($substance);
+//
+//                        $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $field);
+//
+//                        $fieldDBALUtils->persistFieldItem($fieldItem);
+//
+//                    }
+//                    //移除doctrine监听器
+//                    $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
+//                }
+//            }
+//
+//            $conn->commit();
+//        } catch (\Exception $exception) {
+//            $conn->rollBack();
+//            //如果原始内容id值为null，则为新建内容需要回滚删除
+//            if (null == $data) {
+//                $this->entityManager->remove($substance);
+//                $this->entityManager->flush();
+//            } else {
+//                //如果原始内容id值不为null，则为编辑内容需要回滚到原始内容
+//                $this->entityManager->persist($data);
+//                $this->entityManager->flush();
+//            }
+//            throw $exception;
+//        }
+//
+//        return $substance;
+//    }
+//
+//
+//    /**
+//     * 删除内容及其字段数据
+//     *
+//     * @param string $bundle
+//     * @param string $typeAlias
+//     * @param BaseContent $data
+//     * @throws ConnectionException
+//     * @throws \Exception
+//     */
+//    protected function deleteSubstance(string $bundle, string $typeAlias, BaseContent $data)
+//    {
+//        //获取当前内容类型所有字段
+//        $fields = $this->fieldConfigRepository
+//            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
+//            ->getResult();
+//
+//        $conn = $this->entityManager->getConnection();
+//
+//        $conn->beginTransaction();
+//        try {
+//            /**@var FieldConfiguration $field * */
+//            foreach ($fields as $field) {
+//                /**@var FieldInterface $fieldService * */
+//                $fieldService = $this->container->get('teebb.core.field.' . $field->getFieldType());
+//
+//                $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $field);
+//
+//                $fieldItems = $fieldService->getFieldEntityData($data, $field, get_class($data));
+//
+//                foreach ($fieldItems as $fieldItem) {
+//                    $fieldDBALUtils->deleteFieldItem($fieldItem);
+//                }
+//            }
+//            $conn->commit();
+//        } catch (\Exception $e) {
+//            $conn->rollBack();
+//            throw $e;
+//        }
+//
+//        $this->entityManager->remove($data);
+//        $this->entityManager->flush();
+//    }
 
     /**
      * 获取EntityType Service

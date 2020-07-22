@@ -18,6 +18,8 @@ use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\FormRow;
 use Teebb\CoreBundle\Annotation\Translation;
 use Teebb\CoreBundle\Annotation\TypesForm;
+use Teebb\CoreBundle\Entity\Taxonomy;
+use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
 
 /**
  * Class TaxonomyEntityType 分类类型
@@ -67,5 +69,34 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  */
 class TaxonomyEntityType extends AbstractEntityType
 {
+    public const INDEX_TERM = 'index_term';
+    public const CREATE_TERM = 'create_term';
+    public const UPDATE_TERM = 'update_term';
+    public const DELETE_TERM = 'delete_term';
 
+    /**
+     * 配置词汇route
+     *
+     * @param EntityTypeRouteCollection $routeCollection
+     */
+    protected function configureRoutes(EntityTypeRouteCollection $routeCollection): void
+    {
+        $routeCollection->addRoute(self::INDEX_TERM, '{typeAlias}/terms');
+        $routeCollection->addRoute(self::CREATE_TERM, '{typeAlias}/term/create');
+        $routeCollection->addRoute(self::UPDATE_TERM, '{typeAlias}/term/{slug}/update');
+        $routeCollection->addRoute(self::DELETE_TERM, '{typeAlias}/term/{slug}/delete');
+    }
+
+    /**
+     * 查找当前分类词汇的子词汇
+     *
+     * @param Taxonomy $taxonomy
+     * @return Taxonomy[]
+     */
+    public function getChildrenTaxonomies(Taxonomy $taxonomy, string $taxonomyType)
+    {
+        $taxonomyRepo = $this->entityManager->getRepository(Taxonomy::class);
+
+        return $taxonomyRepo->findBy(['parent' => $taxonomy, 'taxonomyType' => $taxonomyType]);
+    }
 }

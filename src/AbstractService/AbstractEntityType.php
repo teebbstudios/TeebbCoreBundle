@@ -32,34 +32,34 @@ abstract class AbstractEntityType implements EntityTypeInterface
     /**
      * @var EntityTypeMetadataInterface
      */
-    private $metadata;
+    protected $metadata;
 
     /**
      * 内容实体类型的routes
      *
      * @var EntityTypeRouteCollection
      */
-    private $routes;
+    protected $routes;
 
     /**
      * @var EntityTypePathBuilder
      */
-    private $pathBuilder;
+    protected $pathBuilder;
 
     /**
      * @var ContainerInterface
      */
-    private $container;
+    protected $container;
 
     /**
      * @var PathInfoGeneratorInterface
      */
-    private $pathInfoGenerator;
+    protected $pathInfoGenerator;
 
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    protected $entityManager;
 
     public function __construct(EntityTypePathBuilder $pathBuilder, ContainerInterface $container,
                                 PathInfoGeneratorInterface $pathInfoGenerator, EntityManagerInterface $entityManager)
@@ -148,7 +148,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
      */
     protected function configureRoutes(EntityTypeRouteCollection $routeCollection): void
     {
-        //$this->routing->addRoute('example', 'pattern');
+        //$routeCollection->addRoute('example', 'pattern');
     }
 
     /**

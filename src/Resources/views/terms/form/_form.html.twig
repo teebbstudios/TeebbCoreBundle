@@ -1,0 +1,20 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ action|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/terms/buttons/head_index_term_button.html.twig' %}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/terms/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+        {% include '@TeebbCore/buttons/save_button.html.twig' %}
+    {{ form_end(form) }}
+{% endblock %}

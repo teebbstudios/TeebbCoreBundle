@@ -7,9 +7,14 @@
     <a href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_delete', {'typeAlias':item.typeAlias|replace({'_':'-'}) }) }}"
        class="btn btn-danger text-white">{{ 'delete'|trans }}</a>
 
+    {% if bundle == 'taxonomy' %}
+        <a href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_index_term', {'typeAlias':item.typeAlias|replace({'_':'-'}) }) }}"
+           class="btn btn-info text-white">{{ 'index_term'|trans }}</a>
+    {% endif %}
+
     <div class="btn-group btn-group-sm" role="group">
         <button id="btnGroupDrop_{{ item.id }}" type="button"
-                class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
             {{ 'index_field'|trans }}
         </button>

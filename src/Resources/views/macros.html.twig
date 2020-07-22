@@ -1,0 +1,18 @@
+{#分类词汇子词汇#}
+{%- macro taxonomy_children(taxonomy_entity_type, taxonomy, taxonomyType, deepth) %}
+    {% import _self as self %}
+    {% for childrenTaxonomy in taxonomy_entity_type.childrenTaxonomies(taxonomy, taxonomyType) %}
+        {% set newDeepth = deepth + 1 %}
+        <tr>
+            <td>
+                {% for i in 1..newDeepth %}{{ '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' }}{% endfor %}
+                <small>|--</small>{{ childrenTaxonomy.term }}
+            </td>
+            <td>{{ childrenTaxonomy.slug }}</td>
+            <td>
+                {% include '@TeebbCore/terms/buttons/item_manage_term_button.html.twig' with {taxonomy: childrenTaxonomy} %}
+            </td>
+        </tr>
+        {{ self.taxonomy_children(taxonomy_entity_type, childrenTaxonomy, taxonomyType, deepth+1) }}
+    {% endfor %}
+{% endmacro -%}

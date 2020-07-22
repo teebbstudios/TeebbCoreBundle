@@ -9,8 +9,12 @@ delete: 删除
 add_field: 添加字段
 index_field: 管理字段
 display_field: 管理字段显示
-update_field: '更新 "%field%" 字段设置'
-delete_field: '删除 "%field%" 字段'
+update_field: 更新 "%field%" 字段设置
+delete_field: 删除 "%field%" 字段
+index_term: 管理词汇
+create_term: 添加词汇
+update_term: 更新词汇
+delete_term: 删除词汇
 
 Select fields: 选择字段
 simple: 常规类型
@@ -48,6 +52,7 @@ batch_unpublish: 取消内容发布
 batch_publish: 发布内容
 
 formatter: 文本格式化器
+terms: 分类词汇
 
 teebb:
     core:
@@ -163,6 +168,7 @@ teebb:
             update_content: 更新内容
             delete_content: 删除内容
             delete_formatter: 删除格式化器
+            delete_term: 删除分类词汇
             show_summary: 显示摘要
             hide_summary: 隐藏摘要
             remove_field_item: 移除此行

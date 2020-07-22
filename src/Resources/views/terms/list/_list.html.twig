@@ -1,0 +1,43 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% import '@TeebbCore/macros.html.twig' as macros %}
+
+{% block head_label %}
+    {{ action|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/terms/buttons/head_create_term_button.html.twig' %}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/terms/common/card_title.html.twig' %}
+{% endblock %}
+
+{% block card_body %}
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'teebb.core.list.name'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.alias'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.options'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for taxonomy in taxonomies %}
+                <tr>
+                    <td><small>|--</small>{{ taxonomy.term }}</td>
+                    <td>{{ taxonomy.slug }}</td>
+                    <td>
+                        {% include '@TeebbCore/terms/buttons/item_manage_term_button.html.twig' with {taxonomy: taxonomy} %}
+                    </td>
+                </tr>
+                {{ macros.taxonomy_children(entity_type, taxonomy, taxonomy.taxonomyType, 0) }}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

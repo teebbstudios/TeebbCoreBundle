@@ -62,26 +62,26 @@ abstract class AbstractEntityTypeController extends AbstractController
     /**
      * @var FormContractorInterface
      */
-    private $formContractor;
+    protected $formContractor;
 
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    protected $entityManager;
     /**
      * @var EventDispatcherInterface
      */
-    private $dispatcher;
+    protected $dispatcher;
 
     /**
      * @var FieldConfigurationRepository
      */
-    private $fieldConfigurationRepository;
+    protected $fieldConfigurationRepository;
 
     /**
      * @var TranslatorInterface
      */
-    private $translator;
+    protected $translator;
 
     public function __construct(TemplateRegistry $templateRegistry, EntityManagerInterface $entityManager,
                                 EventDispatcherInterface $dispatcher,
