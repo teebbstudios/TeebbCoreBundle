@@ -7,13 +7,14 @@ namespace Teebb\CoreBundle\Controller;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
+use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 
@@ -144,8 +145,13 @@ trait SubstanceDBALOptionsTrait
             $conn->rollBack();
             throw $e;
         }
-
-        $entityManager->remove($data);
+        //如果是Taxonomy，因为使用了 stofdoctrineextension tree ,需要单独处理
+        if ($data instanceof Taxonomy){
+            $taxonomyRepo = $entityManager->getRepository(Taxonomy::class);
+            $taxonomyRepo->removeFromTree($data);
+        }else{
+            $entityManager->remove($data);
+        }
         $entityManager->flush();
     }
 

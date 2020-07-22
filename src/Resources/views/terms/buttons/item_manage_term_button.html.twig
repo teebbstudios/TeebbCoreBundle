@@ -2,6 +2,6 @@
 {% set typeAlias = app.request.get('typeAlias') %}
 
 <div class="btn-group btn-group-sm" role="group">
-    <a href="{{ path('taxonomy_update_term', {'typeAlias': typeAlias, 'slug':taxonomy.slug}) }}" class="btn btn-primary text-white">{{ 'update_term'|trans }}</a>
-    <a href="{{ path('taxonomy_delete_term', {'typeAlias': typeAlias, 'slug':taxonomy.slug}) }}" class="btn btn-danger text-white">{{ 'delete_term'|trans }}</a>
+    <a href="{{ path('taxonomy_update_term', {'typeAlias': typeAlias, 'slug':taxonomy.slug}) }}" class="btn btn-primary text-white">{{ 'update'|trans }}</a>
+    <a href="{{ path('taxonomy_delete_term', {'typeAlias': typeAlias, 'slug':taxonomy.slug}) }}" class="btn btn-danger text-white">{{ 'delete'|trans }}</a>
 </div>

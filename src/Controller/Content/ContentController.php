@@ -143,7 +143,6 @@ class ContentController extends AbstractContentController
             try {
                 //持久化内容和字段
                 /**@var Content $content * */
-//                $content = $this->persistSubstance($form, $types->getBundle(), $types->getTypeAlias(), $data_class);
                 $content = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
                     $form, $types->getBundle(), $types->getTypeAlias(), $data_class);
 
@@ -244,8 +243,8 @@ class ContentController extends AbstractContentController
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
             if ($deleteForm->get('_method')->getData() === 'DELETE') {
                 try {
-//                    $this->deleteSubstance($entityTypeService->getBundle(), $content->getTypeAlias(), $content);
-                    $this->deleteSubstance($this->entityManager, $this->fieldConfigRepository, $this->container, $entityTypeService->getBundle(), $content->getTypeAlias(), $content);
+                    $this->deleteSubstance($this->entityManager, $this->fieldConfigRepository, $this->container,
+                        $entityTypeService->getBundle(), $content->getTypeAlias(), $content);
 
                     $this->addFlash('success', $this->container->get('translator')->trans(
                         'teebb.core.content.delete_success', ['%value%' => $content->getTitle()]

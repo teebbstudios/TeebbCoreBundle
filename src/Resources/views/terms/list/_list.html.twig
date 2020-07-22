@@ -1,7 +1,5 @@
 {% extends '@TeebbCore/base_content.html.twig' %}
 
-{% import '@TeebbCore/macros.html.twig' as macros %}
-
 {% block head_label %}
     {{ action|trans }}
 {% endblock %}
@@ -34,7 +32,19 @@
                         {% include '@TeebbCore/terms/buttons/item_manage_term_button.html.twig' with {taxonomy: taxonomy} %}
                     </td>
                 </tr>
-                {{ macros.taxonomy_children(entity_type, taxonomy, taxonomy.taxonomyType, 0) }}
+                {% for childrenTaxonomy in taxonomyRepo.children(taxonomy) %}
+
+                    <tr>
+                        <td>
+                            {% for i in 1..childrenTaxonomy.lvl %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}
+                            <small>|--</small>{{ childrenTaxonomy.term }}
+                        </td>
+                        <td>{{ childrenTaxonomy.slug }}</td>
+                        <td>
+                            {% include '@TeebbCore/terms/buttons/item_manage_term_button.html.twig' with {taxonomy: childrenTaxonomy} %}
+                        </td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
             </tbody>
         </table>

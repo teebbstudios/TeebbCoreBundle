@@ -1,17 +1,17 @@
 {% extends '@TeebbCore/base_content.html.twig' %}
 
 {% block head_label %}
-    {{ action|trans }}{{ 'formatter'|trans }}
+    {{ action|trans }}
 {% endblock %}
 
 {% block card_top_border %}border-top-danger{% endblock %}
 
 {% block head_actions %}
-    {% include '@TeebbCore/formatter/buttons/head_index_formatter_button.html.twig' %}
+    {% include '@TeebbCore/terms/buttons/head_index_term_button.html.twig' %}
 {% endblock %}
 
 {% block card_title %}
-    {% include '@TeebbCore/formatter/common/card_title.html.twig' with _context %}
+    {% include '@TeebbCore/terms/common/card_title.html.twig' with _context %}
 {% endblock %}
 
 
@@ -21,7 +21,7 @@
         <i class="fas fa-info-circle"></i>
         <span class="small text-muted">
             {% block top_help_message %}
-                {{ 'teebb.core.help.delete_formatter'|trans({'%name%': formatter.name}) }}
+                {{ 'teebb.core.help.delete_term'|trans({'%term%': subject.term}) }}
             {% endblock %}
         </span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -33,6 +33,6 @@
 {% block card_body %}
     {{ form_start(delete_form) }}
     {{ form_widget(delete_form) }}
-    {% include '@TeebbCore/formatter/buttons/form_delete_formatter_button.html.twig' %}
+    {% include '@TeebbCore/terms/buttons/form_delete_term_button.html.twig' %}
     {{ form_end(delete_form) }}
 {% endblock %}

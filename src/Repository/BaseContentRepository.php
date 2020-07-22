@@ -21,4 +21,5 @@ class BaseContentRepository extends EntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
 }

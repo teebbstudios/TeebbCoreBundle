@@ -68,6 +68,7 @@ teebb:
             delete_field: 删除"%field%"字段，使用该字段的类型将不再使用此字段，此字段中所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
             delete_content: 删除"%title%"，此内容中所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
             delete_formatter: 删除"%name%"格式化器，此格式化器数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
+            delete_term: 删除"%term%"词汇，此词汇数据将会删除且无法恢复，确定要删除吗？
             sortable: 拖动行前箭头以修改每个字段的权重，用于调整在创建编辑显示内容时字段的顺序，按降序排列，权重高的优先显示。
 
         list:
@@ -156,6 +157,7 @@ teebb:
             alias: 机读别名
             alias_help: 唯一的机读内容类型名字。这个名字必须只能包含小写字母，数字和下划线，下划线不能出现在开头和结尾。此名字将用于页面的链接，在链接中下划线将被转换成连字符。
             description: 描述
+            term_description_help: 简短描述下该词汇的信息。
             save: 保存
             update: 更新
             delete: 删除
@@ -168,7 +170,9 @@ teebb:
             update_content: 更新内容
             delete_content: 删除内容
             delete_formatter: 删除格式化器
-            delete_term: 删除分类词汇
+            create_term: 添加词汇
+            update_term: 更新词汇
+            delete_term: 删除词汇
             show_summary: 显示摘要
             hide_summary: 隐藏摘要
             remove_field_item: 移除此行
@@ -213,11 +217,20 @@ teebb:
             nl2br_filter: 将换行符号转换为 HTML（也就是<br>及<p>）
             escape_html_filter: 将任何HTML显示为纯文本
 
+            term: 词汇
+            term_parent: 上一级节点
+            term_root: <根节点>
+
         content:
             create_success: 内容 "%value%" 创建成功。
             update_success: 内容 "%value%" 更新成功。
             delete_success: 内容 "%value%" 删除成功。
             batch_action_success: 操作 "%action%" 成功。
+
+        taxonomy:
+            create_success: 词汇 "%value%" 创建成功。
+            update_success: 词汇 "%value%" 更新成功。
+            delete_success: 词汇 "%value%" 删除成功。
 
         formatter:
             create_success: 格式化器 "%value%" 创建成功。

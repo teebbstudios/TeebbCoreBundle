@@ -89,7 +89,7 @@ class TaxonomyEntityType extends AbstractEntityType
 
     /**
      * 查找当前分类词汇的子词汇
-     *
+     * @deprecated 使用stofdoctrineextension tree 插件处理词汇树
      * @param Taxonomy $taxonomy
      * @return Taxonomy[]
      */

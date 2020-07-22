@@ -21,16 +21,16 @@ class BaseContentType extends AbstractType
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    protected $entityManager;
 
     /**
      * @var FieldConfigurationRepository
      */
-    private $fieldConfigurationsRepository;
+    protected $fieldConfigurationsRepository;
     /**
      * @var ContainerInterface
      */
-    private $container;
+    protected $container;
 
     public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container)
     {
@@ -87,9 +87,6 @@ class BaseContentType extends AbstractType
                 'field_type' => $fieldType,
                 'allow_add' => !in_array($fieldType, ['boolean', 'listInteger', 'listFloat']),
                 'allow_delete' => !in_array($fieldType, ['boolean', 'listInteger', 'listFloat']),
-//                'delete_empty' => function ($entity) use ($fieldSettings) {
-//                    return false == $fieldSettings->isRequired() && (null == $entity || $entity->getValue() == null);
-//                },
                 'entry_type' => $fieldService->getFieldFormType(),
                 'entry_options' => [
                     'label' => false,
