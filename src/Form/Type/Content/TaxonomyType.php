@@ -33,6 +33,21 @@ class TaxonomyType extends BaseContentType
 
         $data = $builder->getData();
 
+        //获取词汇节点信息，parent字段不使用query_builder，使用choices
+        $taxonomyRepo = $this->entityManager->getRepository(Taxonomy::class);
+        $taxonomyRoots = $taxonomyRepo->getRootNodesQueryBuilder()->andWhere('node.taxonomyType = :taxonomyType')
+            ->setParameter('taxonomyType', $options['type_alias'])->getQuery()->getResult();
+
+        $taxonomyChoices = [];
+        /**@var Taxonomy $taxonomyRoot * */
+        foreach ($taxonomyRoots as $taxonomyRoot) {
+            array_push($taxonomyChoices, $taxonomyRoot);
+            /**@var Taxonomy $child * */
+            foreach ($taxonomyRepo->children($taxonomyRoot) as $child) {
+                array_push($taxonomyChoices, $child);
+            }
+        }
+
         //添加标题字段，所有内容都有一个标题
         $builder
             ->add('term', TextType::class, [
@@ -68,12 +83,11 @@ class TaxonomyType extends BaseContentType
                     'class' => 'form-control-sm'
                 ],
                 'class' => Taxonomy::class,
-                'choice_label' => 'term',
-                'query_builder' => function (NestedTreeRepository $er) use ($options) {
-                    return $er->createQueryBuilder('t')
-                        ->where('t.taxonomyType = :taxonomyType')
-                        ->setParameter('taxonomyType', $options['type_alias']);
+                'choice_label' => function (Taxonomy $taxonomy) {
+                    return str_repeat('-', $taxonomy->getLvl()) . $taxonomy->getTerm();
                 },
+                'choice_value' => 'slug',
+                'choices' => $taxonomyChoices,
                 'placeholder' => 'teebb.core.form.term_root',
                 'required' => false,
             ])
