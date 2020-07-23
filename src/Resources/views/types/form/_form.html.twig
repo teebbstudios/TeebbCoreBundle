@@ -26,8 +26,13 @@
 {% block card_body %}
     <div class="{{ action }}-{{ entity_type.EntityTypeMetadata.bundle }}-form">
         {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {% include '@TeebbCore/types/buttons/form_submit_button.html.twig' with {'action':action} %}
+        {{ form_row(form.label) }}
+        {{ form_row(form.bundle) }}
+        {{ form_row(form.typeAlias) }}
+        {{ form_row(form.description) }}
+        <div class="form-inline mt-4">
+            {{ form_rest(form) }}
+        </div>
         {{ form_end(form) }}
     </div>
 {% endblock %}

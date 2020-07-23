@@ -63,13 +63,6 @@ class FormContractor implements FormContractorInterface
         $typeGuesser = $this->formRegistry->getTypeGuesser();
         /**@var FormRowMarkup $formRow * */
         foreach ($formRows as $formRow) {
-            if (!property_exists(new $entity, $formRow->getProperty())) {
-                throw new \RuntimeException(
-                    sprintf('The property "%s" is not exist in "%s" when build form. Please check the FormRow annotation.',
-                        $formRow->getProperty(), $entity)
-                );
-            }
-
             $guessType = $typeGuesser->guessType($entity, $formRow->getProperty());
 
             //当前为编辑表单时，如果修改别名行Type为AliasValueType

@@ -19,6 +19,7 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -202,7 +203,7 @@ abstract class AbstractEntityTypeController extends AbstractController
         $typeEntityClass = $this->entityTypeService->getTypeEntityClass();
 
         $formBuilder = $this->formContractor->getFormBuilder($formName, FormType::class, null, ['data_class' => $typeEntityClass]);
-
+        /**@var FormInterface $form * */
         $form = $this->formContractor->buildEntityTypeForm($formBuilder, $typeEntityClass,
             $this->entityTypeService->getEntityTypeMetadata()->getFormSettings(), $this->entityTypeService->getBundle());
 
@@ -218,10 +219,16 @@ abstract class AbstractEntityTypeController extends AbstractController
                 'teebb.core.entity_type.create_success', ['%value%' => $data->getLabel()], 'TeebbCoreBundle'
             ));
 
+            if ($form->get('save')->isClicked()) {
+                return $this->redirectToRoute($this->entityTypeService->getRouteName('index'));
+            }
+
             //添加完类型，跳转到添加字段页面
-            return $this->redirectToRoute($this->entityTypeService->getRouteName('add_field'), [
-                'typeAlias' => $data->getTypeAlias()
-            ]);
+            if ($form->get('saveAndAddFields')->isClicked()) {
+                return $this->redirectToRoute($this->entityTypeService->getRouteName('add_field'), [
+                    'typeAlias' => $data->getTypeAlias()
+                ]);
+            }
         }
 
         return $this->render($this->templateRegistry->getTemplate('create', 'types'), [
@@ -324,8 +331,7 @@ abstract class AbstractEntityTypeController extends AbstractController
                     //获取当前类型对应的内容Entity Repository,用于删除所有对应的内容
                     $baseContentRepository = $this->entityManager->getRepository($this->entityTypeService->getEntityClassName());
                     $substances = $baseContentRepository->findAll();
-                    foreach ($substances as $substance)
-                    {
+                    foreach ($substances as $substance) {
                         $this->entityManager->remove($substance);
                         $this->entityManager->flush();
                     }

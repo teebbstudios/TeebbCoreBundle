@@ -61,6 +61,26 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  *                  "required"=false
  *              }
  *          ),
+ *          @FormRow(
+ *              property="saveAndAddFields",
+ *              formType="Symfony\Component\Form\Extension\Core\Type\SubmitType",
+ *              options={
+ *                  "label"="teebb.core.form.types_save_and_add_fields",
+ *                  "label_html"=true,
+ *                  "attr"={"class"="btn btn-primary btn-sm btn-icon-split"},
+ *                  "row_attr"={"class"="pr-2"},
+ *              }
+ *          ),
+ *          @FormRow(
+ *              property="save",
+ *              formType="Symfony\Component\Form\Extension\Core\Type\SubmitType",
+ *              options={
+ *                  "label"="teebb.core.form.types_save",
+ *                  "label_html"=true,
+ *                  "attr"={"class"="btn btn-success btn-sm btn-icon-split"},
+ *                  "row_attr"={"class"="pr-2"},
+ *              }
+ *          ),
  *     }),
  *     entityFormType="Teebb\CoreBundle\Form\Type\Content\ContentType"
  *

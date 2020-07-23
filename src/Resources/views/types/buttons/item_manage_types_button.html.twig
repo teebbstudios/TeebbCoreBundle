@@ -9,7 +9,7 @@
 
     {% if bundle == 'taxonomy' %}
         <a href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_index_term', {'typeAlias':item.typeAlias|replace({'_':'-'}) }) }}"
-           class="btn btn-info text-white">{{ 'index_term'|trans }}</a>
+           class="btn btn-success text-white">{{ 'index_term'|trans }}</a>
     {% endif %}
 
     <div class="btn-group btn-group-sm" role="group">
