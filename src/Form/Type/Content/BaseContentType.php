@@ -67,7 +67,7 @@ class BaseContentType extends AbstractType
     {
         //获取当前内容类型所有字段
         $fields = $this->fieldConfigurationsRepository
-            ->getBySortableGroupsQueryDesc(['bundle' => $options['bundle'], 'typeAlias' => $options['type_alias']])->getResult();
+            ->getBySortableGroupsQuery(['bundle' => $options['bundle'], 'typeAlias' => $options['type_alias']])->getResult();
 
         /**@var FieldConfiguration $fieldConfiguration * */
         foreach ($fields as $fieldConfiguration) {
@@ -134,8 +134,8 @@ class BaseContentType extends AbstractType
     private function addNewEntityDataForShowBlankFormRow(int $limit, string $fieldType, string $fieldEntityClassName,
                                                          array $fieldOptions, int $needAddNumRows = 0): array
     {
-        //如果 $fieldType 是 boolean listInteger listFloat 则只生成一个字段
-        if (!in_array($fieldType, ['boolean', 'listInteger', 'listFloat'])) {
+        //如果 $fieldType 是 boolean listInteger listFloat comment 则只生成一个字段
+        if (!in_array($fieldType, ['boolean', 'listInteger', 'listFloat', 'comment'])) {
             $blankDataArray = [];
             for ($i = 0; $i < $limit - $needAddNumRows; $i++) {
                 $blankDataArray[$i] = new $fieldEntityClassName();

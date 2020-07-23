@@ -14,6 +14,8 @@ class BooleanItemConfigurationType extends BaseItemConfigurationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->setFieldRequiredAndLimitOne($builder, $options, true);
+
         parent::buildForm($builder, $options);
 
         $builder

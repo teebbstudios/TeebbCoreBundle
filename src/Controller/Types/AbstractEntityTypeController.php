@@ -378,7 +378,7 @@ abstract class AbstractEntityTypeController extends AbstractController
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
+            ->getBySortableGroupsQuery(['bundle' => $bundle, 'typeAlias' => $typeAlias])
             ->getResult();
 
         return $this->render($this->templateRegistry->getTemplate('list_fields', 'fields'), [
@@ -420,10 +420,17 @@ abstract class AbstractEntityTypeController extends AbstractController
             $fieldConfiguration->setFieldLabel($fieldLabel);
             $fieldConfiguration->setFieldAlias($fieldAlias);
             $fieldConfiguration->setFieldType($fieldType);
-            $fieldConfiguration->setDelta(0);
             $fieldConfiguration->setSettings(new $fieldDepartConfigurationName());
-
             $this->entityManager->persist($fieldConfiguration);
+            $this->entityManager->flush();
+
+            //查询当前类型所有评论字段，设置delta为-1
+            $fieldsRepo = $this->entityManager->getRepository(FieldConfiguration::class);
+            $commentFields = $fieldsRepo->findBy(['typeAlias' => $typeAlias, 'fieldType' => 'comment']);
+            foreach ($commentFields as $commentField) {
+                $commentField->setDelta(-1);
+                $this->entityManager->persist($commentField);
+            }
             $this->entityManager->flush();
 
             $this->addFlash('success', $this->translator->trans(
@@ -561,7 +568,7 @@ abstract class AbstractEntityTypeController extends AbstractController
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
-            ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])
+            ->getBySortableGroupsQuery(['bundle' => $bundle, 'typeAlias' => $typeAlias])
             ->getResult();
 
         $form = $this->createForm(FieldSortableDisplayType::class, $fieldConfigurations);

@@ -47,7 +47,7 @@
             onEnd: function (/**Event*/evt) {
                 var $weightInputs = $(el).find('input[type=number].input-field-weight');
                 $.each($weightInputs, function (index, input) {
-                    $(input).val($weightInputs.length - 1 - index);
+                    $(input).val(index);
                 });
             },
         });

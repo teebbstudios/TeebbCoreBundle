@@ -1,5 +1,5 @@
 {#  Todo: 需要添加权限及获取可用操作  #}
-{% set bundle = entity_type.EntityTypeMetadata.bundle %}
+{% set bundle = entity_type.bundle %}
 
 <div class="btn-group btn-group-sm" role="group" aria-label="内容类型操作按钮组">
     <a href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_update', {'typeAlias':item.typeAlias|replace({'_':'-'}) }) }}"

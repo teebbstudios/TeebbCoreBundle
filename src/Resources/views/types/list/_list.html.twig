@@ -14,7 +14,7 @@
             <tbody>
             {% for item in paginator %}
                 <tr>
-                    <td class="text-nowrap"><a href="#">{{ item.label }}</a></td>
+                    <td class="text-nowrap"><a href="{{ entity_type.pathInfoGenerator.generate( entity_type.bundle ~ '_update', {'typeAlias':item.typeAlias|replace({'_':'-'}) }) }}">{{ item.label }}</a></td>
                     <td class="d-none d-md-table-cell">{{ item.description }}</td>
 
                     <td class="text-nowrap">

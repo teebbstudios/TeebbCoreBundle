@@ -138,9 +138,17 @@ class InitDatabaseCommand extends Command
         $tags->setDescription('Basic tags.');
         $tags->setTranslatableLocale('en_US');
 
+        $comment = new Types();
+        $comment->setBundle('comment');
+        $comment->setLabel('Basic comment');
+        $comment->setTypeAlias('comment');
+        $comment->setDescription('Basic Comment.');
+        $comment->setTranslatableLocale('en_US');
+
         $this->em->persist($articleType);
         $this->em->persist($pageType);
         $this->em->persist($tags);
+        $this->em->persist($comment);
 
         $this->em->flush();
     }
@@ -164,9 +172,15 @@ class InitDatabaseCommand extends Command
         $tags->setDescription('基本的分类');
         $tags->setTranslatableLocale('zh_CN');
 
+        $comment = $typesRepo->findOneBy(['typeAlias' => 'comment']);
+        $comment->setLabel('默认评论');
+        $comment->setDescription('默认的评论');
+        $comment->setTranslatableLocale('zh_CN');
+
         $this->em->persist($articleType);
         $this->em->persist($pageType);
         $this->em->persist($tags);
+        $this->em->persist($comment);
 
         $this->em->flush();
     }

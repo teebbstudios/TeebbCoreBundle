@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
 use Teebb\CoreBundle\Entity\Fields\Configuration\StringFormatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration;
 use Teebb\CoreBundle\Form\Type\FieldConfigurationLimitType;
@@ -157,5 +158,26 @@ class BaseItemConfigurationType extends AbstractType
                 'required' => false,
                 'help' => 'teebb.core.fields.configuration.suffix_help'
             ]);
+    }
+
+    /**
+     * 'boolean', 'comment'需要设置必填及限制表单行数量为1
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @param bool $required 当前字段是否必填
+     */
+    protected function setFieldRequiredAndLimitOne(FormBuilderInterface $builder, array $options, bool $required)
+    {
+        $builder->addEventListener(FormEvents::SUBMIT,
+            function (FormEvent $event) use ($required) {
+                /**@var FieldDepartConfigurationInterface $fieldItemConfig * */
+                $fieldItemConfig = $event->getData();
+                $fieldItemConfig->setLimit(1);
+                if ($required){
+                    $fieldItemConfig->setRequired($required);
+                }
+                $event->setData($fieldItemConfig);
+            }
+        );
     }
 }

@@ -218,6 +218,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
     public function getAllFieldsAlias(string $typeAlias): array
     {
         $fieldConfigRepository = $this->entityManager->getRepository(FieldConfiguration::class);
-        return $fieldConfigRepository->findBy(['bundle' => $this->getBundle(), 'typeAlias' => $typeAlias], ['delta' => 'DESC']);
+        return $fieldConfigRepository->findBy(['bundle' => $this->getBundle(), 'typeAlias' => $typeAlias],
+            ['delta' => 'ASC', 'id' => 'ASC']);
     }
 }

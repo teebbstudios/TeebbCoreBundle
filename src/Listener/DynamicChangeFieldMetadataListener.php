@@ -8,6 +8,7 @@ use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\MappingException;
 use Teebb\CoreBundle\Entity\Fields\BooleanItem;
+use Teebb\CoreBundle\Entity\Fields\CommentItem;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
 use Teebb\CoreBundle\Entity\Fields\DatetimeItem;
 use Teebb\CoreBundle\Entity\Fields\DecimalItem;
@@ -77,7 +78,7 @@ class DynamicChangeFieldMetadataListener
             TextFormatItem::class,
             TextFormatSummaryItem::class,
             TextItem::class,
-            TimestampItem::class
+            CommentItem::class
         ];
 
         if (in_array($className, $modifyEntityIemArray)) {
