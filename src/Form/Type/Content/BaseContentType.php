@@ -12,6 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Entity\BaseContent;
+use Teebb\CoreBundle\Entity\Fields\BooleanItem;
+use Teebb\CoreBundle\Entity\Fields\CommentItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Form\Type\FieldType\BaseFieldType;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
@@ -142,7 +144,19 @@ class BaseContentType extends AbstractType
             }
             $fieldOptions['data'] = $limit == 0 ? ['0' => new $fieldEntityClassName()] : $blankDataArray;
         } else {
-            $fieldOptions['data'] = ['0' => new $fieldEntityClassName()];
+            $fieldObject = new $fieldEntityClassName();
+            //如果是布尔值、评论字段则设置默认值
+            switch ($fieldEntityClassName) {
+                case BooleanItem::class:
+                    /**@var BooleanItem $fieldObject**/
+                    $fieldObject->setValue(true);
+                    break;
+                case CommentItem::class:
+                    /**@var CommentItem $fieldObject**/
+                    $fieldObject->setValue(1);
+                    break;
+            }
+            $fieldOptions['data'] = ['0' => $fieldObject];
         }
 
         return $fieldOptions;

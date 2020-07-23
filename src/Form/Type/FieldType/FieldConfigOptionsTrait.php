@@ -105,7 +105,7 @@ trait FieldConfigOptionsTrait
                 break;
             default:
                 $fieldOptions['constraints'] = [
-                    new Count(['min' => 1, 'max' => $limit])
+                    new Count(['min' => 0, 'max' => $limit])
                 ];
                 break;
         }

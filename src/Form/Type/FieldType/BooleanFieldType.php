@@ -7,12 +7,9 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\BooleanItem;
 use Teebb\CoreBundle\Entity\Fields\Configuration\BooleanItemConfiguration;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class BooleanFieldType extends AbstractType
 {

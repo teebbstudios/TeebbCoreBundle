@@ -16,10 +16,8 @@ class CommentItemConfigurationType extends BaseItemConfigurationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //设置字段数量限制为1及设置为必填
-        $this->setFieldRequiredAndLimitOne($builder, $options, true);
-
         parent::buildForm($builder, $options);
+
         $builder
             ->add('commentType', EntityType::class, [
                 'label' => 'teebb.core.fields.configuration.comment_type',

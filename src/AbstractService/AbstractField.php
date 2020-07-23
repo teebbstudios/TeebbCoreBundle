@@ -150,6 +150,9 @@ abstract class AbstractField implements FieldInterface
                 if ($fieldMapping['type'] === 'datetime') {
                     $value = new \DateTime($value);
                 }
+                if ($fieldMapping['type'] === 'array') {
+                    $value = unserialize($value);
+                }
 
                 $classMetadata->setFieldValue($fieldEntity, $fieldName, $value);
             }

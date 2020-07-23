@@ -228,8 +228,8 @@ teebb:
             term_parent: 上一级节点
             term_root: <根节点>
 
-            comment_off: 关闭评论
-            comment_on: 开启评论
+            comment_off: 关闭
+            comment_on: 开启
             comment_on_off_help: 具有"发表评论"权限的用户可以发表评论，或者关闭当前内容的评论。
         content:
             create_success: 内容 "%value%" 创建成功。

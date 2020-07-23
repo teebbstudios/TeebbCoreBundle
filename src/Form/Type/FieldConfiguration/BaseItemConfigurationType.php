@@ -160,24 +160,4 @@ class BaseItemConfigurationType extends AbstractType
             ]);
     }
 
-    /**
-     * 'boolean', 'comment'需要设置必填及限制表单行数量为1
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     * @param bool $required 当前字段是否必填
-     */
-    protected function setFieldRequiredAndLimitOne(FormBuilderInterface $builder, array $options, bool $required)
-    {
-        $builder->addEventListener(FormEvents::SUBMIT,
-            function (FormEvent $event) use ($required) {
-                /**@var FieldDepartConfigurationInterface $fieldItemConfig * */
-                $fieldItemConfig = $event->getData();
-                $fieldItemConfig->setLimit(1);
-                if ($required){
-                    $fieldItemConfig->setRequired($required);
-                }
-                $event->setData($fieldItemConfig);
-            }
-        );
-    }
 }

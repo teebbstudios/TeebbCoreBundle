@@ -152,7 +152,6 @@ class FieldDBALUtils
 
             //如果是普通字段Mapping
             if ($classMetadata->hasField($fieldName)) {
-
                 //如果是ID则根据ID策略自动生成一个ID
                 if (in_array($fieldName, $classMetadata->getIdentifier())) {
                     continue;
@@ -161,6 +160,14 @@ class FieldDBALUtils
                 $value = $classMetadata->getFieldValue($fieldItem, $fieldName);
                 if ($value instanceof \DateTime) {
                     $value = $value->format('Y-m-d H:i:s');
+                }
+
+                if (is_array($value)) {
+                    $value = serialize($value);
+                }
+
+                if (is_bool($value)) {
+                    $value = intval($value);
                 }
 
                 array_push($parameters, $value);
