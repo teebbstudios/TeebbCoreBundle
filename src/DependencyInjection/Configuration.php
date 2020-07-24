@@ -69,6 +69,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('create')->defaultValue('@TeebbCore/content/form/_form.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('update')->defaultValue('@TeebbCore/content/form/_form.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('delete')->defaultValue('@TeebbCore/content/form/_delete_form.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('show')->defaultValue('@TeebbCore/content/show.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
 

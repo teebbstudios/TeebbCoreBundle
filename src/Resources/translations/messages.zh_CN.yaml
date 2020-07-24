@@ -231,6 +231,12 @@ teebb:
             comment_off: 关闭
             comment_on: 开启
             comment_on_off_help: 具有"发表评论"权限的用户可以发表评论，或者关闭当前内容的评论。
+
+            name: 姓名
+            email: 邮件地址
+            home_page: 个人主页
+            comment_subject: 主题
+
         content:
             create_success: 内容 "%value%" 创建成功。
             update_success: 内容 "%value%" 更新成功。

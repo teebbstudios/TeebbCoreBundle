@@ -11,14 +11,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
 use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Content;
+use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatItemConfiguration;
+use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatSummaryItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\FileManaged;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\TextFormat\Formatter;
 use Teebb\CoreBundle\Entity\Types\Types;
+use Teebb\CoreBundle\Event\SchemaEvent;
 
 /**
  * 初始化Schemas
@@ -36,14 +40,19 @@ class InitDatabaseCommand extends Command
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
-    public function __construct(DoctrineUtils $doctrineUtils)
+    public function __construct(DoctrineUtils $doctrineUtils, EventDispatcherInterface $dispatcher)
     {
         $this->doctrineUtils = $doctrineUtils;
         $this->em = $this->doctrineUtils->getEntityManager();
 
         parent::__construct();
 
+        $this->dispatcher = $dispatcher;
     }
 
     public function configure()
@@ -88,6 +97,7 @@ class InitDatabaseCommand extends Command
 
         $this->initEntityTypes();
         $this->updateEntityTypesTranslation();
+        $this->iniTypeFields();
 
         $this->initTextFormatter();
         $this->updateFormatterTranslation();
@@ -116,7 +126,6 @@ class InitDatabaseCommand extends Command
 
     private function initEntityTypes()
     {
-
         $articleType = new Types();
         $articleType->setBundle('content');
         $articleType->setLabel('Article');
@@ -151,6 +160,65 @@ class InitDatabaseCommand extends Command
         $this->em->persist($comment);
 
         $this->em->flush();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function iniTypeFields()
+    {
+        $this->em->beginTransaction();
+
+        try {
+            //article body
+            $articleBody = new FieldConfiguration();
+            $articleBody->setBundle('content');
+            $articleBody->setFieldAlias('article_body');
+            $articleBody->setFieldType('textFormatSummary');
+            $articleBody->setFieldLabel('正文');
+            $articleBody->setTypeAlias('article');
+            $articleBody->setSettings(new TextFormatSummaryItemConfiguration());
+            //添加完字段在动态添加数据库表
+            $event = new SchemaEvent($articleBody);
+            $event->setContentEntity(Content::class);
+            $this->dispatcher->dispatch($event, SchemaEvent::CREATE_SCHEMA);
+
+            //page body
+            $pageBody = new FieldConfiguration();
+            $pageBody->setBundle('content');
+            $pageBody->setFieldAlias('page_body');
+            $pageBody->setFieldType('textFormatSummary');
+            $pageBody->setFieldLabel('正文');
+            $pageBody->setTypeAlias('page');
+            $pageBody->setSettings(new TextFormatSummaryItemConfiguration());
+            //添加完字段在动态添加数据库表
+            $event = new SchemaEvent($pageBody);
+            $event->setContentEntity(Content::class);
+            $this->dispatcher->dispatch($event, SchemaEvent::CREATE_SCHEMA);
+
+            //comment body
+            $commentBody = new FieldConfiguration();
+            $commentBody->setBundle('comment');
+            $commentBody->setFieldAlias('comment_body');
+            $commentBody->setFieldType('textFormat');
+            $commentBody->setFieldLabel('评论');
+            $commentBody->setTypeAlias('comment');
+            $commentBody->setSettings(new TextFormatItemConfiguration());
+            //添加完字段在动态添加数据库表
+            $event = new SchemaEvent($commentBody);
+            $event->setContentEntity(Taxonomy::class);
+            $this->dispatcher->dispatch($event, SchemaEvent::CREATE_SCHEMA);
+
+            $this->em->persist($articleBody);
+            $this->em->persist($pageBody);
+            $this->em->persist($commentBody);
+            $this->em->flush();
+
+            $this->em->commit();
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            throw $e;
+        }
     }
 
     private function updateEntityTypesTranslation()
@@ -226,18 +294,18 @@ class InitDatabaseCommand extends Command
     {
         $formatterRepo = $this->em->getRepository(Formatter::class);
 
-        /**@var Formatter $fullFormatter**/
-        $fullFormatter = $formatterRepo->findOneBy(['alias'=> 'full_html']);
+        /**@var Formatter $fullFormatter * */
+        $fullFormatter = $formatterRepo->findOneBy(['alias' => 'full_html']);
         $fullFormatter->setName('Full Html');
         $fullFormatter->setTranslatableLocale('en_US');
 
-        /**@var Formatter $standardFormatter**/
-        $standardFormatter = $formatterRepo->findOneBy(['alias'=> 'standard_html']);
+        /**@var Formatter $standardFormatter * */
+        $standardFormatter = $formatterRepo->findOneBy(['alias' => 'standard_html']);
         $standardFormatter->setName('Standard Html');
         $standardFormatter->setTranslatableLocale('en_US');
 
-        /**@var Formatter $restrictFormatter**/
-        $restrictFormatter = $formatterRepo->findOneBy(['alias'=> 'restricted_html']);
+        /**@var Formatter $restrictFormatter * */
+        $restrictFormatter = $formatterRepo->findOneBy(['alias' => 'restricted_html']);
         $restrictFormatter->setName('Restrict Html');
         $restrictFormatter->setTranslatableLocale('en_US');
 

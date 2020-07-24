@@ -1,0 +1,11 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+{% set bundle = entity_type.bundle %}
+
+{% block head_label %}
+    {{ action|trans }}{{ bundle|trans }}
+{% endblock %}
+
+{% block card_body %}
+    {{ dump(subject) }}
+    {{ form(form) }}
+{% endblock %}

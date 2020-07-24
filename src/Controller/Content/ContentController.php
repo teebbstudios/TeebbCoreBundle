@@ -7,8 +7,10 @@ namespace Teebb\CoreBundle\Controller\Content;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
+use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Types\Types;
+use Teebb\CoreBundle\Form\Type\Content\CommentType;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -268,4 +270,30 @@ class ContentController extends AbstractContentController
         ]);
     }
 
+    /**
+     * 显示内容
+     * @param Request $request
+     * @param Content $content
+     * @return Response
+     */
+    public function showAction(Request $request, Content $content)
+    {
+        $entityTypeService = $this->getEntityTypeService($request);
+
+        $form = $this->createForm(CommentType::class, null,
+            [
+                'bundle' => 'comment',
+                'type_alias' => 'comment',
+                'data_class' => Comment::class
+            ]
+        );
+
+        return $this->render($this->templateRegistry->getTemplate('show', 'content'), [
+            'action' => 'show',
+            'entity_type' => $entityTypeService,
+            'subject' => $content,
+            'type_alias' => $content->getTypeAlias(),
+            'form' => $form->createView()
+        ]);
+    }
 }

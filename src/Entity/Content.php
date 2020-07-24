@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
- * Types类型内容
+ * Content类型内容
  *
  * @ORM\Entity(repositoryClass="Teebb\CoreBundle\Repository\BaseContentRepository")
  * @ORM\EntityListeners({"Teebb\CoreBundle\Listener\ContentListener"})

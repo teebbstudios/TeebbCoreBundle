@@ -68,6 +68,20 @@
         <service id="Teebb\CoreBundle\Controller\Content\ContentController"
                  alias="teebb.core.controller.content_controller" public="true"/>
 
+        <service id="teebb.core.controller.taxonomy_controller"
+                 class="Teebb\CoreBundle\Controller\Content\TaxonomyController"
+                 public="false">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="teebb.core.template.registry"/>
+            <argument type="service" id="teebb.core.form.contractor"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\Content\TaxonomyController"
+                 alias="teebb.core.controller.taxonomy_controller" public="true"/>
+
         <service id="teebb.core.controller.comment_controller"
                  class="Teebb\CoreBundle\Controller\Content\CommentController"
                  public="false">

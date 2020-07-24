@@ -50,6 +50,12 @@
             <tag name="form.type"/>
         </service>
 
+        <service id="teebb.core.form.comment_type"
+                 class="Teebb\CoreBundle\Form\Type\Content\CommentType">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="service_container"/>
+            <tag name="form.type"/>
+        </service>
 
         <service id="teebb.core.form.taxonomy_type"
                  class="Teebb\CoreBundle\Form\Type\Content\TaxonomyType">

@@ -21,6 +21,7 @@ class TextFormatterType extends AbstractType
             'label' => 'teebb.core.form.formatter_name',
             'class' => Formatter::class,
             'choice_label' => 'name',
+            'choice_value' => 'alias',
             'attr' => [
                 'class' => 'form-control-sm'
             ],

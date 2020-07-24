@@ -4,17 +4,23 @@
 namespace Teebb\CoreBundle\Controller\Content;
 
 
+use Pagerfanta\Pagerfanta;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Types\Types;
+use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Teebb\CoreBundle\Repository\BaseContentRepository;
 
 
 /**
- * 评论entity controller
+ * 分类entity controller
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class CommentController extends AbstractContentController
+class TaxonomyController extends AbstractContentController
 {
     public function indexAction(Request $request)
     {
@@ -35,5 +41,4 @@ class CommentController extends AbstractContentController
     {
         // TODO: Implement deleteAction() method.
     }
-
 }
