@@ -135,7 +135,7 @@ abstract class AbstractField implements FieldInterface
      * @throws MappingException
      * @throws \Exception
      */
-    private function transformFieldRowToFieldEntity(array $fieldRow)
+    public function transformFieldRowToFieldEntity(array $fieldRow)
     {
         $fieldEntityClassName = $this->getFieldEntity();
         $fieldEntity = new $fieldEntityClassName();

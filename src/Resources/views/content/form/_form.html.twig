@@ -15,7 +15,7 @@
 
 {% block card_body %}
     {#获取当前内容类型的所有字段, 用于表单分栏#}
-    {% set all_fields = entity_type.allFieldsAlias(type_alias) %}
+    {% set all_fields = entity_type.allFields(type_alias) %}
     {{ form_start(form) }}
     <div class="row">
         <div class="col-12 col-md-8">

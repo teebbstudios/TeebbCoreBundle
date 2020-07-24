@@ -12,6 +12,7 @@
 
 namespace Teebb\CoreBundle\AbstractService;
 
+use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
@@ -129,9 +130,26 @@ interface EntityTypeInterface
     public function getEntityFormType(): string;
 
     /**
-     * 获取当前类型所有字段的别名
+     * 获取当前类型所有字段
      * @param string $typeAlias 当前类型Entity别名
      * @return array
      */
-    public function getAllFieldsAlias(string $typeAlias): array;
+    public function getAllFields(string $typeAlias): array;
+
+    /**
+     * 获取字段Service
+     *
+     * @param string $fieldType
+     * @return FieldInterface
+     */
+    public function getFieldService(string $fieldType): FieldInterface;
+
+    /**
+     * 获取所有字段数据
+     *
+     * @param BaseContent $contentEntity 内容substance
+     * @param string $typeAlias Types类型别名
+     * @return array
+     */
+    public function getAllFieldsData(BaseContent $contentEntity, string $typeAlias): array;
 }

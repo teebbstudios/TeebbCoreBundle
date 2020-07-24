@@ -7,5 +7,7 @@
 
 {% block card_body %}
     {{ dump(subject) }}
+    {% set fieldDatas = entity_type.allFieldsData(subject, type_alias) %}
+    {{ dump(fieldDatas) }}
     {{ form(form) }}
 {% endblock %}

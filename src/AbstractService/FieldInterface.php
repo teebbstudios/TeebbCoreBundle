@@ -13,6 +13,7 @@
 namespace Teebb\CoreBundle\AbstractService;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\MappingException;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Metadata\FieldMetadataInterface;
@@ -76,4 +77,10 @@ interface FieldInterface
      */
     public function getFieldEntityData(BaseContent $contentEntity, FieldConfiguration $fieldConfiguration, string $targetEntityClassName): array;
 
+    /**
+     * 把从数据库中读取到的表数据转为字段Entity对象
+     * @param array $fieldRow
+     * @return object
+     */
+    public function transformFieldRowToFieldEntity(array $fieldRow);
 }

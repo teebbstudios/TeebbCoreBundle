@@ -15,6 +15,7 @@ namespace Teebb\CoreBundle\AbstractService;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
@@ -215,10 +216,48 @@ abstract class AbstractEntityType implements EntityTypeInterface
     /**
      * @inheritDoc
      */
-    public function getAllFieldsAlias(string $typeAlias): array
+    public function getAllFields(string $typeAlias): array
     {
         $fieldConfigRepository = $this->entityManager->getRepository(FieldConfiguration::class);
         return $fieldConfigRepository->findBy(['bundle' => $this->getBundle(), 'typeAlias' => $typeAlias],
             ['delta' => 'ASC', 'id' => 'ASC']);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFieldService(string $fieldType): FieldInterface
+    {
+        return $this->container->get('teebb.core.field.' . $fieldType);
+    }
+
+    /**
+     * 获取所有字段数据
+     *
+     * @param BaseContent $contentEntity 内容substance
+     * @param string $typeAlias Types类型别名
+     * @return array
+     */
+    public function getAllFieldsData(BaseContent $contentEntity, string $typeAlias): array
+    {
+        /**@var FieldConfiguration[] $fields * */
+        $fields = $this->getAllFields($typeAlias);
+
+        $fieldDatas = [];
+        foreach ($fields as $field) {
+            $fieldType = $field->getFieldType();
+            $fieldLabel = $field->getFieldLabel();
+            $fieldService = $this->getFieldService($field->getFieldType());
+
+            $fieldData = $fieldService->getFieldEntityData($contentEntity, $field, $this->getEntityClassName());
+
+            $fieldDatas[$field->getFieldAlias()] = [
+                'field_type' => $fieldType,
+                'field_label' => $fieldLabel,
+                'data' => $fieldData
+            ];
+        }
+
+        return $fieldDatas;
     }
 }

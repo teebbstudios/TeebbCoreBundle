@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * 长文本已格式化带摘要类型
@@ -19,6 +20,7 @@ class TextFormatSummaryItem extends BaseFieldItem
      * @var string
      * @Gedmo\Translatable
      * @ORM\Column(type="text", nullable=true, name="text_body_value")
+     * @Groups("main")
      */
     private $value;
 
@@ -27,6 +29,7 @@ class TextFormatSummaryItem extends BaseFieldItem
      * @var string|null
      * @Gedmo\Translatable
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("main")
      */
     private $summary;
 
@@ -34,6 +37,7 @@ class TextFormatSummaryItem extends BaseFieldItem
      * 格式化器的名称
      * @var string
      * @ORM\Column(type="string")
+     * @Groups("main")
      */
     private $formatter;
 
