@@ -38,6 +38,7 @@
 
         <service id="teebb.core.twig.global" class="Teebb\CoreBundle\Twig\GlobalVariables" public="true">
             <argument type="service" id="teebb.core.template.registry"/>
+            <argument/>
         </service>
 
         <service id="teebb.core.event.route_parameter_underline_fix_subscriber"

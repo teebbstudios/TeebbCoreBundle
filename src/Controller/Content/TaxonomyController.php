@@ -4,15 +4,9 @@
 namespace Teebb\CoreBundle\Controller\Content;
 
 
-use Pagerfanta\Pagerfanta;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
-use Teebb\CoreBundle\Entity\Content;
+use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\Types\Types;
-use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Teebb\CoreBundle\Repository\BaseContentRepository;
 
 
 /**
@@ -32,12 +26,12 @@ class TaxonomyController extends AbstractContentController
         // TODO: Implement createAction() method.
     }
 
-    public function updateAction(Request $request, Content $content)
+    public function updateAction(Request $request, Taxonomy $content)
     {
         // TODO: Implement updateAction() method.
     }
 
-    public function deleteAction(Request $request, Content $content)
+    public function deleteAction(Request $request, Taxonomy $content)
     {
         // TODO: Implement deleteAction() method.
     }

@@ -81,8 +81,8 @@ trait FieldConfigOptionsTrait
             'label' => false,
             'required' => $fieldSettings->isRequired(),
             'choices' => $fieldSettings->getAllowedValues(),
-            'multiple' => $limit !== 1 ? true : false,
-            'expanded' => $limit !== 1 ? true : false,
+            'multiple' => true,
+            'expanded' => true,
             'placeholder' => 'teebb.core.form.select_list_numeric'
         ];
 
@@ -100,7 +100,7 @@ trait FieldConfigOptionsTrait
                 break;
             case 1:
                 $fieldOptions['constraints'] = [
-                    new NotBlank()
+                    new Count(['min' => 1, 'max' => 1])
                 ];
                 break;
             default:

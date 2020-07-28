@@ -80,7 +80,8 @@ interface FieldInterface
     /**
      * 把从数据库中读取到的表数据转为字段Entity对象
      * @param array $fieldRow
+     * @param BaseContent $targetContentEntity
      * @return object
      */
-    public function transformFieldRowToFieldEntity(array $fieldRow);
+    public function transformFieldRowToFieldEntity(array $fieldRow, BaseContent $targetContentEntity);
 }

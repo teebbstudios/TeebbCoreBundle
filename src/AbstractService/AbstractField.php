@@ -119,7 +119,7 @@ abstract class AbstractField implements FieldInterface
 
         $fieldData = [];
         foreach ($fieldRows as $fieldRow) {
-            $fieldEntity = $this->transformFieldRowToFieldEntity($fieldRow);
+            $fieldEntity = $this->transformFieldRowToFieldEntity($fieldRow, $contentEntity);
             array_push($fieldData, $fieldEntity);
         }
 
@@ -129,13 +129,11 @@ abstract class AbstractField implements FieldInterface
     }
 
     /**
-     * 把从数据库中读取到的表数据转为字段Entity对象
-     * @param array $fieldRow
-     * @return object
+     * @inheritDoc
      * @throws MappingException
      * @throws \Exception
      */
-    public function transformFieldRowToFieldEntity(array $fieldRow)
+    public function transformFieldRowToFieldEntity(array $fieldRow, BaseContent $targetContentEntity)
     {
         $fieldEntityClassName = $this->getFieldEntity();
         $fieldEntity = new $fieldEntityClassName();
@@ -158,13 +156,18 @@ abstract class AbstractField implements FieldInterface
             }
 
             if ($classMetadata->hasAssociation($fieldName)) {
-                $fieldAssociationMapping = $classMetadata->getAssociationMapping($fieldName);
-                $targetEntityRepository = $this->entityManager->getRepository($fieldAssociationMapping['targetEntity']);
+                //如果字段名是entity 则直接指定为引用content
+                if ($fieldName == 'entity') {
+                    $classMetadata->setFieldValue($fieldEntity, $fieldName, $targetContentEntity);
+                } else {
+                    $fieldAssociationMapping = $classMetadata->getAssociationMapping($fieldName);
+                    $targetEntityRepository = $this->entityManager->getRepository($fieldAssociationMapping['targetEntity']);
 
-                $targetEntityKey = $fieldAssociationMapping['sourceToTargetKeyColumns'][$columnName];
-                $targetEntity = $targetEntityRepository->findOneBy([$targetEntityKey => $value]);
+                    $targetEntityKey = $fieldAssociationMapping['sourceToTargetKeyColumns'][$columnName];
+                    $targetEntity = $targetEntityRepository->findOneBy([$targetEntityKey => $value]);
 
-                $classMetadata->setFieldValue($fieldEntity, $fieldName, $targetEntity);
+                    $classMetadata->setFieldValue($fieldEntity, $fieldName, $targetEntity);
+                }
             }
         }
 

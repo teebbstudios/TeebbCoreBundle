@@ -4,7 +4,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="teebb.core.form.contractor" class="Teebb\CoreBundle\Form\FormContractor">
+        <service id="teebb.core.form.contractor" class="Teebb\CoreBundle\Form\FormContractor" public="true">
             <argument type="service" id="form.factory"/>
             <argument type="service" id="form.registry"/>
         </service>

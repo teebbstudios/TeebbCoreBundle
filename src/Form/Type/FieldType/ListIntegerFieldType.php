@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\ListIntegerItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\ListIntegerItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
+
 
 class ListIntegerFieldType extends AbstractType
 {

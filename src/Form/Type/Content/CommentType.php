@@ -34,48 +34,48 @@ class CommentType extends BaseContentType
 
         $data = $builder->getData();
 
-        //此处判断用户是否已登录，如果没有登录则要输入姓名，邮件，主页
-        $builder
-            ->add('name', TextType::class, [
-                'label' => 'teebb.core.form.name',
-                'label_attr' => [
-                    'class' => 'font-weight-bold'
-                ],
-                'constraints' => [
-                    new NotBlank(),
-                    new Length(['min' => 1, 'max' => 255])
-                ],
-                'attr' => [
-                    'class' => 'form-control-sm'
-                ]
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'teebb.core.form.email',
-                'label_attr' => [
-                    'class' => 'font-weight-bold'
-                ],
-                'constraints' => [
-                    new NotBlank(),
-                    new Length(['min' => 1, 'max' => 255])
-                ],
-                'attr' => [
-                    'class' => 'form-control-sm'
-                ]
-            ])
-            ->add('homePage', TextType::class, [
-                'label' => 'teebb.core.form.email',
-                'label_attr' => [
-                    'class' => 'font-weight-bold'
-                ],
-                'constraints' => [
-                    new Email(),
-                    new Length(['min' => 1, 'max' => 255])
-                ],
-                'attr' => [
-                    'class' => 'form-control-sm'
-                ],
-                'required' => false,
-            ]);
+        //Todo：此处判断用户是否已登录，如果没有登录则要输入姓名，邮件，主页
+//        $builder
+//            ->add('name', TextType::class, [
+//                'label' => 'teebb.core.form.name',
+//                'label_attr' => [
+//                    'class' => 'font-weight-bold'
+//                ],
+//                'constraints' => [
+//                    new NotBlank(),
+//                    new Length(['min' => 1, 'max' => 255])
+//                ],
+//                'attr' => [
+//                    'class' => 'form-control-sm'
+//                ]
+//            ])
+//            ->add('email', EmailType::class, [
+//                'label' => 'teebb.core.form.email',
+//                'label_attr' => [
+//                    'class' => 'font-weight-bold'
+//                ],
+//                'constraints' => [
+//                    new NotBlank(),
+//                    new Length(['min' => 1, 'max' => 255])
+//                ],
+//                'attr' => [
+//                    'class' => 'form-control-sm'
+//                ]
+//            ])
+//            ->add('homePage', TextType::class, [
+//                'label' => 'teebb.core.form.email',
+//                'label_attr' => [
+//                    'class' => 'font-weight-bold'
+//                ],
+//                'constraints' => [
+//                    new Email(),
+//                    new Length(['min' => 1, 'max' => 255])
+//                ],
+//                'attr' => [
+//                    'class' => 'form-control-sm'
+//                ],
+//                'required' => false,
+//            ]);
 
         //添加主题字段
         $builder

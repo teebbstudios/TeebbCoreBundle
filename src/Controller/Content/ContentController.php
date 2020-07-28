@@ -7,10 +7,8 @@ namespace Teebb\CoreBundle\Controller\Content;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
-use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Types\Types;
-use Teebb\CoreBundle\Form\Type\Content\CommentType;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -282,7 +280,9 @@ class ContentController extends AbstractContentController
 
         $data = $entityTypeService->getAllFieldsData($content, $content->getTypeAlias());
 
-        return $this->json($data, 200, [], ['groups' => ['main']]);
+//        $form = $entityTypeService->generateCommentFormView('comment', 'ping_lun', '01');
+
+//        return $this->json($data, 200, [], ['groups' => ['main']]);
 //        $form = $this->createForm(CommentType::class, null,
 //            [
 //                'bundle' => 'comment',
@@ -290,14 +290,14 @@ class ContentController extends AbstractContentController
 //                'data_class' => Comment::class
 //            ]
 //        );
-//
-//
-//        return $this->render($this->templateRegistry->getTemplate('show', 'content'), [
-//            'action' => 'show',
-//            'entity_type' => $entityTypeService,
-//            'subject' => $content,
-//            'type_alias' => $content->getTypeAlias(),
-//            'form' => $form->createView()
-//        ]);
+
+        return $this->render($this->templateRegistry->getTemplate('show', 'content'), [
+            'action' => 'show',
+            'entity_type' => $entityTypeService,
+            'subject' => $content,
+            'type_alias' => $content->getTypeAlias(),
+            'fieldDatas' => $data,
+//            'form' => $form
+        ]);
     }
 }

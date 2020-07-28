@@ -68,6 +68,10 @@ class TeebbCoreExtension extends Extension
         $fileControllerDefinition->setArgument(4, $config['fly_system']['default_upload_dir']);
         $fileControllerDefinition->setArgument(5, $config['fly_system']['root_host_url']);
 
+        //设置twig global构造参数
+        $twigGlobalDefinition = $container->getDefinition('teebb.core.twig.global');
+        $twigGlobalDefinition->setArgument(1, $config['fly_system']['root_host_url']);
+
         //设置文件显示twig Extension 构造参数
         $uploadFileShowExtensionDefinition = $container->getDefinition('teebb.core.twig.upload_file_show');
         $uploadFileShowExtensionDefinition->setArguments([

@@ -18,11 +18,16 @@ class GlobalVariables
      * @var TemplateRegistry
      */
     private $templateRegistry;
+    /**
+     * @var string
+     */
+    private $rootHostUrl;
 
-    public function __construct(TemplateRegistry $registry)
+    public function __construct(TemplateRegistry $registry, string $rootHostUrl)
     {
         $this->version = Kernel::VERSION;
         $this->templateRegistry = $registry;
+        $this->rootHostUrl = $rootHostUrl;
     }
 
     /**
@@ -47,6 +52,22 @@ class GlobalVariables
     public function setTemplateRegistry(TemplateRegistry $templateRegistry): void
     {
         $this->templateRegistry = $templateRegistry;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRootHostUrl(): string
+    {
+        return $this->rootHostUrl;
+    }
+
+    /**
+     * @param string $rootHostUrl
+     */
+    public function setRootHostUrl(string $rootHostUrl): void
+    {
+        $this->rootHostUrl = $rootHostUrl;
     }
 
 }

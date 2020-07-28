@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Controller\SubstanceDBALOptionsTrait;
+use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
@@ -62,41 +63,6 @@ abstract class AbstractContentController extends AbstractController
         $this->templateRegistry = $templateRegistry;
         $this->formContractor = $formContractor;
     }
-
-    /**
-     * 显示所有内容
-     * @param Request $request
-     * @return Response
-     */
-    abstract public function indexAction(Request $request);
-
-    /**
-     * 创建内容
-     *
-     * @param Request $request
-     * @param Types $types
-     * @return Response
-     */
-    abstract public function createAction(Request $request, Types $types);
-
-
-    /**
-     * 更新内容
-     *
-     * @param Request $request
-     * @param Content $content
-     * @return Response
-     */
-    abstract public function updateAction(Request $request, Content $content);
-
-    /**
-     * 删除内容
-     *
-     * @param Request $request
-     * @param Content $content
-     * @return Response
-     */
-    abstract public function deleteAction(Request $request, Content $content);
 
     /**
      * 用户引用内容、分类字段autocomplete

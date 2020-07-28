@@ -15,8 +15,12 @@ namespace Teebb\CoreBundle\AbstractService;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\FormView;
 use Teebb\CoreBundle\Entity\BaseContent;
+use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
+use Teebb\CoreBundle\Form\FormContractorInterface;
+use Teebb\CoreBundle\Form\Type\Content\CommentType;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;
@@ -250,14 +254,41 @@ abstract class AbstractEntityType implements EntityTypeInterface
             $fieldService = $this->getFieldService($field->getFieldType());
 
             $fieldData = $fieldService->getFieldEntityData($contentEntity, $field, $this->getEntityClassName());
-
             $fieldDatas[$field->getFieldAlias()] = [
                 'field_type' => $fieldType,
                 'field_label' => $fieldLabel,
+                'field' => $field,
                 'data' => $fieldData
             ];
         }
 
         return $fieldDatas;
+    }
+
+    /**
+     * 生成评论表单
+     * @param string $commentTypeAlias 评论类型的别名
+     * @param string $fieldAlias 字段的别名
+     * @param string $threadId
+     * @return FormView
+     */
+    public function generateCommentFormView(string $commentTypeAlias, string $fieldAlias, string $threadId): FormView
+    {
+        /**@var FormContractorInterface $formContractor**/
+        $formContractor = $this->container->get('teebb.core.form.contractor');
+
+        $formBuilder = $formContractor->getFormBuilder('comment_'.$fieldAlias, CommentType::class, null, [
+                'bundle' => 'comment',
+                'type_alias' => $commentTypeAlias,
+                'data_class' => Comment::class
+        ]);
+
+        //设置表单action
+//        $formBuilder->setAction($this->pathInfoGenerator->generate('', ['thread' => $threadId]));
+        $formBuilder->setMethod('POST');
+
+        $commentForm = $formBuilder->getForm();
+
+        return $commentForm->createView();
     }
 }

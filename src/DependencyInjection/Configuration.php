@@ -114,6 +114,13 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
 
+                        ->arrayNode('comment')
+                        ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('index')->defaultValue('@TeebbCore/comment/list/_list.html.twig')->cannotBeEmpty()->end()
+                            ->end()
+                        ->end()
+
                     ->end()
             ->end();
     }

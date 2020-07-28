@@ -1,4 +1,4 @@
-{#分类词汇子词汇,弃用#}
+{#分类词汇子词汇,已弃用#}
 {%- macro taxonomy_children(taxonomy_entity_type, taxonomy, taxonomyType, deepth) %}
     {% import _self as self %}
     {% for childrenTaxonomy in taxonomy_entity_type.childrenTaxonomies(taxonomy, taxonomyType) %}
@@ -16,3 +16,174 @@
         {{ self.taxonomy_children(taxonomy_entity_type, childrenTaxonomy, taxonomyType, deepth+1) }}
     {% endfor %}
 {% endmacro -%}
+
+{#显示内容所有字段的值和配置，如果是评论字段则获取所有评论内容和设置评论表单#}
+{% macro showFieldData(field_alias, field_type, field_label, field_config, field_data) %}
+    {% if field_type == 'boolean' %}
+        {% set on_label = field_config.settings.onLabel %}
+        {% set off_label = field_config.settings.offLabel %}
+        <div class="field_label">{{ field_label }}</div>
+        <div class="field_items">
+            {% for data in field_data %}
+                <div class="field_item">
+                    {% if data.value == true %}
+                        {{ on_label }}
+                    {% else %}
+                        {{ off_label }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% elseif field_type == 'comment' %}
+        <h5>{{ field_label }}</h5>
+        {% set commentType = field_config.settings.commentType.typeAlias %}
+        {{ render(path('teebb_comment_index',{'bundle': field_config.bundle,
+            'typeAlias':field_config.typeAlias,
+            'thread': app.request.attributes.get('slug'),
+            'commentType' : commentType
+        })) }}
+        <h5>{{ 'create'|trans }}{{ field_label }}</h5>
+
+
+    {% elseif field_type == 'datetime' %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        {{ data.value|date('Y-m-d H:i:s') }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type in ['decimal', 'integer', 'float'] %}
+        {% if field_data is not empty %}
+            {% set prefix = field_config.settings.prefix %}
+            {% set suffix = field_config.settings.suffix %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        {{ prefix }}{{ data.value }}{{ suffix }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type in ['listFloat', 'listInteger'] %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    {% for item in data.value %}
+                        <div class="field_item">
+                            {{ item }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type == 'email' %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        <a href="mailto:{{ data.value }}">{{ data.value }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type == 'link' %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        <a target="_blank" href="{{ data.value }}">{{ data.title }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type == 'referenceImage' %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        <img src="{{ teebb_core.rootHostUrl ~'/'~data.value.filePath }}" alt="{{ data.alt }}"
+                             title="{{ data.title }}"/>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type == 'referenceFile' %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    {% if data.showFile == true %}
+                        <div class="field_item">
+                            <a target="_blank" href="{{ teebb_core.rootHostUrl ~'/'~data.value.filePath }}">
+                                <i class="fas fa-file"></i>
+                                {% if data.description is not empty %}
+                                    {{ data.description }}
+                                {% else %}
+                                    {{ data.value.originFileName }}
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type in ['string', 'text', 'stringFormat', 'textFormat'] %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        {{ data.value|raw }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type == 'textFormatSummary' %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        <p class="small">
+                            {{ 'summary'|trans }}{{ data.summary }}
+                        </p>
+                        {{ data.value|raw }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type == 'referenceTaxonomy' %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        {{ dump(data) }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% elseif field_type == 'referenceContent' %}
+        {% if field_data is not empty %}
+            <div class="field_label">{{ field_label }}</div>
+            <div class="field_items">
+                {% for data in field_data %}
+                    <div class="field_item">
+                        {{ dump(data) }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+
+{% endmacro %}

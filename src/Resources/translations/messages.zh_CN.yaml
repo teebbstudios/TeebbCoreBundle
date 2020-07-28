@@ -53,6 +53,7 @@ batch_publish: 发布内容
 
 formatter: 文本格式化器
 terms: 分类词汇
+summary: 摘要：
 
 teebb:
     core:

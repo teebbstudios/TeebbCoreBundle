@@ -1,13 +1,14 @@
 {% extends '@TeebbCore/base_content.html.twig' %}
 {% set bundle = entity_type.bundle %}
+{% import '@TeebbCore/macros.html.twig' as macro %}
 
 {% block head_label %}
     {{ action|trans }}{{ bundle|trans }}
 {% endblock %}
 
 {% block card_body %}
-    {{ dump(subject) }}
-    {% set fieldDatas = entity_type.allFieldsData(subject, type_alias) %}
-    {{ dump(fieldDatas) }}
-    {{ form(form) }}
+    <h1>{{ subject.title }}</h1>
+    {% for fieldAlias, fieldData in fieldDatas %}
+        {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
+    {% endfor %}
 {% endblock %}
