@@ -280,24 +280,12 @@ class ContentController extends AbstractContentController
 
         $data = $entityTypeService->getAllFieldsData($content, $content->getTypeAlias());
 
-//        $form = $entityTypeService->generateCommentFormView('comment', 'ping_lun', '01');
-
-//        return $this->json($data, 200, [], ['groups' => ['main']]);
-//        $form = $this->createForm(CommentType::class, null,
-//            [
-//                'bundle' => 'comment',
-//                'type_alias' => 'comment',
-//                'data_class' => Comment::class
-//            ]
-//        );
-
         return $this->render($this->templateRegistry->getTemplate('show', 'content'), [
             'action' => 'show',
             'entity_type' => $entityTypeService,
             'subject' => $content,
             'type_alias' => $content->getTypeAlias(),
             'fieldDatas' => $data,
-//            'form' => $form
         ]);
     }
 }

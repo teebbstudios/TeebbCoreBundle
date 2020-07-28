@@ -118,6 +118,7 @@ class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('index')->defaultValue('@TeebbCore/comment/list/_list.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('form')->defaultValue('@TeebbCore/comment/form/_form.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
 

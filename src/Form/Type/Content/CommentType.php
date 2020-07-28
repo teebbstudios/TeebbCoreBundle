@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Form\Type\Content;
 
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -26,8 +27,8 @@ class CommentType extends BaseContentType
             function (FormEvent $event) use ($options) {
                 /**@var Comment $comment * */
                 $comment = $event->getData();
-                if (null == $comment->getTypeAlias()) {
-                    $comment->setTypeAlias($options['type_alias']);
+                if (null == $comment->getCommentType()) {
+                    $comment->setCommentType($options['type_alias']);
                     $event->setData($comment);
                 }
             });
@@ -95,5 +96,13 @@ class CommentType extends BaseContentType
 
         $this->dynamicAddFieldForm($builder, $options, $data);
 
+        //添加按钮
+        $builder
+            ->add('submit', SubmitType::class, [
+                'label' => 'teebb.core.form.save',
+                'attr' => [
+                    'class' => 'btn btn-primary btn-sm'
+                ]
+            ]);
     }
 }

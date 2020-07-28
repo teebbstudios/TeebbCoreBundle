@@ -154,12 +154,4 @@ interface EntityTypeInterface
      */
     public function getAllFieldsData(BaseContent $contentEntity, string $typeAlias): array;
 
-    /**
-     * 生成评论表单
-     * @param string $commentTypeAlias 评论类型的别名
-     * @param string $fieldAlias 评论字段别名用于生成评论表单名
-     * @param string $threadId
-     * @return FormView
-     */
-    public function generateCommentFormView(string $commentTypeAlias, string $fieldAlias, string $threadId): FormView;
 }

@@ -265,30 +265,4 @@ abstract class AbstractEntityType implements EntityTypeInterface
         return $fieldDatas;
     }
 
-    /**
-     * 生成评论表单
-     * @param string $commentTypeAlias 评论类型的别名
-     * @param string $fieldAlias 字段的别名
-     * @param string $threadId
-     * @return FormView
-     */
-    public function generateCommentFormView(string $commentTypeAlias, string $fieldAlias, string $threadId): FormView
-    {
-        /**@var FormContractorInterface $formContractor**/
-        $formContractor = $this->container->get('teebb.core.form.contractor');
-
-        $formBuilder = $formContractor->getFormBuilder('comment_'.$fieldAlias, CommentType::class, null, [
-                'bundle' => 'comment',
-                'type_alias' => $commentTypeAlias,
-                'data_class' => Comment::class
-        ]);
-
-        //设置表单action
-//        $formBuilder->setAction($this->pathInfoGenerator->generate('', ['thread' => $threadId]));
-        $formBuilder->setMethod('POST');
-
-        $commentForm = $formBuilder->getForm();
-
-        return $commentForm->createView();
-    }
 }

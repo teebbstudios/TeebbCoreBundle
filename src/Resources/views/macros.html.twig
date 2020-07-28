@@ -35,16 +35,30 @@
             {% endfor %}
         </div>
     {% elseif field_type == 'comment' %}
-        <h5>{{ field_label }}</h5>
-        {% set commentType = field_config.settings.commentType.typeAlias %}
-        {{ render(path('teebb_comment_index',{'bundle': field_config.bundle,
-            'typeAlias':field_config.typeAlias,
-            'thread': app.request.attributes.get('slug'),
-            'commentType' : commentType
-        })) }}
-        <h5>{{ 'create'|trans }}{{ field_label }}</h5>
+        {% for data in field_data %}
+            {#显示所有评论#}
+            <h5>{{ field_label }}</h5>
+            {% set commentType = field_config.settings.commentType.typeAlias %}
+            {{ render(path('teebb_comment_index',{
+                'bundle': field_config.bundle,
+                'typeAlias':field_config.typeAlias,
+                'slug': app.request.attributes.get('slug'),
+                'commentType' : commentType
+            })) }}
 
-
+            {#允许新建评论#}
+            {% if data.value ==true %}
+                <h5>{{ 'create'|trans }}{{ field_label }}</h5>
+                {{ render(path('teebb_comment_create',{
+                    'bundle': field_config.bundle,
+                    'typeAlias':field_config.typeAlias,
+                    'slug': app.request.attributes.get('slug'),
+                    'commentType' : commentType,
+                    'fieldAlias': field_alias,
+                    'redirectBackURI': app.request.pathInfo
+                })) }}
+            {% endif %}
+        {% endfor %}
     {% elseif field_type == 'datetime' %}
         {% if field_data is not empty %}
             <div class="field_label">{{ field_label }}</div>

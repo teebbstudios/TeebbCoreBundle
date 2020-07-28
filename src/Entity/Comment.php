@@ -23,7 +23,7 @@ class Comment extends BaseContent
     private $commentType;
 
     /**
-     * 评论状态 1 正常， 2 审核中  3 驳回
+     * 评论状态 1 已提交  2 审核中  3 审核通过  4 驳回
      * @var int|null
      * @ORM\Column(type="smallint", options={"default":1})
      */
@@ -34,13 +34,6 @@ class Comment extends BaseContent
 //     * @var
 //     */
 //    private $author;
-
-    /**
-     * 所评论的target内容对象id,为了方便以后添加更多的bundle,此处使用integer,可过评论内容的的bundle及typeAlias获取对应的Target Entity
-     * @var int|null
-     * @ORM\Column(type="integer")
-     */
-    private $entity;
 
     /**
      * 如果是匿名用户则需要添加姓名
@@ -94,18 +87,11 @@ class Comment extends BaseContent
     private $thread;
 
     /**
-     * 当前评论所在的页面url
-     * @var string|null
-     * @ORM\Column(type="string", length=255)
-     */
-    private $threadPathInfo;
-
-    /**
      * 当前评论表单对应的字段类型的别名，例如article类型内容有评论字段：comment_1, comment_2, 此属性用于区分评论字段
      * @var string|null
      * @ORM\Column(type="string", length=255)
      */
-    private $commentFieldName;
+    private $commentFieldAlias;
 
     /**
      * @Gedmo\TreeLeft
@@ -176,22 +162,6 @@ class Comment extends BaseContent
     public function setCommentStatus(?int $commentStatus): void
     {
         $this->commentStatus = $commentStatus;
-    }
-
-    /**
-     * @return BaseContent|null
-     */
-    public function getEntity(): ?BaseContent
-    {
-        return $this->entity;
-    }
-
-    /**
-     * @param BaseContent|null $entity
-     */
-    public function setEntity(?BaseContent $entity): void
-    {
-        $this->entity = $entity;
     }
 
     /**
@@ -309,33 +279,17 @@ class Comment extends BaseContent
     /**
      * @return string|null
      */
-    public function getThreadPathInfo(): ?string
+    public function getCommentFieldAlias(): ?string
     {
-        return $this->threadPathInfo;
+        return $this->commentFieldAlias;
     }
 
     /**
-     * @param string|null $threadPathInfo
+     * @param string|null $commentFieldAlias
      */
-    public function setThreadPathInfo(?string $threadPathInfo): void
+    public function setCommentFieldAlias(?string $commentFieldAlias): void
     {
-        $this->threadPathInfo = $threadPathInfo;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCommentFieldName(): ?string
-    {
-        return $this->commentFieldName;
-    }
-
-    /**
-     * @param string|null $commentFieldName
-     */
-    public function setCommentFieldName(?string $commentFieldName): void
-    {
-        $this->commentFieldName = $commentFieldName;
+        $this->commentFieldAlias = $commentFieldAlias;
     }
 
     /**
