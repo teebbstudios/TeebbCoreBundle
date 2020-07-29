@@ -33,7 +33,6 @@
                     </td>
                 </tr>
                 {% for childrenTaxonomy in taxonomyRepo.children(taxonomy) %}
-
                     <tr>
                         <td>
                             {% for i in 1..childrenTaxonomy.lvl %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}

@@ -119,6 +119,8 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('index')->defaultValue('@TeebbCore/comment/list/_list.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('form')->defaultValue('@TeebbCore/comment/form/_form.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('delete_form')->defaultValue('@TeebbCore/comment/form/_delete_form.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('reply_form')->defaultValue('@TeebbCore/comment/form/_reply_comment_form.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
 

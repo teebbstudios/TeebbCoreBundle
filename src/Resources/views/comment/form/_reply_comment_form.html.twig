@@ -1,0 +1,36 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+{% import '@TeebbCore/macros.html.twig' as macro %}
+
+{% block head_label %}
+    {{ action|trans }}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/comment/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_body %}
+    <div class="comment mb-4">
+        <h5>{{ 'comment'|trans }}</h5>
+        <div id="comment_{{ comment.id }}" class="comment px-3 py-3 border-top border-bottom">
+            <div class="author my-3">
+                <span class="text-dark">admin</span>
+                {{ 'submit_at'|trans }} {{ comment.createdAt|date('Y-m-d H:i:s') }}
+            </div>
+            <div class="body">
+                <h6>{{ comment.subject }}</h6>
+                {% set commentDatas = entity_type.allFieldsData(comment, comment.commentType) %}
+                {% for fieldAlias, fieldData in commentDatas %}
+                    {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
+                {% endfor %}
+            </div>
+            <div class="footer">
+                {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with _context %}
+            </div>
+        </div>
+    </div>
+    <div class="reply-comment my-3">
+        <h5>{{ action|trans }}</h5>
+        {{ form(comment_form) }}
+    </div>
+{% endblock %}

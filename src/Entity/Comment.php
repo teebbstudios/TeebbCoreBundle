@@ -23,7 +23,7 @@ class Comment extends BaseContent
     private $commentType;
 
     /**
-     * 评论状态 1 已提交  2 审核中  3 审核通过  4 驳回
+     * 评论状态 1 已提交审核中  2 审核通过  3 驳回
      * @var int|null
      * @ORM\Column(type="smallint", options={"default":1})
      */

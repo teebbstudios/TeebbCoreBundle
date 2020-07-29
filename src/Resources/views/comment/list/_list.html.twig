@@ -1,1 +1,48 @@
-{{ dump(comments) }}
+{% import '@TeebbCore/macros.html.twig' as macro %}
+
+<div class="comments-wrapper my-3">
+    {% for comment in comments %}
+        <div id="comment_{{ comment.id }}"
+             class="comment px-2 py-2 {% if loop.index0 == 0 %}border-top{% endif %} border-bottom">
+            <div class="author my-3">
+                <span class="text-dark">admin</span>
+                {{ 'submit_at'|trans }} {{ comment.createdAt|date('Y-m-d H:i:s') }}
+            </div>
+            <div class="body">
+                <h6>{{ comment.subject }}</h6>
+                {% set commentDatas = entity_type.allFieldsData(comment, comment.commentType) %}
+                {% for fieldAlias, fieldData in commentDatas %}
+                    {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
+                {% endfor %}
+            </div>
+            <div class="footer">
+                {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with {'comment': comment, 'redirectBackURI': redirectBackURI} %}
+            </div>
+            {% for children in commentRepo.children(comment) %}
+                {# 子评论中只有已通过审核的评论会显示 Todo：此处应改为2#}
+                {% if children.commentStatus == 1 %}
+                    {% set marginLeft = 50 * children.lvl %}
+                    <div id="comment_{{ children.id }}"
+                         class="comment px-2 py-2 border-top mt-3"
+                         style="margin-left: {{ marginLeft ~ 'px' }}">
+                        <div class="author my-3">
+                            <span class="text-dark">admin</span>
+                            {{ 'submit_at'|trans }} {{ children.createdAt|date('Y-m-d H:i:s') }}
+                        </div>
+                        <div class="body">
+                            <h6>{{ children.subject }}</h6>
+                            {% set commentDatas = entity_type.allFieldsData(children, children.commentType) %}
+                            {% for fieldAlias, fieldData in commentDatas %}
+                                {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
+                            {% endfor %}
+                        </div>
+                        <div class="footer">
+                            {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with {'comment': children, 'redirectBackURI': redirectBackURI} %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    {% endfor %}
+</div>

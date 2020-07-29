@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
+use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Taxonomy;
@@ -145,11 +146,14 @@ trait SubstanceDBALOptionsTrait
             $conn->rollBack();
             throw $e;
         }
-        //如果是Taxonomy，因为使用了 stofdoctrineextension tree ,需要单独处理
-        if ($data instanceof Taxonomy){
+
+        if ($data instanceof Taxonomy) {
             $taxonomyRepo = $entityManager->getRepository(Taxonomy::class);
             $taxonomyRepo->removeFromTree($data);
-        }else{
+        } elseif ($data instanceof Comment) {
+            $commentRepo = $entityManager->getRepository(Comment::class);
+            $commentRepo->removeFromTree($data);
+        } else {
             $entityManager->remove($data);
         }
         $entityManager->flush();

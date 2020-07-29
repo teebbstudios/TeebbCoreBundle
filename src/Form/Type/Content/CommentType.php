@@ -83,14 +83,17 @@ class CommentType extends BaseContentType
             ->add('subject', TextType::class, [
                 'label' => 'teebb.core.form.comment_subject',
                 'label_attr' => [
-                    'class' => 'font-weight-bold'
+                    'class' => 'font-weight-bold mr-3'
                 ],
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 1, 'max' => 255])
                 ],
                 'attr' => [
-                    'class' => 'form-control-sm'
+                    'class' => 'form-control-sm w-50'
+                ],
+                'row_attr' => [
+                    'class' => 'form-inline'
                 ]
             ]);
 
@@ -99,7 +102,7 @@ class CommentType extends BaseContentType
         //添加按钮
         $builder
             ->add('submit', SubmitType::class, [
-                'label' => 'teebb.core.form.save',
+                'label' => 'teebb.core.form.submit',
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm'
                 ]

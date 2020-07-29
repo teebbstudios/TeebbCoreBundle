@@ -43,7 +43,8 @@
                 'bundle': field_config.bundle,
                 'typeAlias':field_config.typeAlias,
                 'slug': app.request.attributes.get('slug'),
-                'commentType' : commentType
+                'commentType' : commentType,
+                'redirectBackURI': app.request.pathInfo
             })) }}
 
             {#允许新建评论#}

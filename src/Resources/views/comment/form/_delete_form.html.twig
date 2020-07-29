@@ -1,0 +1,35 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ action|trans }}
+{% endblock %}
+
+{% block card_top_border %}border-top-danger{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/comment/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_help %}
+    <!-- 提示 -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle"></i>
+        <span class="small text-muted">
+            {% block top_help_message %}
+                {{ 'teebb.core.help.delete_comment'|trans({'%subject%': comment.subject}) }}
+            {% endblock %}
+        </span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endblock %}
+
+{% block card_body %}
+    {{ form_start(delete_form) }}
+    <div class="form-inline">
+        {{ form_row(delete_form.delete) }}
+        {{ form_row(delete_form.cancel) }}
+    </div>
+    {{ form_end(delete_form) }}
+{% endblock %}
