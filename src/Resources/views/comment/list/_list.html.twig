@@ -19,8 +19,8 @@
                 {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with {'comment': comment, 'redirectBackURI': redirectBackURI} %}
             </div>
             {% for children in commentRepo.children(comment) %}
-                {# 子评论中只有已通过审核的评论会显示 Todo：此处应改为2#}
-                {% if children.commentStatus == 1 %}
+                {# 子评论中只有已通过审核的评论会显示#}
+                {% if children.commentStatus == 2 %}
                     {% set marginLeft = 50 * children.lvl %}
                     <div id="comment_{{ children.id }}"
                          class="comment px-2 py-2 border-top mt-3"

@@ -59,6 +59,17 @@ submit_at: 提交于
 reply: 回复
 reply_comment: 回复评论
 delete_comment: 删除评论
+index_comments: 管理评论
+author: 作者
+subject: 主题
+reply_to: 回复于
+created_at: 提交于
+submitted: 已提交待审核
+rejected: 驳回
+passed: 通过
+comment_status: 状态
+batch_rejected: 批量驳回
+batch_passed: 批量通过
 
 teebb:
     core:
@@ -264,4 +275,5 @@ teebb:
         comment:
             create_success: 您的评论已提交，审核通过后将在此页显示。
             delete_success: 评论 "%value%" 已成功删除。
-
+            update_status:  评论 "%value%" 状态已成功修改为 "%status%"。
+            batch_action_success: 操作 "%action%" 成功。

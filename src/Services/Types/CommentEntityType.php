@@ -18,6 +18,8 @@ use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\FormRow;
 use Teebb\CoreBundle\Annotation\Translation;
 use Teebb\CoreBundle\Annotation\TypesForm;
+use Teebb\CoreBundle\Entity\Comment;
+use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
 
 /**
  * Class CommentEntityType 评论类型
@@ -88,5 +90,35 @@ use Teebb\CoreBundle\Annotation\TypesForm;
  */
 class CommentEntityType extends AbstractEntityType
 {
+    public const INDEX_COMMENTS = 'index_comments';
+    public const UPDATE_COMMENT_STATUS = 'update_comment_status';
 
+    /**
+     * 配置评论类型添加管理评论route
+     *
+     * @param EntityTypeRouteCollection $routeCollection
+     */
+    protected function configureRoutes(EntityTypeRouteCollection $routeCollection): void
+    {
+        $routeCollection->addRoute(self::INDEX_COMMENTS, '{typeAlias}/comments');
+        $routeCollection->addRoute(self::UPDATE_COMMENT_STATUS, 'update/comment/{id}/status');
+    }
+
+    /**
+     * 获取评论的目标内容
+     * @param Comment $comment
+     * @return object|null
+     */
+    public function getCommentTargetContent(Comment $comment)
+    {
+        $bundle = $comment->getBundle();
+
+        //获取bundle对应的内容类型service
+        /**@var AbstractEntityType $targetContentTypeService * */
+        $targetContentTypeService = $this->container->get('teebb.core.entity_type.' . $bundle . '_entity_type');
+
+        $targetContentRepo = $this->entityManager->getRepository($targetContentTypeService->getEntityClassName());
+
+        return $targetContentRepo->findOneBy(['slug' => $comment->getThread()]);
+    }
 }

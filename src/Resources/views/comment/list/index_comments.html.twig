@@ -1,0 +1,118 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+{% set bundle = entity_type.bundle %}
+{% import '@TeebbCore/macros.html.twig' as macro %}
+
+{% block head_label %}
+    {{ action|trans }}
+{% endblock %}
+
+{% block card_title %}
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">
+            {{ action|trans }}
+        </h6>
+    </div>
+{% endblock %}
+
+{% block card_body %}
+    {#         获取当前页面URL 用于 limit 切换跳转#}
+    {% set path = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query)) %}
+    {{ form_start(batch_action_form) }}
+    {{ form_row(batch_action_form.batch) }}
+    {{ form_row(batch_action_form.submit) }}
+
+    {{ form_row(batch_action_form.limit,{
+        'attr':{'data-path':path},
+        'label_translation_parameters':{'%total%':paginator.nbResults},
+        'value':app.request.get('limit')
+    }) }}
+
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">
+                    <input type="checkbox" class="form-check check-all" title="{{ 'teebb.core.list.check_all'|trans }}">
+                </th>
+                <th scope="col">{{ 'author'|trans }}</th>
+                <th scope="col">{{ 'subject'|trans }}</th>
+                <th scope="col">{{ 'comment'|trans }}</th>
+                <th scope="col">{{ 'comment_status'|trans }}</th>
+                <th scope="col" class="d-none d-sm-table-cell text-nowrap">{{ 'reply_to'|trans }}</th>
+                <th scope="col" class="d-none d-sm-table-cell text-nowrap">{{ 'created_at'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for comment in paginator %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="comment[]" class="form-check" value="{{ comment.id }}">
+                    </td>
+                    <td class="align-items-center">
+                        <div class="author">
+                            <strong>
+                                admin
+                            </strong>
+                        </div>
+                    </td>
+                    <td>{{ comment.subject }}</td>
+                    <td class="js-comment-td align-items-center">
+                        <div class="comment-content">
+                            <p class="comment-body">
+                                {% set fieldDatas = entity_type.allFieldsData(comment, comment.commentType) %}
+                                {% for fieldAlias, fieldData in fieldDatas %}
+                                    {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
+                                {% endfor %}
+                            </p>
+                        </div>
+                        <div class="comment-option h-submenu mb-2">
+                            <ul class="list-group list-group-horizontal">
+                                <li class="option-item">
+                                    <a class="text-warning"
+                                       href="{{ path('comment_update_comment_status', {'id': comment.id, 'status': 'rejected', 'redirectBackURI': app.request.requestUri}) }}">
+                                        {{ 'rejected'|trans }}
+                                    </a>
+                                </li>
+                                <li class="option-item">
+                                    <a class="text-success"
+                                       href="{{ path('comment_update_comment_status', {'id': comment.id, 'status': 'passed', 'redirectBackURI': app.request.requestUri}) }}">
+                                        {{ 'passed'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        {% if comment.commentStatus == 1 %}
+                            {{ 'submitted'|trans }}
+                        {% elseif comment.commentStatus == 2 %}
+                            {{ 'passed'|trans }}
+                        {% elseif comment.commentStatus == 3 %}
+                            {{ 'rejected'|trans }}
+                        {% endif %}
+                    </td>
+                    <td class="d-none d-sm-table-cell align-items-center">
+                        {% set subject = entity_type.commentTargetContent(comment) %}
+                        <a class="font-weight-bold"
+                           href="{{ path('teebb_content_update', {'slug': subject.slug}) }}">{{ subject.title }}</a>
+                    </td>
+                    <td class="d-none d-sm-table-cell align-items-center">
+                        <span class="">{{ comment.createdAt|date('Y-m-d H:i:s') }}</span>
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ form_end(batch_action_form) }}
+
+    {#  页码  #}
+    {% if paginator.haveToPaginate %}
+        <div class="my-3">
+            {{ pagerfanta(paginator, 'twitter_bootstrap4_translated') }}
+        </div>
+    {% endif %}
+
+{% endblock %}

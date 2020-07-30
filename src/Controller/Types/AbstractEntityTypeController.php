@@ -26,6 +26,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
+use Teebb\CoreBundle\Controller\SubstanceDBALOptionsTrait;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\TypeInterface;
 use Teebb\CoreBundle\Event\SchemaEvent;
@@ -45,6 +46,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class AbstractEntityTypeController extends AbstractController
 {
+    use SubstanceDBALOptionsTrait;
+
     /**
      * @var EntityTypeInterface
      */

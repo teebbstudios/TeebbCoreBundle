@@ -12,6 +12,11 @@
            class="btn btn-success text-white">{{ 'index_term'|trans }}</a>
     {% endif %}
 
+    {% if bundle == 'comment' %}
+        <a href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_index_comments', {'typeAlias':item.typeAlias|replace({'_':'-'}) }) }}"
+           class="btn btn-success text-white">{{ 'index_comments'|trans }}</a>
+    {% endif %}
+
     <div class="btn-group btn-group-sm" role="group">
         <button id="btnGroupDrop_{{ item.id }}" type="button"
                 class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"

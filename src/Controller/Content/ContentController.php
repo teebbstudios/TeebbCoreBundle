@@ -26,6 +26,7 @@ class ContentController extends AbstractContentController
      * 显示所有内容
      * @param Request $request
      * @return Response
+     * @throws \Doctrine\DBAL\ConnectionException
      */
     public function indexAction(Request $request)
     {
@@ -60,7 +61,8 @@ class ContentController extends AbstractContentController
             switch ($data['batch']) {
                 case 'batch_delete':
                     foreach ($contents as $content) {
-                        $this->entityManager->remove($content);
+                        $this->deleteSubstance($this->entityManager, $this->fieldConfigRepository, $this->container,
+                            $entityTypeService->getBundle(), $content->getTypeAlias(), $content);
                     }
                     break;
                 case 'batch_unpublish':

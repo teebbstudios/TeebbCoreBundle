@@ -28,8 +28,9 @@ class CommentController extends AbstractContentController
     {
         $bundle = $request->get('bundle');
         $typeAlias = $request->get('typeAlias');
-        $thread = $request->get('slug');
+        $slug = $request->get('slug');
         $commentType = $request->get('commentType');
+        $fieldAlias = $request->get('fieldAlias');
         $redirectBackURI = $request->get('redirectBackURI');
 
         $commentRepo = $this->entityManager->getRepository(Comment::class);
@@ -39,10 +40,11 @@ class CommentController extends AbstractContentController
         $comments = $commentRepo->findBy([
             'bundle' => $bundle,
             'typeAlias' => $typeAlias,
-            'thread' => $thread,
+            'thread' => $slug,
             'commentType' => $commentType,
-            'parent' => null
-//            'commentStatus' => 2  //只有通过审核的评论才会显示
+            'parent' => null,
+            'commentFieldAlias' => $fieldAlias,
+            'commentStatus' => 2  //只有通过审核的评论才会显示
         ]);
 
         return $this->render($this->templateRegistry->getTemplate('index', 'comment'), [
@@ -171,7 +173,6 @@ class CommentController extends AbstractContentController
             'redirectBackURI' => $redirectBackURI
         ]);
     }
-
 
     public function updateAction(Request $request, Comment $comment)
     {

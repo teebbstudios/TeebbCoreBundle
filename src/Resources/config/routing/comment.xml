@@ -2,7 +2,7 @@
 <routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="teebb_comment_index" path="/{bundle}/{typeAlias}/{slug}/{commentType}/comments">
+    <route id="teebb_comment_index" path="/{bundle}/{typeAlias}/{slug}/{commentType}/{fieldAlias}/comments">
         <default key="_controller">Teebb\CoreBundle\Controller\Content\CommentController::indexAction</default>
         <default key="route">teebb_comment_index</default>
     </route>
