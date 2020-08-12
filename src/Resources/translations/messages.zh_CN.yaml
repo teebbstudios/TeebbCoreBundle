@@ -70,6 +70,14 @@ passed: 通过
 comment_status: 状态
 batch_rejected: 批量驳回
 batch_passed: 批量通过
+Welcome Back: 欢迎回来！
+logged: '尊敬的%username%，您已成功登录。'
+logout: 退出
+Already have an account? Login!: 已有账号？立即登录
+Forgot Password?: 忘记密码？
+Create an Account!: 创建账号
+Forgot Your Password?: 忘记密码？
+Enter your email: 我们知道了，发生了一些事让您忘了密码。在下边输入您的注册邮箱，我们会发送一个链接给您以便您重置密码。
 
 teebb:
     core:
@@ -257,6 +265,15 @@ teebb:
             delete_comment: <span class="icon text-white-50"><i class="fas fa-trash"></i></span><span class="text">删除评论</span>
             cancel: <span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span><span class="text text-white">取消</span>
 
+            username: 用户名
+            first_name: 姓
+            last_name: 名
+            password: 密码
+            repeat_password: 重复密码
+            remember_me: 记住我
+            login: 登录
+            register: 注册
+            reset_password: 重置密码
         content:
             create_success: 内容 "%value%" 创建成功。
             update_success: 内容 "%value%" 更新成功。
@@ -277,3 +294,7 @@ teebb:
             delete_success: 评论 "%value%" 已成功删除。
             update_status:  评论 "%value%" 状态已成功修改为 "%status%"。
             batch_action_success: 操作 "%action%" 成功。
+        user:
+            register_success: 您的账号已注册成功，并成功向邮件地址%email%发送了激活链接，请前往激活账号。
+            email_not_exist: 邮件地址%email%不存在。
+            reset_email_send: 重置密码链接已发送到您的邮箱%email%

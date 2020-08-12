@@ -1,0 +1,44 @@
+{% extends '@TeebbCore/standard_layout.html.twig' %}
+
+{% block title %} Todo: 修改这里 teebb resetting email {% endblock %}
+
+{% block body_attr %}class="bg-gradient-primary"{% endblock %}
+
+{% block page_wrapper %}
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-2">{{ 'Forgot Your Password?'|trans }}</h1>
+                                        <p class="mb-4">{{ 'Enter your email'|trans }}</p>
+                                    </div>
+                                    {% include '@TeebbCore/flash_messages.html.twig' %}
+
+                                    {{ form(resetting_request_form) }}
+
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="{{ path('teebb_user_register') }}">{{ 'Create an Account!'|trans }}</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="{{path('teebb_user_login')}}">{{ 'Already have an account? Login!'|trans }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

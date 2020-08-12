@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="teebb_user_login" path="/login">
+        <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController:loginAction</default>
+        <default key="route">teebb_user_login</default>
+    </route>
+
+    <route id="teebb_user_logout" path="/logout">
+        <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController:logoutAction</default>
+        <default key="route">teebb_user_logout</default>
+    </route>
+
+    <route id="teebb_user_register" path="/register">
+        <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController:registerAction</default>
+        <default key="route">teebb_user_register</default>
+    </route>
+
+    <route id="teebb_user_resetting_request" path="/resetting">
+        <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController:resettingRequestAction</default>
+        <default key="route">teebb_user_resetting_request</default>
+    </route>
+
+    <route id="teebb_user_resetting" path="/resetting/{token}">
+        <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController:resettingAction</default>
+        <default key="route">teebb_user_resetting</default>
+    </route>
+
+</routes>

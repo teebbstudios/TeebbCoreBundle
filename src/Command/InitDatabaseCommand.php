@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
 use Teebb\CoreBundle\Entity\Comment;
@@ -22,6 +24,7 @@ use Teebb\CoreBundle\Entity\FileManaged;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\TextFormat\Formatter;
 use Teebb\CoreBundle\Entity\Types\Types;
+use Teebb\CoreBundle\Entity\User;
 use Teebb\CoreBundle\Event\SchemaEvent;
 
 /**
@@ -44,8 +47,12 @@ class InitDatabaseCommand extends Command
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+    /**
+     * @var PasswordEncoderInterface
+     */
+    private $passwordEncoder;
 
-    public function __construct(DoctrineUtils $doctrineUtils, EventDispatcherInterface $dispatcher)
+    public function __construct(DoctrineUtils $doctrineUtils, EventDispatcherInterface $dispatcher, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->doctrineUtils = $doctrineUtils;
         $this->em = $this->doctrineUtils->getEntityManager();
@@ -53,6 +60,7 @@ class InitDatabaseCommand extends Command
         parent::__construct();
 
         $this->dispatcher = $dispatcher;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function configure()
@@ -71,6 +79,7 @@ class InitDatabaseCommand extends Command
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
      * @throws \Doctrine\ORM\Tools\ToolsException
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -102,6 +111,8 @@ class InitDatabaseCommand extends Command
         $this->initTextFormatter();
         $this->updateFormatterTranslation();
 
+        $this->initAdminUser();
+
         $output->writeln(sprintf('<info>Done!</info>'));
         return 0;
     }
@@ -120,7 +131,8 @@ class InitDatabaseCommand extends Command
             Content::class,
             Taxonomy::class,
             Comment::class,
-            Formatter::class
+            Formatter::class,
+            User::class,
         ];
     }
 
@@ -313,6 +325,22 @@ class InitDatabaseCommand extends Command
         $this->em->persist($standardFormatter);
         $this->em->persist($restrictFormatter);
 
+        $this->em->flush();
+    }
+
+    private function initAdminUser()
+    {
+        $admin = new User();
+        $admin->setUsername('admin');
+        $admin->setUsernameCanonical('admin');
+        $admin->setEmail('admin@example.com');
+        $admin->setEmailCanonical('admin@example.com');
+        $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'admin'));
+        $admin->setRoles(['ROLE_SUPER_ADMIN']);
+        $admin->setSalt(null);
+        $admin->setEnabled(true);
+
+        $this->em->persist($admin);
         $this->em->flush();
     }
 }

@@ -53,5 +53,15 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="Teebb\CoreBundle\Security\LoginFormAuthenticator" class="Teebb\CoreBundle\Security\LoginFormAuthenticator">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="router.default"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="security.user_password_encoder.generic"/>
+        </service>
+
+        <service id="Teebb\CoreBundle\Security\UserChecker" class="Teebb\CoreBundle\Security\UserChecker">
+        </service>
+
     </services>
 </container>

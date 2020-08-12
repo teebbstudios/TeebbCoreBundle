@@ -1,49 +1,49 @@
 {
-    "name": "teebbstudios/core-bundle",
-    "description": "This bundle is Teebb core bundle.",
-    "type": "symfony-bundle",
-    "license": "MIT",
-    "keywords": [
-        "teebb",
-        "cms"
-    ],
-    "authors": [
-        {
-            "name": "Quan Weiwei",
-            "email": "qww.zone@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^7.2.5",
-        "symfony/framework-bundle": "^5.0",
-        "stof/doctrine-extensions-bundle": "^1.4",
-        "symfony/orm-pack": "^1.0",
-        "symfony/translation": "^5.0",
-        "api-platform/api-pack": "^1.2",
-        "symfony/yaml": "^5.0",
-        "symfony/twig-pack": "^1.0",
-        "pagerfanta/pagerfanta": "^2.3",
-        "symfony/form": "^5.1",
-        "symfony/mime": "^5.1",
-        "friendsofsymfony/ckeditor-bundle": "^2.2",
-        "oneup/flysystem-bundle": "^3.5",
-        "symfony/expression-language": "^5.1",
-        "liip/imagine-bundle": "^2.3",
-        "friendsofsymfony/jsrouting-bundle": "^2.6",
-        "babdev/pagerfanta-bundle": "^2.4"
-    },
-    "require-dev": {
-        "symfony/phpunit-bridge": "^5.0",
-        "dama/doctrine-test-bundle": "^6.3"
-    },
-    "autoload": {
-        "psr-4": {
-            "Teebb\\CoreBundle\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Teebb\\CoreBundle\\Tests\\": "tests/"
-        }
+  "name": "teebbstudios/core-bundle",
+  "description": "This bundle is Teebb core bundle.",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "keywords": [
+    "teebb",
+    "cms"
+  ],
+  "authors": [
+    {
+      "name": "Quan Weiwei",
+      "email": "qww.zone@gmail.com"
     }
+  ],
+  "require": {
+    "php": "^7.2.5",
+    "symfony/framework-bundle": "^5.0",
+    "stof/doctrine-extensions-bundle": "^1.4",
+    "symfony/orm-pack": "^1.0",
+    "symfony/translation": "^5.0",
+    "api-platform/api-pack": "^1.2",
+    "symfony/yaml": "^5.0",
+    "symfony/twig-pack": "^1.0",
+    "pagerfanta/pagerfanta": "^2.3",
+    "symfony/form": "^5.1",
+    "symfony/mime": "^5.1",
+    "friendsofsymfony/ckeditor-bundle": "^2.2",
+    "oneup/flysystem-bundle": "^3.5",
+    "symfony/expression-language": "^5.1",
+    "liip/imagine-bundle": "^2.3",
+    "friendsofsymfony/jsrouting-bundle": "^2.6",
+    "babdev/pagerfanta-bundle": "^2.4"
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "^5.0",
+    "dama/doctrine-test-bundle": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Teebb\\CoreBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Teebb\\CoreBundle\\Tests\\": "tests/"
+    }
+  }
 }

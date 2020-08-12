@@ -8,6 +8,7 @@
                  public="true">
             <argument type="service" id="teebb.core.orm.doctrine_utils"/>
             <argument type="service" id="debug.event_dispatcher"/>
+            <argument type="service" id="security.user_password_encoder.generic"/>
             <tag name="console.command" command="teebb:database:init"/>
         </service>
 

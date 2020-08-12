@@ -26,8 +26,10 @@
     {% endblock %}
 </head>
 
-<body id="page-top">
 
+<body {% block body_attr %}id="page-top"{% endblock %}>
+
+{% block page_wrapper %}
 <!-- Page Wrapper -->
 <div id="wrapper">
     <noscript class="noscript-warning  fixed-top text-center bg-danger text-dark">
@@ -251,7 +253,6 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
         <!-- Main Content -->
         <div id="content">
             {% block topbar %}
@@ -513,14 +514,13 @@
 
     </div>
     <!-- End of Content Wrapper -->
-
 </div>
 <!-- End of Page Wrapper -->
-
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+{% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>

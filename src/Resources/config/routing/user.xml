@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="teebb_user_index" path="/users">
+        <default key="_controller">Teebb\CoreBundle\Controller\Content\UserController::indexAction</default>
+        <default key="route">teebb_user_index</default>
+    </route>
+
+    <route id="teebb_user_create" path="/user/create">
+        <default key="_controller">Teebb\CoreBundle\Controller\Content\UserController::createAction</default>
+        <default key="route">teebb_user_create</default>
+    </route>
+
+    <route id="teebb_user_update" path="/user/{username}/update">
+        <default key="_controller">Teebb\CoreBundle\Controller\Content\UserController::updateAction</default>
+        <default key="route">teebb_user_update</default>
+    </route>
+
+<!-- User的其他操作 -->
+<!--    <route id="teebb_user_lock" path="/user/{username}/lock">-->
+<!--        <default key="_controller">Teebb\CoreBundle\Controller\Content\UserController::updateAction</default>-->
+<!--        <default key="route">teebb_user_update</default>-->
+<!--    </route>-->
+
+    <route id="teebb_user_delete" path="/user/{username}/delete">
+        <default key="_controller">Teebb\CoreBundle\Controller\Content\UserController::deleteAction</default>
+        <default key="route">teebb_user_delete</default>
+    </route>
+
+</routes>
