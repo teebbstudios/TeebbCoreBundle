@@ -25,6 +25,12 @@ abstract class BaseItemConfiguration implements FieldDepartConfigurationInterfac
     protected $limit = 1;
 
     /**
+     * 是否显示字段标题
+     * @var bool
+     */
+    protected $showLabel = true;
+
+    /**
      * @return string|null
      */
     public function getDescription(): ?string
@@ -72,4 +78,19 @@ abstract class BaseItemConfiguration implements FieldDepartConfigurationInterfac
         $this->limit = $limit;
     }
 
+    /**
+     * @return bool
+     */
+    public function isShowLabel(): bool
+    {
+        return $this->showLabel;
+    }
+
+    /**
+     * @param bool $showLabel
+     */
+    public function setShowLabel(bool $showLabel): void
+    {
+        $this->showLabel = $showLabel;
+    }
 }

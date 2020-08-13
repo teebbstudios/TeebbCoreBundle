@@ -8,6 +8,7 @@ use Teebb\CoreBundle\AbstractService\AbstractEntityType;
 use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 use Teebb\CoreBundle\Annotation\TypesForm;
+use Teebb\CoreBundle\Route\EntityTypeActions;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
 
 /**
@@ -30,7 +31,6 @@ class UserEntityType extends AbstractEntityType
     //User类型删除不需要的route
     protected function configureRoutes(EntityTypeRouteCollection $routeCollection): void
     {
-        //$routeCollection->addRoute('example', 'pattern');
         $routeCollection->remove('user_index');
         $routeCollection->remove('user_create');
         $routeCollection->remove('user_update');

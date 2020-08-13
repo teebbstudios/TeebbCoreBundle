@@ -7,11 +7,13 @@
 
 <div class="card-header d-flex flex-row align-items-center justify-content-between">
     <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-            <a class="nav-link {% if bundle ~ '_update' == _route %}active{% endif %} small"
-               href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_update', {'typeAlias': typeAlias}) }}">
-                {{ 'update'|trans }}{{ trans_markup(entity_type.EntityTypeMetadata.label) }}</a>
-        </li>
+        {% if bundle != 'user' %}
+            <li class="nav-item">
+                <a class="nav-link {% if bundle ~ '_update' == _route %}active{% endif %} small"
+                   href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_update', {'typeAlias': typeAlias}) }}">
+                    {{ 'update'|trans }}{{ trans_markup(entity_type.EntityTypeMetadata.label) }}</a>
+            </li>
+        {% endif %}
         <li class="nav-item">
             <a class="nav-link {% if bundle ~ '_index_field' == _route %}active{% endif %} small"
                href="{{ entity_type.pathInfoGenerator.generate( bundle ~ '_index_field', {'typeAlias':typeAlias}) }}">

@@ -166,10 +166,18 @@ class InitDatabaseCommand extends Command
         $comment->setDescription('Basic Comment.');
         $comment->setTranslatableLocale('en_US');
 
+        $userType = new Types();
+        $userType->setBundle('user');
+        $userType->setLabel('Basic User');
+        $userType->setTypeAlias('people');
+        $userType->setDescription('Basic User.');
+        $userType->setTranslatableLocale('en_US');
+
         $this->em->persist($articleType);
         $this->em->persist($pageType);
         $this->em->persist($tags);
         $this->em->persist($comment);
+        $this->em->persist($userType);
 
         $this->em->flush();
     }
@@ -257,10 +265,16 @@ class InitDatabaseCommand extends Command
         $comment->setDescription('默认的评论');
         $comment->setTranslatableLocale('zh_CN');
 
+        $userType = $typesRepo->findOneBy(['typeAlias' => 'people']);
+        $userType->setLabel('用户类型');
+        $userType->setDescription('默认的用户类型');
+        $userType->setTranslatableLocale('zh_CN');
+
         $this->em->persist($articleType);
         $this->em->persist($pageType);
         $this->em->persist($tags);
         $this->em->persist($comment);
+        $this->em->persist($userType);
 
         $this->em->flush();
     }

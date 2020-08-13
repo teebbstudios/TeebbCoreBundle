@@ -19,10 +19,13 @@
 
 {#显示内容所有字段的值和配置，如果是评论字段则获取所有评论内容和设置评论表单#}
 {% macro showFieldData(field_alias, field_type, field_label, field_config, field_data) %}
+    {% set field_settings = field_config.settings %}
     {% if field_type == 'boolean' %}
         {% set on_label = field_config.settings.onLabel %}
         {% set off_label = field_config.settings.offLabel %}
-        <div class="field_label">{{ field_label }}</div>
+        {% if field_settings.showLabel == true %}
+            <div class="field_label">{{ field_label }}</div>
+        {% endif %}
         <div class="field_items">
             {% for data in field_data %}
                 <div class="field_item">
@@ -63,7 +66,9 @@
         {% endfor %}
     {% elseif field_type == 'datetime' %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
@@ -76,7 +81,9 @@
         {% if field_data is not empty %}
             {% set prefix = field_config.settings.prefix %}
             {% set suffix = field_config.settings.suffix %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
@@ -87,7 +94,9 @@
         {% endif %}
     {% elseif field_type in ['listFloat', 'listInteger'] %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     {% for item in data.value %}
@@ -100,7 +109,9 @@
         {% endif %}
     {% elseif field_type == 'email' %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
@@ -111,7 +122,9 @@
         {% endif %}
     {% elseif field_type == 'link' %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
@@ -122,7 +135,9 @@
         {% endif %}
     {% elseif field_type == 'referenceImage' %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
@@ -134,7 +149,9 @@
         {% endif %}
     {% elseif field_type == 'referenceFile' %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     {% if data.showFile == true %}
@@ -154,7 +171,9 @@
         {% endif %}
     {% elseif field_type in ['string', 'text', 'stringFormat', 'textFormat'] %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
@@ -165,7 +184,9 @@
         {% endif %}
     {% elseif field_type == 'textFormatSummary' %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
@@ -179,7 +200,9 @@
         {% endif %}
     {% elseif field_type == 'referenceTaxonomy' %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
@@ -190,7 +213,9 @@
         {% endif %}
     {% elseif field_type == 'referenceContent' %}
         {% if field_data is not empty %}
-            <div class="field_label">{{ field_label }}</div>
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">

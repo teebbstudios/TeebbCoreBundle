@@ -135,7 +135,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * 用户重置密码
+     * 用户重置密码页面
      * @param Request $request
      */
     public function resettingAction(Request $request)
@@ -144,10 +144,11 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * 用户退出空方法
+     * 用户退出方法 留空
      * @param Request $request
      */
     public function logoutAction(Request $request)
     {
     }
+
 }

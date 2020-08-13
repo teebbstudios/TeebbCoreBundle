@@ -41,9 +41,14 @@ class BaseItemConfigurationType extends AbstractType
                 'label' => 'teebb.core.fields.configuration.require',
                 'required' => false
             ])
+            ->add('showLabel', CheckboxType::class, [
+                'label' => 'teebb.core.fields.configuration.show_label',
+                'required' => false
+            ])
             ->add('limit', FieldConfigurationLimitType::class, [
                 'label' => 'teebb.core.fields.configuration.limit',
-            ]);
+            ])
+        ;
     }
 
     /**

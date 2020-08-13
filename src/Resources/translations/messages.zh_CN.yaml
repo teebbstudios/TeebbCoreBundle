@@ -125,6 +125,7 @@ teebb:
                 description_help: 该字段在添加编辑内容时表单行的帮助文本。
                 limit: 数量限制
                 require: 该字段是否必填
+                show_label: 是否显示字段标题
                 on_label: 布尔值为真时显示的标签
                 off_label: 布尔值为假时显示的标签
                 precision: 精度
