@@ -76,9 +76,11 @@ logout: 退出
 Already have an account? Login!: 已有账号？立即登录
 Forgot Password?: 忘记密码？
 Create an Account!: 创建账号
+Active account: 激活账号
 Forgot Your Password?: 忘记密码？
 Enter your email: 我们知道了，发生了一些事让您忘了密码。在下边输入您的注册邮箱，我们会发送一个链接给您以便您重置密码。
-
+Enter Your New Password: 请输入新密码
+Resetting account: 您当前正在重置用户%username%的密码
 teebb:
     core:
         layout:
@@ -299,3 +301,25 @@ teebb:
             register_success: 您的账号已注册成功，并成功向邮件地址%email%发送了激活链接，请前往激活账号。
             email_not_exist: 邮件地址%email%不存在。
             reset_email_send: 重置密码链接已发送到您的邮箱%email%
+            active_account_token_expired: 当前激活链接已失效，是否要再次 <a href="%resend_active_email%">发送激活邮件</a>。
+            account_active_success: 您的账号已成功激活，请登录。
+            resend_active_success: 系统已向您的邮箱地址：%email% 重新发送了激活邮件，请查收。
+            account_active_subject: 感谢您的注册，请激活账号
+            account_active_body: |
+                %username%，你好！
+
+                要启用你的用户帐号，请访问：%activeUrl%，链接有效期24小时。
+
+                祝好
+                网站团队
+
+            resetting_account_token_expired: 重置密码链接已失效，请重新获取重置链接。
+            resetting_subject: 您正在重置密码，点击链接即可重置
+            resetting_body: |
+                %username%，你好！
+
+                请访问 %resettingUrl% 以重置你的帐户密码，链接有效期24小时。
+
+                祝好
+                网站团队
+            resetting_account_success: 您账号的密码已重置成功，请登录。

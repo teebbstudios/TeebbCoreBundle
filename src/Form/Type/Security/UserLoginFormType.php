@@ -13,6 +13,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\User;
 
+/**
+ * 用户登录表单
+ */
 class UserLoginFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

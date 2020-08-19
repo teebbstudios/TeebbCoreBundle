@@ -23,6 +23,7 @@ use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\FileManaged;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\TextFormat\Formatter;
+use Teebb\CoreBundle\Entity\Token;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Entity\User;
 use Teebb\CoreBundle\Event\SchemaEvent;
@@ -133,6 +134,7 @@ class InitDatabaseCommand extends Command
             Comment::class,
             Formatter::class,
             User::class,
+            Token::class,
         ];
     }
 

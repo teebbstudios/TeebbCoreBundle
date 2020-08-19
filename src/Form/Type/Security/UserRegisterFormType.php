@@ -19,6 +19,9 @@ use Symfony\Component\Validator\Constraints\Length;
 use Teebb\CoreBundle\Entity\User;
 use Teebb\CoreBundle\Utils\Canonicalizer;
 
+/**
+ * 用户注册表单
+ */
 class UserRegisterFormType extends AbstractType
 {
     /**

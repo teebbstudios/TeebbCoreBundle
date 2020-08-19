@@ -30,7 +30,7 @@
                             {{ form_end(register_form) }}
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">{{ 'Forgot Password?'|trans }}</a>
+                                <a class="small" href="{{ path('teebb_user_resetting_request') }}">{{ 'Forgot Password?'|trans }}</a>
                             </div>
                             <div class="text-center">
                                 <a class="small" href="{{path('teebb_user_login')}}">{{ 'Already have an account? Login!'|trans }}</a>

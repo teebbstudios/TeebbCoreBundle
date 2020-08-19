@@ -130,7 +130,9 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('login')->defaultValue('@TeebbCore/security/login.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('register')->defaultValue('@TeebbCore/security/register.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('register_confirm')->defaultValue('@TeebbCore/security/register_confirm.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('resetting_request')->defaultValue('@TeebbCore/security/resetting_request.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('resetting')->defaultValue('@TeebbCore/security/resetting.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
 

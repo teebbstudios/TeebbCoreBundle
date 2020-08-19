@@ -17,6 +17,16 @@
         <default key="route">teebb_user_register</default>
     </route>
 
+    <route id="teebb_user_active" path="/active/{token}">
+        <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController:activeAccountAction</default>
+        <default key="route">teebb_user_active</default>
+    </route>
+
+    <route id="teebb_user_resend_active_message" path="/resend/active/{token}">
+        <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController:resendActiveAccountMessage</default>
+        <default key="route">teebb_user_resend_active_message</default>
+    </route>
+
     <route id="teebb_user_resetting_request" path="/resetting">
         <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController:resettingRequestAction</default>
         <default key="route">teebb_user_resetting_request</default>

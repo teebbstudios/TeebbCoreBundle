@@ -1,6 +1,6 @@
 {% extends '@TeebbCore/standard_layout.html.twig' %}
 
-{% block title %} Todo: 修改这里 teebb login {% endblock %}
+{% block title %} 激活账号 {% endblock %}
 
 {% block body_attr %}class="bg-gradient-primary"{% endblock %}
 
@@ -20,24 +20,11 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">{{ 'Welcome Back'|trans }}</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">{{ 'Active account'|trans }}</h1>
                                     </div>
 
                                     {% include '@TeebbCore/flash_messages.html.twig' %}
 
-                                    {{ form_start(login_form) }}
-                                    {% if error %}
-                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                    {% endif %}
-
-                                    {% if app.user %}
-                                        <div class="mb-3">
-                                            {{ 'logged'|trans({'%username%': app.user.username }) }}
-                                            <a href="{{ path('teebb_user_logout') }}">{{ 'logout'|trans }}</a>
-                                        </div>
-                                    {% else %}
-                                        {{ form_end(login_form) }}
-                                    {% endif %}
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="{{ path('teebb_user_resetting_request') }}">{{ 'Forgot Password?'|trans }}</a>

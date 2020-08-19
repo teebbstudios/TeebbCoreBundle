@@ -4,8 +4,9 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="Teebb\CoreBundle\Listener\ContentPostLoadListener" public="true">
-            <tag name="doctrine.orm.entity_listener"/>
+        <service id="Teebb\CoreBundle\Subscriber\SecuritySubscriber" public="true">
+            <argument type="service" id="teebb.core.util.mailer"/>
+            <tag name="kernel.event_subscriber"/>
         </service>
     </services>
 </container>
