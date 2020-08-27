@@ -1,0 +1,27 @@
+{% extends '@TeebbCore/user/form/group_form.html.twig' %}
+
+{% block card_top_border %}border-top-danger{% endblock %}
+
+{% block card_help %}
+    <!-- 提示 -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle"></i>
+        <span class="small text-muted">
+            {% block top_help_message %}
+                {{ 'teebb.core.help.delete_group'|trans({'%group%': group.name}) }}
+            {% endblock %}
+        </span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endblock %}
+
+{% block card_body %}
+
+    {{ form_start(delete_form) }}
+    {{ form_widget(delete_form) }}
+    {% include '@TeebbCore/user/buttons/form_delete_group_button.html.twig' %}
+    {{ form_end(delete_form) }}
+
+{% endblock %}

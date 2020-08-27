@@ -1,0 +1,55 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+        {{ action|trans }}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/user/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/user/buttons/head_index_user_button.html.twig' with _context %}
+{% endblock %}
+
+{% block card_body %}
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'teebb.core.group.name'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.group.roles'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.options'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for group in paginator %}
+                <tr>
+                    <td>
+                        {#                      <a href="{{ path('teebb_'~bundle~'_update',{'slug': content.slug}) }}">#}
+                        <i class="fas fa-user fa-sm pr-2"></i>{{ group.name }}
+                        {#                      </a>#}
+                    </td>
+                    <td>
+                        {% for role in group.roles %}
+                            {{ role }}
+                            {% if loop.last ==false %}<br>{% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{#    #}{#  页码  #}
+{#    {% if paginator.haveToPaginate %}#}
+{#        <div class="my-3">#}
+{#            {{ pagerfanta(paginator, 'twitter_bootstrap4_translated') }}#}
+{#        </div>#}
+{#    {% endif %}#}
+
+{% endblock %}

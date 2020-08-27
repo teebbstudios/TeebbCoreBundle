@@ -81,6 +81,12 @@ Forgot Your Password?: 忘记密码？
 Enter your email: 我们知道了，发生了一些事让您忘了密码。在下边输入您的注册邮箱，我们会发送一个链接给您以便您重置密码。
 Enter Your New Password: 请输入新密码
 Resetting account: 您当前正在重置用户%username%的密码
+people_index: 用户列表
+group_index: 管理用户组
+group_create: 添加用户组
+group_update: 更新用户组
+group_delete: 删除用户组
+
 teebb:
     core:
         layout:
@@ -99,7 +105,7 @@ teebb:
             delete_term: 删除"%term%"词汇，此词汇数据将会删除且无法恢复，确定要删除吗？
             sortable: 拖动行前箭头以修改每个字段的权重，用于调整在创建编辑显示内容时字段的顺序，按降序排列，权重高的优先显示。
             delete_comment: 删除评论 "%subject%" ? 此评论将会删除且无法恢复，确定要删除吗？
-
+            delete_group: 删除"%group%"用户组，此组中的用户将不再属于此用户组，此用户组所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
         list:
             name: 名称
             description: 描述
@@ -206,6 +212,7 @@ teebb:
             update_content: 更新内容
             delete_content: 删除内容
             delete_formatter: 删除格式化器
+            delete_group: 删除用户组
             create_term: 添加词汇
             update_term: 更新词汇
             delete_term: 删除词汇
@@ -323,3 +330,21 @@ teebb:
                 祝好
                 网站团队
             resetting_account_success: 您账号的密码已重置成功，请登录。
+            username: 用户名
+            status: 用户状态
+            groups: 用户组
+            created_at: 注册于
+            last_login: 上次登录
+            enabled: 有效
+            disabled: 禁用
+            group_name: 组名称
+            group_name_help: 用于描述用户组的名称。如“管理员”、“编辑”、“网站架构”。
+            group_alias: 组别名
+            group_alias_help: 请使用用英文、下划线做为组别名，此别名用于链接及用户组名称。
+
+        group:
+            name: 用户组名称
+            roles: 组角色
+            create_success: 用户组 %group% 创建成功。
+            update_success: 用户组 %group% 更新成功。
+            delete_success: 用户组 %group% 删除成功。

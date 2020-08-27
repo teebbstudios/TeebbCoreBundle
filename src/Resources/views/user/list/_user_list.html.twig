@@ -1,0 +1,82 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+{#{% set bundle = entity_type.bundle %}#}
+
+{% block head_label %}
+{#    {{ action|trans }}{{ bundle|trans }}#}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/user/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_body %}
+    {# 获取当前页面URL 用于 limit 切换跳转   #}
+    {% set path = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query)) %}
+{#    {{ form_start(batch_action_form) }}#}
+{#    {{ form_row(batch_action_form.batch) }}#}
+{#    {{ form_row(batch_action_form.submit) }}#}
+
+{#    {{ form_row(batch_action_form.limit,{#}
+{#        'attr':{'data-path':path},#}
+{#        'label_translation_parameters':{'%total%':paginator.nbResults},#}
+{#        'value':app.request.get('limit')#}
+{#    }) }}#}
+
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">
+                    <input type="checkbox" class="form-check check-all" title="{{ 'teebb.core.list.check_all'|trans }}">
+                </th>
+                <th scope="col">{{ 'teebb.core.user.username'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.user.status'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.user.groups'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.user.created_at'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.user.last_login'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.options'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in paginator %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="content[]" class="form-check" value="{{ user.id }}">
+                    </td>
+                    <td>
+{#                      <a href="{{ path('teebb_'~bundle~'_update',{'slug': content.slug}) }}">#}
+                            <i class="fas fa-user fa-sm pr-2"></i>{{ user.username }}
+{#                      </a>#}
+                    </td>
+                    <td>{% if user.enabled ==true%}{{ 'teebb.core.user.enabled'|trans }}{% else %}{{ 'teebb.core.user.disabled'|trans }}{% endif %}</td>
+                    <td>
+                        {% for group in user.groups %}
+                            {{ group.name }}
+                            {% if loop.last == false %}<br>{% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{ user.createdAt|ago }}
+                    </td>
+                    <td>
+                        {{ user.lastLogin|ago }}
+                    </td>
+                    <td>
+                        qqq
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{#    {{ form_end(batch_action_form) }}#}
+
+    {#  页码  #}
+    {% if paginator.haveToPaginate %}
+        <div class="my-3">
+            {{ pagerfanta(paginator, 'twitter_bootstrap4_translated') }}
+        </div>
+    {% endif %}
+
+{% endblock %}

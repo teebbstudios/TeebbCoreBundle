@@ -21,6 +21,7 @@ use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatSummaryItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\FileManaged;
+use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\TextFormat\Formatter;
 use Teebb\CoreBundle\Entity\Token;
@@ -135,6 +136,7 @@ class InitDatabaseCommand extends Command
             Formatter::class,
             User::class,
             Token::class,
+            Group::class,
         ];
     }
 
@@ -346,6 +348,11 @@ class InitDatabaseCommand extends Command
 
     private function initAdminUser()
     {
+        $administratorGroup = new Group();
+        $administratorGroup->setName('管理员');
+        $administratorGroup->setRoles(['ROLE_ADMIN']);
+        $administratorGroup->setGroupAlias('admin');
+
         $admin = new User();
         $admin->setUsername('admin');
         $admin->setUsernameCanonical('admin');
@@ -356,6 +363,9 @@ class InitDatabaseCommand extends Command
         $admin->setSalt(null);
         $admin->setEnabled(true);
 
+        $admin->addGroup($administratorGroup);
+
+        $this->em->persist($administratorGroup);
         $this->em->persist($admin);
         $this->em->flush();
     }

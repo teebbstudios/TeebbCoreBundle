@@ -8,7 +8,6 @@ use Teebb\CoreBundle\AbstractService\AbstractEntityType;
 use Teebb\CoreBundle\Annotation\EntityType;
 use Teebb\CoreBundle\Annotation\Translation;
 use Teebb\CoreBundle\Annotation\TypesForm;
-use Teebb\CoreBundle\Route\EntityTypeActions;
 use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
 
 /**
@@ -28,6 +27,13 @@ use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
  */
 class UserEntityType extends AbstractEntityType
 {
+    public const PEOPLE_INDEX = 'people_index';
+
+    public const GROUP_INDEX = 'group_index';
+    public const GROUP_CREATE = 'group_create';
+    public const GROUP_UPDATE = 'group_update';
+    public const GROUP_DELETE = 'group_delete';
+
     //User类型删除不需要的route
     protected function configureRoutes(EntityTypeRouteCollection $routeCollection): void
     {
@@ -35,5 +41,15 @@ class UserEntityType extends AbstractEntityType
         $routeCollection->remove('user_create');
         $routeCollection->remove('user_update');
         $routeCollection->remove('user_delete');
+
+        //列表管理所有用户
+        $routeCollection->addRoute(self::PEOPLE_INDEX, 'peoples');
+
+        //组
+        $routeCollection->addRoute(self::GROUP_INDEX, 'groups');
+        $routeCollection->addRoute(self::GROUP_CREATE, 'group/create');
+        $routeCollection->addRoute(self::GROUP_UPDATE, 'group/{id}/update');
+        $routeCollection->addRoute(self::GROUP_DELETE, 'group/{id}/delete');
+
     }
 }

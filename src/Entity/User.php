@@ -3,6 +3,8 @@
 
 namespace Teebb\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -106,6 +108,15 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\ManyToMany(targetEntity="Teebb\CoreBundle\Entity\Group")
+     * @ORM\JoinTable(name="users_groups",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    private $groups;
+
+    /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
@@ -123,6 +134,7 @@ class User implements UserInterface
         $this->accountNonExpired = true;
         $this->accountNonLocked = true;
         $this->credentialsNonExpired = true;
+        $this->groups = new ArrayCollection();
     }
 
     /**
@@ -383,6 +395,40 @@ class User implements UserInterface
     public function setLastLogin(?\DateTime $lastLogin): void
     {
         $this->lastLogin = $lastLogin;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @param Group $group
+     * @return $this
+     */
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Group $group
+     * @return $this
+     */
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+        }
+
+        return $this;
     }
 
 }
