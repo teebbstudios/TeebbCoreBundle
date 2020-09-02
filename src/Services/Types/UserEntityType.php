@@ -44,7 +44,7 @@ class UserEntityType extends AbstractEntityType
         $routeCollection->remove('user_delete');
 
         //列表管理所有用户
-        $routeCollection->addRoute(self::PEOPLE_INDEX, 'peoples');
+        $routeCollection->addRoute(self::PEOPLE_INDEX, 'people');
         //编辑用户
         $routeCollection->addRoute(self::PEOPLE_UPDATE, 'people/{username}/update');
 

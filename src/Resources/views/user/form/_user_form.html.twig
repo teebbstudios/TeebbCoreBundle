@@ -1,0 +1,19 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ action|trans }}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/user/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block card_body %}
+    <div class="row">
+        <div class="col-12 col-md-8">
+            {{ form_start(user_form) }}
+            {{ form_widget(user_form) }}
+            {{ form_end(user_form) }}
+        </div>
+    </div>
+{% endblock %}

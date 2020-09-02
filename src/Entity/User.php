@@ -17,95 +17,85 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
-class User implements UserInterface
+class User extends BaseContent implements UserInterface
 {
-    use TimestampableEntity;
-
     /**
-     * @var int
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $id;
+    protected $firstName;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    private $firstName;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $lastName;
+    protected $lastName;
 
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
      */
-    private $username;
+    protected $username;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $usernameCanonical;
+    protected $usernameCanonical;
 
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
      */
-    private $email;
+    protected $email;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $emailCanonical;
+    protected $emailCanonical;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $password;
+    protected $password;
 
     /**
      * no need persist
-     * @var string
+     * @var string|null
      */
-    private $plainPassword;
+    protected $plainPassword;
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
-    private $enabled;
+    protected $enabled;
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
-    private $accountNonExpired;
+    protected $accountNonExpired;
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
-    private $credentialsNonExpired;
+    protected $credentialsNonExpired;
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
-    private $accountNonLocked;
+    protected $accountNonLocked;
 
     /**
      * @var array
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    protected $roles = [];
 
     /**
      * @ORM\ManyToMany(targetEntity="Teebb\CoreBundle\Entity\Group")
@@ -114,19 +104,19 @@ class User implements UserInterface
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $groups;
+    protected $groups;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    private $salt;
+    protected $salt;
 
     /**
      * @var \DateTime|null
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $lastLogin;
+    protected $lastLogin;
 
     public function __construct()
     {

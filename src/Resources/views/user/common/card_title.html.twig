@@ -1,6 +1,6 @@
 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     <h6 class="m-0 font-weight-bold text-primary">
-        {% if action in ['people_index', 'group_index', 'group_create'] %}
+        {% if action in ['people_index', 'people_update', 'group_index', 'group_create'] %}
             {{ action|trans }}
         {% else %}
             {{ action|trans }}

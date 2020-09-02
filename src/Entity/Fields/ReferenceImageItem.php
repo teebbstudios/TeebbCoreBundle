@@ -43,14 +43,14 @@ class ReferenceImageItem extends BaseFieldItem
     /**
      * 图像宽度信息
      * @var integer
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $width;
 
     /**
      * 图像高度信息
      * @var integer
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $height;
 

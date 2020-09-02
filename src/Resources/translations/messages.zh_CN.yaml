@@ -95,6 +95,8 @@ bool_checked: 是否允许
 comment_type_voter: 评论类型权限
 content_type_voter: 内容类型权限
 taxonomy_type_voter: 分类类型权限
+Groups: 用户组
+people_update: 编辑用户
 
 teebb:
     core:
@@ -294,6 +296,8 @@ teebb:
             login: 登录
             register: 注册
             reset_password: 重置密码
+            group: 用户组
+
         content:
             create_success: 内容 "%value%" 创建成功。
             update_success: 内容 "%value%" 更新成功。

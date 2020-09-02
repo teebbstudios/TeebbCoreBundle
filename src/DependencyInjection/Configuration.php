@@ -140,6 +140,7 @@ class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('people_index')->defaultValue('@TeebbCore/user/list/_user_list.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('people_update')->defaultValue('@TeebbCore/user/form/_user_form.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('group_index')->defaultValue('@TeebbCore/user/list/_group_list.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('group_form')->defaultValue('@TeebbCore/user/form/group_form.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('group_delete')->defaultValue('@TeebbCore/user/form/_delete_form.html.twig')->cannotBeEmpty()->end()

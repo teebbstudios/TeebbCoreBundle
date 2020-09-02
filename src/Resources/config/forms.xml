@@ -64,6 +64,13 @@
             <tag name="form.type"/>
         </service>
 
+        <service id="teebb.core.form.user_type"
+                 class="Teebb\CoreBundle\Form\Type\Content\UserType">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="service_container"/>
+            <tag name="form.type"/>
+        </service>
+
         <service id="teebb.core.form.field.boolean_field_type"
                  class="Teebb\CoreBundle\Form\Type\FieldType\BooleanFieldType">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>

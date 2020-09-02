@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\User;
+use Teebb\CoreBundle\Form\Type\Content\UserType;
 use Teebb\CoreBundle\Form\Type\User\GroupType;
 use Teebb\CoreBundle\Form\Type\User\PermissionsType;
 use Teebb\CoreBundle\Repository\GroupRepository;
@@ -70,11 +71,37 @@ class UserTypeController extends AbstractEntityTypeController
      */
     public function peopleUpdateAction(Request $request, User $user)
     {
-        dd($user);
+        $userForm = $this->createForm(UserType::class, $user, [
+                'bundle' => 'user',
+                'type_alias' => 'people',
+                'data_class' => User::class
+            ]
+        );
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid())
+        {
+            try {
+                //持久化用户和字段
+                /**@var User $user * */
+                $user = $this->persistSubstance($this->entityManager, $this->fieldConfigurationRepository,
+                    $userForm, 'user', 'people', User::class, $user);
+
+                $this->addFlash('success', $this->container->get('translator')->trans(
+                    'teebb.core.user.update_success', ['%value%' => $user->getUsername()]
+                ));
+
+                //用户更新完成，跳转到列表页
+                return $this->redirectToRoute('user_people_index');
+
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
 
         return $this->render($this->templateRegistry->getTemplate('people_update', 'user'), [
-
             'action' => 'people_update',
+            'user_form' => $userForm->createView()
         ]);
     }
 

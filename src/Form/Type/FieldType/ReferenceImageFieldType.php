@@ -39,17 +39,19 @@ class ReferenceImageFieldType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /**@var ReferenceImageItem $imageItem * */
             $imageItem = $event->getData();
-            if ($imageItem->getWidth() == null || $imageItem->getHeight() == null) {
-                $filePath = $imageItem->getValue()->getFilePath();
-                /**@var AbstractAdapter $adapter**/
-                $adapter = $this->filesystem->getAdapter();
-                $absolutePath = $adapter->applyPathPrefix($filePath);
+            if ($imageItem->getValue()){
+                if ($imageItem->getWidth() == null || $imageItem->getHeight() == null) {
+                    $filePath = $imageItem->getValue()->getFilePath();
+                    /**@var AbstractAdapter $adapter * */
+                    $adapter = $this->filesystem->getAdapter();
+                    $absolutePath = $adapter->applyPathPrefix($filePath);
 
-                list($width,$height) = getimagesize($absolutePath);
-                $imageItem->setWidth($width);
-                $imageItem->setHeight($height);
+                    list($width, $height) = getimagesize($absolutePath);
+                    $imageItem->setWidth($width);
+                    $imageItem->setHeight($height);
 
-                $event->setData($imageItem);
+                    $event->setData($imageItem);
+                }
             }
         });
 
