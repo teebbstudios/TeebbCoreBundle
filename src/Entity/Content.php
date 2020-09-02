@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Teebb\CoreBundle\Entity\Types\Types;
 
@@ -47,6 +48,13 @@ class Content extends BaseContent
      * @Gedmo\Slug(fields={"title"}, unique=true, updatable=false)
      */
     protected $slug;
+
+    /**
+     * 内容作者
+     * @var UserInterface
+     * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\User")
+     */
+    protected $author;
 
     /**
      * @var Types|null
@@ -115,6 +123,22 @@ class Content extends BaseContent
     public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    /**
+     * @return UserInterface
+     */
+    public function getAuthor(): UserInterface
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param UserInterface $author
+     */
+    public function setAuthor(UserInterface $author): void
+    {
+        $this->author = $author;
     }
 
     /**

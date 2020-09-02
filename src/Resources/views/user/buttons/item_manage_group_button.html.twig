@@ -1,0 +1,6 @@
+{#  Todo: 需要添加权限及获取可用操作  #}
+
+<div class="btn-group btn-group-sm" role="group">
+    <a href="{{ path('user_group_update', {'id':group.id}) }}" class="btn btn-primary text-white">{{ 'update'|trans }}</a>
+    <a href="{{ path('user_group_delete', {'id':group.id}) }}" class="btn btn-danger text-white">{{ 'delete'|trans }}</a>
+</div>

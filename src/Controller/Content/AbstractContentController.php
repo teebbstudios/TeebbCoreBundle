@@ -7,6 +7,7 @@ namespace Teebb\CoreBundle\Controller\Content;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Controller\SubstanceDBALOptionsTrait;
 use Teebb\CoreBundle\Entity\BaseContent;
@@ -54,14 +55,20 @@ abstract class AbstractContentController extends AbstractController
      */
     protected $formContractor;
 
+    /**
+     * @var Security
+     */
+    protected $security;
+
     public function __construct(EntityManagerInterface $entityManager, TemplateRegistry $templateRegistry,
-                                FormContractorInterface $formContractor)
+                                FormContractorInterface $formContractor, Security $security)
     {
         $this->entityManager = $entityManager;
         $this->fieldConfigRepository = $entityManager->getRepository(FieldConfiguration::class);
         $this->typesRepository = $entityManager->getRepository(Types::class);
         $this->templateRegistry = $templateRegistry;
         $this->formContractor = $formContractor;
+        $this->security = $security;
     }
 
     /**

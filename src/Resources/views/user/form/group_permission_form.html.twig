@@ -1,0 +1,15 @@
+{% extends '@TeebbCore/user/form/group_form.html.twig' %}
+
+{% block card_title %}
+    {% include '@TeebbCore/user/common/card_title.html.twig' with _context %}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/user/buttons/head_index_user_button.html.twig' with _context %}
+{% endblock %}
+
+{% block card_body %}
+
+    {{ form(permission_form) }}
+
+{% endblock %}

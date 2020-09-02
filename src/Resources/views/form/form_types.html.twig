@@ -100,9 +100,11 @@
     {% set file = form.parent.children.value.vars.data %}
     <div class="file-show pl-0 {% if file is null %}d-none{% endif %}">
         <div class="d-flex justify-content-between">
-            <a class="file small" href="{% if file is not null %}{{ show_file_url(app.request,file.filePath) }}{% endif %}">
+            <a class="file small"
+               href="{% if file is not null %}{{ show_file_url(app.request,file.filePath) }}{% endif %}">
                 <i class="fas fa-file pr-2"></i>{% if file is not null %} {{ file.originFileName }} {% endif %}</a>
-            <button type="button" onclick="fieldFileDelete(this)" data-file-id="{% if file is not null %}{{ file.id }}{% endif %}"
+            <button type="button" onclick="fieldFileDelete(this)"
+                    data-file-id="{% if file is not null %}{{ file.id }}{% endif %}"
                     class="btn-file-delete btn btn-sm btn-danger">
                 <small>{{ 'teebb.core.form.remove_field_item'|trans }}</small></button>
         </div>
@@ -116,9 +118,40 @@
         <div class="d-flex justify-content-between align-items-center">
             <img class="file small"
                  src="{% if file is not null %} {{ asset(file.filePath)|imagine_filter('squared_thumbnail_small') }} {% endif %}"/>
-            <button type="button" onclick="fieldFileDelete(this)" data-file-id="{% if file is not null %}{{ file.id }}{% endif %}"
+            <button type="button" onclick="fieldFileDelete(this)"
+                    data-file-id="{% if file is not null %}{{ file.id }}{% endif %}"
                     class="btn-file-delete btn btn-sm btn-danger">
                 <small>{{ 'teebb.core.form.remove_field_item'|trans }}</small></button>
         </div>
     </div>
+{% endblock %}
+
+
+{% block permission_widget %}
+    {% set data = form.vars.data %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td class="font-weight-bold">{{ 'permission'|trans }}</td>
+            <td class="font-weight-bold">{{ 'bool_checked'|trans }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for permission in data %}
+            {% for category, value in permission %}
+                <tr>
+                    <td colspan="2" class="font-weight-bold">{{category|trans}}</td>
+                </tr>
+                {% for permission_value, permission_label in value %}
+                    <tr>
+                        <td class="pl-4">{{permission_label|trans}}</td>
+                        <td>
+                            <input type="checkbox" name="permission[{{ category }}][{{ permission_value }}]">
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

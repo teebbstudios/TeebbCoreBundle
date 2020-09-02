@@ -28,6 +28,7 @@ use Teebb\CoreBundle\Route\EntityTypeRouteCollection;
 class UserEntityType extends AbstractEntityType
 {
     public const PEOPLE_INDEX = 'people_index';
+    public const PEOPLE_UPDATE = 'people_update';
 
     public const GROUP_INDEX = 'group_index';
     public const GROUP_CREATE = 'group_create';
@@ -44,6 +45,8 @@ class UserEntityType extends AbstractEntityType
 
         //列表管理所有用户
         $routeCollection->addRoute(self::PEOPLE_INDEX, 'peoples');
+        //编辑用户
+        $routeCollection->addRoute(self::PEOPLE_UPDATE, 'people/{username}/update');
 
         //组
         $routeCollection->addRoute(self::GROUP_INDEX, 'groups');

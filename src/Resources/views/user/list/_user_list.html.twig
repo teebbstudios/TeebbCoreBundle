@@ -62,7 +62,7 @@
                         {{ user.lastLogin|ago }}
                     </td>
                     <td>
-                        qqq
+                        {% include '@TeebbCore/user/buttons/item_manage_user_button.html.twig' with {user: user} %}
                     </td>
                 </tr>
             {% endfor %}

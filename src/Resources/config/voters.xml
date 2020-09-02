@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="teebb.core.voter.comment_type_voter" class="Teebb\CoreBundle\Voter\Types\CommentEntityTypeVoter" public="true">
+            <argument type="service" id="security.helper"/>
+            <tag name="teebb.voter"/>
+            <tag name="security.voter"/>
+        </service>
+        <service id="teebb.core.voter.content_type_voter" class="Teebb\CoreBundle\Voter\Types\ContentEntityTypeVoter" public="true">
+            <argument type="service" id="security.helper"/>
+            <tag name="teebb.voter"/>
+            <tag name="security.voter"/>
+        </service>
+        <service id="teebb.core.voter.taxonomy_type_voter" class="Teebb\CoreBundle\Voter\Types\TaxonomyEntityTypeVoter" public="true">
+            <argument type="service" id="security.helper"/>
+            <tag name="teebb.voter"/>
+            <tag name="security.voter"/>
+        </service>
+    </services>
+</container>

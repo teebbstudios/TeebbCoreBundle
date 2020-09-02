@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
@@ -37,7 +38,6 @@ trait SubstanceDBALOptionsTrait
      * @param BaseContent $data
      * @return mixed
      * @throws ConnectionException
-     * @throws \Exception
      */
     protected function persistSubstance(EntityManagerInterface $entityManager, FieldConfigurationRepository $fieldConfigRepository,
                                         FormInterface $form, string $bundle, string $typeAlias,
@@ -78,7 +78,6 @@ trait SubstanceDBALOptionsTrait
                         $fieldDBALUtils = new FieldDBALUtils($entityManager, $field);
 
                         $fieldDBALUtils->persistFieldItem($fieldItem);
-
                     }
                     //移除doctrine监听器
                     $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);

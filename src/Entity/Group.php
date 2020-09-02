@@ -43,6 +43,12 @@ class Group
     private $roles = [];
 
     /**
+     * @var array
+     * @ORM\Column(type="array", name="group_permissions")
+     */
+    private $permissions = [];
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -136,6 +142,22 @@ class Group
         }
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * @param array $permissions
+     */
+    public function setPermissions(array $permissions): void
+    {
+        $this->permissions = $permissions;
     }
 
 }

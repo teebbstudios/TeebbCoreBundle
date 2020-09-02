@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
@@ -38,6 +39,7 @@ use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
+use Teebb\CoreBundle\Voter\Types\ContentEntityTypeVoter;
 
 /**
  * 内容实体类型EntityType的Controller
@@ -87,14 +89,20 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     protected $translator;
 
+    /**
+     * @var Security
+     */
+    protected $security;
+
     public function __construct(TemplateRegistry $templateRegistry, EntityManagerInterface $entityManager,
                                 EventDispatcherInterface $dispatcher,
-                                FormContractorInterface $formContractor)
+                                FormContractorInterface $formContractor, Security $security)
     {
         $this->templateRegistry = $templateRegistry;
         $this->formContractor = $formContractor;
         $this->entityManager = $entityManager;
         $this->dispatcher = $dispatcher;
+        $this->security = $security;
     }
 
     /**
@@ -174,10 +182,11 @@ abstract class AbstractEntityTypeController extends AbstractController
      * @param Request $request
      * @return Response
      * @todo 添加EventListener统一处理用户权限问题
-     *
      */
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted(ContentEntityTypeVoter::CONTENT_ENTITY_TYPE_INDEX);
+
         $page = $request->get('page', 1);
         /**
          * @var Pagerfanta $paginator

@@ -1,7 +1,7 @@
 {% extends '@TeebbCore/base_content.html.twig' %}
 
 {% block head_label %}
-        {{ action|trans }}
+    {{ action|trans }}
 {% endblock %}
 
 {% block card_title %}
@@ -37,19 +37,12 @@
                         {% endfor %}
                     </td>
                     <td>
-                        操作
+                        {% include '@TeebbCore/user/buttons/item_manage_group_button.html.twig' with {'group':group} %}
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-
-{#    #}{#  页码  #}
-{#    {% if paginator.haveToPaginate %}#}
-{#        <div class="my-3">#}
-{#            {{ pagerfanta(paginator, 'twitter_bootstrap4_translated') }}#}
-{#        </div>#}
-{#    {% endif %}#}
 
 {% endblock %}

@@ -51,9 +51,15 @@ class GroupType extends AbstractType
                         'class' => 'font-weight-bold'
                     ]
                 ]);
-        };
+        }
 
         $builder
+            ->add('permissions', PermissionsType::class, [
+                'label' => 'teebb.core.user.group_permissions',
+                'label_attr' => [
+                    'class' => 'font-weight-bold'
+                ]
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'teebb.core.form.submit',
                 'attr' => [
@@ -65,7 +71,7 @@ class GroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Group::class,
+            'data_class' => Group::class
         ]);
     }
 }

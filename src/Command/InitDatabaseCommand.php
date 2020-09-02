@@ -349,9 +349,9 @@ class InitDatabaseCommand extends Command
     private function initAdminUser()
     {
         $administratorGroup = new Group();
-        $administratorGroup->setName('管理员');
-        $administratorGroup->setRoles(['ROLE_ADMIN']);
-        $administratorGroup->setGroupAlias('admin');
+        $administratorGroup->setName('超级管理员');
+        $administratorGroup->setRoles(['ROLE_SUPER_ADMIN']);
+        $administratorGroup->setGroupAlias('super_admin');
 
         $admin = new User();
         $admin->setUsername('admin');

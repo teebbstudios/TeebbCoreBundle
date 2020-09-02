@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\User;
 use Teebb\CoreBundle\Form\Type\User\GroupType;
+use Teebb\CoreBundle\Form\Type\User\PermissionsType;
 use Teebb\CoreBundle\Repository\GroupRepository;
 use Teebb\CoreBundle\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,6 +59,22 @@ class UserTypeController extends AbstractEntityTypeController
         return $this->render($this->templateRegistry->getTemplate('people_index', 'user'), [
             'paginator' => $paginator,
             'action' => 'people_index',
+        ]);
+    }
+
+    /**
+     * 管理所有用户
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     */
+    public function peopleUpdateAction(Request $request, User $user)
+    {
+        dd($user);
+
+        return $this->render($this->templateRegistry->getTemplate('people_update', 'user'), [
+
+            'action' => 'people_update',
         ]);
     }
 
@@ -176,6 +193,5 @@ class UserTypeController extends AbstractEntityTypeController
             'group' => $group
         ]);
     }
-
 
 }

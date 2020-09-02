@@ -7,6 +7,7 @@ namespace Teebb\CoreBundle\Controller\Content;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
@@ -147,6 +148,12 @@ class ContentController extends AbstractContentController
                 /**@var Content $content * */
                 $content = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
                     $form, $types->getBundle(), $types->getTypeAlias(), $data_class);
+
+                $author = $this->security->getUser();
+                $content->setAuthor($author);
+
+                $this->entityManager->persist($content);
+                $this->entityManager->flush();
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
                     'teebb.core.content.create_success', ['%value%' => $content->getTitle()]

@@ -42,6 +42,7 @@ class TeebbCoreExtension extends Extension
             'events',
             'routes',
             'services',
+            'voters'
         ];
 
         foreach ($resources as $resource) {

@@ -116,5 +116,10 @@
             <argument type="service" id="security.user_password_encoder.generic"/>
             <tag name="form.type"/>
         </service>
+
+        <service id="teebb.core.form.permission_type" class="Teebb\CoreBundle\Form\Type\User\PermissionsType" public="true">
+            <argument type="service" id="parameter_bag"/>
+            <tag name="form.type"/>
+        </service>
     </services>
 </container>

@@ -36,6 +36,7 @@
                 <th scope="col">{{ 'teebb.core.list.title'|trans }}</th>
                 <th scope="col">{{ 'teebb.core.list.type'|trans }}</th>
                 <th scope="col">{{ 'teebb.core.list.publish_status'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.author'|trans }}</th>
                 <th scope="col">{{ 'teebb.core.list.update_date'|trans }}</th>
                 <th scope="col">{{ 'teebb.core.list.options'|trans }}</th>
             </tr>
@@ -52,6 +53,7 @@
                     </td>
                     <td>{{ content.type.label }}</td>
                     <td>{{ content.status|trans }}</td>
+                    <td>{{ content.author.username }}</td>
                     <td>{{ content.updatedAt|date('Y-m-d H:i') }}</td>
                     <td>
                         {% include '@TeebbCore/content/buttons/item_manage_types_button.html.twig' with {item:content} %}
