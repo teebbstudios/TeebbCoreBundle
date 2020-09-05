@@ -26,6 +26,7 @@ class CommentController extends AbstractContentController
      */
     public function indexAction(Request $request)
     {
+
         $bundle = $request->get('bundle');
         $typeAlias = $request->get('typeAlias');
         $slug = $request->get('slug');

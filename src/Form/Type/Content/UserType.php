@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Form\Type\Content;
 
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -56,13 +57,28 @@ class UserType extends BaseContentType
                     'class' => 'form-control-sm'
                 ],
             ])
+            ->add('enabled', CheckboxType::class, [
+                'label' => 'teebb.core.form.enabled',
+                'label_attr' => [
+                    'class' => 'font-weight-bold'
+                ],
+                'required' => false,
+            ])
+            ->add('accountNonLocked', CheckboxType::class, [
+                'label' => 'teebb.core.form.none_locked',
+                'label_attr' => [
+                    'class' => 'font-weight-bold'
+                ],
+                'required' => false,
+            ])
             ->add('groups', EntityType::class, [
                 'label' => 'teebb.core.form.group',
                 'class' => Group::class,
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-            ]);
+            ])
+        ;
 
         $this->dynamicAddFieldForm($builder, $options, $data);
 

@@ -350,8 +350,12 @@ class InitDatabaseCommand extends Command
     {
         $administratorGroup = new Group();
         $administratorGroup->setName('超级管理员');
-        $administratorGroup->setRoles(['ROLE_SUPER_ADMIN']);
+        $administratorGroup->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN']);
         $administratorGroup->setGroupAlias('super_admin');
+
+        $registerUserGroup = new Group();
+        $registerUserGroup->setName('注册用户');
+        $registerUserGroup->setGroupAlias('user');
 
         $admin = new User();
         $admin->setUsername('admin');
@@ -359,13 +363,16 @@ class InitDatabaseCommand extends Command
         $admin->setEmail('admin@example.com');
         $admin->setEmailCanonical('admin@example.com');
         $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'admin'));
-        $admin->setRoles(['ROLE_SUPER_ADMIN']);
         $admin->setSalt(null);
         $admin->setEnabled(true);
-
         $admin->addGroup($administratorGroup);
+        foreach ($administratorGroup->getRoles() as $role)
+        {
+            $admin->addRole($role);
+        }
 
         $this->em->persist($administratorGroup);
+        $this->em->persist($registerUserGroup);
         $this->em->persist($admin);
         $this->em->flush();
     }

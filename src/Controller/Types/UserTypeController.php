@@ -10,7 +10,6 @@ use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\User;
 use Teebb\CoreBundle\Form\Type\Content\UserType;
 use Teebb\CoreBundle\Form\Type\User\GroupType;
-use Teebb\CoreBundle\Form\Type\User\PermissionsType;
 use Teebb\CoreBundle\Repository\GroupRepository;
 use Teebb\CoreBundle\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +46,8 @@ class UserTypeController extends AbstractEntityTypeController
      */
     public function peopleIndexAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 10);
 
@@ -71,6 +72,8 @@ class UserTypeController extends AbstractEntityTypeController
      */
     public function peopleUpdateAction(Request $request, User $user)
     {
+        $this->checkActionPermission($request);
+
         $userForm = $this->createForm(UserType::class, $user, [
                 'bundle' => 'user',
                 'type_alias' => 'people',
@@ -111,6 +114,8 @@ class UserTypeController extends AbstractEntityTypeController
      */
     public function groupIndexAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 10);
 
@@ -133,6 +138,8 @@ class UserTypeController extends AbstractEntityTypeController
      */
     public function groupCreateAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $groupForm = $this->createForm(GroupType::class);
 
         $groupForm->handleRequest($request);
@@ -164,6 +171,8 @@ class UserTypeController extends AbstractEntityTypeController
      */
     public function groupUpdateAction(Request $request, Group $group)
     {
+        $this->checkActionPermission($request);
+
         $groupForm = $this->createForm(GroupType::class, $group);
 
         $groupForm->handleRequest($request);
@@ -195,6 +204,8 @@ class UserTypeController extends AbstractEntityTypeController
      */
     public function groupDeleteAction(Request $request, Group $group)
     {
+        $this->checkActionPermission($request);
+
         $deleteForm = $this->formContractor->generateDeleteForm('delete_group', FormType::class, $group);
 
         $deleteForm->handleRequest($request);

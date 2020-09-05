@@ -19,5 +19,10 @@
             <tag name="teebb.voter"/>
             <tag name="security.voter"/>
         </service>
+        <service id="teebb.core.voter.user_voter" class="Teebb\CoreBundle\Voter\User\UserVoter" public="true">
+            <argument type="service" id="security.helper"/>
+            <tag name="teebb.voter"/>
+            <tag name="security.voter"/>
+        </service>
     </services>
 </container>

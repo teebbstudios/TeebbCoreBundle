@@ -11,6 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\Token;
 use Teebb\CoreBundle\Entity\User;
 use Teebb\CoreBundle\Event\UserEvents;
@@ -98,6 +99,12 @@ class SecurityController extends AbstractController
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
             /**@var User $user * */
             $user = $registerForm->getData();
+            //获取注册用户组对象，并将注册用户设置为注册用户组
+            $groupRepo = $this->entityManager->getRepository(Group::class);
+            $registerGroup = $groupRepo->findOneBy(['groupAlias'=> 'user']);
+
+            $user->addGroup($registerGroup);
+            $user->setRoles($registerGroup->getRoles());
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();

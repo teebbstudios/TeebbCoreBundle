@@ -297,6 +297,8 @@ teebb:
             register: 注册
             reset_password: 重置密码
             group: 用户组
+            enabled: 是否已启用
+            none_locked: 账号未锁定
 
         content:
             create_success: 内容 "%value%" 创建成功。
@@ -319,6 +321,7 @@ teebb:
             update_status:  评论 "%value%" 状态已成功修改为 "%status%"。
             batch_action_success: 操作 "%action%" 成功。
         user:
+            update_success: 用户 %value% 更新成功。
             register_success: 您的账号已注册成功，并成功向邮件地址%email%发送了激活链接，请前往激活账号。
             email_not_exist: 邮件地址%email%不存在。
             reset_email_send: 重置密码链接已发送到您的邮箱%email%
@@ -366,7 +369,7 @@ teebb:
 
         voter:
             comment_entity_type_index: 管理评论类型
-            comment_entity_type_new: 添加评论类型
+            comment_entity_type_create: 添加评论类型
             comment_entity_type_update: 更新评论类型
             comment_entity_type_delete: 删除评论类型
             comment_entity_type_index_fields: 管理评论类型字段
@@ -376,7 +379,7 @@ teebb:
             comment_entity_type_display_fields: 设置评论类型字段显示
 
             content_entity_type_index: 管理内容类型
-            content_entity_type_new: 添加内容类型
+            content_entity_type_create: 添加内容类型
             content_entity_type_update: 更新内容类型
             content_entity_type_delete: 删除内容类型
             content_entity_type_index_fields: 管理内容类型字段
@@ -386,7 +389,7 @@ teebb:
             content_entity_type_display_fields: 设置内容类型字段显示
 
             taxonomy_entity_type_index: 管理分类类型
-            taxonomy_entity_type_new: 添加分类类型
+            taxonomy_entity_type_create: 添加分类类型
             taxonomy_entity_type_update: 更新分类类型
             taxonomy_entity_type_delete: 删除分类类型
             taxonomy_entity_type_index_fields: 管理分类类型字段
@@ -395,3 +398,14 @@ teebb:
             taxonomy_entity_type_delete_field: 删除分类类型字段
             taxonomy_entity_type_display_fields: 设置分类类型字段显示
 
+            user_entity_type_index_fields: 管理用户字段
+            user_entity_type_add_field: 添加用户字段
+            user_entity_type_update_field: 更新用户字段
+            user_entity_type_delete_field: 删除用户字段
+            user_entity_type_display_fields: 管理用户字段显示
+            user_entity_type_people_index: 管理用户
+            user_entity_type_people_update: 编辑用户
+            user_entity_type_group_index: 管理用户组
+            user_entity_type_group_create: 添加用户组
+            user_entity_type_group_update: 更新用户组
+            user_entity_type_group_delete: 删除用户组

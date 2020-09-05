@@ -4,14 +4,15 @@
 namespace Teebb\CoreBundle\Voter\Types;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Teebb\CoreBundle\Voter\BaseVoter;
 
 /**
  * 分类类型Voter
  */
-class TaxonomyEntityTypeVoter extends AbstractTypesVoter
+class TaxonomyEntityTypeVoter extends BaseVoter
 {
     public const TAXONOMY_ENTITY_TYPE_INDEX = 'taxonomy_entity_type_index';
-    public const TAXONOMY_ENTITY_TYPE_NEW = 'taxonomy_entity_type_new';
+    public const TAXONOMY_ENTITY_TYPE_CREATE= 'taxonomy_entity_type_create';
     public const TAXONOMY_ENTITY_TYPE_UPDATE = 'taxonomy_entity_type_update';
     public const TAXONOMY_ENTITY_TYPE_DELETE = 'taxonomy_entity_type_delete';
     public const TAXONOMY_ENTITY_TYPE_INDEX_FIELDS = 'taxonomy_entity_type_index_fields';
@@ -28,7 +29,7 @@ class TaxonomyEntityTypeVoter extends AbstractTypesVoter
     {
         return [
             'teebb.core.voter.taxonomy_entity_type_index' => self::TAXONOMY_ENTITY_TYPE_INDEX,
-            'teebb.core.voter.taxonomy_entity_type_new' => self::TAXONOMY_ENTITY_TYPE_NEW,
+            'teebb.core.voter.taxonomy_entity_type_create' => self::TAXONOMY_ENTITY_TYPE_CREATE,
             'teebb.core.voter.taxonomy_entity_type_update' => self::TAXONOMY_ENTITY_TYPE_UPDATE,
             'teebb.core.voter.taxonomy_entity_type_delete' => self::TAXONOMY_ENTITY_TYPE_DELETE,
             'teebb.core.voter.taxonomy_entity_type_index_fields' => self::TAXONOMY_ENTITY_TYPE_INDEX_FIELDS,
@@ -41,12 +42,11 @@ class TaxonomyEntityTypeVoter extends AbstractTypesVoter
 
     protected function supports(string $attribute, $subject)
     {
-        // TODO: Implement supports() method.
+        return $this->entityTypeVoteSupports($attribute, $subject, $this->getVoteOptionArray());
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        // TODO: Implement voteOnAttribute() method.
+        return $this->checkVoteOnAttribute($attribute, $subject, $token);
     }
-
 }

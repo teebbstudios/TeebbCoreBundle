@@ -181,11 +181,10 @@ abstract class AbstractEntityTypeController extends AbstractController
      *
      * @param Request $request
      * @return Response
-     * @todo 添加EventListener统一处理用户权限问题
      */
     public function indexAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(ContentEntityTypeVoter::CONTENT_ENTITY_TYPE_INDEX);
+        $this->checkActionPermission($request);
 
         $page = $request->get('page', 1);
         /**
@@ -210,6 +209,8 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function createAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $formName = $request->get('_route');
 
         $typeEntityClass = $this->entityTypeService->getTypeEntityClass();
@@ -260,6 +261,8 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function updateAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $typeAlias = $request->get('typeAlias');
 
         $entityType = $this->entityTypeRepository->findOneBy(['typeAlias' => $typeAlias]);
@@ -310,6 +313,8 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function deleteAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $typeAlias = $request->get('typeAlias');
 
         $entityType = $this->entityTypeRepository->findOneBy(['typeAlias' => $typeAlias]);
@@ -383,6 +388,8 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function indexFieldAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
 
@@ -407,6 +414,8 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function addFieldAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $typeAlias = $request->get('typeAlias');
 
         $this->checkTypeObjectExist($typeAlias);
@@ -470,6 +479,8 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function updateFieldAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $typeAlias = $request->get('typeAlias');
         $fieldAlias = $request->get('fieldAlias');
 
@@ -520,6 +531,8 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function deleteFieldAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $typeAlias = $request->get('typeAlias');
         $fieldAlias = $request->get('fieldAlias');
 
@@ -575,6 +588,8 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function displayFieldAction(Request $request)
     {
+        $this->checkActionPermission($request);
+
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
 
@@ -635,5 +650,18 @@ abstract class AbstractEntityTypeController extends AbstractController
         if (null === $this->entityTypeRepository->findOneBy(['typeAlias' => $typeAlias])) {
             throw new NotFoundHttpException(sprintf('Url path wrong!!! Check the parameter "%s"', $typeAlias));
         }
+    }
+
+    /**
+     * 检查当前Action的权限
+     * @param Request $request
+     * @param $subject
+     */
+    protected function checkActionPermission(Request $request, $subject = null)
+    {
+        //组合不同的voter attribute
+        $action = $request->get('_teebb_action');
+        $bundle = $this->entityTypeService->getBundle();
+        $this->denyAccessUnlessGranted($bundle . '_entity_type_' . $action, $subject);
     }
 }

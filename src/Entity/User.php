@@ -332,6 +332,26 @@ class User extends BaseContent implements UserInterface
     }
 
     /**
+     * 用户添加角色
+     * @param string $role
+     * @return array
+     */
+    public function addRole(string $role)
+    {
+        $this->roles[] = $role;
+        return array_unique($this->roles);
+    }
+
+    /**
+     * 移除角色
+     * @param string $role
+     */
+    public function removeRole(string $role)
+    {
+        unset($role, $this->roles);
+    }
+
+    /**
      * @return string|null
      */
     public function getSalt(): ?string

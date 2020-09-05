@@ -4,16 +4,15 @@
 namespace Teebb\CoreBundle\Voter\Types;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Teebb\CoreBundle\Entity\Types\Types;
-use Teebb\CoreBundle\Entity\User;
+use Teebb\CoreBundle\Voter\BaseVoter;
 
 /**
  * 内容类型Voter
  */
-class ContentEntityTypeVoter extends AbstractTypesVoter
+class ContentEntityTypeVoter extends BaseVoter
 {
     public const CONTENT_ENTITY_TYPE_INDEX = 'content_entity_type_index';
-    public const CONTENT_ENTITY_TYPE_NEW = 'content_entity_type_new';
+    public const CONTENT_ENTITY_TYPE_CREATE = 'content_entity_type_create';
     public const CONTENT_ENTITY_TYPE_UPDATE = 'content_entity_type_update';
     public const CONTENT_ENTITY_TYPE_DELETE = 'content_entity_type_delete';
     public const CONTENT_ENTITY_TYPE_INDEX_FIELDS = 'content_entity_type_index_fields';
@@ -30,7 +29,7 @@ class ContentEntityTypeVoter extends AbstractTypesVoter
     {
         return [
             'teebb.core.voter.content_entity_type_index' => self::CONTENT_ENTITY_TYPE_INDEX,
-            'teebb.core.voter.content_entity_type_new' => self::CONTENT_ENTITY_TYPE_NEW,
+            'teebb.core.voter.content_entity_type_create' => self::CONTENT_ENTITY_TYPE_CREATE,
             'teebb.core.voter.content_entity_type_update' => self::CONTENT_ENTITY_TYPE_UPDATE,
             'teebb.core.voter.content_entity_type_delete' => self::CONTENT_ENTITY_TYPE_DELETE,
             'teebb.core.voter.content_entity_type_index_fields' => self::CONTENT_ENTITY_TYPE_INDEX_FIELDS,
@@ -43,38 +42,12 @@ class ContentEntityTypeVoter extends AbstractTypesVoter
 
     protected function supports(string $attribute, $subject)
     {
-        if (!in_array($attribute, $this->getVoteOptionArray())) {
-            return false;
-        }
-
-        if ($subject && !$subject instanceof Types) {
-            return false;
-        }
-
-        return true;
+        return $this->entityTypeVoteSupports($attribute, $subject, $this->getVoteOptionArray());
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        /**@var User $user**/
-        $user = $this->security->getUser();
-
-        $groups = $user->getGroups();
-
-        foreach ($groups as $group) {
-            //如果当前用户所在组包含超级管理员角色
-            if($this->checkUserInSuperAdminGroup($group)){
-                return true;
-            }
-
-            //如果当前用户所在组权限允许当前$attribute
-            if ($this->checkUserGroupsHasAttribute($group, $attribute))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->checkVoteOnAttribute($attribute, $subject, $token);
     }
 
 }
