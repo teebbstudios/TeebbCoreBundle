@@ -73,10 +73,6 @@ abstract class BaseVoter extends Voter implements TeebbVoterInterface
      */
     public function entityTypeVoteSupports(string $attribute, $subject, array $voterOptionArray)
     {
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-            return true;
-        }
-
         $voterValueArray = [];
         foreach ($voterOptionArray as $label => $value) {
             $voterValueArray[] = $value;

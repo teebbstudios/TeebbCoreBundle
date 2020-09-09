@@ -345,6 +345,8 @@ $('.prototype-wrapper').on('focus', '.js-reference-entity-autocomplete', functio
     }
 
     var autocompleteUrl = $(this).data('autocomplete-url');
+    var reference_types = $(this).data('reference-types');
+    var type_label = $(this).data('type-label');
 
     var label = $(this).data('find-label');
 
@@ -352,7 +354,9 @@ $('.prototype-wrapper').on('focus', '.js-reference-entity-autocomplete', functio
         {
             source: function (query, cb) {
                 $.ajax({
-                    url: autocompleteUrl + '?query=' + query
+                    method: 'POST',
+                    url: autocompleteUrl,
+                    data: {query: query, reference_types: reference_types, type_label: type_label}
                 }).then(function (data) {
                     cb(data);
                 });

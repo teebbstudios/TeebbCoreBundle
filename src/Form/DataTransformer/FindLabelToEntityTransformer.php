@@ -34,7 +34,8 @@ class FindLabelToEntityTransformer implements DataTransformerInterface
      */
     private $typesLabel;
 
-    public function __construct(EntityManagerInterface $entityManager, string $entityClass, string $findLabel, string $typesLabel = null, array $referenceTypes = [])
+    public function __construct(EntityManagerInterface $entityManager, string $entityClass,
+                                string $findLabel, string $typesLabel = null, array $referenceTypes = [])
     {
         $this->entityManager = $entityManager;
         $this->entityClass = $entityClass;

@@ -16,12 +16,10 @@ class ReferenceTaxonomyFieldType extends AbstractType
 {
     use FieldConfigOptionsTrait;
 
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /**@var ReferenceTaxonomyItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
-
 
         $referenceTypes = [];
         /**@var Types $types**/

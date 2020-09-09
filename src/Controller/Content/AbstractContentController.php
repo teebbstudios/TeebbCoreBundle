@@ -77,13 +77,18 @@ abstract class AbstractContentController extends AbstractController
     public function getSubstancesApi(Request $request)
     {
         $entityClass = $request->get('entity_class');
-        $queryLabel = $request->get('query_label');
+        $queryLabel = $request->get('query_label'); //查询的关键字在内容实体中对应的内容的属性
         $query = $request->get('query');
+        $referenceTypes = $request->get('reference_types');
+        $referenceTypesArray = explode(',', $referenceTypes);
+        $typeLabel = $request->get('type_label'); //引用的类型在内容实体中对应的属性
 
         $qb = $this->entityManager->createQueryBuilder();
         $qb->select('c')->from($entityClass, 'c')
             ->where($qb->expr()->like('c.' . $queryLabel, ':query'))
-            ->setParameter('query', '%' . $query . '%');
+            ->andWhere($qb->expr()->in('c.' . $typeLabel, ':reference_types'))
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('reference_types', $referenceTypesArray);
 
         $substances = $qb->getQuery()->getResult();
 

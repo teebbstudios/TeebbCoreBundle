@@ -140,11 +140,11 @@
         {% for permission in data %}
             {% for category, value in permission %}
                 <tr>
-                    <td colspan="2" class="font-weight-bold">{{category|trans}}</td>
+                    <td colspan="2" class="font-weight-bold">{{ category|trans }}</td>
                 </tr>
                 {% for permission_value, permission_label in value %}
                     <tr>
-                        <td class="pl-4">{{permission_label|trans}}</td>
+                        <td class="pl-4">{{ permission_label|trans }}</td>
                         <td>
                             <input type="checkbox" name="permission[{{ category }}][{{ permission_value }}]">
                         </td>
@@ -155,3 +155,20 @@
         </tbody>
     </table>
 {% endblock %}
+
+
+{%- block repeated_row -%}
+    <div class="form-group">
+        {% if form.vars.label != false %}
+            {{ form_label(form) }}
+        {% endif %}
+        {#
+        No need to render the errors here, as all errors are mapped
+        to the first child (see RepeatedTypeValidatorExtension).
+        #}
+        {{- block('form_rows') -}}
+        {% if form.vars.help != false %}
+            {{ form_help(form) }}
+        {% endif %}
+    </div>
+{%- endblock repeated_row -%}

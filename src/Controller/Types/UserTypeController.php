@@ -82,8 +82,7 @@ class UserTypeController extends AbstractEntityTypeController
         );
         $userForm->handleRequest($request);
 
-        if ($userForm->isSubmitted() && $userForm->isValid())
-        {
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
             try {
                 //持久化用户和字段
                 /**@var User $user * */

@@ -292,6 +292,8 @@ teebb:
             last_name: 名
             password: 密码
             repeat_password: 重复密码
+            change_password: 修改密码
+            change_password_help: 如需修改密码请填写此项，否则留空。密码长度为8位以上。
             remember_me: 记住我
             login: 登录
             register: 注册

@@ -388,7 +388,6 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function indexFieldAction(Request $request)
     {
-
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
 
@@ -413,8 +412,6 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function addFieldAction(Request $request)
     {
-        $this->checkActionPermission($request);
-
         $typeAlias = $request->get('typeAlias');
 
         $this->checkTypeObjectExist($typeAlias);

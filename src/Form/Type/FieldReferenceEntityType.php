@@ -67,6 +67,8 @@ class FieldReferenceEntityType extends AbstractType
 
         $attr['class'] = $class;
         $attr['data-find-label'] = $options['find_label'];
+        $attr['data-reference-types'] = implode(',',$options['reference_types']);
+        $attr['data-type-label'] = $options['type_label'];
         $attr['data-autocomplete-url'] = $this->router->generate($options['data_autocomplete_route']);
         $view->vars['attr'] = $attr;
     }
