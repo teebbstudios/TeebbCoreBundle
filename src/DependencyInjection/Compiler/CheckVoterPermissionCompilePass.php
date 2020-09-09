@@ -23,7 +23,7 @@ class CheckVoterPermissionCompilePass implements CompilerPassInterface
                 $voterService = $container->get($serviceId);
                 $voterOptionArray[] = $voterService->getVoteOptionArray();
             } catch (\Exception $e) {
-                throwException($e);
+                echo $e->getMessage();
             }
         }
 

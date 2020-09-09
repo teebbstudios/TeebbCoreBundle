@@ -35,19 +35,16 @@ trait SubstanceDBALOptionsTrait
      * @param string $bundle 用于排序显示所有字段
      * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
      * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
-     * @param BaseContent $data
      * @return mixed
      * @throws ConnectionException
+     * @throws \Exception
      */
     protected function persistSubstance(EntityManagerInterface $entityManager, FieldConfigurationRepository $fieldConfigRepository,
                                         FormInterface $form, string $bundle, string $typeAlias,
-                                        string $contentClassName, BaseContent $data = null)
+                                        string $contentClassName)
     {
         //内容Entity object
         $substance = $form->getData();
-
-        $entityManager->persist($substance);
-        $entityManager->flush();
 
         //获取当前内容类型所有字段
         $fields = $fieldConfigRepository
@@ -57,9 +54,11 @@ trait SubstanceDBALOptionsTrait
         $evm = $entityManager->getEventManager();
 
         $conn = $entityManager->getConnection();
-
         $conn->beginTransaction();
         try {
+            $entityManager->persist($substance);
+            $entityManager->flush();
+
             /**@var FieldConfiguration $field * */
             foreach ($fields as $field) {
                 //获取当前字段的所有表单数据
@@ -87,15 +86,6 @@ trait SubstanceDBALOptionsTrait
             $conn->commit();
         } catch (\Exception $exception) {
             $conn->rollBack();
-            //如果原始内容id值为null，则为新建内容需要回滚删除
-            if (null == $data) {
-                $entityManager->remove($substance);
-                $entityManager->flush();
-            } else {
-                //如果原始内容id值不为null，则为编辑内容需要回滚到原始内容
-                $entityManager->persist($data);
-                $entityManager->flush();
-            }
             throw $exception;
         }
 
@@ -140,22 +130,24 @@ trait SubstanceDBALOptionsTrait
                     $fieldDBALUtils->deleteFieldItem($fieldItem);
                 }
             }
+
+            if ($data instanceof Taxonomy) {
+                $taxonomyRepo = $entityManager->getRepository(Taxonomy::class);
+                $taxonomyRepo->removeFromTree($data);
+            } elseif ($data instanceof Comment) {
+                $commentRepo = $entityManager->getRepository(Comment::class);
+                $commentRepo->removeFromTree($data);
+            } else {
+                $entityManager->remove($data);
+            }
+            $entityManager->flush();
+
             $conn->commit();
         } catch (\Exception $e) {
             $conn->rollBack();
             throw $e;
         }
 
-        if ($data instanceof Taxonomy) {
-            $taxonomyRepo = $entityManager->getRepository(Taxonomy::class);
-            $taxonomyRepo->removeFromTree($data);
-        } elseif ($data instanceof Comment) {
-            $commentRepo = $entityManager->getRepository(Comment::class);
-            $commentRepo->removeFromTree($data);
-        } else {
-            $entityManager->remove($data);
-        }
-        $entityManager->flush();
     }
 
 }

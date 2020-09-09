@@ -15,11 +15,6 @@ class ContentEntityTypeVoter extends BaseVoter
     public const CONTENT_ENTITY_TYPE_CREATE = 'content_entity_type_create';
     public const CONTENT_ENTITY_TYPE_UPDATE = 'content_entity_type_update';
     public const CONTENT_ENTITY_TYPE_DELETE = 'content_entity_type_delete';
-    public const CONTENT_ENTITY_TYPE_INDEX_FIELDS = 'content_entity_type_index_fields';
-    public const CONTENT_ENTITY_TYPE_ADD_FIELD = 'content_entity_type_add_field';
-    public const CONTENT_ENTITY_TYPE_UPDATE_FIELD = 'content_entity_type_update_field';
-    public const CONTENT_ENTITY_TYPE_DELETE_FIELD = 'content_entity_type_delete_field';
-    public const CONTENT_ENTITY_TYPE_DISPLAY_FIELDS = 'content_entity_type_display_fields';
 
     /**
      * 获取当前voter所有权限
@@ -32,11 +27,6 @@ class ContentEntityTypeVoter extends BaseVoter
             'teebb.core.voter.content_entity_type_create' => self::CONTENT_ENTITY_TYPE_CREATE,
             'teebb.core.voter.content_entity_type_update' => self::CONTENT_ENTITY_TYPE_UPDATE,
             'teebb.core.voter.content_entity_type_delete' => self::CONTENT_ENTITY_TYPE_DELETE,
-            'teebb.core.voter.content_entity_type_index_fields' => self::CONTENT_ENTITY_TYPE_INDEX_FIELDS,
-            'teebb.core.voter.content_entity_type_add_field' => self::CONTENT_ENTITY_TYPE_ADD_FIELD,
-            'teebb.core.voter.content_entity_type_update_field' => self::CONTENT_ENTITY_TYPE_UPDATE_FIELD,
-            'teebb.core.voter.content_entity_type_delete_field' => self::CONTENT_ENTITY_TYPE_DELETE_FIELD,
-            'teebb.core.voter.content_entity_type_display_fields' => self::CONTENT_ENTITY_TYPE_DISPLAY_FIELDS,
         ];
     }
 

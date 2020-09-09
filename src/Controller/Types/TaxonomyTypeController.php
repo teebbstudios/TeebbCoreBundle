@@ -26,8 +26,6 @@ class TaxonomyTypeController extends AbstractEntityTypeController
      */
     public function indexTermAction(Request $request)
     {
-        $this->checkActionPermission($request);
-
         $typeAlias = $request->get('typeAlias');
 
         $this->checkTypeObjectExist($typeAlias);
@@ -53,8 +51,6 @@ class TaxonomyTypeController extends AbstractEntityTypeController
      */
     public function createTermAction(Request $request)
     {
-        $this->checkActionPermission($request);
-
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
 
@@ -108,8 +104,6 @@ class TaxonomyTypeController extends AbstractEntityTypeController
      */
     public function updateTermAction(Request $request, Taxonomy $taxonomy)
     {
-        $this->checkActionPermission($request);
-
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
 
@@ -164,8 +158,6 @@ class TaxonomyTypeController extends AbstractEntityTypeController
      */
     public function deleteTermAction(Request $request, Taxonomy $taxonomy)
     {
-        $this->checkActionPermission($request);
-
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
 

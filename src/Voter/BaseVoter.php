@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Voter;
 
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
@@ -21,9 +22,15 @@ abstract class BaseVoter extends Voter implements TeebbVoterInterface
      */
     protected $security;
 
-    public function __construct(Security $security)
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    public function __construct(Security $security, EntityManagerInterface $entityManager)
     {
         $this->security = $security;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -66,6 +73,10 @@ abstract class BaseVoter extends Voter implements TeebbVoterInterface
      */
     public function entityTypeVoteSupports(string $attribute, $subject, array $voterOptionArray)
     {
+        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+            return true;
+        }
+
         $voterValueArray = [];
         foreach ($voterOptionArray as $label => $value) {
             $voterValueArray[] = $value;

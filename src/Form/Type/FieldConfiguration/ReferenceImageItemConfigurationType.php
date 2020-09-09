@@ -39,17 +39,17 @@ class ReferenceImageItemConfigurationType extends BaseItemConfigurationType
             ->add('useAlt', CheckboxType::class, [
                 'label' => 'teebb.core.fields.configuration.use_alt',
                 'help' => 'teebb.core.fields.configuration.use_alt_help',
-                'data' => true
+                'required' => false,
             ])
             ->add('altRequired', CheckboxType::class, [
                 'label' => 'teebb.core.fields.configuration.alt_required',
                 'help' => 'teebb.core.fields.configuration.alt_required_help',
-                'data' => true
+                'required' => false,
             ])
             ->add('useTitle', CheckboxType::class, [
                 'label' => 'teebb.core.fields.configuration.use_title',
                 'help' => 'teebb.core.fields.configuration.use_title_help',
-                'data' => true
+                'required' => false,
             ]);
     }
 

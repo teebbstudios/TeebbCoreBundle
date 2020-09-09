@@ -13,6 +13,7 @@
 namespace Teebb\CoreBundle;
 
 
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Teebb\CoreBundle\DependencyInjection\Compiler\CheckVoterPermissionCompilePass;
@@ -36,6 +37,6 @@ class TeebbCoreBundle extends Bundle
         $container->addCompilerPass(new GenerateFieldsInfoCompilePass());
         $container->addCompilerPass(new GlobalVariablesCompilePass());
         $container->addCompilerPass(new TwigFormThemesCompilePass());
-        $container->addCompilerPass(new CheckVoterPermissionCompilePass());
+        $container->addCompilerPass(new CheckVoterPermissionCompilePass(),PassConfig::TYPE_OPTIMIZE);
     }
 }

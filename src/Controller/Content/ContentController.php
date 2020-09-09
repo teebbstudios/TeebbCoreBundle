@@ -7,7 +7,6 @@ namespace Teebb\CoreBundle\Controller\Content;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
@@ -208,7 +207,7 @@ class ContentController extends AbstractContentController
             try {
                 //持久化内容和字段
                 $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
-                    $form, $entityTypeService->getBundle(), $content->getTypeAlias(), $data_class, $content);
+                    $form, $entityTypeService->getBundle(), $content->getTypeAlias(), $data_class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
                     'teebb.core.content.update_success', ['%value%' => $content->getTitle()]

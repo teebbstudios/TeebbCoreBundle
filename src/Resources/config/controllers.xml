@@ -9,7 +9,7 @@
                  public="false">
             <argument type="service" id="teebb.core.template.registry"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <argument type="service" id="debug.event_dispatcher"/>
+            <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="teebb.core.form.contractor"/>
             <argument type="service" id="security.helper"/>
             <tag name="controller.service_arguments"/>
@@ -26,7 +26,7 @@
                  public="false">
             <argument type="service" id="teebb.core.template.registry"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <argument type="service" id="debug.event_dispatcher"/>
+            <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="teebb.core.form.contractor"/>
             <argument type="service" id="security.helper"/>
             <tag name="controller.service_arguments"/>
@@ -43,7 +43,7 @@
                  public="false">
             <argument type="service" id="teebb.core.template.registry"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <argument type="service" id="debug.event_dispatcher"/>
+            <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="teebb.core.form.contractor"/>
             <argument type="service" id="security.helper"/>
             <tag name="controller.service_arguments"/>
@@ -60,7 +60,7 @@
                  public="false">
             <argument type="service" id="teebb.core.template.registry"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <argument type="service" id="debug.event_dispatcher"/>
+            <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="teebb.core.form.contractor"/>
             <argument type="service" id="security.helper"/>
             <tag name="controller.service_arguments"/>
@@ -157,7 +157,7 @@
             <tag name="controller.service_arguments"/>
             <argument type="service" id="security.authentication_utils"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <argument type="service" id="debug.event_dispatcher"/>
+            <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="teebb.core.template.registry"/>
             <argument type="service" id="router.default"/>
             <argument type="service" id="security.user_password_encoder.generic"/>

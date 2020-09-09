@@ -81,8 +81,8 @@ trait FieldConfigOptionsTrait
             'label' => false,
             'required' => $fieldSettings->isRequired(),
             'choices' => $fieldSettings->getAllowedValues(),
-            'multiple' => true,
-            'expanded' => true,
+            'multiple' => $limit == 1 ? false : true,
+            'expanded' =>  $limit == 1 ? false : true,
             'placeholder' => 'teebb.core.form.select_list_numeric'
         ];
 

@@ -388,7 +388,6 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function indexFieldAction(Request $request)
     {
-        $this->checkActionPermission($request);
 
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
@@ -479,7 +478,6 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function updateFieldAction(Request $request)
     {
-        $this->checkActionPermission($request);
 
         $typeAlias = $request->get('typeAlias');
         $fieldAlias = $request->get('fieldAlias');
@@ -531,8 +529,6 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function deleteFieldAction(Request $request)
     {
-        $this->checkActionPermission($request);
-
         $typeAlias = $request->get('typeAlias');
         $fieldAlias = $request->get('fieldAlias');
 
@@ -588,7 +584,6 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function displayFieldAction(Request $request)
     {
-        $this->checkActionPermission($request);
 
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
@@ -653,7 +648,7 @@ abstract class AbstractEntityTypeController extends AbstractController
     }
 
     /**
-     * 检查当前Action的权限
+     * 检查当前Types index create update delete Action的权限
      * @param Request $request
      * @param $subject
      */

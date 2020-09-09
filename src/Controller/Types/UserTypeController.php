@@ -88,7 +88,7 @@ class UserTypeController extends AbstractEntityTypeController
                 //持久化用户和字段
                 /**@var User $user * */
                 $user = $this->persistSubstance($this->entityManager, $this->fieldConfigurationRepository,
-                    $userForm, 'user', 'people', User::class, $user);
+                    $userForm, 'user', 'people', User::class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
                     'teebb.core.user.update_success', ['%value%' => $user->getUsername()]

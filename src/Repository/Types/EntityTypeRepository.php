@@ -6,9 +6,7 @@ namespace Teebb\CoreBundle\Repository\Types;
 
 use Teebb\CoreBundle\Repository\EntityRepository;
 
-/**
- * Class CommentEntityTypeRepository
- */
+
 class EntityTypeRepository extends EntityRepository
 {
 
