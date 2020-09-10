@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Entity\User;
@@ -27,10 +28,11 @@ abstract class BaseVoter extends Voter implements TeebbVoterInterface
      * @var EntityManagerInterface
      */
     protected $entityManager;
+
     /**
      * @var TranslatorInterface
      */
-    private $translator;
+    protected $translator;
 
     public function __construct(Security $security, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
@@ -65,7 +67,7 @@ abstract class BaseVoter extends Voter implements TeebbVoterInterface
             ];
 
 
-            switch ($bundle){
+            switch ($bundle) {
                 case 'comment':
                     //如果bundle 为 comment 则需要添加 管理评论权限
                     $commentExtraPermissionArray = [

@@ -73,9 +73,13 @@ abstract class AbstractContentController extends AbstractController
 
     /**
      * 用户引用内容、分类字段autocomplete
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function getSubstancesApi(Request $request)
     {
+        $this->security->isGranted('ROLE_USER');
+
         $entityClass = $request->get('entity_class');
         $queryLabel = $request->get('query_label'); //查询的关键字在内容实体中对应的内容的属性
         $query = $request->get('query');

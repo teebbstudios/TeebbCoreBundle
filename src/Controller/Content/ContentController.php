@@ -30,6 +30,8 @@ class ContentController extends AbstractContentController
      */
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('content_index');
+
         $entityTypeService = $this->getEntityTypeService($request);
 
         $page = $request->get('page', 1);
@@ -128,6 +130,8 @@ class ContentController extends AbstractContentController
      */
     public function createAction(Request $request, Types $types)
     {
+        $this->denyAccessUnlessGranted('content_' . $types->getTypeAlias() . '_create');
+
         $entityTypeService = $this->getEntityTypeService($request);
 
         $data_class = $entityTypeService->getEntityClassName();
@@ -187,6 +191,10 @@ class ContentController extends AbstractContentController
      */
     public function updateAction(Request $request, Content $content)
     {
+        if (!$this->isGranted('content_owner_update', $content)) {
+            $this->denyAccessUnlessGranted('content_' . $content->getTypeAlias() . '_update', $content);
+        }
+
         $entityTypeService = $this->getEntityTypeService($request);
 
         $data_class = $entityTypeService->getEntityClassName();
@@ -242,6 +250,10 @@ class ContentController extends AbstractContentController
      */
     public function deleteAction(Request $request, Content $content)
     {
+        if (!$this->isGranted('content_owner_delete', $content)) {
+            $this->denyAccessUnlessGranted('content_' . $content->getTypeAlias() . '_delete', $content);
+        }
+
         $entityTypeService = $this->getEntityTypeService($request);
 
         $deleteForm = $this->formContractor->generateDeleteForm($request->attributes->get('_route'), FormType::class, $content);

@@ -416,3 +416,10 @@ teebb:
             user_entity_type_group_create: 添加用户组
             user_entity_type_group_update: 更新用户组
             user_entity_type_group_delete: 删除用户组
+
+            content_index: 管理内容
+            content_owner_update: 更新自己的内容
+            content_owner_delete: 删除自己的内容
+            content_create: 添加 "%type%" 类型内容
+            content_update: 更新 "%type%" 类型内容
+            content_delete: 删除 "%type%" 类型内容
