@@ -3,7 +3,7 @@ taxonomy: 分类
 comment: 评论
 
 index: 管理
-create: 创建
+create: 添加
 update: 编辑
 delete: 删除
 update_permission: 更新权限
@@ -372,18 +372,19 @@ teebb:
         voter:
             comment_entity_type_index: 管理评论类型
             comment_entity_type_create: 添加评论类型
-            comment_entity_type_update: 更新评论类型
-            comment_entity_type_delete: 删除评论类型
+            comment_entity_type_update: 更新 "%type%" 评论类型
+            comment_entity_type_delete: 删除 "%type%" 评论类型
             comment_entity_type_index_field: 管理 "%type%" 评论类型字段
             comment_entity_type_add_field: 添加 "%type%" 评论类型字段
             comment_entity_type_update_field: 更新 "%type%" 评论类型字段
             comment_entity_type_delete_field: 删除 "%type%" 评论类型字段
             comment_entity_type_display_field: 管理 "%type%" 评论类型字段显示
+            comment_entity_type_index_comments: 管理 "%type%" 评论
 
             content_entity_type_index: 管理内容类型
             content_entity_type_create: 添加内容类型
-            content_entity_type_update: 更新内容类型
-            content_entity_type_delete: 删除内容类型
+            content_entity_type_update: 更新 "%type%" 内容类型
+            content_entity_type_delete: 删除 "%type%" 内容类型
             content_entity_type_index_field: 管理 "%type%" 内容类型字段
             content_entity_type_add_field: 添加 "%type%" 内容类型字段
             content_entity_type_update_field: 更新 "%type%" 内容类型字段
@@ -392,13 +393,17 @@ teebb:
 
             taxonomy_entity_type_index: 管理分类类型
             taxonomy_entity_type_create: 添加分类类型
-            taxonomy_entity_type_update: 更新分类类型
-            taxonomy_entity_type_delete: 删除分类类型
+            taxonomy_entity_type_update: 更新 "%type%" 分类类型
+            taxonomy_entity_type_delete: 删除 "%type%" 分类类型
             taxonomy_entity_type_index_field: 管理 "%type%" 分类类型字段
             taxonomy_entity_type_add_field: 添加 "%type%" 分类类型字段
             taxonomy_entity_type_update_field: 更新 "%type%" 分类类型字段
             taxonomy_entity_type_delete_field: 删除 "%type%" 分类类型字段
             taxonomy_entity_type_display_field: 管理 "%type%" 分类类型字段显示
+            taxonomy_entity_type_index_term: 管理 "%type%" 词汇
+            taxonomy_entity_type_create_term: 添加 "%type%" 词汇
+            taxonomy_entity_type_update_term: 更新 "%type%" 词汇
+            taxonomy_entity_type_delete_term: 删除 "%type%" 词汇
 
             user_entity_type_index_fields: 管理用户字段
             user_entity_type_add_field: 添加用户字段

@@ -14,8 +14,6 @@ class ContentEntityTypeVoter extends BaseVoter
 {
     public const CONTENT_ENTITY_TYPE_INDEX = 'content_entity_type_index';
     public const CONTENT_ENTITY_TYPE_CREATE = 'content_entity_type_create';
-    public const CONTENT_ENTITY_TYPE_UPDATE = 'content_entity_type_update';
-    public const CONTENT_ENTITY_TYPE_DELETE = 'content_entity_type_delete';
 
     /**
      * 获取当前voter所有权限
@@ -26,8 +24,6 @@ class ContentEntityTypeVoter extends BaseVoter
         $voteOptionArray = [
             'teebb.core.voter.content_entity_type_index' => self::CONTENT_ENTITY_TYPE_INDEX,
             'teebb.core.voter.content_entity_type_create' => self::CONTENT_ENTITY_TYPE_CREATE,
-            'teebb.core.voter.content_entity_type_update' => self::CONTENT_ENTITY_TYPE_UPDATE,
-            'teebb.core.voter.content_entity_type_delete' => self::CONTENT_ENTITY_TYPE_DELETE,
         ];
 
         return $this->getAllEntityTypesAttribute('content', $voteOptionArray);

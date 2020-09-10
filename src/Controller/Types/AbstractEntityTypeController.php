@@ -261,9 +261,9 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function updateAction(Request $request)
     {
-        $this->checkActionPermission($request);
-
         $typeAlias = $request->get('typeAlias');
+
+        $this->checkActionPermission($request, $typeAlias);
 
         $entityType = $this->entityTypeRepository->findOneBy(['typeAlias' => $typeAlias]);
 
@@ -313,9 +313,9 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function deleteAction(Request $request)
     {
-        $this->checkActionPermission($request);
-
         $typeAlias = $request->get('typeAlias');
+
+        $this->checkActionPermission($request, $typeAlias);
 
         $entityType = $this->entityTypeRepository->findOneBy(['typeAlias' => $typeAlias]);
 
@@ -391,6 +391,8 @@ abstract class AbstractEntityTypeController extends AbstractController
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
 
+        $this->checkActionPermission($request, $typeAlias);
+
         $this->checkTypeObjectExist($typeAlias);
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
@@ -413,6 +415,9 @@ abstract class AbstractEntityTypeController extends AbstractController
     public function addFieldAction(Request $request)
     {
         $typeAlias = $request->get('typeAlias');
+
+        //检查权限
+        $this->checkActionPermission($request, $typeAlias);
 
         $this->checkTypeObjectExist($typeAlias);
 
@@ -475,9 +480,10 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function updateFieldAction(Request $request)
     {
-
         $typeAlias = $request->get('typeAlias');
         $fieldAlias = $request->get('fieldAlias');
+
+        $this->checkActionPermission($request, $typeAlias);
 
         $this->checkTypeObjectExist($typeAlias);
 
@@ -528,6 +534,8 @@ abstract class AbstractEntityTypeController extends AbstractController
     {
         $typeAlias = $request->get('typeAlias');
         $fieldAlias = $request->get('fieldAlias');
+
+        $this->checkActionPermission($request, $typeAlias);
 
         $this->checkTypeObjectExist($typeAlias);
 
@@ -581,9 +589,10 @@ abstract class AbstractEntityTypeController extends AbstractController
      */
     public function displayFieldAction(Request $request)
     {
-
         $typeAlias = $request->get('typeAlias');
         $bundle = $this->entityTypeService->getBundle();
+
+        $this->checkActionPermission($request, $typeAlias);
 
         /**@var FieldConfiguration[] $fieldConfigurations * */
         $fieldConfigurations = $this->fieldConfigurationRepository
@@ -647,13 +656,19 @@ abstract class AbstractEntityTypeController extends AbstractController
     /**
      * 检查当前Types index create update delete Action的权限
      * @param Request $request
+     * @param string|null $typeAlias
      * @param $subject
      */
-    protected function checkActionPermission(Request $request, $subject = null)
+    protected function checkActionPermission(Request $request, string $typeAlias = null, $subject = null)
     {
         //组合不同的voter attribute
         $action = $request->get('_teebb_action');
         $bundle = $this->entityTypeService->getBundle();
-        $this->denyAccessUnlessGranted($bundle . '_entity_type_' . $action, $subject);
+        $attribute = $bundle . '_entity_type_' . $action;
+        if ($typeAlias) {
+            $attribute = $bundle . '_entity_type_' . $typeAlias . '_' . $action;
+        }
+//dd($attribute);
+        $this->denyAccessUnlessGranted($attribute);
     }
 }

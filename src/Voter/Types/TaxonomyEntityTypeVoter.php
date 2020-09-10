@@ -14,8 +14,6 @@ class TaxonomyEntityTypeVoter extends BaseVoter
 {
     public const TAXONOMY_ENTITY_TYPE_INDEX = 'taxonomy_entity_type_index';
     public const TAXONOMY_ENTITY_TYPE_CREATE= 'taxonomy_entity_type_create';
-    public const TAXONOMY_ENTITY_TYPE_UPDATE = 'taxonomy_entity_type_update';
-    public const TAXONOMY_ENTITY_TYPE_DELETE = 'taxonomy_entity_type_delete';
 
     /**
      * 获取当前voter所有权限
@@ -26,8 +24,6 @@ class TaxonomyEntityTypeVoter extends BaseVoter
         $voteOptionArray = [
             'teebb.core.voter.taxonomy_entity_type_index' => self::TAXONOMY_ENTITY_TYPE_INDEX,
             'teebb.core.voter.taxonomy_entity_type_create' => self::TAXONOMY_ENTITY_TYPE_CREATE,
-            'teebb.core.voter.taxonomy_entity_type_update' => self::TAXONOMY_ENTITY_TYPE_UPDATE,
-            'teebb.core.voter.taxonomy_entity_type_delete' => self::TAXONOMY_ENTITY_TYPE_DELETE,
         ];
 
         return $this->getAllEntityTypesAttribute('taxonomy', $voteOptionArray);

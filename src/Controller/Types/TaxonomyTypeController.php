@@ -28,6 +28,9 @@ class TaxonomyTypeController extends AbstractEntityTypeController
     {
         $typeAlias = $request->get('typeAlias');
 
+        //检查权限
+        $this->checkActionPermission($request, $typeAlias);
+
         $this->checkTypeObjectExist($typeAlias);
 
         $taxonomyRepo = $this->entityManager->getRepository(Taxonomy::class);
@@ -52,8 +55,11 @@ class TaxonomyTypeController extends AbstractEntityTypeController
     public function createTermAction(Request $request)
     {
         $typeAlias = $request->get('typeAlias');
-        $bundle = $this->entityTypeService->getBundle();
 
+        //检查权限
+        $this->checkActionPermission($request, $typeAlias);
+
+        $bundle = $this->entityTypeService->getBundle();
         $this->checkTypeObjectExist($typeAlias);
 
         $data_class = $this->entityTypeService->getEntityClassName();
@@ -105,6 +111,10 @@ class TaxonomyTypeController extends AbstractEntityTypeController
     public function updateTermAction(Request $request, Taxonomy $taxonomy)
     {
         $typeAlias = $request->get('typeAlias');
+
+        //检查权限
+        $this->checkActionPermission($request, $typeAlias);
+
         $bundle = $this->entityTypeService->getBundle();
 
         $this->checkTypeObjectExist($typeAlias);
@@ -159,6 +169,9 @@ class TaxonomyTypeController extends AbstractEntityTypeController
     public function deleteTermAction(Request $request, Taxonomy $taxonomy)
     {
         $typeAlias = $request->get('typeAlias');
+        //检查权限
+        $this->checkActionPermission($request, $typeAlias);
+
         $bundle = $this->entityTypeService->getBundle();
 
         $this->checkTypeObjectExist($typeAlias);

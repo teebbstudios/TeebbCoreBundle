@@ -40,7 +40,7 @@ abstract class BaseVoter extends Voter implements TeebbVoterInterface
     }
 
     /**
-     * 获取当前bundle所有内容类型,然后创建对应的vote attribute
+     * 获取当前bundle所有内容类型,然后创建对应的voter attribute
      *
      * @param string $bundle
      * @param array $voteOptionArray
@@ -55,12 +55,36 @@ abstract class BaseVoter extends Voter implements TeebbVoterInterface
         foreach ($types as $type) {
             $typeAlias = $type->getTypeAlias();
             $typeOptionArray = [
+                $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_update', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_update',
+                $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_delete', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_delete',
                 $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_index_field', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_index_field',
                 $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_add_field', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_add_field',
                 $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_update_field', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_update_field',
                 $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_delete_field', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_delete_field',
                 $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_display_field', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_display_field',
             ];
+
+
+            switch ($bundle){
+                case 'comment':
+                    //如果bundle 为 comment 则需要添加 管理评论权限
+                    $commentExtraPermissionArray = [
+                        $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_index_comments', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_index_comments',
+                    ];
+                    $typeOptionArray = array_merge($commentExtraPermissionArray, $typeOptionArray);
+                    break;
+                case 'taxonomy':
+                    //如果bundle 为 taxonomy 则需要添加 CRUD词汇
+                    $taxonomyExtraPermissionArray = [
+                        $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_index_term', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_index_term',
+                        $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_create_term', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_create_term',
+                        $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_update_term', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_update_term',
+                        $this->translator->trans('teebb.core.voter.' . $bundle . '_entity_type_delete_term', ['%type%' => $type->getLabel()]) => $bundle . '_entity_type_' . $typeAlias . '_delete_term',
+                    ];
+                    $typeOptionArray = array_merge($taxonomyExtraPermissionArray, $typeOptionArray);
+                    break;
+            }
+
             $voteOptionArray = array_merge($voteOptionArray, $typeOptionArray);
         }
 

@@ -25,6 +25,9 @@ class CommentTypeController extends AbstractEntityTypeController
     public function indexCommentsAction(Request $request)
     {
         $commentTypeAlias = $request->get('typeAlias');
+
+        $this->checkActionPermission($request, $commentTypeAlias);
+
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 10);
 
@@ -94,6 +97,7 @@ class CommentTypeController extends AbstractEntityTypeController
     /**
      * 管理评论状态
      * @param Request $request
+     * @param Comment $comment
      * @return Response
      */
     public function updateCommentStatusAction(Request $request, Comment $comment)
