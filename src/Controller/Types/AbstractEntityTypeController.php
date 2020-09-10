@@ -668,7 +668,7 @@ abstract class AbstractEntityTypeController extends AbstractController
         if ($typeAlias) {
             $attribute = $bundle . '_entity_type_' . $typeAlias . '_' . $action;
         }
-//dd($attribute);
+
         $this->denyAccessUnlessGranted($attribute);
     }
 }

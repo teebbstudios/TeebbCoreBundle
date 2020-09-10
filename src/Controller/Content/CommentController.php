@@ -63,6 +63,8 @@ class CommentController extends AbstractContentController
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $bundle = $request->get('bundle');
         $typeAlias = $request->get('typeAlias');
         $slug = $request->get('slug');
