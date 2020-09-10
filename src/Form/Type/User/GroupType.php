@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Group;
 
+
 class GroupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

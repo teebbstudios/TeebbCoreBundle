@@ -141,8 +141,10 @@
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item">
-                        <img src="{{ teebb_core.rootHostUrl ~'/'~data.value.filePath }}" alt="{{ data.alt }}"
-                             title="{{ data.title }}"/>
+                        {% if data.value != null %}
+                            <img src="{{ teebb_core.rootHostUrl ~'/'~data.value.filePath }}" alt="{{ data.alt }}"
+                                 title="{{ data.title }}"/>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -155,16 +157,18 @@
             <div class="field_items">
                 {% for data in field_data %}
                     {% if data.showFile == true %}
-                        <div class="field_item">
-                            <a target="_blank" href="{{ teebb_core.rootHostUrl ~'/'~data.value.filePath }}">
-                                <i class="fas fa-file"></i>
-                                {% if data.description is not empty %}
-                                    {{ data.description }}
-                                {% else %}
-                                    {{ data.value.originFileName }}
-                                {% endif %}
-                            </a>
-                        </div>
+                        {% if data.value != null %}
+                            <div class="field_item">
+                                <a target="_blank" href="{{ teebb_core.rootHostUrl ~'/'~data.value.filePath }}">
+                                    <i class="fas fa-file"></i>
+                                    {% if data.description is not empty %}
+                                        {{ data.description }}
+                                    {% else %}
+                                        {{ data.value.originFileName }}
+                                    {% endif %}
+                                </a>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             </div>

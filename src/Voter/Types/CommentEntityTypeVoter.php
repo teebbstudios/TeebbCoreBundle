@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Voter\Types;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Voter\BaseVoter;
 
 /**
@@ -22,17 +23,23 @@ class CommentEntityTypeVoter extends BaseVoter
      */
     public function getVoteOptionArray(): array
     {
-        return [
+        $voteOptionArray = [
             'teebb.core.voter.comment_entity_type_index' => self::COMMENT_ENTITY_TYPE_INDEX,
             'teebb.core.voter.comment_entity_type_create' => self::COMMENT_ENTITY_TYPE_CREATE,
             'teebb.core.voter.comment_entity_type_update' => self::COMMENT_ENTITY_TYPE_UPDATE,
             'teebb.core.voter.comment_entity_type_delete' => self::COMMENT_ENTITY_TYPE_DELETE,
         ];
+
+        return $this->getAllEntityTypesAttribute('comment', $voteOptionArray);
     }
 
     protected function supports(string $attribute, $subject)
     {
-        return $this->entityTypeVoteSupports($attribute, $subject, $this->getVoteOptionArray());
+        if ($subject && !$subject instanceof Types) {
+            return false;
+        }
+
+        return $this->baseVoteSupports($attribute, $this->getVoteOptionArray());
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)

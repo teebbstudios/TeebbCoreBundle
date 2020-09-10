@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Form\Type\User;
 
 
+use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Teebb\CoreBundle\Voter\TeebbVoterInterface;
 
 
 /**
@@ -23,15 +25,35 @@ class PermissionsType extends AbstractType
      * @var ParameterBagInterface
      */
     private $parameterBag;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __construct(ContainerInterface $container, ParameterBagInterface $parameterBag)
     {
         $this->parameterBag = $parameterBag;
+        $this->container = $container;
+    }
+
+    private function getAllVoterPermissions()
+    {
+        $voterServiceIds = $this->parameterBag->get('teebb.core.voter.services');
+
+        $permissions = [];
+        foreach ($voterServiceIds as $voterServiceId) {
+            /**@var TeebbVoterInterface $voterService * */
+            $voterService = $this->container->get($voterServiceId);
+
+            $permissions[] = $voterService->getVoteOptionArray();
+        }
+
+        return $permissions;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $permissions = $this->parameterBag->get('teebb.core.voter.permissions');
+        $permissions = $this->getAllVoterPermissions();
 
         $builder
             ->add('permission', ChoiceType::class, [
