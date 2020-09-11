@@ -290,6 +290,7 @@ class InitDatabaseCommand extends Command
         $fullFormatter->setAlias('full_html');
         $fullFormatter->setFilterSettings([]);
         $fullFormatter->setTranslatableLocale('zh_CN');
+        $fullFormatter->setCkEditorConfig('full');
 
         $standardFormatter = new Formatter();
         $standardFormatter->setName('基本的HTML');
@@ -301,6 +302,7 @@ class InitDatabaseCommand extends Command
             ]
         ]);
         $standardFormatter->setTranslatableLocale('zh_CN');
+        $standardFormatter->setCkEditorConfig('standard');
 
         $restrictFormatter = new Formatter();
         $restrictFormatter->setName('严格的HTML');
@@ -312,6 +314,8 @@ class InitDatabaseCommand extends Command
             ]
         ]);
         $restrictFormatter->setTranslatableLocale('zh_CN');
+        $restrictFormatter->setCkEditorConfig('basic');
+
 
         $this->em->persist($fullFormatter);
         $this->em->persist($standardFormatter);

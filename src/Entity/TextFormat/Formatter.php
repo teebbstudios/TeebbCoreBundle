@@ -4,9 +4,12 @@
 namespace Teebb\CoreBundle\Entity\TextFormat;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Teebb\CoreBundle\Entity\Group;
 
 /**
  * 格式化器Entity
@@ -36,12 +39,12 @@ class Formatter
      */
     private $alias;
 
-//    /**
-//     * Todo: 用户组
-//     * @var array|null
-//     * @ORM\Column(type="string", unique=true)
-//     */
-//    private $roles = [];
+    /**
+     * 当前格式化器所使用的 ckeditor 配置
+     * @var string|null
+     * @ORM\Column(type="string")
+     */
+    private $ckEditorConfig;
 
     /**
      * 格式化器的过滤设置
@@ -51,10 +54,26 @@ class Formatter
     private $filterSettings;
 
     /**
+     * 格式化器的过滤设置
+     *
+     * @ORM\ManyToMany(targetEntity="Teebb\CoreBundle\Entity\Group")
+     * @ORM\JoinTable(name="formatters_groups",
+     *      joinColumns={@ORM\JoinColumn(name="formatter_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    private $groups;
+
+    /**
      * @Gedmo\Locale
      * @var string
      */
     private $locale;
+
+    public function __construct()
+    {
+        $this->groups = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -79,22 +98,6 @@ class Formatter
     {
         $this->name = $name;
     }
-//
-//    /**
-//     * @return array|null
-//     */
-//    public function getRoles(): ?array
-//    {
-//        return $this->roles;
-//    }
-//
-//    /**
-//     * @param array|null $roles
-//     */
-//    public function setRoles(?array $roles): void
-//    {
-//        $this->roles = $roles;
-//    }
 
     /**
      * @return string|null
@@ -110,6 +113,22 @@ class Formatter
     public function setAlias(?string $alias): void
     {
         $this->alias = $alias;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCkEditorConfig(): ?string
+    {
+        return $this->ckEditorConfig;
+    }
+
+    /**
+     * @param string|null $ckEditorConfig
+     */
+    public function setCkEditorConfig(?string $ckEditorConfig): void
+    {
+        $this->ckEditorConfig = $ckEditorConfig;
     }
 
     /**
@@ -136,8 +155,35 @@ class Formatter
         $this->locale = $locale;
     }
 
-    public function __toString()
+//    public function __toString()
+//    {
+//        return $this->alias;
+//    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
     {
-        return $this->alias;
+        return $this->groups;
     }
+
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+        }
+
+        return $this;
+    }
+
 }

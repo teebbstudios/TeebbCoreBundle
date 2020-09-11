@@ -265,6 +265,8 @@ teebb:
                     help: 简短的描述该类型的帮助信息，此信息只在类型列表页面显示。
 
             formatter_name: 格式化器名称
+            ckeditor_config: CK编辑器设置
+            ckeditor_config_help: 请选择当前格式化器所使用的CK编辑器设置。
             filter_settings: 过滤器设置
             strip_tags_filter: 限制允许的 HTML 标签
             strip_tags_filter_extra: 允许的 HTML 标签

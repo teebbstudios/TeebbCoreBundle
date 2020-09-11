@@ -117,6 +117,12 @@
 
         <service id="teebb.core.form.formatter_type" class="Teebb\CoreBundle\Form\Type\FormatterType">
             <argument type="service" id="service_container"/>
+            <argument type="service" id="fos_ck_editor.configuration"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="teebb.core.form.text_formatter_type" class="Teebb\CoreBundle\Form\Type\TextFormatterType">
+            <argument type="service" id="security.helper"/>
             <tag name="form.type"/>
         </service>
 
