@@ -29,7 +29,6 @@ use Teebb\CoreBundle\Entity\Fields\StringItem;
 use Teebb\CoreBundle\Entity\Fields\TextFormatItem;
 use Teebb\CoreBundle\Entity\Fields\TextFormatSummaryItem;
 use Teebb\CoreBundle\Entity\Fields\TextItem;
-use Teebb\CoreBundle\Entity\Fields\TimestampItem;
 
 class DynamicChangeFieldMetadataListener
 {

@@ -23,7 +23,7 @@ use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\FileManaged;
 use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\Taxonomy;
-use Teebb\CoreBundle\Entity\TextFormat\Formatter;
+use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Entity\Token;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Entity\User;

@@ -3,6 +3,7 @@
 
 namespace Teebb\CoreBundle\Form\Type;
 
+
 use FOS\CKEditorBundle\Config\CKEditorConfigurationInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -12,8 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Group;
-use Teebb\CoreBundle\Entity\TextFormat\Formatter;
-use function Sodium\add;
+use Teebb\CoreBundle\Entity\Formatter;
 
 /**
  * 文本过滤器表单

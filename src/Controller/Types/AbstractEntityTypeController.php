@@ -12,13 +12,11 @@
 
 namespace Teebb\CoreBundle\Controller\Types;
 
+
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,7 +37,7 @@ use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
-use Teebb\CoreBundle\Voter\Types\ContentEntityTypeVoter;
+
 
 /**
  * 内容实体类型EntityType的Controller

@@ -5,11 +5,8 @@ namespace Teebb\CoreBundle\Controller;
 
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use League\Flysystem\FilesystemInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Liip\ImagineBundle\Imagine\Cache\CacheManagerAwareInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\File\Exception\NoFileException;
@@ -93,7 +90,7 @@ class FileController extends AbstractController
     }
 
     /**
-     * 文件字段上传action
+     * 文件上传action
      *
      * 如果 $request->get('field_alias') 有值则说明是文件或图像字段上传的文件，图像字段上传的文件需要额外处理，
      * 否则是html文本编辑器上传的文件。
@@ -104,8 +101,9 @@ class FileController extends AbstractController
      */
     public function fileUploadAction(Request $request)
     {
-        $field_alias = $request->get('field_alias');
+        $this->denyAccessUnlessGranted('file_upload');
 
+        $field_alias = $request->get('field_alias');
         /**@var UploadedFile $file * */
         $file = $request->files->get('file');
         if (null == $file) {
@@ -200,6 +198,8 @@ class FileController extends AbstractController
      */
     public function fileDeleteAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('file_delete');
+
         $id = $request->get('id');
         if (null == $id) {
             throw new \InvalidArgumentException('The "id" parameter must post.');

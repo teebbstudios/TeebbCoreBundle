@@ -13,8 +13,6 @@
 namespace Teebb\CoreBundle\Annotation;
 
 
-use Teebb\CoreBundle\Form\FormRowMarkup;
-
 /**
  * @Annotation
  *

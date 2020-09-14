@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\EmailItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\EmailItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class EmailFieldType extends AbstractType
 {

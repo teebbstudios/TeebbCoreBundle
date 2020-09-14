@@ -15,12 +15,8 @@ namespace Teebb\CoreBundle\AbstractService;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\FormView;
 use Teebb\CoreBundle\Entity\BaseContent;
-use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Form\FormContractorInterface;
-use Teebb\CoreBundle\Form\Type\Content\CommentType;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
 use Teebb\CoreBundle\Route\EntityTypePathBuilder;

@@ -5,8 +5,6 @@ namespace Teebb\CoreBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**

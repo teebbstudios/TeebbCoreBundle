@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Entity\User;

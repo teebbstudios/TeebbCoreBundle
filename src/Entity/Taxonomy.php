@@ -3,10 +3,10 @@
 
 namespace Teebb\CoreBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 
 /**
  * Taxonomy类型内容

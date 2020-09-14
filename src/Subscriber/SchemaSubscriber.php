@@ -3,19 +3,14 @@
 namespace Teebb\CoreBundle\Subscriber;
 
 
-use Doctrine\DBAL\Schema\Schema;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
-use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Entity\Fields\SimpleFormatItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 use Teebb\CoreBundle\Event\SchemaEvent;
-use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\Tools\ToolsException;
 use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 

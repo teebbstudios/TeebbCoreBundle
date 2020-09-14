@@ -12,7 +12,7 @@
 
 namespace Teebb\CoreBundle\AbstractService;
 
-use Symfony\Component\Form\FormView;
+
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;

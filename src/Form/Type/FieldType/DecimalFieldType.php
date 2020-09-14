@@ -10,7 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\DecimalItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\DecimalItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class DecimalFieldType extends AbstractType
 {

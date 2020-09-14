@@ -6,7 +6,6 @@ namespace Teebb\CoreBundle\Twig\Extensions;
 
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Teebb\CoreBundle\Translation\TranslatableMarkup;
 use Teebb\CoreBundle\Utils\FileHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

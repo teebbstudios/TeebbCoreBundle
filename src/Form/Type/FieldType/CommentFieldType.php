@@ -7,8 +7,6 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\CommentItem;
 use Teebb\CoreBundle\Entity\Fields\Configuration\CommentItemConfiguration;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Teebb\CoreBundle\Entity\TextFormat;
+namespace Teebb\CoreBundle\Entity;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Teebb\CoreBundle\Entity\Group;
 
 /**
  * 格式化器Entity
@@ -155,10 +154,14 @@ class Formatter
         $this->locale = $locale;
     }
 
-//    public function __toString()
-//    {
-//        return $this->alias;
-//    }
+    /**
+     * 用于持久化字段中的数据
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return $this->alias;
+    }
 
     /**
      * @return Collection|Group[]

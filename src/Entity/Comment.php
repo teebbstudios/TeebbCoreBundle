@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Comment类型内容
@@ -29,11 +30,12 @@ class Comment extends BaseContent
      */
     private $commentStatus;
 
-//    /**
-//     * Todo: 评论作者
-//     * @var
-//     */
-//    private $author;
+    /**
+     * 内容作者
+     * @var UserInterface
+     * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\User")
+     */
+    private $author;
 
     /**
      * 如果是匿名用户则需要添加姓名
@@ -386,6 +388,22 @@ class Comment extends BaseContent
     public function setChildren($children): void
     {
         $this->children = $children;
+    }
+
+    /**
+     * @return UserInterface
+     */
+    public function getAuthor(): UserInterface
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param UserInterface $author
+     */
+    public function setAuthor(UserInterface $author): void
+    {
+        $this->author = $author;
     }
 
 }

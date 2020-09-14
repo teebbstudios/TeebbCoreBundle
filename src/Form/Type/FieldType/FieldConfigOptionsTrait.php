@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
-use Teebb\CoreBundle\Entity\TextFormat\Formatter;
+use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Form\Type\FieldFileType;
 use Teebb\CoreBundle\TextFilter\TextFilterInterface;
 

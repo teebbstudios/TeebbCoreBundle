@@ -9,7 +9,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Todo: 为ckeditor配置更多的可用options
+ * Todo: ckeditor 工具栏需要根据过滤器的更改而更改。新版本再增加
+ * CKEDITOR编辑器
  */
 class TextFormatTextareaType extends AbstractType
 {

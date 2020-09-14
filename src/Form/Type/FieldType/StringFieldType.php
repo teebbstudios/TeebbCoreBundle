@@ -9,7 +9,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\StringItemConfiguration;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 use Teebb\CoreBundle\Entity\Fields\StringItem;
 
 class StringFieldType extends AbstractType

@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\TextFormatItem;
-use Teebb\CoreBundle\Entity\TextFormat\Formatter;
+use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Form\Type\TextFormatterType;
 use Teebb\CoreBundle\Form\Type\TextFormatTextareaType;
 

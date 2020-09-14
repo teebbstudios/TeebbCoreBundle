@@ -4,20 +4,15 @@
 namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\Configuration\StringFormatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\StringFormatItem;
-use Teebb\CoreBundle\Entity\TextFormat\Formatter;
+use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Form\Type\TextFormatterType;
-use Teebb\CoreBundle\TextFilter\TextFilterInterface;
 
 /**
  * 文本已格式化字段表单类型

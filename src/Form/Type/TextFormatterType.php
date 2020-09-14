@@ -9,9 +9,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
-use Teebb\CoreBundle\Entity\TextFormat\Formatter;
+use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Entity\User;
-use function Doctrine\ORM\QueryBuilder;
 
 class TextFormatterType extends AbstractType
 {
@@ -47,7 +46,7 @@ class TextFormatterType extends AbstractType
             'choice_label' => 'name',
             'choice_value' => 'alias',
             'attr' => [
-                'class' => 'form-control-sm'
+                'class' => 'form-control-sm select-text-formatter'
             ],
             'row_attr' => [
                 'class' => 'form-inline'

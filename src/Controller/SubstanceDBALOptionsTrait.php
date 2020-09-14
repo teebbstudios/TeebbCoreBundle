@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;

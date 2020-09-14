@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatSummaryItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\TextFormatSummaryItem;
-use Teebb\CoreBundle\Entity\TextFormat\Formatter;
+use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Form\Type\SummaryType;
 use Teebb\CoreBundle\Form\Type\TextFormatterType;
 use Teebb\CoreBundle\Form\Type\TextFormatTextareaType;

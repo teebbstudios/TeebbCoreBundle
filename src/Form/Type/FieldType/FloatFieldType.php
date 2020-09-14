@@ -10,7 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FloatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\FloatItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class FloatFieldType extends AbstractType
 {

@@ -6,12 +6,10 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FloatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\IntegerItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class IntegerFieldType extends AbstractType
 {

@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
-use Teebb\CoreBundle\Entity\TextFormat\Formatter;
+use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\FormatterType;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
@@ -43,6 +43,8 @@ class TextFormatterController extends AbstractController
 
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('formatter_index');
+
         $formatterRepo = $this->entityManager->getRepository(Formatter::class);
 
         $formatters = $formatterRepo->findAll();
@@ -59,6 +61,8 @@ class TextFormatterController extends AbstractController
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('formatter_create');
+
         $form = $this->createForm(FormatterType::class);
         $form->handleRequest($request);
 
@@ -88,6 +92,8 @@ class TextFormatterController extends AbstractController
      */
     public function updateAction(Request $request, Formatter $formatter)
     {
+        $this->denyAccessUnlessGranted('formatter_update');
+
         $form = $this->createForm(FormatterType::class, $formatter);
         $form->handleRequest($request);
 
@@ -117,6 +123,8 @@ class TextFormatterController extends AbstractController
      */
     public function deleteAction(Request $request, Formatter $formatter)
     {
+        $this->denyAccessUnlessGranted('formatter_delete');
+
         $form = $this->formContractor->generateDeleteForm($request->get('_route'), FormType::class, $formatter);
         $form->handleRequest($request);
 

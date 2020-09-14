@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\DatetimeItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\DatetimeItem;
-use Teebb\CoreBundle\Entity\Fields\SimpleValueItem;
 
 class DatetimeFieldType extends AbstractType
 {

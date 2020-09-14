@@ -12,8 +12,7 @@
 
 namespace Teebb\CoreBundle\AbstractService;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\MappingException;
+
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Metadata\FieldMetadataInterface;

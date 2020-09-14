@@ -425,3 +425,8 @@ teebb:
             content_create: 添加 "%type%" 类型内容
             content_update: 更新 "%type%" 类型内容
             content_delete: 删除 "%type%" 类型内容
+
+            formatter_index: 管理文本格式化器
+            formatter_create: 添加文本格式化器
+            formatter_update: 更新文本格式化器
+            formatter_delete: 删除文本格式化器

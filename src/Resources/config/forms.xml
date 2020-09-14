@@ -126,6 +126,12 @@
             <tag name="form.type"/>
         </service>
 
+        <service id="teebb.core.form.text_formatter_textarea_type" class="Teebb\CoreBundle\Form\Type\TextFormatTextareaType">
+<!--            <argument type="service" id="security.helper"/>-->
+<!--            <argument type="service" id="doctrine.orm.default_entity_manager"/>-->
+            <tag name="form.type"/>
+        </service>
+
         <service id="teebb.core.form.user_register_type" class="Teebb\CoreBundle\Form\Type\Security\UserRegisterFormType">
             <argument type="service" id="security.user_password_encoder.generic"/>
             <tag name="form.type"/>

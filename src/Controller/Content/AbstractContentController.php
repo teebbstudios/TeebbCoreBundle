@@ -10,15 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Controller\SubstanceDBALOptionsTrait;
-use Teebb\CoreBundle\Entity\BaseContent;
-use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\Types\EntityTypeRepository;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
-use Symfony\Component\HttpFoundation\Response;
 
 
 /**

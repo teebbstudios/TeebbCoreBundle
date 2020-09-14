@@ -4,7 +4,6 @@
 namespace Teebb\CoreBundle\Form\Type\Content;
 
 
-use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

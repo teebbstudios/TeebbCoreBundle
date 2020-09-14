@@ -4,6 +4,7 @@
 namespace Teebb\CoreBundle\Entity\Fields;
 
 use Doctrine\ORM\Mapping as ORM;
+use Teebb\CoreBundle\Entity\Formatter;
 
 /**
  * 文本已格式化类型
@@ -23,7 +24,7 @@ class StringFormatItem extends BaseFieldItem
     /**
      * 格式化器的名称
      *
-     * @var string
+     * @var Formatter
      * @ORM\Column(type="string")
      */
     private $formatter;
