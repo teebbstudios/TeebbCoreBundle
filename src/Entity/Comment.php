@@ -32,7 +32,7 @@ class Comment extends BaseContent
 
     /**
      * 内容作者
-     * @var UserInterface
+     * @var UserInterface|null
      * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\User")
      */
     private $author;
@@ -391,17 +391,17 @@ class Comment extends BaseContent
     }
 
     /**
-     * @return UserInterface
+     * @return UserInterface|null
      */
-    public function getAuthor(): UserInterface
+    public function getAuthor(): ?UserInterface
     {
         return $this->author;
     }
 
     /**
-     * @param UserInterface $author
+     * @param UserInterface|null $author
      */
-    public function setAuthor(UserInterface $author): void
+    public function setAuthor(?UserInterface $author): void
     {
         $this->author = $author;
     }

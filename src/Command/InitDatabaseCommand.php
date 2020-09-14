@@ -110,10 +110,10 @@ class InitDatabaseCommand extends Command
         $this->updateEntityTypesTranslation();
         $this->iniTypeFields();
 
+        $this->initAdminUser();
+
         $this->initTextFormatter();
         $this->updateFormatterTranslation();
-
-        $this->initAdminUser();
 
         $output->writeln(sprintf('<info>Done!</info>'));
         return 0;
@@ -285,12 +285,15 @@ class InitDatabaseCommand extends Command
 
     private function initTextFormatter()
     {
+        $groupRepo = $this->em->getRepository(Group::class);
+
         $fullFormatter = new Formatter();
         $fullFormatter->setName('完整的HTML');
         $fullFormatter->setAlias('full_html');
         $fullFormatter->setFilterSettings([]);
         $fullFormatter->setTranslatableLocale('zh_CN');
         $fullFormatter->setCkEditorConfig('full');
+        $fullFormatter->addGroup($groupRepo->findOneBy(['groupAlias'=>'super_admin']));
 
         $standardFormatter = new Formatter();
         $standardFormatter->setName('基本的HTML');
@@ -303,6 +306,7 @@ class InitDatabaseCommand extends Command
         ]);
         $standardFormatter->setTranslatableLocale('zh_CN');
         $standardFormatter->setCkEditorConfig('standard');
+        $standardFormatter->addGroup($groupRepo->findOneBy(['groupAlias'=>'super_admin']));
 
         $restrictFormatter = new Formatter();
         $restrictFormatter->setName('严格的HTML');
@@ -315,7 +319,8 @@ class InitDatabaseCommand extends Command
         ]);
         $restrictFormatter->setTranslatableLocale('zh_CN');
         $restrictFormatter->setCkEditorConfig('basic');
-
+        $restrictFormatter->addGroup($groupRepo->findOneBy(['groupAlias'=>'super_admin']));
+        $restrictFormatter->addGroup($groupRepo->findOneBy(['groupAlias'=>'user']));
 
         $this->em->persist($fullFormatter);
         $this->em->persist($standardFormatter);
@@ -332,6 +337,7 @@ class InitDatabaseCommand extends Command
         $fullFormatter = $formatterRepo->findOneBy(['alias' => 'full_html']);
         $fullFormatter->setName('Full Html');
         $fullFormatter->setTranslatableLocale('en_US');
+
 
         /**@var Formatter $standardFormatter * */
         $standardFormatter = $formatterRepo->findOneBy(['alias' => 'standard_html']);
@@ -360,6 +366,12 @@ class InitDatabaseCommand extends Command
         $registerUserGroup = new Group();
         $registerUserGroup->setName('注册用户');
         $registerUserGroup->setGroupAlias('user');
+        $registerUserGroup->setPermissions([
+            'permission' => [
+                'file_upload',
+                'file_delete'
+            ]
+        ]);
 
         $admin = new User();
         $admin->setUsername('admin');

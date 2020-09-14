@@ -8,6 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
+/**
+ * 引用实体字段表单label转对象
+ */
 class FindLabelToEntityTransformer implements DataTransformerInterface
 {
     /**

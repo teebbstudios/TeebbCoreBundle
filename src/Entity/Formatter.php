@@ -155,7 +155,7 @@ class Formatter
     }
 
     /**
-     * 用于持久化字段中的数据
+     * 用于持久化格式化器类型在字段表中的存储
      * @return string|null
      */
     public function __toString()

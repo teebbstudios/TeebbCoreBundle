@@ -4,11 +4,14 @@
 namespace Teebb\CoreBundle\Form\Type\Content;
 
 
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Comment;
@@ -18,6 +21,17 @@ use Teebb\CoreBundle\Entity\Comment;
  */
 class CommentType extends BaseContentType
 {
+    /**
+     * @var Security
+     */
+    private $security;
+
+    public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container, Security $security)
+    {
+        parent::__construct($entityManager, $container);
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         //表单提交时设置Comment type
@@ -27,8 +41,11 @@ class CommentType extends BaseContentType
                 $comment = $event->getData();
                 if (null == $comment->getCommentType()) {
                     $comment->setCommentType($options['type_alias']);
-                    $event->setData($comment);
                 }
+                if (null == $comment->getAuthor()) {
+                    $comment->setAuthor($this->security->getUser());
+                }
+                $event->setData($comment);
             });
 
         $data = $builder->getData();

@@ -5,7 +5,7 @@
         <div id="comment_{{ comment.id }}"
              class="comment px-2 py-2 {% if loop.index0 == 0 %}border-top{% endif %} border-bottom">
             <div class="author my-3">
-                <span class="text-dark">admin</span>
+                <span class="text-dark">{{ comment.author.username }}</span>
                 {{ 'submit_at'|trans }} {{ comment.createdAt|date('Y-m-d H:i:s') }}
             </div>
             <div class="body">

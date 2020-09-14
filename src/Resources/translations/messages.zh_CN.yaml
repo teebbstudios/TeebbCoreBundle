@@ -430,3 +430,6 @@ teebb:
             formatter_create: 添加文本格式化器
             formatter_update: 更新文本格式化器
             formatter_delete: 删除文本格式化器
+
+            file_upload: 文件上传
+            file_delete: 文件删除

@@ -4,11 +4,14 @@
 namespace Teebb\CoreBundle\Form\Type\Content;
 
 
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -19,6 +22,17 @@ use Teebb\CoreBundle\Entity\Content;
  */
 class ContentType extends BaseContentType
 {
+    /**
+     * @var Security
+     */
+    private $security;
+
+    public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container, Security $security)
+    {
+        parent::__construct($entityManager, $container);
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         //表单提交时设置Content type
@@ -28,8 +42,11 @@ class ContentType extends BaseContentType
                 $content = $event->getData();
                 if (null == $content->getTypeAlias()) {
                     $content->setTypeAlias($options['type_alias']);
-                    $event->setData($content);
                 }
+                if (null == $content->getAuthor()) {
+                    $content->setAuthor($this->security->getUser());
+                }
+                $event->setData($content);
             });
 
         $data = $builder->getData();
@@ -61,7 +78,7 @@ class ContentType extends BaseContentType
                 'attr' => [
                     'class' => 'form-control-sm'
                 ],
-                'constraints'=>[
+                'constraints' => [
                     new Regex('/^[a-zA-Z0-9-]+$/')
                 ]
             ])

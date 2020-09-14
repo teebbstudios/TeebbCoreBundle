@@ -152,11 +152,11 @@ class ContentController extends AbstractContentController
                 $content = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
                     $form, $types->getBundle(), $types->getTypeAlias(), $data_class);
 
-                $author = $this->security->getUser();
-                $content->setAuthor($author);
-
-                $this->entityManager->persist($content);
-                $this->entityManager->flush();
+//                $author = $this->security->getUser();
+//                $content->setAuthor($author);
+//
+//                $this->entityManager->persist($content);
+//                $this->entityManager->flush();
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
                     'teebb.core.content.create_success', ['%value%' => $content->getTitle()]

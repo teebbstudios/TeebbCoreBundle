@@ -47,6 +47,7 @@
                  class="Teebb\CoreBundle\Form\Type\Content\ContentType">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument type="service" id="service_container"/>
+            <argument type="service" id="security.helper"/>
             <tag name="form.type"/>
         </service>
 
@@ -54,6 +55,7 @@
                  class="Teebb\CoreBundle\Form\Type\Content\CommentType">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument type="service" id="service_container"/>
+            <argument type="service" id="security.helper"/>
             <tag name="form.type"/>
         </service>
 
