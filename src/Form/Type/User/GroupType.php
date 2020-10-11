@@ -38,23 +38,18 @@ class GroupType extends AbstractType
                     'class' => 'form-control-sm col-md-6 transliterate'
                 ],
                 'help' => 'teebb.core.user.group_name_help'
-            ]);
-
-        if ($builder->getData() == null) {
-            $builder
-                ->add('groupAlias', TextType::class, [
-                    'label' => 'teebb.core.user.group_alias',
-                    'help' => 'teebb.core.user.group_alias_help',
-                    'attr' => [
-                        'class' => 'form-control-sm col-md-6 input-alias'
-                    ],
-                    'label_attr' => [
-                        'class' => 'font-weight-bold'
-                    ]
-                ]);
-        }
-
-        $builder
+            ])
+            ->add('groupAlias', TextType::class, [
+                'label' => 'teebb.core.user.group_alias',
+                'help' => 'teebb.core.user.group_alias_help',
+                'attr' => [
+                    'class' => 'form-control-sm col-md-6 input-alias'
+                ],
+                'label_attr' => [
+                    'class' => 'font-weight-bold'
+                ],
+                'disabled' => $builder->getData() ? true : false
+            ])
             ->add('permissions', PermissionsType::class, [
                 'label' => 'teebb.core.user.group_permissions',
                 'label_attr' => [

@@ -86,7 +86,7 @@ class EntityType implements TeebbAnnotationInterface
     public $entityFormType;
 
     /**
-     * 配置不同action页面的head、dropdown actions及action图标
+     * @deprecated 暂未用，配置不同action页面的head、dropdown actions及action图标
      * @var array
      */
     public $actions;

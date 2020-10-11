@@ -32,7 +32,8 @@
     "friendsofsymfony/jsrouting-bundle": "^2.6",
     "babdev/pagerfanta-bundle": "^2.4",
     "symfony/mailer": "^5.1",
-    "knplabs/knp-time-bundle": "^1.13"
+    "knplabs/knp-time-bundle": "^1.13",
+    "knplabs/knp-menu-bundle": "^3.0"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "^5.0",

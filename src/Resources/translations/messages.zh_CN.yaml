@@ -1,3 +1,29 @@
+Dashboard: 控制台
+Content: 内容
+Manage Content: 管理内容
+Add Content: 添加内容
+Type: 类型
+Manage Type: 管理类型
+Add Type: 添加类型
+Taxonomy: 分类
+Manage Taxonomy: 管理分类
+Add Taxonomy: 添加分类
+Other: 其他
+Menu: 菜单
+Manage Menu: 管理菜单
+Add Menu: 添加菜单
+Comment: 评论
+Manage Comment: 管理评论
+Comment Types: 评论类型
+User: 用户
+Manage User: 管理用户
+User Group: 用户组
+Settings: 设置
+System: 系统
+System Setting: 系统设置
+Basic Setting: 基本设置
+Text Formatter: 文本格式化器
+
 content: 内容
 taxonomy: 分类
 comment: 评论
@@ -433,3 +459,4 @@ teebb:
 
             file_upload: 文件上传
             file_delete: 文件删除
+

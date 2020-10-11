@@ -48,6 +48,7 @@ class Configuration implements ConfigurationInterface
         $this->addTemplatesSection($rootNode);
         $this->addAssetsSection($rootNode);
         $this->addTextFilterSection($rootNode);
+        $this->addSideBarSection($rootNode);
 
         return $treeBuilder;
     }
@@ -211,6 +212,85 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('extra_form_type')->end()
                             ->scalarNode('extra_label')->end()
                             ->scalarNode('extra_help')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+
+    private function addSideBarSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('side_menu')->info('The side menu groups.')
+                    ->useAttributeAsKey('group_name')
+                    ->arrayPrototype()
+                        ->useAttributeAsKey('item_name')
+                        ->arrayPrototype()
+                            ->beforeNormalization()
+                                ->ifArray()
+                                ->then(function ($items) {
+                                    if (isset($items['provider'])) {
+                                        $disallowedItems = ['items', 'label'];
+                                        foreach ($disallowedItems as $item) {
+                                            if (isset($items[$item])) {
+                                                throw new \InvalidArgumentException(sprintf('The config value "%s" cannot be used alongside "provider" config value', $item));
+                                            }
+                                        }
+                                    }
+                                    return $items;
+                                })
+                        ->end()
+                        ->children()
+                            ->scalarNode('label')->end()
+                            ->scalarNode('label_catalogue')->end()
+                            ->scalarNode('icon')->defaultValue('fa-folder')->end()
+                            ->integerNode('priority')->defaultValue(0)->end()
+                            ->scalarNode('provider')->end()
+                            ->arrayNode('items')
+                                ->beforeNormalization()
+                                    ->ifArray()
+                                    ->then(function ($items) {
+                                        foreach ($items as $key => $item) {
+                                            if (\is_array($item)) {
+                                                if (!\array_key_exists('label', $item) || !\array_key_exists('route', $item)) {
+                                                    throw new \InvalidArgumentException('Expected either parameters "route" and "label" for array items');
+                                                }
+
+                                                if (!\array_key_exists('route_params', $item)) {
+                                                    $items[$key]['route_params'] = [];
+                                                }
+
+                                            } else {
+                                                $items[$key] = [
+                                                    'label' => '',
+                                                    'route' => '',
+                                                    'route_params' => [],
+                                                    'route_absolute' => false,
+                                                ];
+                                            }
+                                        }
+                                        return $items;
+                                    })
+                                ->end()
+                                ->arrayPrototype()
+                                    ->children()
+                                        ->scalarNode('label')->end()
+                                        ->scalarNode('route')->end()
+                                        ->arrayNode('groups')
+                                            ->prototype('scalar')
+                                                ->info('User groups which will see the route in the menu.')
+                                                ->defaultValue([])
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('route_params')->prototype('scalar')->end()->end()
+                                        ->booleanNode('route_absolute')->info('Whether the generated url should be absolute')->defaultFalse()->end()->end()
+                                    ->end()
+                                ->end()
+                                ->arrayNode('groups')->info('User groups which will see the route in the menu group.')
+                                    ->prototype('scalar')->defaultValue([])->end()
+                                ->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()

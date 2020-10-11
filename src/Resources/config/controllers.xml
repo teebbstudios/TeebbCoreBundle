@@ -168,5 +168,16 @@
         <service id="Teebb\CoreBundle\Controller\Security\SecurityController"
                  alias="teebb.core.controller.security_controller" public="true"/>
 
+        <service id="teebb.core.controller.dashboard_controller"
+                 class="Teebb\CoreBundle\Controller\Dashboard\DashboardController"
+                 public="false">
+            <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\Dashboard\DashboardController"
+                 alias="teebb.core.controller.dashboard_controller" public="true"/>
+
     </services>
 </container>

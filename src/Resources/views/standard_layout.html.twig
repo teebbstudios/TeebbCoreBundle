@@ -30,503 +30,321 @@
 <body {% block body_attr %}id="page-top"{% endblock %}>
 
 {% block page_wrapper %}
-<!-- Page Wrapper -->
-<div id="wrapper">
-    <noscript class="noscript-warning  fixed-top text-center bg-danger text-dark">
-        {{ 'teebb.core.layout.noscript'|trans }}
-    </noscript>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <noscript class="noscript-warning  fixed-top text-center bg-danger text-dark">
+            {{ 'teebb.core.layout.noscript'|trans }}
+        </noscript>
 
-    {% block sidebar %}
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        {% block sidebar %}
+            <!-- Sidebar -->
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>控制台</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                内容
-            </div>
-
-            <!-- Nav Item - Content Manage Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#contentManageMenu"
-                   aria-expanded="true" aria-controls="contentManageMenu">
-                    <i class="fas fa-fw fa-file-alt"></i>
-                    <span>内容</span>
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('teebb_dashboard') }}">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-laugh-wink"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
                 </a>
-                <div id="contentManageMenu" class="collapse" aria-labelledby="headingTwo"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">内容管理:</h6>
-                        <a class="collapse-item" href="select-content-type.html">添加内容</a>
-                        <a class="collapse-item" href="list-contents.html">管理内容</a>
-                    </div>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('teebb_dashboard') }}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>{{ 'Dashboard'|trans }}</span></a>
+                </li>
+
+                {% include '@TeebbCore/sidebar_menu.html.twig' %}
+
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
                 </div>
-            </li>
 
-            <!-- Nav Item - Content Type Manage Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#contentTypeManageMenu"
-                   aria-expanded="true" aria-controls="contentTypeManageMenu">
-                    <i class="fas fa-fw fa-boxes"></i>
-                    <span>类型</span>
-                </a>
-                <div id="contentTypeManageMenu" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">类型管理:</h6>
-                        <a class="collapse-item" href="add-content-type.html">添加类型</a>
-                        <a class="collapse-item" href="list-content-type.html">管理类型</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Taxonomy Type Manage Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#tagsManageMenu"
-                   aria-expanded="true" aria-controls="tagsManageMenu">
-                    <i class="fas fa-fw fa-tags"></i>
-                    <span>分类</span>
-                </a>
-                <div id="tagsManageMenu" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">分类管理:</h6>
-                        <a class="collapse-item" href="add-taxonomy.html">添加分类</a>
-                        <a class="collapse-item" href="list-taxonomy.html">管理分类</a>
-                    </div>
-                </div>
-            </li>
-
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                其他
-            </div>
-
-            <!-- Nav Item - FileManaged Manage Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#filesManageMenu"
-                   aria-expanded="true" aria-controls="filesManageMenu">
-                    <i class="fas fa-fw fa-file-archive"></i>
-                    <span>文件</span>
-                </a>
-                <div id="filesManageMenu" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">文件管理:</h6>
-                        <a class="collapse-item" href="add-files.html">上传文件</a>
-                        <a class="collapse-item" href="list-files.html">管理文件</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Nav Manage Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#navManageMenu"
-                   aria-expanded="true" aria-controls="navManageMenu">
-                    <i class="fas fa-fw fa-list"></i>
-                    <span>菜单</span>
-                </a>
-                <div id="navManageMenu" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">菜单管理:</h6>
-                        <a class="collapse-item" href="utilities-border.html">添加菜单</a>
-                        <a class="collapse-item" href="utilities-color.html">管理菜单</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Comment Manage Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#commentManageMenu"
-                   aria-expanded="true" aria-controls="commentManageMenu">
-                    <i class="fas fa-fw fa-comment"></i>
-                    <span>评论</span>
-                </a>
-                <div id="commentManageMenu" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">评论管理:</h6>
-                        <a class="collapse-item" href="utilities-border.html">评论类型</a>
-                        <a class="collapse-item" href="utilities-color.html">管理评论</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Form Manage Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#formManageMenu"
-                   aria-expanded="true" aria-controls="formManageMenu">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>表单</span>
-                </a>
-                <div id="formManageMenu" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">表单管理:</h6>
-                        <a class="collapse-item" href="list-contact-type.html">表单类型</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Form Manage Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#userManageMenu"
-                   aria-expanded="true" aria-controls="userManageMenu">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>用户</span>
-                </a>
-                <div id="userManageMenu" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">用户管理:</h6>
-                        <a class="collapse-item" href="list-users.html">管理用户</a>
-                        <a class="collapse-item" href="list-groups.html">用户组</a>
-                        <a class="collapse-item" href="manage-permissions.html">组权限</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                设置
-            </div>
-
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#systemSettingsMenu"
-                   aria-expanded="true" aria-controls="systemSettingMenu">
-                    <i class="fas fa-fw fa-tools"></i>
-                    <span>系统</span>
-                </a>
-                <div id="systemSettingsMenu" class="collapse" aria-labelledby="headingPages"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">系统设置:</h6>
-                        <a class="collapse-item" href="system.html">常规设置</a>
-                        <a class="collapse-item" href="text-format.html">文本格式设置</a>
-                        <a class="collapse-item" href="user.html">用户设置</a>
-                        <a class="collapse-item" href="smtp.html">SMTP设置</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
-        <!-- End of Sidebar -->
-    {% endblock %}
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-        <!-- Main Content -->
-        <div id="content">
-            {% block topbar %}
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!--Breadcrumb-->
-                    <nav aria-label="breadcrumb" class="d-none d-md-block">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                        </ol>
-                    </nav>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-{#                        <!-- Topbar Search -->#}
-{#                        <li class="nav-item m-auto mx-1">#}
-{#                            <form class="d-none d-lg-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">#}
-{#                                <div class="input-group">#}
-{#                                    <input type="text" class="form-control bg-light border-0 small"#}
-{#                                           placeholder="搜索内容..."#}
-{#                                           aria-label="Search" aria-describedby="basic-addon2">#}
-{#                                    <div class="input-group-append">#}
-{#                                        <button class="btn btn-primary" type="button">#}
-{#                                            <i class="fas fa-search fa-sm"></i>#}
-{#                                        </button>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </form>#}
-{#                        </li>#}
-
-{#                        <!-- Nav Item - Search Dropdown (Visible Down lg) -->#}
-{#                        <li class="nav-item dropdown no-arrow d-lg-none">#}
-{#                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"#}
-{#                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                                <i class="fas fa-search fa-fw"></i>#}
-{#                            </a>#}
-{#                            <!-- Dropdown - Messages -->#}
-{#                            <div class="dropdown-menu dropdown-menu-search dropdown-search dropdown-menu-right p-3 shadow animated--grow-in"#}
-{#                                 aria-labelledby="searchDropdown">#}
-{#                                <form class="form-inline mr-auto w-100 navbar-search">#}
-{#                                    <div class="input-group">#}
-{#                                        <input type="text" class="form-control bg-light border-0 small"#}
-{#                                               placeholder="搜索..." aria-label="Search"#}
-{#                                               aria-describedby="basic-addon2">#}
-{#                                        <div class="input-group-append">#}
-{#                                            <button class="btn btn-primary" type="button">#}
-{#                                                <i class="fas fa-search fa-sm"></i>#}
-{#                                            </button>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </form>#}
-{#                            </div>#}
-{#                        </li>#}
-
-{#                        <!-- Nav Item - Alerts -->#}
-{#                        <li class="nav-item dropdown no-arrow mx-1">#}
-{#                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"#}
-{#                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                                <i class="fas fa-bell fa-fw"></i>#}
-{#                                <!-- Counter - Alerts -->#}
-{#                                <span class="badge badge-danger badge-counter">3+</span>#}
-{#                            </a>#}
-{#                            <!-- Dropdown - Alerts -->#}
-{#                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"#}
-{#                                 aria-labelledby="alertsDropdown">#}
-{#                                <h6 class="dropdown-header">#}
-{#                                    Alerts Center#}
-{#                                </h6>#}
-{#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
-{#                                    <div class="mr-3">#}
-{#                                        <div class="icon-circle bg-primary">#}
-{#                                            <i class="fas fa-file-alt text-white"></i>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div>#}
-{#                                        <div class="small text-gray-500">December 12, 2019</div>#}
-{#                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>#}
-{#                                    </div>#}
-{#                                </a>#}
-{#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
-{#                                    <div class="mr-3">#}
-{#                                        <div class="icon-circle bg-success">#}
-{#                                            <i class="fas fa-donate text-white"></i>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div>#}
-{#                                        <div class="small text-gray-500">December 7, 2019</div>#}
-{#                                        $290.29 has been deposited into your account!#}
-{#                                    </div>#}
-{#                                </a>#}
-{#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
-{#                                    <div class="mr-3">#}
-{#                                        <div class="icon-circle bg-warning">#}
-{#                                            <i class="fas fa-exclamation-triangle text-white"></i>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div>#}
-{#                                        <div class="small text-gray-500">December 2, 2019</div>#}
-{#                                        Spending Alert: We've noticed unusually high spending for your account.#}
-{#                                    </div>#}
-{#                                </a>#}
-{#                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>#}
-{#                            </div>#}
-{#                        </li>#}
-
-{#                        <!-- Nav Item - Messages -->#}
-{#                        <li class="nav-item dropdown no-arrow mx-1">#}
-{#                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"#}
-{#                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                                <i class="fas fa-envelope fa-fw"></i>#}
-{#                                <!-- Counter - Messages -->#}
-{#                                <span class="badge badge-danger badge-counter">7</span>#}
-{#                            </a>#}
-{#                            <!-- Dropdown - Messages -->#}
-{#                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"#}
-{#                                 aria-labelledby="messagesDropdown">#}
-{#                                <h6 class="dropdown-header">#}
-{#                                    Message Center#}
-{#                                </h6>#}
-{#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
-{#                                    <div class="dropdown-list-image mr-3">#}
-{#                                        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60"#}
-{#                                             alt="">#}
-{#                                        <div class="status-indicator bg-success"></div>#}
-{#                                    </div>#}
-{#                                    <div class="font-weight-bold">#}
-{#                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a#}
-{#                                            problem I've been having.#}
-{#                                        </div>#}
-{#                                        <div class="small text-gray-500">Emily Fowler · 58m</div>#}
-{#                                    </div>#}
-{#                                </a>#}
-{#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
-{#                                    <div class="dropdown-list-image mr-3">#}
-{#                                        <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60"#}
-{#                                             alt="">#}
-{#                                        <div class="status-indicator"></div>#}
-{#                                    </div>#}
-{#                                    <div>#}
-{#                                        <div class="text-truncate">I have the photos that you ordered last month, how#}
-{#                                            would#}
-{#                                            you like them sent to you?#}
-{#                                        </div>#}
-{#                                        <div class="small text-gray-500">Jae Chun · 1d</div>#}
-{#                                    </div>#}
-{#                                </a>#}
-{#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
-{#                                    <div class="dropdown-list-image mr-3">#}
-{#                                        <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60"#}
-{#                                             alt="">#}
-{#                                        <div class="status-indicator bg-warning"></div>#}
-{#                                    </div>#}
-{#                                    <div>#}
-{#                                        <div class="text-truncate">Last month's report looks great, I am very happy with#}
-{#                                            the#}
-{#                                            progress so far, keep up the good work!#}
-{#                                        </div>#}
-{#                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>#}
-{#                                    </div>#}
-{#                                </a>#}
-{#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
-{#                                    <div class="dropdown-list-image mr-3">#}
-{#                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"#}
-{#                                             alt="">#}
-{#                                        <div class="status-indicator bg-success"></div>#}
-{#                                    </div>#}
-{#                                    <div>#}
-{#                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone#}
-{#                                            told#}
-{#                                            me that people say this to all dogs, even if they aren't good...#}
-{#                                        </div>#}
-{#                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>#}
-{#                                    </div>#}
-{#                                </a>#}
-{#                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>#}
-{#                            </div>#}
-{#                        </li>#}
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.username }}</span>
-                                <img class="img-profile rounded-circle"
-                                     src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
-{#                                <a class="dropdown-item" href="#">#}
-{#                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>#}
-{#                                    个人资料#}
-{#                                </a>#}
-{#                                <a class="dropdown-item" href="#">#}
-{#                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-500"></i>#}
-{#                                    操作日志#}
-{#                                </a>#}
-{#                                <div class="dropdown-divider"></div>#}
-                                <a class="dropdown-item" href="{{ path('teebb_user_logout') }}">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
-                                    退出
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                </nav>
-                <!-- End of Topbar -->
-            {% endblock %}
-
-            {% block container_fluid %}
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    {% block page_head %}
-                        <!-- Page Heading -->
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">{% block head_label %}{% endblock %}</h1>
-                            <div class="actions">
-                                {% if _head_actions is not empty %}
-                                    {{ _head_actions|raw }}
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endblock %}
-
-                    {% block flash_message %}
-                        {% include '@TeebbCore/flash_messages.html.twig' %}
-                    {% endblock %}
-
-                    {% block content %}
-                    {% endblock %}
-                </div>
-                <!-- /.container-fluid -->
-            {% endblock %}
-        </div>
-        <!-- End of Main Content -->
-
-        {% block footer %}
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; TeebbCMF 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            </ul>
+            <!-- End of Sidebar -->
         {% endblock %}
 
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                {% block topbar %}
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+
+                        <!--Breadcrumb-->
+                        <nav aria-label="breadcrumb" class="d-none d-md-block">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                            </ol>
+                        </nav>
+
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
+
+                            {#                        <!-- Topbar Search -->#}
+                            {#                        <li class="nav-item m-auto mx-1">#}
+                            {#                            <form class="d-none d-lg-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">#}
+                            {#                                <div class="input-group">#}
+                            {#                                    <input type="text" class="form-control bg-light border-0 small"#}
+                            {#                                           placeholder="搜索内容..."#}
+                            {#                                           aria-label="Search" aria-describedby="basic-addon2">#}
+                            {#                                    <div class="input-group-append">#}
+                            {#                                        <button class="btn btn-primary" type="button">#}
+                            {#                                            <i class="fas fa-search fa-sm"></i>#}
+                            {#                                        </button>#}
+                            {#                                    </div>#}
+                            {#                                </div>#}
+                            {#                            </form>#}
+                            {#                        </li>#}
+
+                            {#                        <!-- Nav Item - Search Dropdown (Visible Down lg) -->#}
+                            {#                        <li class="nav-item dropdown no-arrow d-lg-none">#}
+                            {#                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"#}
+                            {#                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                            {#                                <i class="fas fa-search fa-fw"></i>#}
+                            {#                            </a>#}
+                            {#                            <!-- Dropdown - Messages -->#}
+                            {#                            <div class="dropdown-menu dropdown-menu-search dropdown-search dropdown-menu-right p-3 shadow animated--grow-in"#}
+                            {#                                 aria-labelledby="searchDropdown">#}
+                            {#                                <form class="form-inline mr-auto w-100 navbar-search">#}
+                            {#                                    <div class="input-group">#}
+                            {#                                        <input type="text" class="form-control bg-light border-0 small"#}
+                            {#                                               placeholder="搜索..." aria-label="Search"#}
+                            {#                                               aria-describedby="basic-addon2">#}
+                            {#                                        <div class="input-group-append">#}
+                            {#                                            <button class="btn btn-primary" type="button">#}
+                            {#                                                <i class="fas fa-search fa-sm"></i>#}
+                            {#                                            </button>#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#                                </form>#}
+                            {#                            </div>#}
+                            {#                        </li>#}
+
+                            {#                        <!-- Nav Item - Alerts -->#}
+                            {#                        <li class="nav-item dropdown no-arrow mx-1">#}
+                            {#                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"#}
+                            {#                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                            {#                                <i class="fas fa-bell fa-fw"></i>#}
+                            {#                                <!-- Counter - Alerts -->#}
+                            {#                                <span class="badge badge-danger badge-counter">3+</span>#}
+                            {#                            </a>#}
+                            {#                            <!-- Dropdown - Alerts -->#}
+                            {#                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"#}
+                            {#                                 aria-labelledby="alertsDropdown">#}
+                            {#                                <h6 class="dropdown-header">#}
+                            {#                                    Alerts Center#}
+                            {#                                </h6>#}
+                            {#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
+                            {#                                    <div class="mr-3">#}
+                            {#                                        <div class="icon-circle bg-primary">#}
+                            {#                                            <i class="fas fa-file-alt text-white"></i>#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#                                    <div>#}
+                            {#                                        <div class="small text-gray-500">December 12, 2019</div>#}
+                            {#                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>#}
+                            {#                                    </div>#}
+                            {#                                </a>#}
+                            {#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
+                            {#                                    <div class="mr-3">#}
+                            {#                                        <div class="icon-circle bg-success">#}
+                            {#                                            <i class="fas fa-donate text-white"></i>#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#                                    <div>#}
+                            {#                                        <div class="small text-gray-500">December 7, 2019</div>#}
+                            {#                                        $290.29 has been deposited into your account!#}
+                            {#                                    </div>#}
+                            {#                                </a>#}
+                            {#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
+                            {#                                    <div class="mr-3">#}
+                            {#                                        <div class="icon-circle bg-warning">#}
+                            {#                                            <i class="fas fa-exclamation-triangle text-white"></i>#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#                                    <div>#}
+                            {#                                        <div class="small text-gray-500">December 2, 2019</div>#}
+                            {#                                        Spending Alert: We've noticed unusually high spending for your account.#}
+                            {#                                    </div>#}
+                            {#                                </a>#}
+                            {#                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>#}
+                            {#                            </div>#}
+                            {#                        </li>#}
+
+                            {#                        <!-- Nav Item - Messages -->#}
+                            {#                        <li class="nav-item dropdown no-arrow mx-1">#}
+                            {#                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"#}
+                            {#                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                            {#                                <i class="fas fa-envelope fa-fw"></i>#}
+                            {#                                <!-- Counter - Messages -->#}
+                            {#                                <span class="badge badge-danger badge-counter">7</span>#}
+                            {#                            </a>#}
+                            {#                            <!-- Dropdown - Messages -->#}
+                            {#                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"#}
+                            {#                                 aria-labelledby="messagesDropdown">#}
+                            {#                                <h6 class="dropdown-header">#}
+                            {#                                    Message Center#}
+                            {#                                </h6>#}
+                            {#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
+                            {#                                    <div class="dropdown-list-image mr-3">#}
+                            {#                                        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60"#}
+                            {#                                             alt="">#}
+                            {#                                        <div class="status-indicator bg-success"></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div class="font-weight-bold">#}
+                            {#                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a#}
+                            {#                                            problem I've been having.#}
+                            {#                                        </div>#}
+                            {#                                        <div class="small text-gray-500">Emily Fowler · 58m</div>#}
+                            {#                                    </div>#}
+                            {#                                </a>#}
+                            {#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
+                            {#                                    <div class="dropdown-list-image mr-3">#}
+                            {#                                        <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60"#}
+                            {#                                             alt="">#}
+                            {#                                        <div class="status-indicator"></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div>#}
+                            {#                                        <div class="text-truncate">I have the photos that you ordered last month, how#}
+                            {#                                            would#}
+                            {#                                            you like them sent to you?#}
+                            {#                                        </div>#}
+                            {#                                        <div class="small text-gray-500">Jae Chun · 1d</div>#}
+                            {#                                    </div>#}
+                            {#                                </a>#}
+                            {#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
+                            {#                                    <div class="dropdown-list-image mr-3">#}
+                            {#                                        <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60"#}
+                            {#                                             alt="">#}
+                            {#                                        <div class="status-indicator bg-warning"></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div>#}
+                            {#                                        <div class="text-truncate">Last month's report looks great, I am very happy with#}
+                            {#                                            the#}
+                            {#                                            progress so far, keep up the good work!#}
+                            {#                                        </div>#}
+                            {#                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>#}
+                            {#                                    </div>#}
+                            {#                                </a>#}
+                            {#                                <a class="dropdown-item d-flex align-items-center" href="#">#}
+                            {#                                    <div class="dropdown-list-image mr-3">#}
+                            {#                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"#}
+                            {#                                             alt="">#}
+                            {#                                        <div class="status-indicator bg-success"></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div>#}
+                            {#                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone#}
+                            {#                                            told#}
+                            {#                                            me that people say this to all dogs, even if they aren't good...#}
+                            {#                                        </div>#}
+                            {#                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>#}
+                            {#                                    </div>#}
+                            {#                                </a>#}
+                            {#                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>#}
+                            {#                            </div>#}
+                            {#                        </li>#}
+
+                            <div class="topbar-divider d-none d-sm-block"></div>
+
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.username }}</span>
+                                    <img class="img-profile rounded-circle"
+                                         src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                     aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
+                                        个人资料
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-500"></i>
+                                        操作日志
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ path('teebb_user_logout') }}">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
+                                        退出
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </nav>
+                    <!-- End of Topbar -->
+                {% endblock %}
+
+                {% block container_fluid %}
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        {% block page_head %}
+                            <!-- Page Heading -->
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">{% block head_label %}{% endblock %}</h1>
+                                <div class="actions">
+                                    {% if _head_actions is not empty %}
+                                        {{ _head_actions|raw }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endblock %}
+
+                        {% block flash_message %}
+                            {% include '@TeebbCore/flash_messages.html.twig' %}
+                        {% endblock %}
+
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                    <!-- /.container-fluid -->
+                {% endblock %}
+            </div>
+            <!-- End of Main Content -->
+
+            {% block footer %}
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; TeebbCMF 2020</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+            {% endblock %}
+
+        </div>
+        <!-- End of Content Wrapper -->
     </div>
-    <!-- End of Content Wrapper -->
-</div>
-<!-- End of Page Wrapper -->
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     {% for javascript in teebb_core.templateRegistry.allJavaScripts %}
-        <script src="{{ asset(javascript) }}"></script>
+    <script src="{{ asset(javascript) }}"></script>
     {% endfor %}
 {% endblock %}
 {% block page_java_scripts %}

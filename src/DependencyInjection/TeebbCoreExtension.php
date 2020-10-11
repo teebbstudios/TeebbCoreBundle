@@ -83,6 +83,9 @@ class TeebbCoreExtension extends Extension
 
         //设置文本过滤器
         $container->setParameter('teebb.core.formatter.filter_settings', $config['filter_settings']);
+
+        //设置边栏菜单
+        $container->setParameter('teebb.core.formatter.side_menu', $config['side_menu']);
     }
 
     /**
