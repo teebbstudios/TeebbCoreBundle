@@ -28,7 +28,6 @@ $(window).resize(function () {
     if ($(window).width() < 768) {
         $('.sidebar .collapse').collapse('hide');
     }
-
 });
 
 // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
@@ -139,9 +138,11 @@ $(document).on('click', 'a.js-sortable', function (e) {
     e.stopPropagation();
 });
 
-//Bootstrap Select 搜索框样式修改
+
 $(document).ready(function () {
+    //Bootstrap Select 搜索框样式修改
     $('.bootstrap-select .bs-searchbox input').addClass('form-control-sm');
+
 });
 
 //编辑菜单项页面 左侧添加菜单项 tab 样式修改
@@ -368,4 +369,3 @@ $('.prototype-wrapper').on('focus', '.js-reference-entity-autocomplete', functio
 
     $(this).data('autocomplete', '1');
 });
-

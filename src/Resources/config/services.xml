@@ -71,5 +71,11 @@
             <argument type="service" id="translator.default"/>
         </service>
 
+        <service id="teebb.core.menu.menu_builder" class="Teebb\CoreBundle\Menu\MenuBuilder">
+            <argument type="service" id="knp_menu.factory"/>
+            <argument type="service" id="parameter_bag"/>
+            <argument type="service" id="security.helper"/>
+            <tag name="knp_menu.menu_builder" method="createSidebarMenu" alias="teebb_sidebar_menu"/>
+        </service>
     </services>
 </container>

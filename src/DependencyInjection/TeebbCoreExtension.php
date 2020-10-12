@@ -85,7 +85,7 @@ class TeebbCoreExtension extends Extension
         $container->setParameter('teebb.core.formatter.filter_settings', $config['filter_settings']);
 
         //设置边栏菜单
-        $container->setParameter('teebb.core.formatter.side_menu', $config['side_menu']);
+        $container->setParameter('teebb.core.menu.sidebar_menu', $config['side_menu']);
     }
 
     /**

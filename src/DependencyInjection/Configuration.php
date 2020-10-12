@@ -61,6 +61,7 @@ class Configuration implements ConfigurationInterface
                 ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('layout')->defaultValue('@TeebbCore/standard_layout.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('sidebar_menu')->defaultValue('@TeebbCore/menu/sidebar_menu.html.twig')->cannotBeEmpty()->end()
 
                         ->arrayNode('content')
                         ->addDefaultsIfNotSet()
@@ -276,6 +277,7 @@ class Configuration implements ConfigurationInterface
                                 ->arrayPrototype()
                                     ->children()
                                         ->scalarNode('label')->end()
+                                        ->scalarNode('label_catalogue')->end()
                                         ->scalarNode('route')->end()
                                         ->arrayNode('groups')
                                             ->prototype('scalar')

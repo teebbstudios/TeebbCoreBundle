@@ -1,0 +1,79 @@
+{% extends 'knp_menu.html.twig' %}
+
+{% block list %}
+    {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
+        {% import _self as knp_menu %}
+        {{ block('children') }}
+    {% endif %}
+{% endblock %}
+
+{% block children %}
+    {# save current variables #}
+    {% set currentOptions = options %}
+    {% set currentItem = item %}
+    {# update the depth for children #}
+    {% if options.depth is not none %}
+        {% set options = options|merge({'depth': currentOptions.depth - 1}) %}
+    {% endif %}
+    {# update the matchingDepth for children #}
+    {% if options.matchingDepth is not none and options.matchingDepth > 0 %}
+        {% set options = options|merge({'matchingDepth': currentOptions.matchingDepth - 1}) %}
+    {% endif %}
+    {% for item in currentItem.children %}
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            {{ item.name|trans }}
+        </div>
+        {{ block('item') }}
+    {% endfor %}
+    {# restore current variables #}
+    {% set item = currentItem %}
+    {% set options = currentOptions %}
+{% endblock %}
+
+
+{% block item %}
+
+    {% for menu_item in item.children %}
+        {% set trans_domain = menu_item.extra('translation_domain', 'messages') %}
+        {% if menu_item.hasChildren %}
+            {% set active = false %}
+            {% for children_item in menu_item.children %}
+                {% if matcher.isCurrent(children_item) %}
+                    {% set active = true %}
+                {% endif %}
+            {% endfor %}
+            <!-- Nav Item -->
+            <li class="nav-item">
+                <a class="nav-link {% if active==false %}collapsed{% endif %}" href="{{ menu_item.uri }}"
+                   data-toggle="collapse"
+                   data-target="#{{ menu_item.name }}"
+                   aria-expanded="{% if active %}true{% endif %}" aria-controls="{{ menu_item.name }}">
+                    <i class="fas fa-fw {{ menu_item.extra('icon') }}"></i>
+                    <span>{{ menu_item.name|trans({}, trans_domain) }}</span>
+                </a>
+                <div id="{{ menu_item.name }}" class="collapse {% if active %}show{% endif %}"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{ ('Manage ' ~ menu_item.name )|trans({}, trans_domain) }}:</h6>
+                        {% for children in menu_item.children %}
+                            <a class="collapse-item {% if matcher.isCurrent(children) %}active{% endif %}"
+                               href="{{ children.uri }}">{{ children.name|trans({}, children.extra('translation_domain', 'messages')) }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link collapsed {% if matcher.isCurrent(menu_item) %}active{% endif %}"
+                   href="{{ menu_item.uri }}">
+                    <i class="fas fa-fw {{ menu_item.extra('icon') }}"></i>
+                    <span>{{ menu_item.name|trans({}, trans_domain) }}</span>
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}

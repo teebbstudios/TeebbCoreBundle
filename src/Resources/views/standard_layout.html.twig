@@ -58,8 +58,10 @@
                         <span>{{ 'Dashboard'|trans }}</span></a>
                 </li>
 
-                {% include '@TeebbCore/sidebar_menu.html.twig' %}
+                {{ knp_menu_render('teebb_sidebar_menu', {template: teebb_core.templateRegistry.template('sidebar_menu')}) }}
 
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
                 <!-- Sidebar Toggler (Sidebar) -->
                 <div class="text-center d-none d-md-inline">
                     <button class="rounded-circle border-0" id="sidebarToggle"></button>
