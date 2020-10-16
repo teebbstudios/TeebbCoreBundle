@@ -22,6 +22,8 @@ use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatSummaryItemConfigurat
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\FileManaged;
 use Teebb\CoreBundle\Entity\Group;
+use Teebb\CoreBundle\Entity\Menu;
+use Teebb\CoreBundle\Entity\MenuItem;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Entity\Token;
@@ -137,6 +139,8 @@ class InitDatabaseCommand extends Command
             User::class,
             Token::class,
             Group::class,
+            Menu::class,
+            MenuItem::class,
         ];
     }
 

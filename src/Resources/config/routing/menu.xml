@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="teebb_menu_index" path="/menus">
+        <default key="_controller">Teebb\CoreBundle\Controller\MenuController::indexAction</default>
+        <default key="route">teebb_menu_index</default>
+    </route>
+
+    <route id="teebb_menu_create" path="/menu/create">
+        <default key="_controller">Teebb\CoreBundle\Controller\MenuController::createAction</default>
+        <default key="route">teebb_menu_create</default>
+    </route>
+
+    <route id="teebb_menu_update" path="/menu/{id}/update">
+        <default key="_controller">Teebb\CoreBundle\Controller\MenuController::updateAction</default>
+        <default key="route">teebb_menu_update</default>
+    </route>
+
+    <route id="teebb_menu_delete" path="/menu/{id}/delete">
+        <default key="_controller">Teebb\CoreBundle\Controller\MenuController::deleteAction</default>
+        <default key="route">teebb_menu_delete</default>
+    </route>
+
+    <route id="teebb_manage_menu_items" path="/menu/{id}/items">
+        <default key="_controller">Teebb\CoreBundle\Controller\MenuController::manageMenuItemsAction</default>
+        <default key="route">teebb_manage_menu_items</default>
+    </route>
+
+</routes>

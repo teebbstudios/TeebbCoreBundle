@@ -8,16 +8,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
-use Teebb\CoreBundle\Entity\Formatter;
+use Teebb\CoreBundle\Entity\Menu;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\FormatterType;
+use Teebb\CoreBundle\Form\Type\Menu\MenuType;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * 文本格式化器Controller
+ * 菜单管理Controller
  */
-class TextFormatterController extends AbstractController
+class MenuController extends AbstractController
 {
     /**
      * @var TemplateRegistry
@@ -43,14 +44,14 @@ class TextFormatterController extends AbstractController
 
     public function indexAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('formatter_index');
+//        $this->denyAccessUnlessGranted('menu_index');
 
-        $formatterRepo = $this->entityManager->getRepository(Formatter::class);
+        $menuRepo = $this->entityManager->getRepository(Menu::class);
 
-        $formatters = $formatterRepo->findAll();
+        $menus = $menuRepo->findAll();
 
-        return $this->render($this->templateRegistry->getTemplate('index', 'formatter'), [
-            'formatters' => $formatters,
+        return $this->render($this->templateRegistry->getTemplate('index', 'menu'), [
+            'menus' => $menus,
             'action' => 'index'
         ]);
     }
@@ -61,24 +62,24 @@ class TextFormatterController extends AbstractController
      */
     public function createAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('formatter_create');
+//        $this->denyAccessUnlessGranted('menu_create');
 
-        $form = $this->createForm(FormatterType::class);
+        $form = $this->createForm(MenuType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /**@var Formatter $formatter * */
-            $formatter = $form->getData();
-            $this->entityManager->persist($formatter);
+            /**@var Menu $menu * */
+            $menu = $form->getData();
+            $this->entityManager->persist($menu);
             $this->entityManager->flush();
 
             $this->addFlash('success', $this->container->get('translator')->trans(
-                'teebb.core.formatter.create_success', ['%value%' => $formatter->getName()]
+                'teebb.core.menu.create_success', ['%value%' => $menu->getName()]
             ));
 
-            return $this->redirectToRoute('teebb_formatter_index');
+            return $this->redirectToRoute('teebb_menu_index');
         }
-        return $this->render($this->templateRegistry->getTemplate('create', 'formatter'), [
+        return $this->render($this->templateRegistry->getTemplate('create', 'menu'), [
             'form' => $form->createView(),
             'extra_assets' => ['transliteration'], //当前页面需要额外添加的assets库
             'action' => 'create'
@@ -87,65 +88,80 @@ class TextFormatterController extends AbstractController
 
     /**
      * @param Request $request
-     * @param Formatter $formatter
+     * @param Menu $menu
      * @return Response
      */
-    public function updateAction(Request $request, Formatter $formatter)
+    public function updateAction(Request $request, Menu $menu)
     {
-        $this->denyAccessUnlessGranted('formatter_update');
+//        $this->denyAccessUnlessGranted('menu_update');
 
-        $form = $this->createForm(FormatterType::class, $formatter);
+        $form = $this->createForm(MenuType::class, $menu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /**@var Formatter $formatter * */
-            $formatter = $form->getData();
-            $this->entityManager->persist($formatter);
+            /**@var Menu $menu * */
+            $menu = $form->getData();
+            $this->entityManager->persist($menu);
             $this->entityManager->flush();
 
             $this->addFlash('success', $this->container->get('translator')->trans(
-                'teebb.core.formatter.update_success', ['%value%' => $formatter->getName()]
+                'teebb.core.menu.update_success', ['%value%' => $menu->getName()]
             ));
 
-            return $this->redirectToRoute('teebb_formatter_index');
+            return $this->redirectToRoute('teebb_menu_index');
         }
-        return $this->render($this->templateRegistry->getTemplate('update', 'formatter'), [
+        return $this->render($this->templateRegistry->getTemplate('update', 'menu'), [
             'form' => $form->createView(),
-            'formatter' => $formatter,
+            'menu' => $menu,
             'action' => 'update'
         ]);
     }
 
     /**
      * @param Request $request
-     * @param Formatter $formatter
+     * @param Menu $menu
      * @return Response
      */
-    public function deleteAction(Request $request, Formatter $formatter)
+    public function deleteAction(Request $request, Menu $menu)
     {
-        $this->denyAccessUnlessGranted('formatter_delete');
+//        $this->denyAccessUnlessGranted('menu_delete');
 
-        $form = $this->formContractor->generateDeleteForm($request->get('_route'), FormType::class, $formatter);
+        $form = $this->formContractor->generateDeleteForm($request->get('_route'), FormType::class, $menu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($form->get('_method')->getData() == 'DELETE'){
-                $this->entityManager->remove($formatter);
+                $this->entityManager->remove($menu);
                 $this->entityManager->flush();
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
-                    'teebb.core.formatter.delete_success', ['%value%' => $formatter->getName()]
+                    'teebb.core.menu.delete_success', ['%value%' => $menu->getName()]
                 ));
 
-                return $this->redirectToRoute('teebb_formatter_index');
+                return $this->redirectToRoute('teebb_menu_index');
             }
         }
 
-        return $this->render($this->templateRegistry->getTemplate('delete', 'formatter'), [
+        return $this->render($this->templateRegistry->getTemplate('delete', 'menu'), [
             'delete_form' => $form->createView(),
-            'formatter' => $formatter,
+            'menu' => $menu,
             'action' => 'delete'
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Menu $menu
+     * @return Response
+     */
+    public function manageMenuItemsAction(Request $request, Menu $menu)
+    {
+
+        return $this->render($this->templateRegistry->getTemplate('manage_menu_items', 'menu'), [
+            'menu' => $menu,
+            'action' => 'manage',
+            'extra_assets' => ['nestable']
         ]);
     }
 }

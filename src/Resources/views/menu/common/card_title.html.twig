@@ -1,0 +1,9 @@
+<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">
+        {% if action in ['create', 'index'] %}
+            {{ action|trans }}{{ 'Menu'|trans }}
+        {% else %}
+            {{ action|trans }} "{{ menu.name }}"
+        {% endif %}
+    </h6>
+</div>

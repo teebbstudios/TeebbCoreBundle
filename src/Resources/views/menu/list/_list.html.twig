@@ -1,0 +1,41 @@
+{% extends '@TeebbCore/base_content.html.twig' %}
+
+{% block head_label %}
+    {{ action|trans }}{{ 'Menu'|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/menu/buttons/head_create_menu_button.html.twig' %}
+{% endblock %}
+
+{% block card_title %}
+    {% include '@TeebbCore/menu/common/card_title.html.twig' %}
+{% endblock %}
+
+{% block card_body %}
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'teebb.core.list.name'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.alias'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.description'|trans }}</th>
+                <th scope="col">{{ 'teebb.core.list.options'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for menu in menus %}
+                <tr>
+                    <td>{{ menu.name }}</td>
+                    <td>{{ menu.menuAlias }}</td>
+                    <td>{{ menu.description }}</td>
+                    <td>
+                        {% include '@TeebbCore/menu/buttons/item_manage_menu_button.html.twig' with {menu: menu} %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

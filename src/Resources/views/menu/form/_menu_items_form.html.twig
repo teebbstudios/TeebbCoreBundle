@@ -1,0 +1,505 @@
+{% extends '@TeebbCore/standard_layout.html.twig' %}
+
+{% block head_label %}
+    {{ action|trans }}{{ 'Menu'|trans }}
+{% endblock %}
+
+{% block head_actions %}
+    {% include '@TeebbCore/menu/buttons/head_index_menu_button.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <!-- FULL WIDTH Content -->
+    <div class="full-width-wrapper row">
+
+        <div class="col-12 col-md-4 mb-4 js-add-menu-item">
+            <h5 class="font-weight-bold text-dark">{{ 'Add Menu Item'|trans }}</h5>
+            <div class="accordion shadow" id="accordionMenu">
+                <div class="card">
+                    <a href="#collapseContentType" id="headingContentType" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseContentType">
+                        <h6 class="m-0 font-weight-bold text-primary">类型</h6>
+                    </a>
+                    <div id="collapseContentType" class="collapse show" aria-labelledby="headingContentType" data-parent="#accordionMenu">
+                        <div class="card-body">
+
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <span class="nav-link bg-gray-100 border-bottom-gray-100 rounded-0 active pl-2 pr-2 pt-1 pb-1">所有类型</span>
+                                </li>
+                            </ul>
+
+                            <div class="col-12 border border-top-0 bg-gray-100">
+                                <div class="pt-2 pb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input mr-2" type="checkbox" value="" id="article">
+                                        <label class="form-check-label" for="article">
+                                            文章
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input mr-2" type="checkbox" value="" id="page">
+                                        <label class="form-check-label" for="page">
+                                            页面
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-sm btn-link pl-0 pr-0"><small>全选</small></button>
+                                <button type="button" class="btn btn-sm btn-light border float-right"><small>添加到菜单</small></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <a href="#collapseContent" id="headingContent" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseContent">
+                        <h6 class="m-0 font-weight-bold text-primary">内容</h6>
+                    </a>
+                    <div id="collapseContent" class="collapse" aria-labelledby="headingContent" data-parent="#accordionMenu">
+                        <div class="card-body">
+
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a id="latest-contents" data-toggle="tab" href="#tabLatestContents" role="tab"
+                                       aria-controls="tabLatestContents" aria-selected="true"
+                                       class="nav-link bg-gray-100 border-bottom-gray-100 rounded-0 active pl-2 pr-2 pt-1 pb-1">最新内容</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="all-contents"  data-toggle="tab" href="#tabAllContents" role="tab"
+                                       aria-controls="tabAllContents" aria-selected="false"
+                                       class="nav-link rounded-0 pl-2 pr-2 pt-1 pb-1">所有内容</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="search-contents"  data-toggle="tab" href="#tabSearchContents" role="tab"
+                                       aria-controls="tabSearchContents" aria-selected="false" class="nav-link rounded-0 pl-2 pr-2 pt-1 pb-1">搜索</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="contentTab">
+                                <div id="tabLatestContents" role="tabpanel" aria-labelledby="latest-contents"
+                                     class="tab-pane fade show active col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
+                                    <div class="pt-2 pb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="article">
+                                                文章文章文章文章文章文章文章文章文章文章文章文章
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tabAllContents" role="tabpanel" aria-labelledby="all-contents"
+                                     class="tab-pane fade col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
+                                    <div class="pt-2 pb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="article">
+                                                文章文章文章文章文章文章文章文章文章文章文章文章
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tabSearchContents"  role="tabpanel" aria-labelledby="search-contents"
+                                     class="tab-pane fade col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
+
+                                    <div class="search-contents input-group mt-3 mb-3">
+                                        <input type="text" class="form-control form-control-sm" placeholder="搜索内容" aria-label="搜索内容" aria-describedby="button-search-contents">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-sm btn-outline-secondary" type="button" id="button-search-contents"><i class="fas fa-search"></i> </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-2 pb-2 d-none">
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="article">
+                                                文章文章文章文章文章文章文章文章文章文章文章文章
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-sm btn-link pl-0 pr-0"><small>全选</small></button>
+                                <button type="button" class="btn btn-sm btn-light border float-right"><small>添加到菜单</small></button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <a href="#collapseTaxonomy" id="headingTaxonomy" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseTaxonomy">
+                        <h6 class="m-0 font-weight-bold text-primary">分类</h6>
+                    </a>
+                    <div id="collapseTaxonomy" class="collapse" aria-labelledby="headingTaxonomy" data-parent="#accordionMenu">
+                        <div class="card-body">
+
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a id="taxonomy" data-toggle="tab" href="#tabTaxonomy" role="tab"
+                                       aria-controls="tabTaxonomy" aria-selected="true"
+                                       class="nav-link bg-gray-100 border-bottom-gray-100 rounded-0 active pl-2 pr-2 pt-1 pb-1">所有分类</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="all-terms"  data-toggle="tab" href="#tabAllTerms" role="tab"
+                                       aria-controls="tabAllTerms" aria-selected="false"
+                                       class="nav-link rounded-0 pl-2 pr-2 pt-1 pb-1">所有术语</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="search-terms"  data-toggle="tab" href="#tabSearchTerms" role="tab"
+                                       aria-controls="tabSearchTerms" aria-selected="false" class="nav-link rounded-0 pl-2 pr-2 pt-1 pb-1">搜索</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="taxonomyTab">
+                                <div id="tabTaxonomy" role="tabpanel" aria-labelledby="taxonomy"
+                                     class="tab-pane fade show active col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
+                                    <div class="pt-2 pb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="">
+                                                文章文章文章文章文章文章文章文章文章文章文章文章
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="">
+                                                页面页面页面页面页面页面页面页面页面页面页面页面
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tabAllTerms" role="tabpanel" aria-labelledby="all-terms"
+                                     class="tab-pane fade col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
+                                    <div class="pt-2 pb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="">
+                                                文章文章
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="">
+                                                页面页面
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="">
+                                                页面页面页
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="">
+                                                页面页
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tabSearchTerms"  role="tabpanel" aria-labelledby="search-terms"
+                                     class="tab-pane fade col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
+
+                                    <div class="search-contents input-group mt-3 mb-3">
+                                        <input type="text" class="form-control form-control-sm" placeholder="搜索术语" aria-label="搜索术语" aria-describedby="button-search-contents">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-sm btn-outline-secondary" type="button" id="button-search-terms"><i class="fas fa-search"></i> </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-2 pb-2 d-none">
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="article">
+                                                文章文章
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2" type="checkbox" value="">
+                                            <label class="form-check-label" for="page">
+                                                页面页面页
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-sm btn-link pl-0 pr-0"><small>全选</small></button>
+                                <button type="button" class="btn btn-sm btn-light border float-right"><small>添加到菜单</small></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <a href="#collapseContact" id="headingContact" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseContact">
+                        <h6 class="m-0 font-weight-bold text-primary">表单</h6>
+                    </a>
+                    <div id="collapseContact" class="collapse" aria-labelledby="headingContact" data-parent="#accordionMenu">
+                        <div class="card-body">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <span class="nav-link bg-gray-100 border-bottom-gray-100 rounded-0 active pl-2 pr-2 pt-1 pb-1">所有表单</span>
+                                </li>
+                            </ul>
+
+                            <div class="col-12 border border-top-0 bg-gray-100">
+                                <div class="pt-2 pb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input mr-2" type="checkbox" value="" id="article1">
+                                        <label class="form-check-label" for="article1">
+                                            文章
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input mr-2" type="checkbox" value="" id="page1">
+                                        <label class="form-check-label" for="page1">
+                                            页面
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-sm btn-link pl-0 pr-0"><small>全选</small></button>
+                                <button type="button" class="btn btn-sm btn-light border float-right"><small>添加到菜单</small></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <a href="#collapseCustomLink" id="headingCustomLink" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCustomLink">
+                        <h6 class="m-0 font-weight-bold text-primary">自定义</h6>
+                    </a>
+                    <div id="collapseCustomLink" class="collapse" aria-labelledby="headingCustomLink" data-parent="#accordionMenu">
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <label for="link_url" class="mr-2">链接地址</label>
+                                <input id="link_url" type="url" class="form-control form-control-sm w-100" value="http://">
+                            </div>
+                            <div class="form-group">
+                                <label for="link_title" class="mr-2">链接文本</label>
+                                <input id="link_title" type="text" class="form-control form-control-sm w-100">
+                            </div>
+
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-sm btn-light float-right mb-3 border"><small>添加到菜单</small></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-8 mb-4">
+            <h5 class="font-weight-bold text-dark">管理菜单项</h5>
+            <div class="card shadow">
+                <form class="edit-menu-item-form">
+                    <div class="card-header d-sm-flex align-items-center justify-content-between py-3">
+                        <div class="form-row form-inline">
+                            <label for="menu-name-input" class="m-0 font-weight-bold text-primary mr-2">菜单名称</label>
+                            <input id="menu-name-input" class="form-control form-control-sm w-auto" type="text" >
+                        </div>
+                        <button class="btn btn-sm btn-primary shadow-sm d-none d-md-inline text-nowrap" type="button">
+                            保存菜单
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="small text-muted">拖放调整各个菜单项到您喜欢的顺序，点击右侧箭头进行菜单设置。</div>
+
+                        <div class="dd mt-3" id="js-nestable-menu">
+                            <ol class="dd-list">
+                                <li class="dd-item mb-2" data-id="">
+                                    <a href="#menu_item_1" id="headingMenuItem-1" class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
+                                       data-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu_item_3">
+                                        <h6 class="m-0 font-weight-bold text-primary">菜单项目1</h6>
+                                    </a>
+                                    <div class="accordion-arrow"></div>
+                                    <div id="menu_item_1" class="border border-top-0 collapse" aria-labelledby="headingMenuItem-1" data-parent="#js-nestable-menu">
+                                        <div class="card-body">
+
+                                            <div class="form-group row">
+                                                <label for="menu_link_url_1" class="col-md-2 col-form-label text-nowrap">URL</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_url_1" type="url" class="form-control form-control-sm w-100" value="http://">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="menu_link_name_1" class="col-md-2 col-form-label text-nowrap">链接标签</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_name_1" type="text" class="form-control form-control-sm w-100">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="menu_link_title_1" class="col-md-2 col-form-label text-nowrap">链接属性</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_title_1" type="text" class="form-control form-control-sm w-100">
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <button type="button" class="btn btn-sm btn-link text-danger p-0"><small>移除</small></button>
+                                                <small>|</small>
+                                                <button type="button" class="btn btn-sm btn-link p-0"><small>取消</small></button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <li class="dd-item mb-2" data-id="">
+                                    <a href="#menu_item_2" id="headingMenuItem-2" class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
+                                       data-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu_item_3">
+                                        <h6 class="m-0 font-weight-bold text-primary">菜单项目2</h6>
+                                    </a>
+                                    <div class="accordion-arrow"></div>
+                                    <div id="menu_item_2" class="border border-top-0 collapse" aria-labelledby="headingMenuItem-2" data-parent="#js-nestable-menu">
+                                        <div class="card-body">
+
+                                            <div class="form-group row">
+                                                <label for="menu_link_url_2" class="col-md-2 col-form-label text-nowrap">URL</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_url_2" type="url" class="form-control form-control-sm w-100" value="http://">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="menu_link_name_2" class="col-md-2 col-form-label text-nowrap">链接标签</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_name_2" type="text" class="form-control form-control-sm w-100">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="menu_link_title_2" class="col-md-2 col-form-label text-nowrap">链接属性</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_title_2" type="text" class="form-control form-control-sm w-100">
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <button type="button" class="btn btn-sm btn-link text-danger p-0"><small>移除</small></button>
+                                                <small>|</small>
+                                                <button type="button" class="btn btn-sm btn-link p-0"><small>取消</small></button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dd-item mb-2" data-id="">
+
+                                    <a href="#menu_item_3" id="headingMenuItem-3" class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
+                                       data-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu_item_3">
+                                        <h6 class="m-0 font-weight-bold text-primary">菜单项目3</h6>
+                                    </a>
+                                    <div class="accordion-arrow"></div>
+                                    <div id="menu_item_3" class="border border-top-0 collapse" aria-labelledby="headingMenuItem-3" data-parent="#js-nestable-menu">
+                                        <div class="card-body">
+
+                                            <div class="form-group row">
+                                                <label for="menu_link_url_3" class="col-md-2 col-form-label text-nowrap">URL</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_url_3" type="url" class="form-control form-control-sm w-100" value="http://">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="menu_link_name_1" class="col-md-2 col-form-label text-nowrap">链接标签</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_name_3" type="text" class="form-control form-control-sm w-100">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="menu_link_title_1" class="col-md-2 col-form-label text-nowrap">链接属性</label>
+                                                <div class="col-md-10">
+                                                    <input id="menu_link_title_3" type="text" class="form-control form-control-sm w-100">
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <button type="button" class="btn btn-sm btn-link text-danger p-0"><small>移除</small></button>
+                                                <small>|</small>
+                                                <button type="button" class="btn btn-sm btn-link p-0"><small>取消</small></button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="card-footer d-sm-flex align-items-center justify-content-between py-3">
+                        <button class="btn btn-link text-danger d-inline p-0" type="button">
+                            <small>删除菜单</small>
+                        </button>
+                        <button class="btn btn-sm btn-primary shadow-sm d-inline" type="button">
+                            保存菜单
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_java_scripts %}
+    <script>
+        $('#js-nestable-menu').nestable({ /* config options */
+            handleClass: 'card-header',
+        });
+
+    </script>
+{% endblock %}

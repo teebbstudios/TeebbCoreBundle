@@ -106,6 +106,17 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
 
+                        ->arrayNode('menu')
+                        ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('index')->defaultValue('@TeebbCore/menu/list/_list.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('create')->defaultValue('@TeebbCore/menu/form/_form.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('update')->defaultValue('@TeebbCore/menu/form/_form.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('delete')->defaultValue('@TeebbCore/menu/form/_delete_form.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('manage_menu_items')->defaultValue('@TeebbCore/menu/form/_menu_items_form.html.twig')->cannotBeEmpty()->end()
+                            ->end()
+                        ->end()
+
                         ->arrayNode('terms')
                         ->addDefaultsIfNotSet()
                             ->children()

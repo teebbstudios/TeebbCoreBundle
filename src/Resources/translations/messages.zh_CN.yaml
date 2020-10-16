@@ -34,6 +34,9 @@ index: 管理
 create: 添加
 update: 编辑
 delete: 删除
+manage: 管理
+manage_menu_items: 管理菜单项
+
 update_permission: 更新权限
 add_field: 添加字段
 index_field: 管理字段
@@ -126,6 +129,8 @@ taxonomy_type_voter: 分类类型权限
 Groups: 用户组
 people_update: 编辑用户
 
+Add Menu Item: 添加菜单项
+
 teebb:
     core:
         layout:
@@ -145,6 +150,7 @@ teebb:
             sortable: 拖动行前箭头以修改每个字段的权重，用于调整在创建编辑显示内容时字段的顺序，按降序排列，权重高的优先显示。
             delete_comment: 删除评论 "%subject%" ? 此评论将会删除且无法恢复，确定要删除吗？
             delete_group: 删除"%group%"用户组，此组中的用户将不再属于此用户组，此用户组所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
+            delete_menu: 删除"%name%"菜单，此菜单及菜单项所有数据将会删除，且无法恢复，请谨慎操作！！！确定要删除吗？
         list:
             name: 名称
             description: 描述
@@ -331,6 +337,7 @@ teebb:
             group: 用户组
             enabled: 是否已启用
             none_locked: 账号未锁定
+            delete_menu: 删除菜单
 
         content:
             create_success: 内容 "%value%" 创建成功。
@@ -461,4 +468,13 @@ teebb:
 
             file_upload: 文件上传
             file_delete: 文件删除
+        menu:
+            name: 菜单名称
+            name_help: 请输入菜单的名称。
+            menu_alias: 机器别名
+            menu_alias_help: 唯一的机读内容类型名字。这个名字必须只能包含小写字母，数字和下划线，下划线不能出现在开头和结尾。此名字将用于页面的链接。
+            menu_description: 此菜单的简短描述。
+            create_success: 菜单 "%value%" 创建成功。
+            update_success: 菜单 "%value%" 更新成功。
+            delete_success: 菜单 "%value%" 删除成功。
 
