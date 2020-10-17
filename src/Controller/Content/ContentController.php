@@ -152,12 +152,6 @@ class ContentController extends AbstractContentController
                 $content = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
                     $form, $types->getBundle(), $types->getTypeAlias(), $data_class);
 
-//                $author = $this->security->getUser();
-//                $content->setAuthor($author);
-//
-//                $this->entityManager->persist($content);
-//                $this->entityManager->flush();
-
                 $this->addFlash('success', $this->container->get('translator')->trans(
                     'teebb.core.content.create_success', ['%value%' => $content->getTitle()]
                 ));
@@ -288,24 +282,4 @@ class ContentController extends AbstractContentController
         ]);
     }
 
-    /**
-     * 显示内容
-     * @param Request $request
-     * @param Content $content
-     * @return Response
-     */
-    public function showAction(Request $request, Content $content)
-    {
-        $entityTypeService = $this->getEntityTypeService($request);
-
-        $data = $entityTypeService->getAllFieldsData($content, $content->getTypeAlias());
-
-        return $this->render($this->templateRegistry->getTemplate('show', 'content'), [
-            'action' => 'show',
-            'entity_type' => $entityTypeService,
-            'subject' => $content,
-            'type_alias' => $content->getTypeAlias(),
-            'fieldDatas' => $data,
-        ]);
-    }
 }

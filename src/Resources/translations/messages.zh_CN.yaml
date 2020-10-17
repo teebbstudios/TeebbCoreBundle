@@ -130,6 +130,23 @@ Groups: 用户组
 people_update: 编辑用户
 
 Add Menu Item: 添加菜单项
+All Types: 所有类型
+Last Contents: 最新内容
+All Taxonomy: 所有分类
+Search: 搜索
+Search Content: 搜索内容
+Search Term: 搜索词汇
+Custom Link: 自定义链接
+Add to menu: 添加到菜单
+Link URL: 链接地址
+Link Title: 链接标题
+Manage Menu Items: 管理菜单项
+Menu Name: 菜单名称
+menu item help: 拖放调整各个菜单项到您喜欢的顺序，点击右侧箭头进行菜单设置。
+All terms: 所有词汇
+Link Attr: 链接属性
+Remove: 移除
+Cancel: 取消
 
 teebb:
     core:

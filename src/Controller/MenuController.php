@@ -8,7 +8,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
+use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Menu;
+use Teebb\CoreBundle\Entity\Taxonomy;
+use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\FormatterType;
 use Teebb\CoreBundle\Form\Type\Menu\MenuType;
@@ -157,9 +160,20 @@ class MenuController extends AbstractController
      */
     public function manageMenuItemsAction(Request $request, Menu $menu)
     {
+        $typeRepo = $this->entityManager->getRepository(Types::class);
+        $contentTypes = $typeRepo->findBy(['bundle' => 'content']);
+
+        $contentRepo = $this->entityManager->getRepository(Content::class);
+        $last_contents = $contentRepo->findBy([],null,10);
+
+        $taxonomyRepo = $this->entityManager->getRepository(Taxonomy::class);
+        $taxonomies = $taxonomyRepo->findAll();
 
         return $this->render($this->templateRegistry->getTemplate('manage_menu_items', 'menu'), [
             'menu' => $menu,
+            'content_types' => $contentTypes,
+            'last_contents' => $last_contents,
+            'taxonomies' => $taxonomies,
             'action' => 'manage',
             'extra_assets' => ['nestable']
         ]);

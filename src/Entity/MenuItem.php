@@ -48,6 +48,14 @@ class MenuItem
     private $menuTitle;
 
     /**
+     * 菜单链接属性
+     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups("main")
+     */
+    private $menuAttr;
+
+    /**
      * @var MenuItem|null
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\MenuItem", inversedBy="children")
@@ -140,6 +148,22 @@ class MenuItem
     public function setMenuTitle(?string $menuTitle): void
     {
         $this->menuTitle = $menuTitle;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMenuAttr(): ?string
+    {
+        return $this->menuAttr;
+    }
+
+    /**
+     * @param string|null $menuAttr
+     */
+    public function setMenuAttr(?string $menuAttr): void
+    {
+        $this->menuAttr = $menuAttr;
     }
 
     /**

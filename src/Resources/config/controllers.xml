@@ -193,5 +193,18 @@
         <service id="Teebb\CoreBundle\Controller\Dashboard\DashboardController"
                  alias="teebb.core.controller.dashboard_controller" public="true"/>
 
+        <service id="teebb.core.controller.front_content_controller"
+                 class="Teebb\CoreBundle\Controller\Front\ContentController"
+                 public="false">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="teebb.core.template.registry"/>
+            <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\Front\ContentController"
+                 alias="teebb.core.controller.front_content_controller" public="true"/>
+
     </services>
 </container>
