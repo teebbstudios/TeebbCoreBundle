@@ -67,6 +67,7 @@ class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('content_show')->defaultValue('@TeebbCore/front/show.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('list_contents')->defaultValue('@TeebbCore/front/list_contents.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
                         ->arrayNode('content')

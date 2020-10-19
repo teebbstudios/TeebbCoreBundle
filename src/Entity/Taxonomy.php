@@ -232,7 +232,7 @@ class Taxonomy extends BaseContent
     }
 
     /**
-     * @return mixed
+     * @return Taxonomy[]|null
      */
     public function getChildren()
     {
@@ -240,7 +240,7 @@ class Taxonomy extends BaseContent
     }
 
     /**
-     * @param mixed $children
+     * @param Taxonomy[]|null $children
      */
     public function setChildren($children): void
     {

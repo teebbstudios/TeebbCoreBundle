@@ -148,6 +148,8 @@ Link Attr: 链接属性
 Remove: 移除
 Cancel: 取消
 
+It is empty.: 这里还是空空如也。
+
 teebb:
     core:
         layout:

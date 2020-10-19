@@ -7,4 +7,14 @@
         <default key="route">teebb_content_show</default>
     </route>
 
+    <route id="teebb_types_contents" path="/types/{typeAlias}/contents">
+        <default key="_controller">Teebb\CoreBundle\Controller\Front\ContentController::listTypeContents</default>
+        <default key="route">teebb_types_contents</default>
+    </route>
+
+    <route id="teebb_taxonomy_contents" path="/taxonomy/{slug}/contents">
+        <default key="_controller">Teebb\CoreBundle\Controller\Front\ContentController::listTaxonomyContents</default>
+        <default key="route">teebb_taxonomy_contents</default>
+    </route>
+
 </routes>
