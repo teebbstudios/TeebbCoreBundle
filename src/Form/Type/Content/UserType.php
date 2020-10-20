@@ -36,14 +36,22 @@ class UserType extends BaseContentType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event){
-            /**@var User $user**/
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            /**@var User $user * */
             $user = $event->getData();
-            if ($plainPassword = $user->getPlainPassword()){
+            if ($plainPassword = $user->getPlainPassword()) {
                 $password = $this->userPasswordEncoder->encodePassword($user, $plainPassword);
                 $user->setPassword($password);
-                $event->setData($user);
             }
+            //根据用户选择的group 动态修改用户roles
+            $roles = [];
+            foreach ($user->getGroups() as $group) {
+                foreach ($group->getRoles() as $role) {
+                    $roles[] = $role;
+                }
+            }
+            $user->setRoles($roles);
+            $event->setData($user);
         });
 
         $data = $builder->getData();
@@ -136,8 +144,7 @@ class UserType extends BaseContentType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-            ])
-        ;
+            ]);
 
         $this->dynamicAddFieldForm($builder, $options, $data);
 

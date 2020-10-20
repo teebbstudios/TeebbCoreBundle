@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * 所有内容实体entity基类。Taxonomy、Comment、Content都继续此类
@@ -20,6 +21,7 @@ class BaseContent
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("main")
      */
     protected $id;
 

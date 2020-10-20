@@ -34,4 +34,11 @@
         <default key="query_label">title</default>
     </route>
 
+    <route id="teebb_content_search_api" path="/content/search" methods="POST">
+        <default key="_controller">Teebb\CoreBundle\Controller\Content\ContentController::searchContentAjaxAction
+        </default>
+        <default key="route">teebb_content_search_api</default>
+        <option key="expose">true</option> <!--fosjsrouting expose route-->
+    </route>
+
 </routes>

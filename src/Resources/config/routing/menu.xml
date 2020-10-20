@@ -27,4 +27,11 @@
         <default key="route">teebb_manage_menu_items</default>
     </route>
 
+    <route id="teebb_menu_add_items_api" path="/menu/{id}/items/add" methods="POST">
+        <default key="_controller">Teebb\CoreBundle\Controller\MenuController::ajaxAddMenuItemAction</default>
+        <default key="route">teebb_menu_add_items_api</default>
+        <option key="expose">true</option> <!--fosjsrouting expose route-->
+    </route>
+
+
 </routes>

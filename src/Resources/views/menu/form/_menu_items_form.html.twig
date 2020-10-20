@@ -16,10 +16,12 @@
             <h5 class="font-weight-bold text-dark">{{ 'Add Menu Item'|trans }}</h5>
             <div class="accordion shadow" id="accordionMenu">
                 <div class="card">
-                    <a href="#collapseContentType" id="headingContentType" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseContentType">
+                    <a href="#collapseContentType" id="headingContentType" class="d-block card-header py-3"
+                       data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseContentType">
                         <h6 class="m-0 font-weight-bold text-primary">{{ 'Type'|trans }}</h6>
                     </a>
-                    <div id="collapseContentType" class="collapse show" aria-labelledby="headingContentType" data-parent="#accordionMenu">
+                    <div id="collapseContentType" class="collapse show" aria-labelledby="headingContentType"
+                         data-parent="#accordionMenu">
                         <div class="card-body">
 
                             <ul class="nav nav-tabs">
@@ -31,27 +33,36 @@
                             <div class="col-12 border border-top-0 bg-gray-100">
                                 <div class="pt-2 pb-2">
                                     {% for content_type in content_types %}
-                                    <div class="form-check">
-                                        <input class="form-check-input mr-2" type="checkbox" value="{{ content_type.id }}" id="article">
-                                        <label class="form-check-label" for="article">
-                                            {{ content_type.label }}
-                                        </label>
-                                    </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input mr-2 menu-info-input"
+                                                   data-path="{{ path('teebb_types_contents', {typeAlias: content_type.typeAlias}) }}"
+                                                   data-label="{{ content_type.label }}"
+                                                   type="checkbox"
+                                                   value="{{ content_type.id }}"
+                                                   id="content_type_{{ content_type.typeAlias }}">
+                                            <label class="form-check-label"
+                                                   for="content_type_{{ content_type.typeAlias }}">
+                                                {{ content_type.label }}
+                                            </label>
+                                        </div>
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <button type="button" class="btn btn-sm btn-light border"><small>{{ 'Add to menu'|trans }}</small></button>
+                                <button type="button" class="btn btn-sm btn-light border add-menu-btn">
+                                    <small>{{ 'Add to menu'|trans }}</small></button>
                             </div>
 
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <a href="#collapseContent" id="headingContent" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseContent">
+                    <a href="#collapseContent" id="headingContent" class="d-block card-header py-3 collapsed"
+                       data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseContent">
                         <h6 class="m-0 font-weight-bold text-primary">{{ 'Content'|trans }}</h6>
                     </a>
-                    <div id="collapseContent" class="collapse" aria-labelledby="headingContent" data-parent="#accordionMenu">
+                    <div id="collapseContent" class="collapse" aria-labelledby="headingContent"
+                         data-parent="#accordionMenu">
                         <div class="card-body">
 
                             <ul class="nav nav-tabs" role="tablist">
@@ -61,8 +72,9 @@
                                        class="nav-link bg-gray-100 border-bottom-gray-100 rounded-0 active pl-2 pr-2 pt-1 pb-1">{{ 'Last Contents'|trans }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="search-contents"  data-toggle="tab" href="#tabSearchContents" role="tab"
-                                       aria-controls="tabSearchContents" aria-selected="false" class="nav-link rounded-0 pl-2 pr-2 pt-1 pb-1">{{ 'Search'|trans }}</a>
+                                    <a id="search-contents" data-toggle="tab" href="#tabSearchContents" role="tab"
+                                       aria-controls="tabSearchContents" aria-selected="false"
+                                       class="nav-link rounded-0 pl-2 pr-2 pt-1 pb-1">{{ 'Search'|trans }}</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="contentTab">
@@ -70,58 +82,53 @@
                                      class="tab-pane fade show active col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
                                     <div class="pt-2 pb-2">
                                         {% for last_content in last_contents %}
-                                        <div class="form-check">
-                                            <input class="form-check-input mr-2" type="checkbox" value="{{ last_content.id }}">
-                                            <label class="form-check-label" for="article">
-                                                {{ last_content.title }}
-                                            </label>
-                                        </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input mr-2 menu-info-input" type="checkbox"
+                                                       data-path="{{ path('teebb_content_show', {slug: last_content.slug}) }}"
+                                                       data-label="{{ last_content.title }}"
+                                                       id="last_content_{{ last_content.id }}"
+                                                       value="{{ last_content.id }}">
+                                                <label class="form-check-label"
+                                                       for="last_content_{{ last_content.id }}">
+                                                    {{ last_content.title }}
+                                                </label>
+                                            </div>
                                         {% endfor %}
                                     </div>
                                 </div>
-                                <div id="tabSearchContents"  role="tabpanel" aria-labelledby="search-contents"
+                                <div id="tabSearchContents" role="tabpanel" aria-labelledby="search-contents"
                                      class="tab-pane fade col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
 
                                     <div class="search-contents input-group mt-3 mb-3">
-                                        <input type="text" class="form-control form-control-sm" placeholder="{{ 'Search Content'|trans }}" aria-label="{{ 'Search Content'|trans }}" aria-describedby="button-search-contents">
+                                        <input type="text" class="form-control form-control-sm search-content-input"
+                                               id="search-contents-input"
+                                               placeholder="{{ 'Search Content'|trans }}"
+                                               aria-label="{{ 'Search Content'|trans }}"
+                                               aria-describedby="button-search-contents">
                                         <div class="input-group-append">
-                                            <button class="btn btn-sm btn-outline-secondary" type="button" id="button-search-contents"><i class="fas fa-search"></i> </button>
+                                            <button class="btn btn-sm btn-outline-secondary" type="button"
+                                                    id="button-search-contents"><i class="fas fa-search"></i></button>
                                         </div>
                                     </div>
 
-                                    <div class="pt-2 pb-2 d-none">
-                                        <div class="form-check">
-                                            <input class="form-check-input mr-2" type="checkbox" value="">
-                                            <label class="form-check-label" for="article">
-                                                文章文章文章文章文章文章文章文章文章文章文章文章
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input mr-2" type="checkbox" value="">
-                                            <label class="form-check-label" for="page">
-                                                页面页面页面页面页面页面页面页面页面页面页面页面
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input mr-2" type="checkbox" value="">
-                                            <label class="form-check-label" for="page">
-                                                页面页面页面页面页面页面页面页面页面页面页面页面
-                                            </label>
-                                        </div>
+                                    <div class="pt-2 pb-2 search-content-result">
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <button type="button" class="btn btn-sm btn-light border"><small>{{ 'Add to menu'|trans }}</small></button>
+                                <button type="button" class="btn btn-sm btn-light border add-menu-btn">
+                                    <small>{{ 'Add to menu'|trans }}</small></button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <a href="#collapseTaxonomy" id="headingTaxonomy" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseTaxonomy">
+                    <a href="#collapseTaxonomy" id="headingTaxonomy" class="d-block card-header py-3 collapsed"
+                       data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseTaxonomy">
                         <h6 class="m-0 font-weight-bold text-primary">{{ 'Taxonomy'|trans }}</h6>
                     </a>
-                    <div id="collapseTaxonomy" class="collapse" aria-labelledby="headingTaxonomy" data-parent="#accordionMenu">
+                    <div id="collapseTaxonomy" class="collapse" aria-labelledby="headingTaxonomy"
+                         data-parent="#accordionMenu">
                         <div class="card-body">
 
                             <ul class="nav nav-tabs" role="tablist">
@@ -131,8 +138,9 @@
                                        class="nav-link bg-gray-100 border-bottom-gray-100 rounded-0 active pl-2 pr-2 pt-1 pb-1">{{ 'All terms'|trans }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="search-terms"  data-toggle="tab" href="#tabSearchTerms" role="tab"
-                                       aria-controls="tabSearchTerms" aria-selected="false" class="nav-link rounded-0 pl-2 pr-2 pt-1 pb-1">{{ 'Search'|trans }}</a>
+                                    <a id="search-terms" data-toggle="tab" href="#tabSearchTerms" role="tab"
+                                       aria-controls="tabSearchTerms" aria-selected="false"
+                                       class="nav-link rounded-0 pl-2 pr-2 pt-1 pb-1">{{ 'Search'|trans }}</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="taxonomyTab">
@@ -141,69 +149,66 @@
                                     <div class="pt-2 pb-2">
                                         {% for taxonomy in taxonomies %}
                                             <div class="form-check">
-                                                <input class="form-check-input mr-2" type="checkbox" value="{{ taxonomy.id }}">
-                                                <label class="form-check-label" for="">
+                                                <input class="form-check-input mr-2 menu-info-input"
+                                                       id="taxonomy_{{ taxonomy.id }}"
+                                                       data-path="{{ path('teebb_taxonomy_contents', {slug: taxonomy.slug}) }}"
+                                                       data-label="{{ taxonomy.term }}"
+                                                       type="checkbox"
+                                                       value="{{ taxonomy.id }}">
+                                                <label class="form-check-label" for="taxonomy_{{ taxonomy.id }}">
                                                     {{ taxonomy.term }}
                                                 </label>
                                             </div>
                                         {% endfor %}
                                     </div>
                                 </div>
-                                <div id="tabSearchTerms"  role="tabpanel" aria-labelledby="search-terms"
+                                <div id="tabSearchTerms" role="tabpanel" aria-labelledby="search-terms"
                                      class="tab-pane fade col-12 border border-top-0 bg-gray-100 max-height-200 overflow-auto">
 
-                                    <div class="search-contents input-group mt-3 mb-3">
-                                        <input type="text" class="form-control form-control-sm" placeholder="{{ 'Search Term'|trans }}" aria-label="{{ 'Search Term'|trans }}" aria-describedby="button-search-terms">
+                                    <div class="search-terms input-group mt-3 mb-3">
+                                        <input type="text" class="form-control form-control-sm"
+                                               id="search-terms-input"
+                                               placeholder="{{ 'Search Term'|trans }}"
+                                               aria-label="{{ 'Search Term'|trans }}"
+                                               aria-describedby="button-search-terms">
                                         <div class="input-group-append">
-                                            <button class="btn btn-sm btn-outline-secondary" type="button" id="button-search-terms"><i class="fas fa-search"></i> </button>
+                                            <button class="btn btn-sm btn-outline-secondary" type="button"
+                                                    id="button-search-terms"><i class="fas fa-search"></i></button>
                                         </div>
                                     </div>
 
-                                    <div class="pt-2 pb-2 d-none">
-                                        <div class="form-check">
-                                            <input class="form-check-input mr-2" type="checkbox" value="">
-                                            <label class="form-check-label" for="article">
-                                                文章文章
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input mr-2" type="checkbox" value="">
-                                            <label class="form-check-label" for="page">
-                                                页面页面
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input mr-2" type="checkbox" value="">
-                                            <label class="form-check-label" for="page">
-                                                页面页面页
-                                            </label>
-                                        </div>
+                                    <div class="pt-2 pb-2 search-term-result">
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <button type="button" class="btn btn-sm btn-light border"><small>{{ 'Add to menu'|trans }}</small></button>
+                                <button type="button" class="btn btn-sm btn-light border add-menu-btn">
+                                    <small>{{ 'Add to menu'|trans }}</small></button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <a href="#collapseCustomLink" id="headingCustomLink" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCustomLink">
+                    <a href="#collapseCustomLink" id="headingCustomLink" class="d-block card-header py-3 collapsed"
+                       data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCustomLink">
                         <h6 class="m-0 font-weight-bold text-primary">{{ 'Custom Link'|trans }}</h6>
                     </a>
-                    <div id="collapseCustomLink" class="collapse" aria-labelledby="headingCustomLink" data-parent="#accordionMenu">
+                    <div id="collapseCustomLink" class="collapse" aria-labelledby="headingCustomLink"
+                         data-parent="#accordionMenu">
                         <div class="card-body">
 
                             <div class="form-group">
                                 <label for="link_url" class="mr-2">{{ 'Link URL'|trans }}</label>
-                                <input id="link_url" type="url" class="form-control form-control-sm w-100" placeholder="http://">
+                                <input id="link_url" type="url" class="form-control form-control-sm w-100"
+                                       placeholder="http://">
                             </div>
                             <div class="form-group">
                                 <label for="link_title" class="mr-2">{{ 'Link Title'|trans }}</label>
                                 <input id="link_title" type="text" class="form-control form-control-sm w-100">
                             </div>
                             <div class="mt-3">
-                                <button type="button" class="btn btn-sm btn-light border"><small>{{ 'Add to menu'|trans }}</small></button>
+                                <button type="button" class="btn btn-sm btn-light border add-custom-menu-btn">
+                                    <small>{{ 'Add to menu'|trans }}</small></button>
                             </div>
                         </div>
                     </div>
@@ -217,8 +222,10 @@
                 <form class="edit-menu-item-form">
                     <div class="card-header d-sm-flex align-items-center justify-content-between py-3">
                         <div class="form-row form-inline">
-                            <label for="menu-name-input" class="m-0 font-weight-bold text-primary mr-2">{{ 'Menu Name'|trans }}:</label>
-                            <input id="menu-name-input" class="form-control form-control-sm w-auto" type="text" value="{{ menu.name }}">
+                            <label for="menu-name-input"
+                                   class="m-0 font-weight-bold text-primary mr-2">{{ 'Menu Name'|trans }}:</label>
+                            <input id="menu-name-input" data-menu-id="{{ menu.id }}" class="form-control form-control-sm w-auto" type="text"
+                                   value="{{ menu.name }}">
                         </div>
                     </div>
                     <div class="card-body">
@@ -227,36 +234,47 @@
                         <div class="dd mt-3" id="js-nestable-menu">
                             <ol class="dd-list">
                                 <li class="dd-item mb-2" data-id="">
-                                    <a href="#menu_item_1" id="headingMenuItem-1" class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
-                                       data-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu_item_3">
+                                    <a href="#menu_item_1" id="headingMenuItem-1"
+                                       class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
+                                       data-toggle="collapse" role="button" aria-expanded="false"
+                                       aria-controls="menu_item_3">
                                         <h6 class="m-0 font-weight-bold text-primary">菜单项目1</h6>
                                     </a>
                                     <div class="accordion-arrow"></div>
-                                    <div id="menu_item_1" class="border border-top-0 collapse" aria-labelledby="headingMenuItem-1" data-parent="#js-nestable-menu">
+                                    <div id="menu_item_1" class="border border-top-0 collapse"
+                                         aria-labelledby="headingMenuItem-1" data-parent="#js-nestable-menu">
                                         <div class="card-body">
 
                                             <div class="form-group row">
-                                                <label for="menu_link_url_1" class="col-md-2 col-form-label text-nowrap">{{ 'Link URL'|trans }}</label>
+                                                <label for="menu_link_url_1"
+                                                       class="col-md-2 col-form-label text-nowrap">{{ 'Link URL'|trans }}</label>
                                                 <div class="col-md-10">
-                                                    <input id="menu_link_url_1" type="url" class="form-control form-control-sm w-100" value="http://">
+                                                    <input id="menu_link_url_1" type="url"
+                                                           class="form-control form-control-sm w-100" value="http://">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="menu_link_name_1" class="col-md-2 col-form-label text-nowrap">{{ 'Link Title'|trans }}</label>
+                                                <label for="menu_link_name_1"
+                                                       class="col-md-2 col-form-label text-nowrap">{{ 'Link Title'|trans }}</label>
                                                 <div class="col-md-10">
-                                                    <input id="menu_link_name_1" type="text" class="form-control form-control-sm w-100">
+                                                    <input id="menu_link_name_1" type="text"
+                                                           class="form-control form-control-sm w-100">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="menu_link_title_1" class="col-md-2 col-form-label text-nowrap">{{ 'Link Attr'|trans }}</label>
+                                                <label for="menu_link_title_1"
+                                                       class="col-md-2 col-form-label text-nowrap">{{ 'Link Attr'|trans }}</label>
                                                 <div class="col-md-10">
-                                                    <input id="menu_link_title_1" type="text" class="form-control form-control-sm w-100">
+                                                    <input id="menu_link_title_1" type="text"
+                                                           class="form-control form-control-sm w-100">
                                                 </div>
                                             </div>
                                             <div class="mt-3">
-                                                <button type="button" class="btn btn-sm btn-link text-danger p-0"><small>{{ 'Remove'|trans }}</small></button>
+                                                <button type="button" class="btn btn-sm btn-link text-danger p-0">
+                                                    <small>{{ 'Remove'|trans }}</small></button>
                                                 <small>|</small>
-                                                <button type="button" class="btn btn-sm btn-link p-0"><small>{{ 'Cancel'|trans }}</small></button>
+                                                <button type="button" class="btn btn-sm btn-link p-0">
+                                                    <small>{{ 'Cancel'|trans }}</small></button>
                                             </div>
 
                                         </div>
@@ -270,7 +288,8 @@
                     </div>
 
                     <div class="card-footer d-sm-flex align-items-center justify-content-between py-3">
-                        <a href="{{ path('teebb_menu_delete', {'id':menu.id}) }}" class="btn btn-link text-danger d-inline p-0" type="button">
+                        <a href="{{ path('teebb_menu_delete', {'id':menu.id}) }}"
+                           class="btn btn-link text-danger d-inline p-0" type="button">
                             <small>删除菜单</small>
                         </a>
                         <button class="btn btn-sm btn-primary shadow-sm d-inline" type="button">

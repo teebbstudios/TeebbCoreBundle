@@ -144,7 +144,7 @@ Manage Menu Items: 管理菜单项
 Menu Name: 菜单名称
 menu item help: 拖放调整各个菜单项到您喜欢的顺序，点击右侧箭头进行菜单设置。
 All terms: 所有词汇
-Link Attr: 链接属性
+Link Attr: 链接title属性
 Remove: 移除
 Cancel: 取消
 
@@ -492,7 +492,7 @@ teebb:
             name_help: 请输入菜单的名称。
             menu_alias: 机器别名
             menu_alias_help: 唯一的机读内容类型名字。这个名字必须只能包含小写字母，数字和下划线，下划线不能出现在开头和结尾。此名字将用于页面的链接。
-            menu_description: 此菜单的简短描述。
+            menu_description: 菜单描述
             create_success: 菜单 "%value%" 创建成功。
             update_success: 菜单 "%value%" 更新成功。
             delete_success: 菜单 "%value%" 删除成功。

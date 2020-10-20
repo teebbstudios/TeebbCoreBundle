@@ -9,4 +9,12 @@
         <default key="query_label">term</default>
     </route>
 
+
+    <route id="teebb_taxonomy_search_api" path="/taxonomy/search" methods="POST">
+        <default key="_controller">Teebb\CoreBundle\Controller\Content\TaxonomyController::searchTaxonomyAjaxAction
+        </default>
+        <default key="route">teebb_taxonomy_search_api</default>
+        <option key="expose">true</option> <!--fosjsrouting expose route-->
+    </route>
+
 </routes>

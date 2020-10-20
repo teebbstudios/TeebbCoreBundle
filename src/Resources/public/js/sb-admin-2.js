@@ -369,3 +369,134 @@ $('.prototype-wrapper').on('focus', '.js-reference-entity-autocomplete', functio
 
     $(this).data('autocomplete', '1');
 });
+
+/**
+ * 管理菜单项页面
+ */
+
+//创建搜索结果菜单信息input
+function createMenuInfoInput(type, menuInfo) {
+    var value = menuInfo.id;
+    var path = '';
+    var label = '';
+    var id = '';
+    if (type === 'content') {
+        path = Routing.generate('teebb_content_show', {slug: menuInfo.slug});
+        label = menuInfo.title;
+        id = 'search_content_result_' + menuInfo.id;
+    }
+    if (type === 'taxonomy') {
+        path = Routing.generate('teebb_taxonomy_contents', {slug: menuInfo.slug});
+        label = menuInfo.term;
+        id = 'search_term_result_' + menuInfo.id;
+    }
+
+    return '<div class="form-check">' +
+        '   <input class="form-check-input mr-2 menu-info-input" type="checkbox" ' +
+        '   data-path="' + path + '" ' +
+        '   data-label="' + label + '" ' +
+        '   value="' + value + '" id="' + id + '">' +
+        '   <label class="form-check-label" for="' + id + '">' + label + '  </label>' +
+        '   </div>'
+}
+
+//1.搜索内容ajax
+$('#button-search-contents').click(function (element) {
+    var keyword = $('#search-contents-input').val();
+    var formData = new FormData();
+    formData.append("keyword", keyword);
+    var resultWrapper = $('.search-content-result');
+    $.ajax({
+        url: Routing.generate('teebb_content_search_api'),
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+    }).done(function (data) {
+        var resultHtml = '';
+        data.forEach(function (menuInfo) {
+            resultHtml += createMenuInfoInput('content', menuInfo);
+        });
+        resultWrapper.append(resultHtml);
+    }).fail(function (jqXHR) {
+        resultWrapper.append(createFormErrorMessage(jqXHR.responseJSON.detail));
+    });
+});
+
+//2.搜索Taxonomy ajax
+$('#button-search-terms').click(function (element) {
+    var keyword = $('#search-terms-input').val();
+    var formData = new FormData();
+    formData.append("keyword", keyword);
+    var resultWrapper = $('.search-term-result');
+    $.ajax({
+        url: Routing.generate('teebb_taxonomy_search_api'),
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+    }).done(function (data) {
+        var resultHtml = '';
+        data.forEach(function (menuInfo) {
+            resultHtml += createMenuInfoInput('taxonomy', menuInfo);
+        });
+        resultWrapper.append(resultHtml);
+    }).fail(function (jqXHR) {
+        resultWrapper.append(createFormErrorMessage(jqXHR.responseJSON.detail));
+    });
+});
+
+function ajaxPostMenuInfos(menuInfos, cardWrapper) {
+    var currMenuId = $('#menu-name-input').data('menu-id');
+
+    var formData = new FormData();
+    formData.append("menus", JSON.stringify(menuInfos));
+
+    $.ajax({
+        url: Routing.generate('teebb_menu_add_items_api', {id: currMenuId}),
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+    }).done(function (data) {
+        console.log(data);
+    }).fail(function (jqXHR) {
+        cardWrapper.prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
+    });
+}
+
+//3.添加菜单项到菜单
+$('.add-menu-btn').click(function (element) {
+    var cardWrapper = $(this).closest('.card-body');
+    //查询当前按钮可添加的所有input
+    var checkedMenuInfoInputs = cardWrapper.find('input.menu-info-input:checked');
+
+    var menuInfos = [];
+    for (var i = 0; i < checkedMenuInfoInputs.length; i++) {
+        var inputAnchor = $(checkedMenuInfoInputs[i]);
+
+        var tmp = {};
+        tmp['path'] = inputAnchor.data('path');
+        tmp['label'] = inputAnchor.data('label');
+
+        menuInfos.push(tmp);
+    }
+
+    ajaxPostMenuInfos(menuInfos, cardWrapper);
+});
+
+//4.添加自定义菜单项
+$('.add-custom-menu-btn').click(function (element) {
+    var cardWrapper = $(this).closest('.card-body');
+    var menuInfos = [];
+
+    var tmp = {};
+    tmp['path'] = $('#link_url').val();
+    tmp['label'] = $('#link_title').val();
+    menuInfos.push(tmp);
+
+    ajaxPostMenuInfos(menuInfos, cardWrapper);
+});

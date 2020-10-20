@@ -46,6 +46,7 @@ class Content extends BaseContent
      * @var string|null
      * @ORM\Column(type="string", length=255, unique=true)
      * @Gedmo\Slug(fields={"title"}, unique=true, updatable=false)
+     * @Groups("main")
      */
     protected $slug;
 

@@ -20,6 +20,7 @@ class MenuItem
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("main")
      */
     private $id;
 
@@ -53,7 +54,7 @@ class MenuItem
      * @ORM\Column(type="text", nullable=true)
      * @Groups("main")
      */
-    private $menuAttr;
+    private $menuTitleAttr;
 
     /**
      * @var MenuItem|null
@@ -153,17 +154,17 @@ class MenuItem
     /**
      * @return string|null
      */
-    public function getMenuAttr(): ?string
+    public function getMenuTitleAttr(): ?string
     {
-        return $this->menuAttr;
+        return $this->menuTitleAttr;
     }
 
     /**
-     * @param string|null $menuAttr
+     * @param string|null $menuTitleAttr
      */
-    public function setMenuAttr(?string $menuAttr): void
+    public function setMenuTitleAttr(?string $menuTitleAttr): void
     {
-        $this->menuAttr = $menuAttr;
+        $this->menuTitleAttr = $menuTitleAttr;
     }
 
     /**

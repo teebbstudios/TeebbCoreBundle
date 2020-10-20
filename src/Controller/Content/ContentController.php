@@ -282,4 +282,24 @@ class ContentController extends AbstractContentController
         ]);
     }
 
+    /**
+     * 根据关键字搜索内容
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function searchContentAjaxAction(Request $request)
+    {
+        $this->isGranted('ROLE_ADMIN');
+
+        $keyword = $request->get('keyword');
+
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('c')->from(Content::class, 'c')
+            ->where($qb->expr()->like('c.title', ':keyword'))
+            ->setParameter('keyword', '%' . $keyword . '%');
+
+        $substances = $qb->getQuery()->getResult();
+
+        return $this->json($substances, 200, [], ['groups' => ['main']]);
+    }
 }

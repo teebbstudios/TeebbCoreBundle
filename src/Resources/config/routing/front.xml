@@ -5,6 +5,7 @@
     <route id="teebb_content_show" path="/content/{slug}">
         <default key="_controller">Teebb\CoreBundle\Controller\Front\ContentController::showAction</default>
         <default key="route">teebb_content_show</default>
+        <option key="expose">true</option> <!--fosjsrouting expose route-->
     </route>
 
     <route id="teebb_types_contents" path="/types/{typeAlias}/contents">
@@ -15,6 +16,7 @@
     <route id="teebb_taxonomy_contents" path="/taxonomy/{slug}/contents">
         <default key="_controller">Teebb\CoreBundle\Controller\Front\ContentController::listTaxonomyContents</default>
         <default key="route">teebb_taxonomy_contents</default>
+        <option key="expose">true</option> <!--fosjsrouting expose route-->
     </route>
 
 </routes>

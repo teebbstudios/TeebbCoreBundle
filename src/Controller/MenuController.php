@@ -10,10 +10,10 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Menu;
+use Teebb\CoreBundle\Entity\MenuItem;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Form\FormContractorInterface;
-use Teebb\CoreBundle\Form\Type\FormatterType;
 use Teebb\CoreBundle\Form\Type\Menu\MenuType;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 use Symfony\Component\HttpFoundation\Response;
@@ -134,7 +134,7 @@ class MenuController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($form->get('_method')->getData() == 'DELETE'){
+            if ($form->get('_method')->getData() == 'DELETE') {
                 $this->entityManager->remove($menu);
                 $this->entityManager->flush();
 
@@ -164,7 +164,7 @@ class MenuController extends AbstractController
         $contentTypes = $typeRepo->findBy(['bundle' => 'content']);
 
         $contentRepo = $this->entityManager->getRepository(Content::class);
-        $last_contents = $contentRepo->findBy([],null,10);
+        $last_contents = $contentRepo->findBy([], null, 10);
 
         $taxonomyRepo = $this->entityManager->getRepository(Taxonomy::class);
         $taxonomies = $taxonomyRepo->findAll();
@@ -177,5 +177,35 @@ class MenuController extends AbstractController
             'action' => 'manage',
             'extra_assets' => ['nestable']
         ]);
+    }
+
+    /**
+     * Ajax添加菜单项到菜单中
+     * @param Request $request
+     * @param Menu $menu
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function ajaxAddMenuItemAction(Request $request, Menu $menu)
+    {
+        $menus = $request->get('menus');
+
+        $menuInfos = json_decode($menus);
+
+        $menuItems = [];
+        foreach ($menuInfos as $menuInfo) {
+            $menuInfo = (array)$menuInfo;
+
+            $menuItem = new MenuItem();
+            $menuItem->setMenu($menu);
+            $menuItem->setMenuTitle($menuInfo['label']);
+            $menuItem->setMenuLink($menuInfo['path']);
+
+            $menuItems[] = $menuItem;
+
+            $this->entityManager->persist($menuItem);
+        }
+        $this->entityManager->flush();
+
+        return $this->json($menuItems, 201, [], ['groups' => ['main']]);
     }
 }
