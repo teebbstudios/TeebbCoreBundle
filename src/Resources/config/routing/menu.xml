@@ -33,5 +33,11 @@
         <option key="expose">true</option> <!--fosjsrouting expose route-->
     </route>
 
+    <route id="teebb_menu_remove_item_api" path="/menu/item/remove" methods="POST">
+        <default key="_controller">Teebb\CoreBundle\Controller\MenuController::ajaxRemoveMenuItemAction</default>
+        <default key="route">teebb_menu_remove_item_api</default>
+        <option key="expose">true</option> <!--fosjsrouting expose route-->
+    </route>
+
 
 </routes>

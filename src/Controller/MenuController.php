@@ -121,6 +121,7 @@ class MenuController extends AbstractController
     }
 
     /**
+     * 删除菜单
      * @param Request $request
      * @param Menu $menu
      * @return Response
@@ -135,6 +136,14 @@ class MenuController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($form->get('_method')->getData() == 'DELETE') {
+                //删除菜单项
+                $menuRepo = $this->entityManager->getRepository(MenuItem::class);
+                $menuItems = $menuRepo->findBy(['menu'=>$menu]);
+                foreach ($menuItems as $menuItem)
+                {
+                    $menuRepo->removeFromTree($menuItem);
+                }
+                //删除菜单
                 $this->entityManager->remove($menu);
                 $this->entityManager->flush();
 
@@ -160,6 +169,7 @@ class MenuController extends AbstractController
      */
     public function manageMenuItemsAction(Request $request, Menu $menu)
     {
+//        dd($request);
         $typeRepo = $this->entityManager->getRepository(Types::class);
         $contentTypes = $typeRepo->findBy(['bundle' => 'content']);
 
@@ -169,8 +179,12 @@ class MenuController extends AbstractController
         $taxonomyRepo = $this->entityManager->getRepository(Taxonomy::class);
         $taxonomies = $taxonomyRepo->findAll();
 
+        $menuRepo = $this->entityManager->getRepository(MenuItem::class);
+        $menuItems = $menuRepo->findBy(['parent' => null]);
+
         return $this->render($this->templateRegistry->getTemplate('manage_menu_items', 'menu'), [
             'menu' => $menu,
+            'menu_items' => $menuItems,
             'content_types' => $contentTypes,
             'last_contents' => $last_contents,
             'taxonomies' => $taxonomies,
@@ -206,6 +220,29 @@ class MenuController extends AbstractController
         }
         $this->entityManager->flush();
 
-        return $this->json($menuItems, 201, [], ['groups' => ['main']]);
+        return $this->json(null, 201, [], ['groups' => ['main']]);
     }
+
+    /**
+     * Ajax删除菜单项
+     * @param Request $request
+     * @param Menu $menu
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function ajaxRemoveMenuItemAction(Request $request)
+    {
+        $menuItemId = $request->get('menu-item-id');
+
+        $menuItemRepo = $this->entityManager->getRepository(MenuItem::class);
+
+        $menuItem = $menuItemRepo->find($menuItemId);
+
+        $menuItemRepo->removeFromTree($menuItem);
+
+        $this->entityManager->clear();
+
+        return $this->json(null,200);
+    }
+
+
 }

@@ -219,12 +219,13 @@
         <div class="col-12 col-md-8 mb-4">
             <h5 class="font-weight-bold text-dark">{{ 'Manage Menu Items'|trans }}</h5>
             <div class="card shadow">
-                <form class="edit-menu-item-form">
+                <form class="edit-menu-item-form" method="post">
                     <div class="card-header d-sm-flex align-items-center justify-content-between py-3">
                         <div class="form-row form-inline">
                             <label for="menu-name-input"
                                    class="m-0 font-weight-bold text-primary mr-2">{{ 'Menu Name'|trans }}:</label>
-                            <input id="menu-name-input" data-menu-id="{{ menu.id }}" class="form-control form-control-sm w-auto" type="text"
+                            <input id="menu-name-input" data-menu-id="{{ menu.id }}" name="menu-title"
+                                   class="form-control form-control-sm w-auto" type="text"
                                    value="{{ menu.name }}">
                         </div>
                     </div>
@@ -233,55 +234,57 @@
 
                         <div class="dd mt-3" id="js-nestable-menu">
                             <ol class="dd-list">
-                                <li class="dd-item mb-2" data-id="">
-                                    <a href="#menu_item_1" id="headingMenuItem-1"
-                                       class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
-                                       data-toggle="collapse" role="button" aria-expanded="false"
-                                       aria-controls="menu_item_3">
-                                        <h6 class="m-0 font-weight-bold text-primary">菜单项目1</h6>
-                                    </a>
-                                    <div class="accordion-arrow"></div>
-                                    <div id="menu_item_1" class="border border-top-0 collapse"
-                                         aria-labelledby="headingMenuItem-1" data-parent="#js-nestable-menu">
-                                        <div class="card-body">
+                                {% for menu_item in menu_items %}
+                                    <li class="dd-item mb-2" data-id="{{ menu_item.id }}">
+                                        <a href="#menu_item_{{ menu_item.id }}" id="headingMenuItem-{{ menu_item.id }}"
+                                           class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
+                                           data-toggle="collapse" role="button" aria-expanded="false"
+                                           aria-controls="menu_item_{{ menu_item.id }}">
+                                            <h6 class="m-0 font-weight-bold text-primary">{{ menu_item.menuTitle }}</h6>
+                                        </a>
+                                        <div class="accordion-arrow"></div>
+                                        <div id="menu_item_{{ menu_item.id }}" class="border border-top-0 collapse"
+                                             aria-labelledby="headingMenuItem-{{ menu_item.id }}"
+                                             data-parent="#js-nestable-menu">
+                                            <div class="card-body">
 
-                                            <div class="form-group row">
-                                                <label for="menu_link_url_1"
-                                                       class="col-md-2 col-form-label text-nowrap">{{ 'Link URL'|trans }}</label>
-                                                <div class="col-md-10">
-                                                    <input id="menu_link_url_1" type="url"
-                                                           class="form-control form-control-sm w-100" value="http://">
+                                                <div class="form-group row">
+                                                    <label for="menu_link_url_{{ menu_item.id }}"
+                                                           class="col-md-2 col-form-label text-nowrap">{{ 'Link URL'|trans }}</label>
+                                                    <div class="col-md-10">
+                                                        <input id="menu_link_url_{{ menu_item.id }}" type="url" name="menu-item[{{ loop.index0 }}][{{ menu_item.id }}][link]"
+                                                               class="form-control form-control-sm w-100"
+                                                               value="{{ menu_item.menuLink }}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="menu_link_name_1"
-                                                       class="col-md-2 col-form-label text-nowrap">{{ 'Link Title'|trans }}</label>
-                                                <div class="col-md-10">
-                                                    <input id="menu_link_name_1" type="text"
-                                                           class="form-control form-control-sm w-100">
+                                                <div class="form-group row">
+                                                    <label for="menu_link_name_{{ menu_item.id }}"
+                                                           class="col-md-2 col-form-label text-nowrap">{{ 'Link Title'|trans }}</label>
+                                                    <div class="col-md-10">
+                                                        <input id="menu_link_name_{{ menu_item.id }}" type="text" name="menu-item[{{ loop.index0 }}][{{ menu_item.id }}][title]"
+                                                               value="{{ menu_item.menuTitle }}"
+                                                               class="form-control form-control-sm w-100">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="menu_link_title_1"
-                                                       class="col-md-2 col-form-label text-nowrap">{{ 'Link Attr'|trans }}</label>
-                                                <div class="col-md-10">
-                                                    <input id="menu_link_title_1" type="text"
-                                                           class="form-control form-control-sm w-100">
+                                                <div class="form-group row">
+                                                    <label for="menu_link_attr_title_{{ menu_item.id }}"
+                                                           class="col-md-2 col-form-label text-nowrap">{{ 'Link Attr'|trans }}</label>
+                                                    <div class="col-md-10">
+                                                        <input id="menu_link_attr_title_{{ menu_item.id }}" type="text" name="menu-item[{{ loop.index0 }}][{{ menu_item.id }}][title_attr]"
+                                                               value="{{ menu_item.menuTitleAttr }}"
+                                                               class="form-control form-control-sm w-100">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="mt-3">
-                                                <button type="button" class="btn btn-sm btn-link text-danger p-0">
-                                                    <small>{{ 'Remove'|trans }}</small></button>
-                                                <small>|</small>
-                                                <button type="button" class="btn btn-sm btn-link p-0">
-                                                    <small>{{ 'Cancel'|trans }}</small></button>
-                                            </div>
+                                                <div class="mt-3">
+                                                    <button type="button" data-menu-item-id="{{ menu_item.id }}"
+                                                            class="btn btn-sm btn-link text-danger p-0 remove-menu-item-btn">
+                                                        <small>{{ 'Remove'|trans }}</small></button>
+                                                </div>
 
+                                            </div>
                                         </div>
-                                    </div>
-
-                                </li>
-
+                                    </li>
+                                {% endfor %}
 
                             </ol>
                         </div>
@@ -290,10 +293,11 @@
                     <div class="card-footer d-sm-flex align-items-center justify-content-between py-3">
                         <a href="{{ path('teebb_menu_delete', {'id':menu.id}) }}"
                            class="btn btn-link text-danger d-inline p-0" type="button">
-                            <small>删除菜单</small>
+                            <small>{{'teebb.core.form.delete_menu'|trans}}</small>
                         </a>
-                        <button class="btn btn-sm btn-primary shadow-sm d-inline" type="button">
-                            保存菜单
+                        <button class="btn btn-sm btn-primary shadow-sm d-inline">
+                            <span class="icon text-white-50"><i class="fas fa-check"></i></span>
+                            <span class="text">{{'teebb.core.form.save_menu'|trans}}</span>
                         </button>
                     </div>
                 </form>

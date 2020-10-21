@@ -357,6 +357,7 @@ teebb:
             enabled: 是否已启用
             none_locked: 账号未锁定
             delete_menu: 删除菜单
+            save_menu: 保存菜单
 
         content:
             create_success: 内容 "%value%" 创建成功。

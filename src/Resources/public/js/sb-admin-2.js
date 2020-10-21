@@ -462,7 +462,8 @@ function ajaxPostMenuInfos(menuInfos, cardWrapper) {
         processData: false,
         dataType: "json",
     }).done(function (data) {
-        console.log(data);
+        //成功添加菜单项 刷新页面
+        window.location.reload();
     }).fail(function (jqXHR) {
         cardWrapper.prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
     });
@@ -499,4 +500,26 @@ $('.add-custom-menu-btn').click(function (element) {
     menuInfos.push(tmp);
 
     ajaxPostMenuInfos(menuInfos, cardWrapper);
+});
+
+//5.菜单项移除 和 取消 按钮点击事件处理
+$('.remove-menu-item-btn').click(function (element) {
+    var menuItemId = $(this).data('menu-item-id');
+
+    var formData = new FormData();
+    formData.append("menu-item-id", menuItemId);
+
+    $.ajax({
+        url: Routing.generate('teebb_menu_remove_item_api'),
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+    }).done(function (data) {
+        //成功删除菜单项 刷新页面
+        window.location.reload();
+    }).fail(function (jqXHR) {
+        $(this).parent('div').prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
+    });
 });
