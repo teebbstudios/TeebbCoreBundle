@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Controller;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -138,9 +139,8 @@ class MenuController extends AbstractController
             if ($form->get('_method')->getData() == 'DELETE') {
                 //删除菜单项
                 $menuRepo = $this->entityManager->getRepository(MenuItem::class);
-                $menuItems = $menuRepo->findBy(['menu'=>$menu]);
-                foreach ($menuItems as $menuItem)
-                {
+                $menuItems = $menuRepo->findBy(['menu' => $menu]);
+                foreach ($menuItems as $menuItem) {
                     $menuRepo->removeFromTree($menuItem);
                 }
                 //删除菜单
@@ -169,7 +169,6 @@ class MenuController extends AbstractController
      */
     public function manageMenuItemsAction(Request $request, Menu $menu)
     {
-//        dd($request);
         $typeRepo = $this->entityManager->getRepository(Types::class);
         $contentTypes = $typeRepo->findBy(['bundle' => 'content']);
 
@@ -179,8 +178,8 @@ class MenuController extends AbstractController
         $taxonomyRepo = $this->entityManager->getRepository(Taxonomy::class);
         $taxonomies = $taxonomyRepo->findAll();
 
-        $menuRepo = $this->entityManager->getRepository(MenuItem::class);
-        $menuItems = $menuRepo->findBy(['parent' => null]);
+        $menuItemRepo = $this->entityManager->getRepository(MenuItem::class);
+        $menuItems = $menuItemRepo->findBy(['parent' => null]);
 
         return $this->render($this->templateRegistry->getTemplate('manage_menu_items', 'menu'), [
             'menu' => $menu,
@@ -188,6 +187,7 @@ class MenuController extends AbstractController
             'content_types' => $contentTypes,
             'last_contents' => $last_contents,
             'taxonomies' => $taxonomies,
+            'menu_item_repo' => $menuItemRepo,
             'action' => 'manage',
             'extra_assets' => ['nestable']
         ]);
@@ -205,16 +205,14 @@ class MenuController extends AbstractController
 
         $menuInfos = json_decode($menus);
 
-        $menuItems = [];
         foreach ($menuInfos as $menuInfo) {
             $menuInfo = (array)$menuInfo;
 
             $menuItem = new MenuItem();
             $menuItem->setMenu($menu);
             $menuItem->setMenuTitle($menuInfo['label']);
+            $menuItem->setMenuTitleAttr($menuInfo['label']);
             $menuItem->setMenuLink($menuInfo['path']);
-
-            $menuItems[] = $menuItem;
 
             $this->entityManager->persist($menuItem);
         }
@@ -241,8 +239,70 @@ class MenuController extends AbstractController
 
         $this->entityManager->clear();
 
-        return $this->json(null,200);
+        return $this->json(null, 200);
     }
 
 
+    /**
+     * Ajax保存菜单项更改
+     * @param Request $request
+     * @param Menu $menu
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function ajaxSaveMenuInfoAction(Request $request, Menu $menu)
+    {
+        $menuName = $request->get('menu-name');
+        if ($menuName !== $menu->getName()) {
+            $menu->setName($menuName);
+            $this->entityManager->persist($menu);
+        }
+
+        $menuInfos = json_decode($request->get('menu-items'));
+        $menuRelations = json_decode($request->get('menu-item-relation'));
+
+        $menuItemRepo = $this->entityManager->getRepository(MenuItem::class);
+
+        foreach ($menuInfos as $menuInfo) {
+            $menuInfo = (array)$menuInfo;
+
+            $menuItem = $menuItemRepo->find($menuInfo['id']);
+            $menuItem->setMenuLink($menuInfo['link']);
+            $menuItem->setMenuTitle($menuInfo['title']);
+            $menuItem->setMenuTitleAttr($menuInfo['title-attr']);
+
+            foreach ($menuRelations as $menuRelation) {
+                $menuRelation = (array)$menuRelation;
+                if ($menuInfo['id'] === $menuRelation['id']) {
+                    $this->setMenuItemRelation($menuItem, $menuRelation, $menuItemRepo);
+                }
+            }
+
+            $this->entityManager->persist($menuItem);
+        }
+
+        $this->entityManager->flush();
+        return $this->json(null, 200);
+    }
+
+    /**
+     * 保存菜单项父子关系
+     * @param MenuItem $menuItem
+     * @param array $menuRelation
+     * @param ObjectRepository $menuItemRepo
+     */
+    private function setMenuItemRelation(MenuItem $menuItem, array $menuRelation, ObjectRepository $menuItemRepo)
+    {
+        if (array_key_exists('children', $menuRelation)) {
+            foreach ($menuRelation['children'] as $childMenuRelation) {
+                $childMenuRelation = (array)$childMenuRelation;
+                /**@var MenuItem $childMenuItem * */
+                $childMenuItem = $menuItemRepo->find($childMenuRelation['id']);
+                $childMenuItem->setParent($menuItem);
+                $this->entityManager->persist($childMenuItem);
+
+                $this->setMenuItemRelation($childMenuItem, $childMenuRelation, $menuItemRepo);
+            }
+        }
+
+    }
 }

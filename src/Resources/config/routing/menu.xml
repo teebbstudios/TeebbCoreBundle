@@ -39,5 +39,11 @@
         <option key="expose">true</option> <!--fosjsrouting expose route-->
     </route>
 
+    <route id="teebb_menu_save_info_api" path="/menu/{id}/info/save" methods="POST">
+        <default key="_controller">Teebb\CoreBundle\Controller\MenuController::ajaxSaveMenuInfoAction</default>
+        <default key="route">teebb_menu_save_info_api</default>
+        <option key="expose">true</option> <!--fosjsrouting expose route-->
+    </route>
+
 
 </routes>

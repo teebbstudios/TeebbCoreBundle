@@ -502,7 +502,7 @@ $('.add-custom-menu-btn').click(function (element) {
     ajaxPostMenuInfos(menuInfos, cardWrapper);
 });
 
-//5.菜单项移除 和 取消 按钮点击事件处理
+//5.菜单项移除按钮点击事件处理
 $('.remove-menu-item-btn').click(function (element) {
     var menuItemId = $(this).data('menu-item-id');
 
