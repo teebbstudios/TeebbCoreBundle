@@ -1,4 +1,5 @@
 {% extends '@TeebbCore/standard_layout.html.twig' %}
+{% import '@TeebbCore/macros.html.twig' as macros %}
 
 {% block head_label %}
     {{ action|trans }}{{ 'Menu'|trans }}
@@ -285,9 +286,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {% for child_menu_item in menu_item_repo.children(menu_item) %}
-                                        {{ dump(child_menu_item) }}
-                                    {% endfor %}
+                                    {{ macros.menu_item_children(menu_item) }}
                                 </li>
                             {% endfor %}
 

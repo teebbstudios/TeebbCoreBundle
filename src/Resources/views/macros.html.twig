@@ -1,21 +1,65 @@
-{#分类词汇子词汇,已弃用#}
-{%- macro taxonomy_children(taxonomy_entity_type, taxonomy, taxonomyType, deepth) %}
+{#菜单项显示层级关系#}
+{%- macro menu_item_children(menu_item) %}
     {% import _self as self %}
-    {% for childrenTaxonomy in taxonomy_entity_type.childrenTaxonomies(taxonomy, taxonomyType) %}
-        {% set newDeepth = deepth + 1 %}
-        <tr>
-            <td>
-                {% for i in 1..newDeepth %}{{ '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' }}{% endfor %}
-                <small>|--</small>{{ childrenTaxonomy.term }}
-            </td>
-            <td>{{ childrenTaxonomy.slug }}</td>
-            <td>
-                {% include '@TeebbCore/terms/buttons/item_manage_term_button.html.twig' with {taxonomy: childrenTaxonomy} %}
-            </td>
-        </tr>
-        {{ self.taxonomy_children(taxonomy_entity_type, childrenTaxonomy, taxonomyType, deepth+1) }}
-    {% endfor %}
+
+    <ol class="dd-list">
+        {% for child_menu_item in menu_item.children %}
+            <li class="dd-item mb-2" data-id="{{ child_menu_item.id }}">
+                <a href="#menu_item_{{ child_menu_item.id }}" id="headingMenuItem-{{ child_menu_item.id }}"
+                   class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
+                   data-toggle="collapse" role="button" aria-expanded="false"
+                   aria-controls="menu_item_{{ child_menu_item.id }}">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ child_menu_item.menuTitle }}</h6>
+                </a>
+                <div class="accordion-arrow"></div>
+                <div id="menu_item_{{ child_menu_item.id }}" class="border border-top-0 collapse"
+                     aria-labelledby="headingMenuItem-{{ child_menu_item.id }}"
+                     data-parent="#js-nestable-menu">
+
+                    <div class="card-body menu-item-wrapper" data-menu-item-id="{{ child_menu_item.id }}">
+                        <div class="form-group row">
+                            <label for="menu_link_url_{{ child_menu_item.id }}"
+                                   class="col-md-2 col-form-label text-nowrap">{{ 'Link URL'|trans }}</label>
+                            <div class="col-md-10">
+                                <input id="menu_link_url_{{ child_menu_item.id }}" type="url"
+                                       name="menu-item[{{ loop.index0 }}][{{ child_menu_item.id }}][link]"
+                                       class="form-control form-control-sm w-100 input-menu-item-link"
+                                       value="{{ child_menu_item.menuLink }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="menu_link_name_{{ child_menu_item.id }}"
+                                   class="col-md-2 col-form-label text-nowrap">{{ 'Link Title'|trans }}</label>
+                            <div class="col-md-10">
+                                <input id="menu_link_name_{{ child_menu_item.id }}" type="text"
+                                       name="menu-item[{{ loop.index0 }}][{{ child_menu_item.id }}][title]"
+                                       value="{{ child_menu_item.menuTitle }}"
+                                       class="form-control form-control-sm w-100 input-menu-item-title">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="menu_link_attr_title_{{ child_menu_item.id }}"
+                                   class="col-md-2 col-form-label text-nowrap">{{ 'Link Attr'|trans }}</label>
+                            <div class="col-md-10">
+                                <input id="menu_link_attr_title_{{ child_menu_item.id }}" type="text"
+                                       name="menu-item[{{ loop.index0 }}][{{ child_menu_item.id }}][title_attr]"
+                                       value="{{ child_menu_item.menuTitleAttr }}"
+                                       class="form-control form-control-sm w-100 input-menu-item-title-attr">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" data-menu-item-id="{{ child_menu_item.id }}"
+                                    class="btn btn-sm btn-link text-danger p-0 remove-menu-item-btn">
+                                <small>{{ 'Remove'|trans }}</small></button>
+                        </div>
+                    </div>
+                </div>
+                {{ self.menu_item_children(child_menu_item) }}
+            </li>
+        {% endfor %}
+    </ol>
 {% endmacro -%}
+
 
 {#显示内容所有字段的值和配置，如果是评论字段则获取所有评论内容和设置评论表单#}
 {% macro showFieldData(field_alias, field_type, field_label, field_config, field_data) %}
@@ -229,6 +273,4 @@
             </div>
         {% endif %}
     {% endif %}
-
-
 {% endmacro %}

@@ -274,6 +274,10 @@ class MenuController extends AbstractController
                 $menuRelation = (array)$menuRelation;
                 if ($menuInfo['id'] === $menuRelation['id']) {
                     $this->setMenuItemRelation($menuItem, $menuRelation, $menuItemRepo);
+                }else{
+                    $rootMenuItem = $menuItemRepo->find($menuRelation['id']);
+                    $rootMenuItem->setParent(null);
+                    $this->entityManager->persist($rootMenuItem);
                 }
             }
 
