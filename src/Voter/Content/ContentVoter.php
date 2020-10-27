@@ -53,12 +53,12 @@ class ContentVoter extends BaseVoter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        if (in_array($attribute, ['content_owner_update', 'content_owner_delete'])) {
-            /**@var Content $subject * */
-            if ($subject->getAuthor() === $this->security->getUser()) {
-                return true;
-            }
-        }
+//        if (in_array($attribute, ['content_owner_update', 'content_owner_delete'])) {
+//            /**@var Content $subject * */
+//            if ($subject->getAuthor() === $this->security->getUser()) {
+//                return true;
+//            }
+//        }
 
         return $this->checkVoteOnAttribute($attribute, $subject, $token);
     }

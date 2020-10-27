@@ -48,7 +48,7 @@ class MenuController extends AbstractController
 
     public function indexAction(Request $request)
     {
-//        $this->denyAccessUnlessGranted('menu_index');
+        $this->denyAccessUnlessGranted('menu_index');
 
         $menuRepo = $this->entityManager->getRepository(Menu::class);
 
@@ -66,7 +66,7 @@ class MenuController extends AbstractController
      */
     public function createAction(Request $request)
     {
-//        $this->denyAccessUnlessGranted('menu_create');
+        $this->denyAccessUnlessGranted('menu_create');
 
         $form = $this->createForm(MenuType::class);
         $form->handleRequest($request);
@@ -103,7 +103,7 @@ class MenuController extends AbstractController
      */
     public function updateAction(Request $request, Menu $menu)
     {
-//        $this->denyAccessUnlessGranted('menu_update');
+        $this->denyAccessUnlessGranted('menu_' . $menu->getMenuAlias() . '_update');
 
         $form = $this->createForm(MenuType::class, $menu);
         $form->handleRequest($request);
@@ -135,7 +135,7 @@ class MenuController extends AbstractController
      */
     public function deleteAction(Request $request, Menu $menu)
     {
-//        $this->denyAccessUnlessGranted('menu_delete');
+        $this->denyAccessUnlessGranted('menu_' . $menu->getMenuAlias() . '_delete');
 
         $form = $this->formContractor->generateDeleteForm($request->get('_route'), FormType::class, $menu);
         $form->handleRequest($request);
@@ -179,6 +179,8 @@ class MenuController extends AbstractController
      */
     public function manageMenuItemsAction(Request $request, Menu $menu)
     {
+        $this->denyAccessUnlessGranted('menu_' . $menu->getMenuAlias() . '_item_manage');
+
         $typeRepo = $this->entityManager->getRepository(Types::class);
         $contentTypes = $typeRepo->findBy(['bundle' => 'content']);
 
@@ -211,6 +213,8 @@ class MenuController extends AbstractController
      */
     public function ajaxAddMenuItemAction(Request $request, Menu $menu)
     {
+        $this->denyAccessUnlessGranted('menu_' . $menu->getMenuAlias() . '_item_add');
+
         $menus = $request->get('menus');
 
         $menuInfos = json_decode($menus);
@@ -243,8 +247,10 @@ class MenuController extends AbstractController
      * @param Menu $menu
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function ajaxRemoveMenuItemAction(Request $request)
+    public function ajaxRemoveMenuItemAction(Request $request, Menu $menu)
     {
+        $this->denyAccessUnlessGranted('menu_' . $menu->getMenuAlias() . '_item_remove');
+
         $menuItemId = $request->get('menu-item-id');
 
         $menuItemRepo = $this->entityManager->getRepository(MenuItem::class);
@@ -267,6 +273,8 @@ class MenuController extends AbstractController
      */
     public function ajaxSaveMenuInfoAction(Request $request, Menu $menu)
     {
+        $this->denyAccessUnlessGranted('menu_' . $menu->getMenuAlias() . '_item_save');
+
         $menuName = $request->get('menu-name');
         if ($menuName !== $menu->getName()) {
             $menu->setName($menuName);

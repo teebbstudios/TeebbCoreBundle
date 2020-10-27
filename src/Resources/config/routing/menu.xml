@@ -27,13 +27,13 @@
         <default key="route">teebb_manage_menu_items</default>
     </route>
 
-    <route id="teebb_menu_add_items_api" path="/menu/{id}/items/add" methods="POST">
+    <route id="teebb_menu_add_items_api" path="/menu/{id}/item/add" methods="POST">
         <default key="_controller">Teebb\CoreBundle\Controller\MenuController::ajaxAddMenuItemAction</default>
         <default key="route">teebb_menu_add_items_api</default>
         <option key="expose">true</option> <!--fosjsrouting expose route-->
     </route>
 
-    <route id="teebb_menu_remove_item_api" path="/menu/item/remove" methods="POST">
+    <route id="teebb_menu_remove_item_api" path="/menu/{id}/item/remove" methods="POST">
         <default key="_controller">Teebb\CoreBundle\Controller\MenuController::ajaxRemoveMenuItemAction</default>
         <default key="route">teebb_menu_remove_item_api</default>
         <option key="expose">true</option> <!--fosjsrouting expose route-->

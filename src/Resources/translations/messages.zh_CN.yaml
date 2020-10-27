@@ -488,6 +488,17 @@ teebb:
 
             file_upload: 文件上传
             file_delete: 文件删除
+
+            menu_index: 管理菜单
+            menu_create: 创建菜单
+            menu_update: 更新 "%menu%" 菜单
+            menu_delete: 删除 "%menu%" 菜单
+            menu_item_manage: 管理 "%menu%" 菜单的菜单项
+            menu_item_save: 保存 "%menu%" 菜单项更改
+            menu_item_add: 添加菜单项到 "%menu%" 菜单
+            menu_item_remove: 移除 "%menu%" 菜单的菜单项
+
+
         menu:
             name: 菜单名称
             name_help: 请输入菜单的名称。

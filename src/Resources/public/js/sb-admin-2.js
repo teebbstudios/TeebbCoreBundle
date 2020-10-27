@@ -504,13 +504,17 @@ $('.add-custom-menu-btn').click(function (element) {
 
 //5.菜单项移除按钮点击事件处理
 $('.remove-menu-item-btn').click(function (element) {
+    var cardWrapper = $(this).closest('.card-body');
+
+    var currMenuId = $('#menu-name-input').data('menu-id');
+
     var menuItemId = $(this).data('menu-item-id');
 
     var formData = new FormData();
     formData.append("menu-item-id", menuItemId);
 
     $.ajax({
-        url: Routing.generate('teebb_menu_remove_item_api'),
+        url: Routing.generate('teebb_menu_remove_item_api', {id: currMenuId}),
         type: 'POST',
         data: formData,
         contentType: false,
@@ -520,6 +524,6 @@ $('.remove-menu-item-btn').click(function (element) {
         //成功删除菜单项 刷新页面
         window.location.reload();
     }).fail(function (jqXHR) {
-        $(this).parent('div').prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
+        cardWrapper.prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
     });
 });
