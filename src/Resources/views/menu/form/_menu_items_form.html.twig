@@ -243,7 +243,7 @@
                                        class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
                                        data-toggle="collapse" role="button" aria-expanded="false"
                                        aria-controls="menu_item_{{ menu_item.id }}">
-                                        <h6 class="m-0 font-weight-bold text-primary">{{ menu_item.menuTitle }}{{ menu_item.id }}</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">{{ menu_item.menuTitle }}</h6>
                                     </a>
                                     <div class="accordion-arrow"></div>
                                     <div id="menu_item_{{ menu_item.id }}" class="border border-top-0 collapse"
@@ -358,7 +358,7 @@
                 dataType: "json",
             }).done(function (data) {
                 //成功保存菜单 刷新页面
-                // window.location.reload();
+                window.location.reload();
             }).fail(function (jqXHR) {
                 nestableMenuWrapper.prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
             });

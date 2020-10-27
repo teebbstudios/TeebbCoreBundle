@@ -151,6 +151,7 @@ class MenuController extends AbstractController
                     foreach ($childrenItems as $childrenItem) {
                         $menuRepo->removeFromTree($childrenItem);
                     }
+                    $this->entityManager->remove($menuItem);
                 }
                 //删除菜单
                 $this->entityManager->remove($menu);
@@ -215,7 +216,8 @@ class MenuController extends AbstractController
         $menuInfos = json_decode($menus);
 
         $rootMenuItem = $this->findMenuRootItem($menu);
-
+        $childrenSize = $rootMenuItem->getChildren()->count();
+        $priority = 0;
         foreach ($menuInfos as $menuInfo) {
             $menuInfo = (array)$menuInfo;
 
@@ -225,8 +227,10 @@ class MenuController extends AbstractController
             $menuItem->setMenuTitleAttr($menuInfo['label']);
             $menuItem->setMenuLink($menuInfo['path']);
             $menuItem->setParent($rootMenuItem);
+            $menuItem->setPriority($childrenSize + $priority);
 
             $this->entityManager->persist($menuItem);
+            $priority++;
         }
         $this->entityManager->flush();
 
@@ -293,7 +297,7 @@ class MenuController extends AbstractController
                     $menuItem->setMenuTitleAttr($menuInfo['title-attr']);
                     $menuItem->setPriority($rootMenuItemPriority);
 
-                    $this->setMenuItemRelation($menuItem, $menuRelation, $menuItemRepo);
+                    $this->setMenuItemRelation($menuItem, $menuInfos, $menuRelation, $menuItemRepo);
                 }
 
                 $this->entityManager->persist($menuItem);
@@ -309,10 +313,11 @@ class MenuController extends AbstractController
     /**
      * 保存菜单项父子关系
      * @param MenuItem $menuItem
+     * @param array $menuInfos
      * @param array $menuRelation
      * @param ObjectRepository $menuItemRepo
      */
-    private function setMenuItemRelation(MenuItem $menuItem, array $menuRelation, ObjectRepository $menuItemRepo)
+    private function setMenuItemRelation(MenuItem $menuItem, array $menuInfos, array $menuRelation, ObjectRepository $menuItemRepo)
     {
         if (array_key_exists('children', $menuRelation)) {
             $childrenMenuItemPriority = 0;
@@ -324,9 +329,18 @@ class MenuController extends AbstractController
                 $childMenuItem->setParent($menuItem);
                 $childMenuItem->setPriority($childrenMenuItemPriority);
 
+                foreach ($menuInfos as $menuInfo) {
+                    $menuInfo = (array)$menuInfo;
+                    if ($menuInfo['id'] === $childMenuRelation['id']) {
+                        $childMenuItem->setMenuLink($menuInfo['link']);
+                        $childMenuItem->setMenuTitle($menuInfo['title']);
+                        $childMenuItem->setMenuTitleAttr($menuInfo['title-attr']);
+                    }
+                }
+
                 $this->entityManager->persist($childMenuItem);
 
-                $this->setMenuItemRelation($childMenuItem, $childMenuRelation, $menuItemRepo);
+                $this->setMenuItemRelation($childMenuItem, $menuInfos, $childMenuRelation, $menuItemRepo);
                 $childrenMenuItemPriority++;
             }
         }
