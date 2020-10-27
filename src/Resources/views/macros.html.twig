@@ -1,62 +1,66 @@
 {#菜单项显示层级关系#}
-{%- macro menu_item_children(menu_item) %}
+{%- macro menu_item_body(menu_item) %}
     {% import _self as self %}
-
     <ol class="dd-list">
-        {% for child_menu_item in menu_item.children %}
-            <li class="dd-item mb-2" data-id="{{ child_menu_item.id }}">
-                <a href="#menu_item_{{ child_menu_item.id }}" id="headingMenuItem-{{ child_menu_item.id }}"
+
+        {% for children_menu_item in menu_item.children %}
+
+            <li class="dd-item mb-2" data-id="{{ children_menu_item.id }}">
+                <a href="#menu_item_{{ children_menu_item.id }}" id="headingMenuItem-{{ children_menu_item.id }}"
                    class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
                    data-toggle="collapse" role="button" aria-expanded="false"
-                   aria-controls="menu_item_{{ child_menu_item.id }}">
-                    <h6 class="m-0 font-weight-bold text-primary">{{ child_menu_item.menuTitle }}</h6>
+                   aria-controls="menu_item_{{ children_menu_item.id }}">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ children_menu_item.menuTitle }}{{ children_menu_item.id }}</h6>
                 </a>
                 <div class="accordion-arrow"></div>
-                <div id="menu_item_{{ child_menu_item.id }}" class="border border-top-0 collapse"
-                     aria-labelledby="headingMenuItem-{{ child_menu_item.id }}"
+                <div id="menu_item_{{ children_menu_item.id }}" class="border border-top-0 collapse"
+                     aria-labelledby="headingMenuItem-{{ children_menu_item.id }}"
                      data-parent="#js-nestable-menu">
 
-                    <div class="card-body menu-item-wrapper" data-menu-item-id="{{ child_menu_item.id }}">
+                    <div class="card-body menu-item-wrapper" data-menu-item-id="{{ children_menu_item.id }}">
                         <div class="form-group row">
-                            <label for="menu_link_url_{{ child_menu_item.id }}"
+                            <label for="menu_link_url_{{ children_menu_item.id }}"
                                    class="col-md-2 col-form-label text-nowrap">{{ 'Link URL'|trans }}</label>
                             <div class="col-md-10">
-                                <input id="menu_link_url_{{ child_menu_item.id }}" type="url"
-                                       name="menu-item[{{ loop.index0 }}][{{ child_menu_item.id }}][link]"
+                                <input id="menu_link_url_{{ children_menu_item.id }}" type="url"
+                                       name="menu-item[{{ loop.index0 }}][{{ children_menu_item.id }}][link]"
                                        class="form-control form-control-sm w-100 input-menu-item-link"
-                                       value="{{ child_menu_item.menuLink }}">
+                                       value="{{ children_menu_item.menuLink }}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="menu_link_name_{{ child_menu_item.id }}"
+                            <label for="menu_link_name_{{ children_menu_item.id }}"
                                    class="col-md-2 col-form-label text-nowrap">{{ 'Link Title'|trans }}</label>
                             <div class="col-md-10">
-                                <input id="menu_link_name_{{ child_menu_item.id }}" type="text"
-                                       name="menu-item[{{ loop.index0 }}][{{ child_menu_item.id }}][title]"
-                                       value="{{ child_menu_item.menuTitle }}"
+                                <input id="menu_link_name_{{ children_menu_item.id }}" type="text"
+                                       name="menu-item[{{ loop.index0 }}][{{ children_menu_item.id }}][title]"
+                                       value="{{ children_menu_item.menuTitle }}"
                                        class="form-control form-control-sm w-100 input-menu-item-title">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="menu_link_attr_title_{{ child_menu_item.id }}"
+                            <label for="menu_link_attr_title_{{ children_menu_item.id }}"
                                    class="col-md-2 col-form-label text-nowrap">{{ 'Link Attr'|trans }}</label>
                             <div class="col-md-10">
-                                <input id="menu_link_attr_title_{{ child_menu_item.id }}" type="text"
-                                       name="menu-item[{{ loop.index0 }}][{{ child_menu_item.id }}][title_attr]"
-                                       value="{{ child_menu_item.menuTitleAttr }}"
+                                <input id="menu_link_attr_title_{{ children_menu_item.id }}" type="text"
+                                       name="menu-item[{{ loop.index0 }}][{{ children_menu_item.id }}][title_attr]"
+                                       value="{{ children_menu_item.menuTitleAttr }}"
                                        class="form-control form-control-sm w-100 input-menu-item-title-attr">
                             </div>
                         </div>
                         <div class="mt-3">
-                            <button type="button" data-menu-item-id="{{ child_menu_item.id }}"
+                            <button type="button" data-menu-item-id="{{ children_menu_item.id }}"
                                     class="btn btn-sm btn-link text-danger p-0 remove-menu-item-btn">
                                 <small>{{ 'Remove'|trans }}</small></button>
                         </div>
                     </div>
                 </div>
-                {{ self.menu_item_children(child_menu_item) }}
+                {% if children_menu_item.hasChildren %}
+                    {{ self.menu_item_body(children_menu_item) }}
+                {% endif %}
             </li>
         {% endfor %}
+
     </ol>
 {% endmacro -%}
 

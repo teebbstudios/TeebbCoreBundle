@@ -235,13 +235,15 @@
 
                     <div class="dd mt-3" id="js-nestable-menu">
                         <ol class="dd-list">
-                            {% for menu_item in menu_items %}
+
+                            {% for menu_item in root_menu_item.children %}
+
                                 <li class="dd-item mb-2" data-id="{{ menu_item.id }}">
                                     <a href="#menu_item_{{ menu_item.id }}" id="headingMenuItem-{{ menu_item.id }}"
                                        class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
                                        data-toggle="collapse" role="button" aria-expanded="false"
                                        aria-controls="menu_item_{{ menu_item.id }}">
-                                        <h6 class="m-0 font-weight-bold text-primary">{{ menu_item.menuTitle }}</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">{{ menu_item.menuTitle }}{{ menu_item.id }}</h6>
                                     </a>
                                     <div class="accordion-arrow"></div>
                                     <div id="menu_item_{{ menu_item.id }}" class="border border-top-0 collapse"
@@ -286,7 +288,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{ macros.menu_item_children(menu_item) }}
+                                    {% if menu_item.hasChildren %}
+                                        {{ macros.menu_item_body(menu_item) }}
+                                    {% endif %}
                                 </li>
                             {% endfor %}
 
@@ -354,7 +358,7 @@
                 dataType: "json",
             }).done(function (data) {
                 //成功保存菜单 刷新页面
-                window.location.reload();
+                // window.location.reload();
             }).fail(function (jqXHR) {
                 nestableMenuWrapper.prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
             });

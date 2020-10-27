@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * MenuItem 具体菜单项
+ * MenuItem 菜单项
  * @Gedmo\Tree(type="nested")
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  * @author Quan Weiwei <qww.zone@gmail.com>
@@ -25,17 +25,17 @@ class MenuItem
     private $id;
 
     /**
-     * 当前菜单项属于哪个菜单
+     * 当前菜单项属于哪个菜单 仅用于根菜单项
      * @var Menu|null
      * @ORM\ManyToOne(targetEntity="Teebb\CoreBundle\Entity\Menu")
-     * @ORM\JoinColumn(name="menu_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="menu_id", nullable=true, referencedColumnName="id")
      */
     private $menu;
 
     /**
      * 菜单链接
      * @var string|null
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", nullable=true, length=255)
      * @Groups("main")
      */
     private $menuLink;
@@ -66,7 +66,7 @@ class MenuItem
 
     /**
      * @ORM\OneToMany(targetEntity="Teebb\CoreBundle\Entity\MenuItem", mappedBy="parent")
-     * @ORM\OrderBy({"lft" = "ASC"})
+     * @ORM\OrderBy({"priority" = "ASC", "lft" = "ASC"})
      */
     private $children;
 
@@ -94,6 +94,13 @@ class MenuItem
      * @ORM\JoinColumn(name="tree_root", referencedColumnName="id", onDelete="CASCADE")
      */
     private $root;
+
+    /**
+     * 用于菜单项排序
+     * @var int|null
+     * @ORM\Column(name="priority", type="integer", options={"default": 0})
+     */
+    private $priority = 0;
 
     /**
      * @return mixed
@@ -263,4 +270,24 @@ class MenuItem
         $this->root = $root;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param int|null $priority
+     */
+    public function setPriority(?int $priority): void
+    {
+        $this->priority = $priority;
+    }
+
+    public function hasChildren(): bool
+    {
+        return !$this->children->isEmpty();
+    }
 }
