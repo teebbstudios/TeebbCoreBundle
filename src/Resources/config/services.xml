@@ -77,5 +77,13 @@
             <argument type="service" id="security.helper"/>
             <tag name="knp_menu.menu_builder" method="createSidebarMenu" alias="teebb_sidebar_menu"/>
         </service>
+
+        <service id="teebb.core.menu.custom_menu_provider" class="Teebb\CoreBundle\Menu\CustomMenuProvider">
+            <argument type="service" id="knp_menu.factory"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <tag name="knp_menu.provider"/>
+        </service>
+
+
     </services>
 </container>
