@@ -24,6 +24,8 @@ use Teebb\CoreBundle\Entity\FileManaged;
 use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\Menu;
 use Teebb\CoreBundle\Entity\MenuItem;
+use Teebb\CoreBundle\Entity\Option;
+use Teebb\CoreBundle\Entity\Options\System;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Entity\Token;
@@ -117,6 +119,8 @@ class InitDatabaseCommand extends Command
         $this->initTextFormatter();
         $this->updateFormatterTranslation();
 
+        $this->initSystemOption();
+
         $output->writeln(sprintf('<info>Done!</info>'));
         return 0;
     }
@@ -141,6 +145,7 @@ class InitDatabaseCommand extends Command
             Group::class,
             Menu::class,
             MenuItem::class,
+            Option::class,
         ];
     }
 
@@ -394,6 +399,21 @@ class InitDatabaseCommand extends Command
         $this->em->persist($administratorGroup);
         $this->em->persist($registerUserGroup);
         $this->em->persist($admin);
+        $this->em->flush();
+    }
+
+    private function initSystemOption()
+    {
+        $system = new System();
+        $system->setSiteName('Teebb CMF');
+        $system->setSiteEmail('admin@admin.com');
+
+        $option = new Option();
+        $option->setOptionName('system');
+        $option->setOptionValue($system);
+
+        $this->em->persist($option);
+
         $this->em->flush();
     }
 }

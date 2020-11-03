@@ -69,5 +69,13 @@
             <tag name="security.voter"/>
         </service>
 
+        <service id="teebb.core.voter.system_update" class="Teebb\CoreBundle\Voter\Options\SystemVoter" public="true">
+            <argument type="service" id="security.helper"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="translator.default"/>
+            <tag name="teebb.voter"/>
+            <tag name="security.voter"/>
+        </service>
+
     </services>
 </container>

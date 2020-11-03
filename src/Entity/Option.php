@@ -9,6 +9,7 @@ use Teebb\CoreBundle\Entity\Options\OptionInterface;
 /**
  * 系统基本设置类
  * @ORM\Entity
+ * @ORM\Table(name="options")
  * @author Quan Weiwei <qww.zone@gmail.com>
  */
 class Option

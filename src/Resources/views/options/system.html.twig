@@ -1,16 +1,18 @@
 {% extends '@TeebbCore/base_content.html.twig' %}
 
 {% block head_label %}
-    {{ 'Web Settings'|trans }}
+    {{ 'Site Settings'|trans }}
 {% endblock %}
 
 {% block card_title %}
-{#    {% include '@TeebbCore/menu/common/card_title.html.twig' with _context %}#}
+    {#    {% include '@TeebbCore/menu/common/card_title.html.twig' with _context %}#}
 {% endblock %}
 
 {% block card_body %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
         {% include '@TeebbCore/buttons/save_button.html.twig' %}
-    {{ form_end(form) }}
+        {{ form_end(form) }}
+
 {% endblock %}

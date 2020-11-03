@@ -50,25 +50,28 @@ class MenuBuilder
             foreach ($menuGroups as $category => $item) {
                 //添加折叠菜单项
                 $categoryMenuItem = null;
+
+                //如果可添加折叠菜单项
                 if ($this->canGenerateMenuItem($user, $item['groups'])) {
                     $categoryMenuItem = $categoryMenuWrapper->addChild($this->factory->createItem($item['label']));
                     $categoryMenuItem->setExtra('translation_domain', isset($item['label_catalogue']) ? $item['label_catalogue'] : 'messages');
                     $categoryMenuItem->setExtra('icon', $item['icon']);
                     $categoryMenuItem->setExtra('category', $category);
-                }
-                //添加折叠菜单子菜单
-                foreach ($item['items'] as $menuItem)
-                {
-                    if ($this->canGenerateMenuItem($user, $menuItem['groups']))
+
+                    //再添加折叠菜单子菜单
+                    foreach ($item['items'] as $menuItem)
                     {
-                        $categoryMenuItem->addChild($this->factory->createItem($menuItem['label'],[
-                            'route' => $menuItem['route'],
-                            'routeParameters' => $menuItem['route_params'],
-                            'routeAbsolute' => $menuItem['route_absolute'],
-                            'extras' => [
-                                'translation_domain' => isset($menuItem['label_catalogue']) ? $menuItem['label_catalogue'] : 'messages'
-                            ],
-                        ]));
+                        if ($this->canGenerateMenuItem($user, $menuItem['groups']))
+                        {
+                            $categoryMenuItem->addChild($this->factory->createItem($menuItem['label'],[
+                                'route' => $menuItem['route'],
+                                'routeParameters' => $menuItem['route_params'],
+                                'routeAbsolute' => $menuItem['route_absolute'],
+                                'extras' => [
+                                    'translation_domain' => isset($menuItem['label_catalogue']) ? $menuItem['label_catalogue'] : 'messages'
+                                ],
+                            ]));
+                        }
                     }
                 }
             }
@@ -92,12 +95,13 @@ class MenuBuilder
         $userGroups = $user->getGroups();
 
         foreach ($userGroups as $userGroup) {
+
             // 当前用户如果是超级管理员组super_admin 则可生成所有菜单
             if ($userGroup->getGroupAlias() == 'super_admin') {
                 return true;
             }
             // 判断当前用户组在item group数组中
-            if (in_array($userGroup, $itemGroups)) {
+            if (in_array($userGroup->getGroupAlias(), $itemGroups)) {
                 return true;
             }
         }

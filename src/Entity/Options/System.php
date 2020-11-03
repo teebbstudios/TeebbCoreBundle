@@ -24,11 +24,6 @@ class System implements OptionInterface
     /**
      * @var string|null
      */
-    private $logo;
-
-    /**
-     * @var string|null
-     */
     private $icpCode;
 
     /**
@@ -77,22 +72,6 @@ class System implements OptionInterface
     public function setSiteEmail(?string $siteEmail): void
     {
         $this->siteEmail = $siteEmail;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    /**
-     * @param string|null $logo
-     */
-    public function setLogo(?string $logo): void
-    {
-        $this->logo = $logo;
     }
 
     /**

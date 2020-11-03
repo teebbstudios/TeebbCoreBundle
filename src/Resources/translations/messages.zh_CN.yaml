@@ -23,7 +23,7 @@ System: 系统
 Manage System: 管理系统
 System Settings: 系统设置
 Settings: 设置
-Web Settings: 网站设置
+Site Settings: 站点设置
 Text Formatter: 文本格式化器
 Manage: 管理
 
@@ -360,6 +360,13 @@ teebb:
             delete_menu: 删除菜单
             save_menu: 保存菜单
 
+            site_name: 站点名称
+            site_slogan: 站点口号
+            site_email: 站点邮箱
+            logo: 站点Logo
+            icp_code: ICP备案号
+            system_update_success: 站点设置更新成功。
+
         content:
             create_success: 内容 "%value%" 创建成功。
             update_success: 内容 "%value%" 更新成功。
@@ -499,7 +506,7 @@ teebb:
             menu_item_add: 添加菜单项到 "%menu%" 菜单
             menu_item_remove: 移除 "%menu%" 菜单的菜单项
 
-
+            system_update: 更新 "站点设置"
         menu:
             name: 菜单名称
             name_help: 请输入菜单的名称。
