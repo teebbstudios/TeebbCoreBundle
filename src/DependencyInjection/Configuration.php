@@ -167,6 +167,13 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
 
+                        ->arrayNode('options')
+                        ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('system')->defaultValue('@TeebbCore/options/system.html.twig')->cannotBeEmpty()->end()
+                            ->end()
+                        ->end()
+
                     ->end()
             ->end();
     }
