@@ -4,7 +4,9 @@
 namespace Teebb\CoreBundle\Twig;
 
 
+use Doctrine\ORM\EntityManagerInterface;
 use Teebb\CoreBundle\Application\Kernel;
+use Teebb\CoreBundle\Entity\Option;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
 
 class GlobalVariables
@@ -18,16 +20,23 @@ class GlobalVariables
      * @var TemplateRegistry
      */
     private $templateRegistry;
+
     /**
      * @var string
      */
     private $rootHostUrl;
 
-    public function __construct(TemplateRegistry $registry, string $rootHostUrl)
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(TemplateRegistry $registry, EntityManagerInterface $entityManager, string $rootHostUrl)
     {
         $this->version = Kernel::VERSION;
         $this->templateRegistry = $registry;
         $this->rootHostUrl = $rootHostUrl;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -70,4 +79,10 @@ class GlobalVariables
         $this->rootHostUrl = $rootHostUrl;
     }
 
+    public function getOptionValue(string $optionName)
+    {
+        $optionRepo = $this->entityManager->getRepository(Option::class);
+        $option = $optionRepo->findOneBy(['optionName' => $optionName]);
+        return $option->getOptionValue();
+    }
 }

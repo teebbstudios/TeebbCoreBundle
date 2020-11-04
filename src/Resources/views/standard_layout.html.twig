@@ -87,7 +87,7 @@
                         <!--Breadcrumb-->
                         <nav aria-label="breadcrumb" class="d-none d-md-block">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{{ path('teebb_dashboard') }}"><i class="fas fa-home"></i></a></li>
                             </ol>
                         </nav>
 
@@ -273,16 +273,12 @@
                                      aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
-                                        个人资料
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-500"></i>
-                                        操作日志
+                                        {{'profile'|trans}}
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ path('teebb_user_logout') }}">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
-                                        退出
+                                        {{'logout'|trans}}
                                     </a>
                                 </div>
                             </li>
