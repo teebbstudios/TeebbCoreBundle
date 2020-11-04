@@ -107,7 +107,11 @@ batch_rejected: 批量驳回
 batch_passed: 批量通过
 Welcome Back: 欢迎回来！
 logged: 尊敬的 %username% ，您已成功登录。
+login: 登录
 logout: 退出
+active account: 激活账号
+ressetting account: 重置密码
+register: 注册账号
 Already have an account? Login!: 已有账号？立即登录
 Forgot Password?: 忘记密码？
 Create an Account!: 创建账号
