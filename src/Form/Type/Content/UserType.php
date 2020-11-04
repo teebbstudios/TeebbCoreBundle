@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Teebb\CoreBundle\Entity\Group;
@@ -85,6 +86,7 @@ class UserType extends BaseContentType
                 'attr' => [
                     'class' => 'form-control-sm'
                 ],
+                'disabled' => $options['bool_profile'] ? true : false,
             ])
             ->add('username', TextType::class, [
                 'label' => 'teebb.core.form.username',
@@ -94,6 +96,7 @@ class UserType extends BaseContentType
                 'attr' => [
                     'class' => 'form-control-sm'
                 ],
+                'disabled' => $options['bool_profile'] ? true : false,
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'label' => 'teebb.core.form.change_password',
@@ -123,28 +126,34 @@ class UserType extends BaseContentType
                     ]
                 ],
                 'help' => 'teebb.core.form.change_password_help'
-            ])
-            ->add('enabled', CheckboxType::class, [
-                'label' => 'teebb.core.form.enabled',
-                'label_attr' => [
-                    'class' => 'font-weight-bold'
-                ],
-                'required' => false,
-            ])
-            ->add('accountNonLocked', CheckboxType::class, [
-                'label' => 'teebb.core.form.none_locked',
-                'label_attr' => [
-                    'class' => 'font-weight-bold'
-                ],
-                'required' => false,
-            ])
-            ->add('groups', EntityType::class, [
-                'label' => 'teebb.core.form.group',
-                'class' => Group::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true,
             ]);
+
+        //如果不是个人资料页
+        if (!$options['bool_profile']) {
+            $builder
+                ->add('enabled', CheckboxType::class, [
+                    'label' => 'teebb.core.form.enabled',
+                    'label_attr' => [
+                        'class' => 'font-weight-bold'
+                    ],
+                    'required' => false,
+                ])
+                ->add('accountNonLocked', CheckboxType::class, [
+                    'label' => 'teebb.core.form.none_locked',
+                    'label_attr' => [
+                        'class' => 'font-weight-bold'
+                    ],
+                    'required' => false,
+                ])
+                ->add('groups', EntityType::class, [
+                    'label' => 'teebb.core.form.group',
+                    'class' => Group::class,
+                    'choice_label' => 'name',
+                    'multiple' => true,
+                    'expanded' => true,
+                ]);
+        }
+
 
         $this->dynamicAddFieldForm($builder, $options, $data);
 
@@ -155,6 +164,16 @@ class UserType extends BaseContentType
                     'class' => 'btn-primary btn-sm'
                 ]
             ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        parent::configureOptions($resolver);
+
+        //如果表单用于个人资料页,bool_profile控制表单行显示与禁用
+        $resolver->setDefaults([
+            'bool_profile' => false
+        ]);
     }
 
 

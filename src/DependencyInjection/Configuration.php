@@ -62,6 +62,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('layout')->defaultValue('@TeebbCore/standard_layout.html.twig')->cannotBeEmpty()->end()
                         ->scalarNode('sidebar_menu')->defaultValue('@TeebbCore/menu/sidebar_menu.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('dashboard')->defaultValue('@TeebbCore/dashboard/index.html.twig')->cannotBeEmpty()->end()
 
                         ->arrayNode('front')
                         ->addDefaultsIfNotSet()
@@ -152,6 +153,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('register_confirm')->defaultValue('@TeebbCore/security/register_confirm.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('resetting_request')->defaultValue('@TeebbCore/security/resetting_request.html.twig')->cannotBeEmpty()->end()
                                 ->scalarNode('resetting')->defaultValue('@TeebbCore/security/resetting.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('profile')->defaultValue('@TeebbCore/security/profile.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
 

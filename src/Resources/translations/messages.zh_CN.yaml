@@ -26,6 +26,7 @@ Settings: 设置
 Site Settings: 站点设置
 Text Formatter: 文本格式化器
 Manage: 管理
+Profile: 个人资料
 
 content: 内容
 taxonomy: 分类
@@ -33,6 +34,7 @@ comment: 评论
 
 index: 管理
 create: 添加
+create_content: 添加内容
 update: 编辑
 delete: 删除
 manage: 管理
@@ -104,7 +106,7 @@ comment_status: 状态
 batch_rejected: 批量驳回
 batch_passed: 批量通过
 Welcome Back: 欢迎回来！
-logged: '尊敬的%username%，您已成功登录。'
+logged: 尊敬的 %username% ，您已成功登录。
 logout: 退出
 Already have an account? Login!: 已有账号？立即登录
 Forgot Password?: 忘记密码？
@@ -113,13 +115,16 @@ Active account: 激活账号
 Forgot Your Password?: 忘记密码？
 Enter your email: 我们知道了，发生了一些事让您忘了密码。在下边输入您的注册邮箱，我们会发送一个链接给您以便您重置密码。
 Enter Your New Password: 请输入新密码
-Resetting account: 您当前正在重置用户%username%的密码
+Resetting account: 您当前正在重置用户 %username% 的密码
 people_index: 用户列表
 group_index: 管理用户组
 group_create: 添加用户组
 group_update: 更新用户组
 group_delete: 删除用户组
 group_update_permission: 更新组权限
+Edit profile: 您正在编辑用户 %username% 的个人资料
+Edit your profile: 编辑您的个人资料
+
 
 permission: 权限名称
 bool_checked: 是否允许
@@ -390,6 +395,7 @@ teebb:
             batch_action_success: 操作 "%action%" 成功。
         user:
             update_success: 用户 %value% 更新成功。
+            profile_update_success: 用户 %value% 个人资料已更新成功。
             register_success: 您的账号已注册成功，并成功向邮件地址%email%发送了激活链接，请前往激活账号。
             email_not_exist: 邮件地址%email%不存在。
             reset_email_send: 重置密码链接已发送到您的邮箱%email%

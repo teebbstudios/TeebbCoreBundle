@@ -185,6 +185,7 @@
         <service id="teebb.core.controller.dashboard_controller"
                  class="Teebb\CoreBundle\Controller\Dashboard\DashboardController"
                  public="false">
+            <argument type="service" id="teebb.core.template.registry"/>
             <tag name="controller.service_arguments"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>

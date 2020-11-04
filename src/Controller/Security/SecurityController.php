@@ -11,10 +11,13 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Teebb\CoreBundle\Controller\SubstanceDBALOptionsTrait;
+use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\Token;
 use Teebb\CoreBundle\Entity\User;
 use Teebb\CoreBundle\Event\UserEvents;
+use Teebb\CoreBundle\Form\Type\Content\UserType;
 use Teebb\CoreBundle\Form\Type\Security\UserLoginFormType;
 use Teebb\CoreBundle\Form\Type\Security\UserRegisterFormType;
 use Teebb\CoreBundle\Form\Type\Security\UserResettingFormType;
@@ -25,6 +28,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SecurityController extends AbstractController
 {
+    use SubstanceDBALOptionsTrait;
+
     /**
      * @var AuthenticationUtils
      */
@@ -269,6 +274,43 @@ class SecurityController extends AbstractController
         return $this->render($this->templateRegistry->getTemplate('resetting', 'security'), [
             'user' => $user,
             'resetting_form' => $resetPasswordForm->createView(),
+        ]);
+    }
+
+    public function profileAction(Request $request){
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+        $userForm = $this->createForm(UserType::class, $user, [
+                'bundle' => 'user',
+                'type_alias' => 'people',
+                'data_class' => User::class,
+                'bool_profile' => true  //用此option控制表单中行显示与禁用
+            ]
+        );
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+            try {
+                $fieldConfigurationRepository = $this->entityManager->getRepository(FieldConfiguration::class);
+                //持久化用户和字段
+                /**@var User $user * */
+                $user = $this->persistSubstance($this->entityManager, $fieldConfigurationRepository,
+                    $userForm, 'user', 'people', User::class);
+
+                $this->addFlash('success', $this->container->get('translator')->trans(
+                    'teebb.core.user.profile_update_success', ['%value%' => $user->getUsername()]
+                ));
+
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+        return $this->render($this->templateRegistry->getTemplate('profile', 'security'), [
+            'user' => $user,
+            'profile_form' => $userForm->createView()
         ]);
     }
 

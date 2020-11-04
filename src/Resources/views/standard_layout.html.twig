@@ -1,8 +1,10 @@
 {% set _head_actions = block('head_actions') is defined ? block('head_actions')|trim : null %}
+{% set system = teebb_core.optionValue('system') %}
 {#如果当前页面需要添加额外Assets库#}
 {% if extra_assets is defined %}
     {{ teebb_core.templateRegistry.addExtraToStyleSheetsAndJavaScripts(extra_assets) }}
 {% endif %}
+
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}">
 
@@ -13,7 +15,7 @@
     {% block seo %}
     {% endblock %}
 
-    <title>{% block title %}Teebb控制台{% endblock %}</title>
+    <title>{% block title %}{{ system.siteName }} {{ 'Dashboard'|trans }}{% endblock %}</title>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
@@ -42,10 +44,7 @@
 
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('teebb_dashboard') }}">
-                    <div class="sidebar-brand-icon rotate-n-15">
-                        <i class="fas fa-laugh-wink"></i>
-                    </div>
-                    <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                    <div class="sidebar-brand-text mx-3">{{ system.siteName }}</div>
                 </a>
 
                 <!-- Divider -->
@@ -271,11 +270,11 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                      aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
-                                        {{'profile'|trans}}
-                                    </a>
-                                    <div class="dropdown-divider"></div>
+{#                                    <a class="dropdown-item" href="#">#}
+{#                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>#}
+{#                                        {{'profile'|trans}}#}
+{#                                    </a>#}
+{#                                    <div class="dropdown-divider"></div>#}
                                     <a class="dropdown-item" href="{{ path('teebb_user_logout') }}">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
                                         {{'logout'|trans}}

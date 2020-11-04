@@ -37,4 +37,9 @@
         <default key="route">teebb_user_resetting</default>
     </route>
 
+    <route id="teebb_user_profile" path="/profile">
+        <default key="_controller">Teebb\CoreBundle\Controller\Security\SecurityController::profileAction</default>
+        <default key="route">teebb_user_profile</default>
+    </route>
+
 </routes>
