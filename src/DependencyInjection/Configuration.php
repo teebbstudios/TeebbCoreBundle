@@ -50,6 +50,8 @@ class Configuration implements ConfigurationInterface
         $this->addTextFilterSection($rootNode);
         $this->addSideBarSection($rootNode);
 
+        $this->addDashboardBlocksSection($rootNode);
+
         return $treeBuilder;
     }
 
@@ -239,6 +241,35 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('extra_form_type')->end()
                             ->scalarNode('extra_label')->end()
                             ->scalarNode('extra_help')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+
+    private function addDashboardBlocksSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('blocks')->info('Dashboard index page content blocks')
+                    ->defaultValue([[
+                        'position' => 'left',
+                        'settings' => [],
+                        'type' => '',
+                        'groups' => [],
+                    ]])
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('type')->cannotBeEmpty()->end()
+                            ->arrayNode('groups')
+                                ->defaultValue([])->prototype('scalar')->end()
+                            ->end()
+                            ->arrayNode('settings')
+                                ->useAttributeAsKey('id')
+                                ->prototype('variable')->defaultValue([])->end()
+                            ->end()
+                            ->scalarNode('position')->defaultValue('left')->end()
+                            ->scalarNode('class')->defaultValue('col-md-6')->end()
                         ->end()
                     ->end()
                 ->end()

@@ -161,6 +161,11 @@ Cancel: 取消
 It is empty.: 这里还是空空如也。
 profile: 个人资料
 
+contents(last month): 内容量（最近1月）
+content_types: 内容类型
+users(last month): 新用户（最近1月）
+comments(last month): 新评论（最近1月）
+
 teebb:
     core:
         layout:

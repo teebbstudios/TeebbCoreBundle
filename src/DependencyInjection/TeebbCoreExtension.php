@@ -33,6 +33,7 @@ class TeebbCoreExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $resources = [
+            'blocks',
             'commands',
             'controllers',
             'forms',
@@ -86,6 +87,9 @@ class TeebbCoreExtension extends Extension
 
         //设置边栏菜单
         $container->setParameter('teebb.core.menu.sidebar_menu', $config['side_menu']);
+
+        //设置Dashboard首页blocks
+        $container->setParameter('teebb.core.dashboard.blocks', $config['blocks']);
     }
 
     /**

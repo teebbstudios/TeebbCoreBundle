@@ -48,7 +48,9 @@ class UserType extends BaseContentType
             $roles = [];
             foreach ($user->getGroups() as $group) {
                 foreach ($group->getRoles() as $role) {
-                    $roles[] = $role;
+                    if ($role !== 'ROLE_USER') {
+                        $roles[] = $role;
+                    }
                 }
             }
             $user->setRoles($roles);
