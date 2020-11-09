@@ -67,7 +67,7 @@ class EntityTypeRouteCollection extends BaseRouteCollection implements RouteColl
 
         if (!isset($defaults['_teebb_entity_type'])) {
             $defaults['_teebb_entity_type'] = $this->generateServiceId('teebb.core.entity_type.',
-                $this->metadata->getService());
+                $this->metadata->getBundle());
         }
 
         $route = $this->routeFactory->createRoute($pattern, $defaults, $requirements,

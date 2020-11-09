@@ -59,11 +59,9 @@ class MenuBuilder
                     $categoryMenuItem->setExtra('category', $category);
 
                     //再添加折叠菜单子菜单
-                    foreach ($item['items'] as $menuItem)
-                    {
-                        if ($this->canGenerateMenuItem($user, $menuItem['groups']))
-                        {
-                            $categoryMenuItem->addChild($this->factory->createItem($menuItem['label'],[
+                    foreach ($item['items'] as $menuItem) {
+                        if ($this->canGenerateMenuItem($user, $menuItem['groups'])) {
+                            $categoryMenuItem->addChild($this->factory->createItem($menuItem['label'], [
                                 'route' => $menuItem['route'],
                                 'routeParameters' => $menuItem['route_params'],
                                 'routeAbsolute' => $menuItem['route_absolute'],
@@ -86,12 +84,15 @@ class MenuBuilder
 
     /**
      * 根据当前用户所在用户组判断是否可以生成此菜单项
-     * @param User $user ，
+     * @param User|null $user ，
      * @param array $itemGroups 当前菜单允许的所有用户组
      * @return bool
      */
-    private function canGenerateMenuItem(User $user, array $itemGroups): bool
+    private function canGenerateMenuItem(?User $user, array $itemGroups): bool
     {
+        if (!$user) {
+            return false;
+        }
         $userGroups = $user->getGroups();
 
         foreach ($userGroups as $userGroup) {

@@ -6,5 +6,24 @@
             <argument type="service" id="twig"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
         </service>
+
+        <service id="teebb.core.block.text" class="Teebb\CoreBundle\Block\TextBlockService" public="true">
+            <tag name="sonata.block"/>
+            <argument type="service" id="twig"/>
+        </service>
+
+        <service id="teebb.core.block.contents" class="Teebb\CoreBundle\Block\ContentsBlockService" public="true">
+            <tag name="sonata.block"/>
+            <argument type="service" id="twig"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="service_container"/>
+        </service>
+
+        <service id="teebb.core.block.types" class="Teebb\CoreBundle\Block\TypesBlockService" public="true">
+            <tag name="sonata.block"/>
+            <argument type="service" id="twig"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+        </service>
+
     </services>
 </container>

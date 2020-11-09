@@ -100,7 +100,7 @@
             })) }}
 
             {#允许新建评论#}
-            {% if data.value ==true %}
+            {% if data.value == true and is_granted('ROLE_USER') %}
                 <h5>{{ 'create'|trans }}{{ field_label }}</h5>
                 {{ render(path('teebb_comment_create',{
                     'bundle': field_config.bundle,
@@ -110,6 +110,8 @@
                     'fieldAlias': field_alias,
                     'redirectBackURI': app.request.pathInfo
                 })) }}
+            {% else %}
+                {{ 'Login for submit comment'|trans }}
             {% endif %}
         {% endfor %}
     {% elseif field_type == 'datetime' %}

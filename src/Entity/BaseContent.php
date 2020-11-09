@@ -32,4 +32,5 @@ class BaseContent
     {
         return $this->id;
     }
+
 }

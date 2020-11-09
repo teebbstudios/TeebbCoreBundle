@@ -115,7 +115,7 @@ class CommentEntityType extends AbstractEntityType
 
         //获取bundle对应的内容类型service
         /**@var AbstractEntityType $targetContentTypeService * */
-        $targetContentTypeService = $this->container->get('teebb.core.entity_type.' . $bundle . '_entity_type');
+        $targetContentTypeService = $this->container->get('teebb.core.entity_type.' . $bundle);
 
         $targetContentRepo = $this->entityManager->getRepository($targetContentTypeService->getEntityClassName());
 

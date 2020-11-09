@@ -1,3 +1,8 @@
+{#Todo: 权限判断#}
+{% if is_granted('ROLE_SUPER_ADMIN') %}
+    <a href="{{ path('teebb_comment_delete', {'id': comment.id, 'redirectBackURI': redirectBackURI }) }}">{{ 'delete'|trans }}</a>
+{% endif %}
 
-<a href="{{ path('teebb_comment_delete', {'id': comment.id, 'redirectBackURI': redirectBackURI }) }}">{{ 'delete'|trans }}</a>
-<a href="{{ path('teebb_comment_reply_comment', {'id': comment.id, 'redirectBackURI': redirectBackURI }) }}">{{ 'reply'|trans }}</a>
+{% if is_granted('ROLE_USER') %}
+    <a href="{{ path('teebb_comment_reply_comment', {'id': comment.id, 'redirectBackURI': redirectBackURI }) }}">{{ 'reply'|trans }}</a>
+{% endif %}

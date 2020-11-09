@@ -1,0 +1,20 @@
+{% extends '@TeebbCore/blocks/dashboard_base_block.html.twig' %}
+
+{% block block_label %}
+    {{ settings.label|trans }}
+{% endblock %}
+
+{% block block_content %}
+    <ul class="list-group list-group-flush">
+        {% for user in contents %}
+            <li class="list-group-item">
+                {% if is_granted('user_entity_type_people_update') %}
+                <a href="{{ path('user_people_update', {username:user.username }) }}">{{ user.username }}</a>
+                {% else %}
+                {{ user.username }}
+                {% endif %}
+                <span class="pr-3">{{ 'registeredAt'|trans }}{{ user.createdAt|ago }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

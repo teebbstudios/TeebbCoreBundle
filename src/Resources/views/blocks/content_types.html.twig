@@ -1,0 +1,32 @@
+{% extends '@TeebbCore/blocks/dashboard_base_block.html.twig' %}
+
+{% block block_label %}
+    {{ settings.label|trans }}
+{% endblock %}
+
+{% block block_content %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'content_types'|trans }}</th>
+                <th scope="col">{{ 'alias'|trans }}</th>
+                <th scope="col">{{ 'options'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for type in types %}
+                <tr>
+                    <td>{{ type.label|trans }}</td>
+                    <td>{{ type.typeAlias|trans }}</td>
+                    <td>
+                        {% if is_granted('content_' ~ type.typeAlias ~ '_create') %}
+                            <a href="{{ path('teebb_content_create', {typeAlias: type.typeAlias}) }}">{{ 'create_content'|trans }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

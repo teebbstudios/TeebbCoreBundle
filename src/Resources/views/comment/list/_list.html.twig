@@ -26,7 +26,7 @@
                          class="comment px-2 py-2 border-top mt-3"
                          style="margin-left: {{ marginLeft ~ 'px' }}">
                         <div class="author my-3">
-                            <span class="text-dark">admin</span>
+                            <span class="text-dark">{{ comment.author.username }}</span>
                             {{ 'submit_at'|trans }} {{ children.createdAt|date('Y-m-d H:i:s') }}
                         </div>
                         <div class="body">

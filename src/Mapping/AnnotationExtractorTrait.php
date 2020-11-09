@@ -34,6 +34,6 @@ trait AnnotationExtractorTrait
      */
     private function generateServiceId(string $prefix, string $serviceName): string
     {
-        return $prefix . InflectorFactory::create()->build()->tableize(substr($serviceName, strripos($serviceName, '\\') + 1));
+        return $prefix . InflectorFactory::create()->build()->tableize(substr($serviceName, strripos($serviceName, '\\')));
     }
 }

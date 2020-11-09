@@ -46,7 +46,7 @@ class ContentController extends AbstractController
      */
     public function showAction(Request $request, Content $content)
     {
-        $entityTypeService = $this->container->get('teebb.core.entity_type.content_entity_type');
+        $entityTypeService = $this->container->get('teebb.core.entity_type.content');
 
         $data = $entityTypeService->getAllFieldsData($content, $content->getTypeAlias());
 
@@ -66,7 +66,7 @@ class ContentController extends AbstractController
      */
     public function listTaxonomyContents(Request $request, Taxonomy $taxonomy)
     {
-        $entityTypeService = $this->container->get('teebb.core.entity_type.content_entity_type');
+        $entityTypeService = $this->container->get('teebb.core.entity_type.content');
 
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 10);
@@ -155,7 +155,7 @@ class ContentController extends AbstractController
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 10);
 
-        $entityTypeService = $this->container->get('teebb.core.entity_type.content_entity_type');
+        $entityTypeService = $this->container->get('teebb.core.entity_type.content');
 
         /**@var BaseContentRepository $baseContentRepository * */
         $baseContentRepository = $this->entityManager->getRepository($entityTypeService->getEntityClassName());

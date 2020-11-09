@@ -1,0 +1,28 @@
+{% extends '@TeebbCore/blocks/dashboard_base_block.html.twig' %}
+{% import '@TeebbCore/macros.html.twig' as macro %}
+
+{% block block_label %}
+    {{ settings.label|trans }}
+{% endblock %}
+
+{% block block_content %}
+    <div class="list-group">
+        {% set comment_entity_type = container.get('teebb.core.entity_type.comment') %}
+        {% for comment in contents %}
+            {% set subject = comment_entity_type.commentTargetContent(comment) %}
+            <a href="{{ path('teebb_content_show',{slug: subject.slug}) }}#comment_{{ comment.id }}"
+               class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1">{{ 'comment_published_at'|trans({'%title%': subject.title}) }}</h6>
+                </div>
+                <p class="mb-1">
+                    {% set fieldDatas = comment_entity_type.allFieldsData(comment, comment.commentType) %}
+                    {% for fieldAlias, fieldData in fieldDatas %}
+                        {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
+                    {% endfor %}
+                </p>
+                <small>{{ 'comment_submited_by'|trans({'%author%': comment.author.username, '%ago%': comment.createdAt|ago}) }}</small>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

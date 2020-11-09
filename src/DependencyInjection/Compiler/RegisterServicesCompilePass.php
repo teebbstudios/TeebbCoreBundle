@@ -85,7 +85,7 @@ class RegisterServicesCompilePass implements CompilerPassInterface
                     $reflectionClass->getName()));
             }
 
-            $id = $this->generateServiceId('teebb.core.entity_type.', $reflectionClass->getName());
+            $id = $this->generateServiceId('teebb.core.entity_type.', $annotation->bundle);
 
             if ($container->has($id)) {
                 continue;

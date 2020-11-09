@@ -1,0 +1,16 @@
+{% extends '@TeebbCore/blocks/dashboard_base_block.html.twig' %}
+
+{% block block_label %}
+    {{ settings.label|trans }}
+{% endblock %}
+
+{% block block_content %}
+    <ul class="list-group list-group-flush">
+        {% for content in contents %}
+            <li class="list-group-item">
+                <span class="pr-3">{{ content.createdAt|ago }}</span>
+                <a href="{{ path('teebb_content_show', {slug:content.slug }) }}">{{ content.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
