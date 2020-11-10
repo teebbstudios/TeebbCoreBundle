@@ -111,6 +111,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+        //如果request有redirect_url则跳转到对应页面
+        $redirectUrl = $request->get('redirect_url', '');
+        if ($redirectUrl !== '') {
+            return new RedirectResponse($redirectUrl);
+        }
+
         return new RedirectResponse($this->router->generate('teebb_user_login'));
     }
 

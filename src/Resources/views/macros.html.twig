@@ -111,7 +111,7 @@
                     'redirectBackURI': app.request.pathInfo
                 })) }}
             {% else %}
-                {{ 'Login for submit comment'|trans }}
+                {{ 'Login for submit comment'|trans({'%login%': path('teebb_user_login'), '%redirect_url%': app.request.pathInfo})|raw }}
             {% endif %}
         {% endfor %}
     {% elseif field_type == 'datetime' %}

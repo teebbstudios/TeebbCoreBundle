@@ -126,6 +126,8 @@ class CommentController extends AbstractContentController
      */
     public function replyComment(Request $request, Comment $parentComment)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $redirectBackURI = $request->get('redirectBackURI');
 
         /**@var FormContractorInterface $formContractor * */

@@ -182,7 +182,7 @@ options: 操作
 comment_submited_by: 由 %author% 提交于 %ago%
 comment_published_at: 发表在《%title%》
 Last comments: 最近评论
-Login for submit comment: 您需要登录后才能发表评论。
+Login for submit comment: 您需要<a href="%login%?redirect_url=%redirect_url%" target="_blank">登录</a>后才能发表评论。
 
 teebb:
     core:

@@ -55,24 +55,28 @@ class RouteParameterUnderlineFixSubscriber implements EventSubscriberInterface
     //如果是RedirectResponse，则获取路径中的变量typeAlias fieldAlias，将下划线转为连字符
     public function onKernelResponseEvent(ResponseEvent $event)
     {
+        $request = $event->getRequest();
         $response = $event->getResponse();
-        if ($response instanceof RedirectResponse) {
+        if ($response instanceof RedirectResponse && $request->get('_route') !== 'teebb_user_logout') {
+
             $targetUrl = $response->getTargetUrl();
-            //如果$targetUrl不包含'://'，处理url中的下划线转为连字符
-            if (strpos($targetUrl, '://') == false) {
-                $result = $this->router->match($targetUrl);
-                $parameters = [];
-                if (isset($result['typeAlias'])) {
-                    $result['typeAlias'] = $this->aliasToNormal($result['typeAlias']);
-                    $parameters['typeAlias'] = $result['typeAlias'];
-                }
-                if (isset($result['fieldAlias'])) {
-                    $result['fieldAlias'] = $this->aliasToNormal($result['fieldAlias']);
-                    $parameters['fieldAlias'] = $result['fieldAlias'];
-                }
+            $result = $this->router->match($targetUrl);
+
+            //如果$targetUrl 包含变量: typeAlias 或 fieldAlias，处理url中的下划线转为连字符
+            $parameters = [];
+            if (isset($result['typeAlias'])) {
+                $result['typeAlias'] = $this->aliasToNormal($result['typeAlias']);
+                $parameters['typeAlias'] = $result['typeAlias'];
 
                 $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
             }
+            if (isset($result['fieldAlias'])) {
+                $result['fieldAlias'] = $this->aliasToNormal($result['fieldAlias']);
+                $parameters['fieldAlias'] = $result['fieldAlias'];
+
+                $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
+            }
+
         }
 
     }
