@@ -55,28 +55,28 @@ class RouteParameterUnderlineFixSubscriber implements EventSubscriberInterface
     //如果是RedirectResponse，则获取路径中的变量typeAlias fieldAlias，将下划线转为连字符
     public function onKernelResponseEvent(ResponseEvent $event)
     {
-        $request = $event->getRequest();
         $response = $event->getResponse();
-        if ($response instanceof RedirectResponse && $request->get('_route') !== 'teebb_user_logout') {
-
+        if ($response instanceof RedirectResponse) {
             $targetUrl = $response->getTargetUrl();
-            $result = $this->router->match($targetUrl);
 
-            //如果$targetUrl 包含变量: typeAlias 或 fieldAlias，处理url中的下划线转为连字符
-            $parameters = [];
-            if (isset($result['typeAlias'])) {
-                $result['typeAlias'] = $this->aliasToNormal($result['typeAlias']);
-                $parameters['typeAlias'] = $result['typeAlias'];
+            if (!strpos($targetUrl, '://')){
+                $result = $this->router->match($targetUrl);
 
-                $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
+                //如果$targetUrl 包含变量: typeAlias 或 fieldAlias，处理url中的下划线转为连字符
+                $parameters = [];
+                if (isset($result['typeAlias'])) {
+                    $result['typeAlias'] = $this->aliasToNormal($result['typeAlias']);
+                    $parameters['typeAlias'] = $result['typeAlias'];
+
+                    $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
+                }
+                if (isset($result['fieldAlias'])) {
+                    $result['fieldAlias'] = $this->aliasToNormal($result['fieldAlias']);
+                    $parameters['fieldAlias'] = $result['fieldAlias'];
+
+                    $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
+                }
             }
-            if (isset($result['fieldAlias'])) {
-                $result['fieldAlias'] = $this->aliasToNormal($result['fieldAlias']);
-                $parameters['fieldAlias'] = $result['fieldAlias'];
-
-                $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
-            }
-
         }
 
     }
