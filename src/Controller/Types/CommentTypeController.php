@@ -6,6 +6,8 @@ namespace Teebb\CoreBundle\Controller\Types;
 
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Entity\Comment;
 use Symfony\Component\HttpFoundation\Response;
@@ -120,8 +122,65 @@ class CommentTypeController extends AbstractEntityTypeController
             'teebb.core.comment.update_status', ['%value%' => $comment->getSubject(), '%status%' => $transStatus]
         ));
 
-        return $this->redirect($request->getSchemeAndHttpHost() . $redirectBackURI);
+        return $this->redirect($redirectBackURI);
     }
 
+
+    /**
+     * 删除评论
+     * @param Request $request
+     * @param Comment $comment
+     * @return Response
+     * @throws \Doctrine\DBAL\ConnectionException
+     */
+    public function deleteCommentItemAction(Request $request, Comment $comment)
+    {
+        $redirectBackURI = $request->get('redirectBackURI');
+
+        $deleteForm = $this->formContractor->generateDeleteForm('delete_comment_' . $comment->getId(), FormType::class, $comment);
+        $deleteForm->add('delete', SubmitType::class, ['label' => 'teebb.core.form.delete_comment', 'label_html' => true, 'attr' => ['class' => 'btn-danger btn-sm btn-icon-split mr-2']]);
+        $deleteForm->add('cancel', SubmitType::class, ['label' => 'teebb.core.form.cancel', 'label_html' => true, 'attr' => ['class' => 'btn-secondary btn-sm btn-icon-split mr-2']]);
+
+        $deleteForm->handleRequest($request);
+
+        if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
+            //如果是删除按钮
+            if ($deleteForm->get('delete')->isClicked()) {
+                if ($deleteForm->get('_method')->getData() === 'DELETE') {
+                    $conn = $this->entityManager->getConnection();
+
+                    $conn->beginTransaction();
+                    try {
+                        $this->deleteSubstance($this->entityManager, $this->fieldConfigurationRepository, $this->container,
+                            'comment', $comment->getCommentType(), $comment);
+
+                        $this->addFlash('success', $this->container->get('translator')->trans(
+                            'teebb.core.comment.delete_success', ['%value%' => $comment->getSubject()]
+                        ));
+
+                        $conn->commit();
+
+                        //评论删除完成，跳转到redirect页
+                        return $this->redirect($redirectBackURI);
+
+                    } catch (\Exception $e) {
+                        $conn->rollBack();
+                        $this->addFlash('danger', $e->getMessage());
+                    }
+
+                }
+            }
+            //如果是取消按钮 跳转到redirect页
+            if ($deleteForm->get('cancel')->isClicked()) {
+                return $this->redirect($redirectBackURI);
+            }
+        }
+
+        return $this->render($this->templateRegistry->getTemplate('delete_form', 'comment'), [
+            'delete_form' => $deleteForm->createView(),
+            'comment' => $comment,
+            'action' => 'delete_comment'
+        ]);
+    }
 
 }

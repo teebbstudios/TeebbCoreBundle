@@ -1,13 +1,4 @@
-{% extends '@TeebbCore/base_content.html.twig' %}
 {% import '@TeebbCore/macros.html.twig' as macro %}
-
-{% block head_label %}
-    {{ action|trans }}
-{% endblock %}
-
-{% block card_title %}
-    {% include '@TeebbCore/comment/common/card_title.html.twig' with _context %}
-{% endblock %}
 
 {% block card_body %}
     <div class="comment mb-4">

@@ -17,9 +17,4 @@
         <default key="route">teebb_comment_reply_comment</default>
     </route>
 
-    <route id="teebb_comment_delete" path="/comment/{id}/delete">
-        <default key="_controller">Teebb\CoreBundle\Controller\Content\CommentController::deleteAction</default>
-        <default key="route">teebb_comment_delete</default>
-    </route>
-
 </routes>

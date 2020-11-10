@@ -92,6 +92,7 @@ class CommentEntityType extends AbstractEntityType
 {
     public const INDEX_COMMENTS = 'index_comments';
     public const UPDATE_COMMENT_STATUS = 'update_comment_status';
+    public const DELETE_COMMENT_ITEM = 'delete_comment_item';
 
     /**
      * 配置评论类型添加管理评论route
@@ -102,6 +103,7 @@ class CommentEntityType extends AbstractEntityType
     {
         $routeCollection->addRoute(self::INDEX_COMMENTS, '{typeAlias}/comments');
         $routeCollection->addRoute(self::UPDATE_COMMENT_STATUS, 'update/comment/{id}/status');
+        $routeCollection->addRoute(self::DELETE_COMMENT_ITEM, 'item/{id}/delete');
     }
 
     /**
