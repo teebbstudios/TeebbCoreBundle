@@ -59,21 +59,19 @@ class RouteParameterUnderlineFixSubscriber implements EventSubscriberInterface
         if ($response instanceof RedirectResponse) {
             $targetUrl = $response->getTargetUrl();
 
-            if (!strpos($targetUrl, '://')){
+            if (!strpos($targetUrl, '://')) {
                 $result = $this->router->match($targetUrl);
-
                 //如果$targetUrl 包含变量: typeAlias 或 fieldAlias，处理url中的下划线转为连字符
                 $parameters = [];
                 if (isset($result['typeAlias'])) {
                     $result['typeAlias'] = $this->aliasToNormal($result['typeAlias']);
                     $parameters['typeAlias'] = $result['typeAlias'];
-
-                    $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
                 }
                 if (isset($result['fieldAlias'])) {
                     $result['fieldAlias'] = $this->aliasToNormal($result['fieldAlias']);
                     $parameters['fieldAlias'] = $result['fieldAlias'];
-
+                }
+                if (isset($result['typeAlias']) || isset($result['fieldAlias'])) {
                     $response->setTargetUrl($this->router->generate($result['_route'], $parameters));
                 }
             }
