@@ -38,7 +38,7 @@ class Configuration implements ConfigurationInterface
                     ->info('The file system parameters.')
                     ->children()
                         ->scalarNode('service')->defaultValue('oneup_flysystem.default_filesystem_filesystem')->cannotBeEmpty()->end()
-                        ->scalarNode('default_upload_dir')->defaultValue('[%date.Year~"-"~date.month~"-"~date.day]')->cannotBeEmpty()->end()
+                        ->scalarNode('default_upload_dir')->defaultValue('[date.Year~"-"~date.month~"-"~date.day]')->cannotBeEmpty()->end()
                         ->scalarNode('root_host_url')->isRequired()->end()
                     ->end()
                 ->end()

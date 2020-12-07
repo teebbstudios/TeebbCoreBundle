@@ -129,7 +129,7 @@ function modules() {
 
     return merge(autocomplete, bootstrapJS, bootstrapSCSS, chartJS, dataTables, fontAwesome, jquery, jqueryEasing,
         sweetalert2, sortableJs, bootstrapSelect, transliteration, dropzone, fabric, tuiCodeSnippet, tuiColorPicker,
-        fileSaver, tuiImageEditor, tuiImageEditorExamples, videoJs, nestable,
+        fileSaver, tuiImageEditor, tuiImageEditorExamples, videoJs, nestable
     );
 }
 

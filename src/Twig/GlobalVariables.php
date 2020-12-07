@@ -79,6 +79,11 @@ class GlobalVariables
         $this->rootHostUrl = $rootHostUrl;
     }
 
+    /**
+     * 使用此方法获取TEEBB的设置值
+     * @param string $optionName
+     * @return mixed
+     */
     public function getOptionValue(string $optionName)
     {
         $optionRepo = $this->entityManager->getRepository(Option::class);

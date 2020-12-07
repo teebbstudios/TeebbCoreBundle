@@ -104,8 +104,10 @@ class FileController extends AbstractController
         $this->denyAccessUnlessGranted('file_upload');
 
         $field_alias = $request->get('field_alias');
+
         /**@var UploadedFile $file * */
-        $file = $request->files->get('file');
+        $file = $request->files->get('file') ?? $request->files->get('upload');
+
         if (null == $file) {
             throw new NoFileException('The post "file" not exist.');
         }
@@ -158,7 +160,7 @@ class FileController extends AbstractController
             $distDirectory = $this->getFileUploadDir($fieldSettings->getUploadDir());
         } else {
             //如果是html编辑器上传的文件
-            $distDirectory = $this->defaultUploadDir;
+            $distDirectory = $this->getFileUploadDir($this->defaultUploadDir);
         }
 
         $fileUploader = new FileHelper($this->filesystem);
@@ -177,14 +179,13 @@ class FileController extends AbstractController
         //生成文件绝对路径
         $absoluteUrl = $fileUploader->generateAbsoluteUrlPath($request, $this->rootHost, $distDirectory . '/' . $newFileName);
 
-        $result = ['file' => $fileManaged, 'url' => $absoluteUrl];
+        $result = ['file' => $fileManaged, 'uploaded' => 1, 'fileName' => $fileManaged->getOriginFileName(), 'url' => $absoluteUrl];
 
         //如果mimetype是image添加缩略图url
-        if (false !== strpos($file->getMimeType(),'image/')){
+        if (false !== strpos($file->getMimeType(), 'image/')) {
             $thumbnailUrl = $this->cacheManager->generateUrl($distDirectory . '/' . $newFileName, 'squared_thumbnail_small');
             $result['thumbnailUrl'] = $thumbnailUrl;
         }
-
         return $this->json($result);
     }
 
