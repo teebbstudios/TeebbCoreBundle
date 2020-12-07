@@ -17,6 +17,8 @@ use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Teebb\CoreBundle\Entity\Fields\Configuration\FieldDepartConfigurationInterface;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
+use Teebb\CoreBundle\Entity\Fields\StringItem;
+use Teebb\CoreBundle\Entity\Fields\TextItem;
 use Teebb\CoreBundle\Entity\Formatter;
 use Teebb\CoreBundle\Form\Type\FieldFileType;
 use Teebb\CoreBundle\TextFilter\TextFilterInterface;
@@ -233,6 +235,12 @@ trait FieldConfigOptionsTrait
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
             $data = $event->getData();
             $data = $data == null ? new $options['data_class']() : $data;
+
+            //过滤文本和长文本字段所有html标签
+            if ($data instanceof StringItem || $data instanceof TextItem){
+                $data->setValue(strip_tags($data->getValue()));
+            }
+
             $event->setData($data);
         });
     }

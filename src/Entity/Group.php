@@ -49,6 +49,13 @@ class Group
     private $permissions = [];
 
     /**
+     * 当前用户组允许的编辑器配置
+     * @var string
+     * @ORM\Column(type="string",name="ckeditor_config")
+     */
+    private $ckeditorConfig;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -154,6 +161,22 @@ class Group
     public function setPermissions(array $permissions): void
     {
         $this->permissions = $permissions;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCkeditorConfig(): string
+    {
+        return $this->ckeditorConfig;
+    }
+
+    /**
+     * @param string $ckeditorConfig
+     */
+    public function setCkeditorConfig(string $ckeditorConfig): void
+    {
+        $this->ckeditorConfig = $ckeditorConfig;
     }
 
 }

@@ -458,6 +458,8 @@ teebb:
             group_name: 组名称
             group_name_help: 用于描述用户组的名称。如“管理员”、“编辑”、“网站架构”。
             group_alias: 组别名
+            ckeditor_config: 编辑器配置
+            ckeditor_config_help: 当前用户组所允许使用的编辑器配置
             group_permissions: 组权限
             group_alias_help: 请使用用英文、下划线做为组别名，此别名用于链接及用户组名称。
 

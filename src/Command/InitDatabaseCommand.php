@@ -233,7 +233,7 @@ class InitDatabaseCommand extends Command
             $commentBody = new FieldConfiguration();
             $commentBody->setBundle('comment');
             $commentBody->setFieldAlias('comment_body');
-            $commentBody->setFieldType('textFormat');
+            $commentBody->setFieldType('text');
             $commentBody->setFieldLabel('评论');
             $commentBody->setTypeAlias('comment');
             $commentBody->setSettings(new TextFormatItemConfiguration());
@@ -371,14 +371,15 @@ class InitDatabaseCommand extends Command
         $administratorGroup->setName('超级管理员');
         $administratorGroup->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN']);
         $administratorGroup->setGroupAlias('super_admin');
+        $administratorGroup->setCkeditorConfig('full');
 
         $registerUserGroup = new Group();
         $registerUserGroup->setName('注册用户');
         $registerUserGroup->setGroupAlias('user');
+        $registerUserGroup->setCkeditorConfig('standard');
         $registerUserGroup->setPermissions([
             'permission' => [
-                'file_upload',
-                'file_delete'
+                'file_upload'
             ]
         ]);
 
@@ -405,7 +406,7 @@ class InitDatabaseCommand extends Command
     private function initSystemOption()
     {
         $system = new System();
-        $system->setSiteName('Teebb CMF');
+        $system->setSiteName('Teebb');
         $system->setSiteEmail('admin@admin.com');
 
         $option = new Option();
