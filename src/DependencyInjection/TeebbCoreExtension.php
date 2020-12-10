@@ -90,6 +90,9 @@ class TeebbCoreExtension extends Extension
 
         //设置Dashboard首页blocks
         $container->setParameter('teebb.core.dashboard.blocks', $config['blocks']);
+
+        //将邮件发送人信息添加进parameter
+        $container->setParameter('teebb.core.mailer.from_email',  $config['from_email']);
     }
 
     /**

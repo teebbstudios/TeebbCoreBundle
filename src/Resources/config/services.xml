@@ -74,6 +74,7 @@
         <service id="teebb.core.util.mailer" class="Teebb\CoreBundle\Utils\Mailer" public="true">
             <argument type="service" id="mailer.mailer"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="parameter_bag"/>
             <argument type="service" id="router.default"/>
             <argument type="service" id="translator.default"/>
         </service>

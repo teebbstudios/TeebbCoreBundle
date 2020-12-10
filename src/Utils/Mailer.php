@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Utils;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -42,7 +43,7 @@ class Mailer
      */
     private $fromAddress;
 
-    public function __construct(MailerInterface $mailer, EntityManagerInterface $entityManager,
+    public function __construct(MailerInterface $mailer, EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag,
                                 RouterInterface $router, TranslatorInterface $translator)
     {
         $this->mailer = $mailer;
@@ -50,7 +51,9 @@ class Mailer
         $this->router = $router;
         $this->translator = $translator;
 
-        $this->fromAddress = new Address('qww.zone@aliyun.com', 'admin');
+        $fromEmail = $parameterBag->get('teebb.core.mailer.from_email');
+
+        $this->fromAddress = new Address($fromEmail['address'], $fromEmail['address_name']);
     }
 
     /**
