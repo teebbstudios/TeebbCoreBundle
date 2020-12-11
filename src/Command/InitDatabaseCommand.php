@@ -17,6 +17,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
 use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Content;
+use Teebb\CoreBundle\Entity\Fields\Configuration\ReferenceImageItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\Configuration\TextFormatSummaryItemConfiguration;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
@@ -242,9 +243,23 @@ class InitDatabaseCommand extends Command
             $event->setContentEntity(Taxonomy::class);
             $this->dispatcher->dispatch($event, SchemaEvent::CREATE_SCHEMA);
 
+            //用户添加 头像字段
+            $avatarField = new FieldConfiguration();
+            $avatarField->setBundle('user');
+            $avatarField->setFieldAlias('avatar');
+            $avatarField->setFieldType('referenceImage');
+            $avatarField->setFieldLabel('头像');
+            $avatarField->setTypeAlias('people');
+            $avatarField->setSettings(new ReferenceImageItemConfiguration());
+            //添加完字段在动态添加数据库表
+            $event = new SchemaEvent($avatarField);
+            $event->setContentEntity(User::class);
+            $this->dispatcher->dispatch($event, SchemaEvent::CREATE_SCHEMA);
+
             $this->em->persist($articleBody);
             $this->em->persist($pageBody);
             $this->em->persist($commentBody);
+            $this->em->persist($avatarField);
             $this->em->flush();
 
             $this->em->commit();

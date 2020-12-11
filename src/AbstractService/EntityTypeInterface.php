@@ -13,6 +13,7 @@
 namespace Teebb\CoreBundle\AbstractService;
 
 
+use Doctrine\ORM\Query\Expr\Base;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Metadata\EntityTypeMetadataInterface;
 use Teebb\CoreBundle\Repository\RepositoryInterface;
@@ -154,4 +155,11 @@ interface EntityTypeInterface
      */
     public function getAllFieldsData(BaseContent $contentEntity, string $typeAlias): array;
 
+    /**
+     * 获取某内容单个字段的数据
+     * @param BaseContent $contentEntity
+     * @param string $filedAlias
+     * @return array
+     */
+    public function getSingleFieldData(BaseContent $contentEntity, string $filedAlias): array;
 }

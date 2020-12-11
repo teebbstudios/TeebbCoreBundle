@@ -2,7 +2,7 @@
 {% import '@TeebbCore/macros.html.twig' as macro %}
 
 <h1>{{ subject.title }}</h1>
-{% for fieldAlias, fieldData in fieldDatas %}
-    {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
-{% endfor %}
+
+{{ macro.showContentAllFieldsData(subject, bundle, subject.typeAlias) }}
+
 

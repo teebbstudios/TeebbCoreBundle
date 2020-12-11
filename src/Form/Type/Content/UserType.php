@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Length;
 use Teebb\CoreBundle\Entity\Group;
 use Teebb\CoreBundle\Entity\User;
@@ -29,10 +30,24 @@ class UserType extends BaseContentType
      */
     private $userPasswordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container, UserPasswordEncoderInterface $userPasswordEncoder)
+    /**
+     * @var User
+     */
+    private $currentUser;
+
+    /**
+     * @var Security
+     */
+    private $security;
+
+    public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container,
+                                Security $security,
+                                UserPasswordEncoderInterface $userPasswordEncoder)
     {
         parent::__construct($entityManager, $container);
         $this->userPasswordEncoder = $userPasswordEncoder;
+        $this->currentUser = $security->getUser();
+        $this->security = $security;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -130,8 +145,11 @@ class UserType extends BaseContentType
                 'help' => 'teebb.core.form.change_password_help'
             ]);
 
-        //如果不是个人资料页
-        if (!$options['bool_profile']) {
+        //如果不是个人资料页 且 （当前用户不是超级管理员组 或 当前用户没有下列权限） 则不显示下列表单行
+        if (!$options['bool_profile'] &&
+            ($this->security->isGranted('ROLE_SUPER_ADMIN', $this->currentUser) ||
+                $this->security->isGranted('user_entity_type_people_security_update', $this->currentUser))
+        ) {
             $builder
                 ->add('enabled', CheckboxType::class, [
                     'label' => 'teebb.core.form.enabled',
@@ -177,6 +195,4 @@ class UserType extends BaseContentType
             'bool_profile' => false
         ]);
     }
-
-
 }

@@ -17,6 +17,8 @@ class UserVoter extends BaseVoter
     public const USER_ENTITY_TYPE_DISPLAY_FIELD = 'user_entity_type_people_display_field';
     public const USER_ENTITY_TYPE_PEOPLE_INDEX = 'user_entity_type_people_index';
     public const USER_ENTITY_TYPE_PEOPLE_UPDATE = 'user_entity_type_people_update';
+    #编辑用户页面 激活、锁定账户、调整用户组权限
+    public const USER_ENTITY_TYPE_PEOPLE_SECURITY_UPDATE = 'user_entity_type_people_security_update';
     public const USER_ENTITY_TYPE_GROUP_INDEX = 'user_entity_type_group_index';
     public const USER_ENTITY_TYPE_GROUP_CREATE = 'user_entity_type_group_create';
     public const USER_ENTITY_TYPE_GROUP_UPDATE = 'user_entity_type_group_update';
@@ -32,6 +34,7 @@ class UserVoter extends BaseVoter
             'teebb.core.voter.user_entity_type_display_field' => self::USER_ENTITY_TYPE_DISPLAY_FIELD,
             'teebb.core.voter.user_entity_type_people_index' => self::USER_ENTITY_TYPE_PEOPLE_INDEX,
             'teebb.core.voter.user_entity_type_people_update' => self::USER_ENTITY_TYPE_PEOPLE_UPDATE,
+            'teebb.core.voter.user_entity_type_people_security_update' => self::USER_ENTITY_TYPE_PEOPLE_SECURITY_UPDATE,
             'teebb.core.voter.user_entity_type_group_index' => self::USER_ENTITY_TYPE_GROUP_INDEX,
             'teebb.core.voter.user_entity_type_group_create' => self::USER_ENTITY_TYPE_GROUP_CREATE,
             'teebb.core.voter.user_entity_type_group_update' => self::USER_ENTITY_TYPE_GROUP_UPDATE,

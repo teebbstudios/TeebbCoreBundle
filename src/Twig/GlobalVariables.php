@@ -24,7 +24,7 @@ class GlobalVariables
     /**
      * @var string
      */
-    private $rootHostUrl;
+    private $uploadRootUrl;
 
     /**
      * @var EntityManagerInterface
@@ -35,7 +35,7 @@ class GlobalVariables
     {
         $this->version = Kernel::VERSION;
         $this->templateRegistry = $registry;
-        $this->rootHostUrl = $rootHostUrl;
+        $this->uploadRootUrl = $rootHostUrl;
         $this->entityManager = $entityManager;
     }
 
@@ -66,17 +66,17 @@ class GlobalVariables
     /**
      * @return string
      */
-    public function getRootHostUrl(): string
+    public function getUploadRootUrl(): string
     {
-        return $this->rootHostUrl;
+        return $this->uploadRootUrl;
     }
 
     /**
-     * @param string $rootHostUrl
+     * @param string $uploadRootUrl
      */
-    public function setRootHostUrl(string $rootHostUrl): void
+    public function setUploadRootUrl(string $uploadRootUrl): void
     {
-        $this->rootHostUrl = $rootHostUrl;
+        $this->uploadRootUrl = $uploadRootUrl;
     }
 
     /**

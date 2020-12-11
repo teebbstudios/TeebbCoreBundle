@@ -70,6 +70,7 @@
                  class="Teebb\CoreBundle\Form\Type\Content\UserType">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument type="service" id="service_container"/>
+            <argument type="service" id="security.helper"/>
             <argument type="service" id="security.user_password_encoder.generic"/>
             <tag name="form.type"/>
         </service>

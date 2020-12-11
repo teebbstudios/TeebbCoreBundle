@@ -47,6 +47,8 @@ class ContentsBlockService extends AbstractBlockService
             'property' => 'createdAt',
             'order' => 'ASC',
             'limit' => 5,
+            'type_property' => '', #entity_class类的类型别名属性,例如：Content类的属性：typeAlias
+            'type_alias' => null, #类型别名 用于获取某类型的内容
             'template' => '@TeebbCore/blocks/last_contents.html.twig',
         ]);
     }
@@ -58,7 +60,11 @@ class ContentsBlockService extends AbstractBlockService
 
         $contentsRepository = $this->entityManager->getRepository($settings['entity_class']);
 
-        $contents = $contentsRepository->findBy([], [$settings['property'] => $settings['order']], $settings['limit']);
+        $criteria = [];
+        if ($settings['type_alias']) {
+            $criteria[$settings['type_property']] = $settings['type_alias'];
+        }
+        $contents = $contentsRepository->findBy($criteria, [$settings['property'] => $settings['order']], $settings['limit']);
 
         return $this->renderResponse($blockContext->getTemplate(), [
             'block' => $blockContext->getBlock(),
@@ -67,6 +73,5 @@ class ContentsBlockService extends AbstractBlockService
             'container' => $this->container
         ], $response);
     }
-
 
 }

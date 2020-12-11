@@ -16,6 +16,7 @@ Comment: 评论
 Manage Comment: 管理评论
 Comment Types: 评论类型
 User: 用户
+User Fields: 用户字段
 Manage User: 管理用户
 User Group: 用户组
 settings: 设置
@@ -513,6 +514,7 @@ teebb:
             user_entity_type_display_field: 管理用户字段显示
             user_entity_type_people_index: 管理用户
             user_entity_type_people_update: 编辑用户
+            user_entity_type_people_security_update: 激活、锁定、修改用户组
             user_entity_type_group_index: 管理用户组
             user_entity_type_group_create: 添加用户组
             user_entity_type_group_update: 更新用户组

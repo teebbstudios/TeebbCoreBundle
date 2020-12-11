@@ -232,11 +232,7 @@ abstract class AbstractEntityType implements EntityTypeInterface
     }
 
     /**
-     * 获取所有字段数据
-     *
-     * @param BaseContent $contentEntity 内容substance
-     * @param string $typeAlias Types类型别名
-     * @return array
+     * @inheritDoc
      */
     public function getAllFieldsData(BaseContent $contentEntity, string $typeAlias): array
     {
@@ -261,4 +257,17 @@ abstract class AbstractEntityType implements EntityTypeInterface
         return $fieldDatas;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getSingleFieldData(BaseContent $contentEntity, string $filedAlias): array
+    {
+        $fieldConfigRepository = $this->entityManager->getRepository(FieldConfiguration::class);
+        /**@var FieldConfiguration $field **/
+        $field = $fieldConfigRepository->findOneBy(['fieldAlias' => $filedAlias]);
+
+        $fieldService = $this->getFieldService($field->getFieldType());
+
+        return $fieldService->getFieldEntityData($contentEntity, $field, $this->getEntityClassName());
+    }
 }

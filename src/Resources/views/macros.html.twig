@@ -64,8 +64,18 @@
     </ol>
 {% endmacro -%}
 
+{#获取并显示当前内容所有字段数据#}
+{% macro showContentAllFieldsData(base_content, bundle, content_type_alias ) %}
+    {% import _self as self %}
+    {# 获取当前内容所有字段数据 #}
+    {% set allFieldsData = show_content_all_fields(base_content, bundle, content_type_alias) %}
+    {# 显示当前内容所有字段数据 #}
+    {% for fieldAlias, fieldData in allFieldsData %}
+        {{ self.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
+    {% endfor %}
+{% endmacro %}
 
-{#显示内容所有字段的值和配置，如果是评论字段则获取所有评论内容和设置评论表单#}
+{#显示内容字段的值和配置，如果是评论字段则获取所有评论内容和设置评论表单#}
 {% macro showFieldData(field_alias, field_type, field_label, field_config, field_data) %}
     {% set field_settings = field_config.settings %}
     {% if field_type == 'boolean' %}
