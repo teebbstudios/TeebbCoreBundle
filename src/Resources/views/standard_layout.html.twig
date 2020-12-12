@@ -267,7 +267,7 @@
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.username }}</span>
                                     {% set avatar = get_content_field(app.user, 'user', 'avatar') %}
-                                    {% if avatar is empty %}
+                                    {% if avatar is empty or avatar[0].value == null %}
                                         <img class="img-profile rounded-circle"
                                              src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
                                     {% else %}

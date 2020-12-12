@@ -14,3 +14,6 @@
 3. 添加"用户字段"菜单，对用户字段进行管理，用户默认增加头像字段。用户表单调整。
 4. 添加Twig函数： show_content_all_fields 获取并显示当前内容所有字段；get_content_field 获取当前内容指定字段数据
 5. 添加Twig macro方法：showContentAllFieldsData 用此macro可方便的显示当前内容所有字段
+
+0.1.4
+1. Admin头像bug修改
