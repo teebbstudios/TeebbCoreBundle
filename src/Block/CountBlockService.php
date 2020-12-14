@@ -14,6 +14,9 @@ use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Twig\Environment;
 
+/**
+ * 计算某段时间内新增的内容数量
+ */
 class CountBlockService extends AbstractBlockService
 {
     /**

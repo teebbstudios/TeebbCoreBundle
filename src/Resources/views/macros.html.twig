@@ -98,7 +98,9 @@
     {% elseif field_type == 'comment' %}
         {% for data in field_data %}
             {#显示所有评论#}
-            <h5>{{ field_label }}</h5>
+            {% if field_settings.showLabel == true %}
+                <h3 class="pb-3 mb-0 border-bottom">{{ field_label }}</h3>
+            {% endif %}
             {% set commentType = field_config.settings.commentType.typeAlias %}
             {{ render(path('teebb_comment_index',{
                 'bundle': field_config.bundle,
@@ -111,7 +113,7 @@
 
             {#允许新建评论#}
             {% if data.value == true and is_granted('ROLE_USER') %}
-                <h5>{{ 'create'|trans }}{{ field_label }}</h5>
+                <h3>{{ 'create'|trans }}{{ field_label }}</h3>
                 {{ render(path('teebb_comment_create',{
                     'bundle': field_config.bundle,
                     'typeAlias':field_config.typeAlias,

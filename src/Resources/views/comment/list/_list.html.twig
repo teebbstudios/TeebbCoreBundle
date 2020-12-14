@@ -1,48 +1,65 @@
 {% import '@TeebbCore/macros.html.twig' as macro %}
 
-<div class="comments-wrapper my-3">
+<div class="comments-wrapper mt-3 mb-4">
     {% for comment in comments %}
         <div id="comment_{{ comment.id }}"
-             class="comment px-2 py-2 {% if loop.index0 == 0 %}border-top{% endif %} border-bottom">
-            <div class="author my-3">
+             class="comment px-3 py-2 border-bottom">
+            <div class="author py-2">
+                {% set avatar = get_content_field(comment.author, 'user', 'avatar') %}
+                {% if avatar is empty or avatar[0].value == null %}
+                    <img class="img-profile avatar avatar-sm rounded-circle"
+                         src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
+                {% else %}
+                    {% set avatarPath = avatar[0].value.filePath %}
+                    <img class="img-profile avatar avatar-sm rounded-circle"
+                         src="{{ asset(avatarPath|imagine_filter('squared_thumbnail_small')) }}">
+                {% endif %}
                 <span class="text-dark">{{ comment.author.username }}</span>
-                {{ 'submit_at'|trans }} {{ comment.createdAt|date('Y-m-d H:i:s') }}
+                {{ 'submit_at'|trans }} {{ comment.createdAt|ago }}
             </div>
-            <div class="body">
-                <h6>{{ comment.subject }}</h6>
+            <div class="body pl-4 py-2">
+                <h4>{{ comment.subject }}</h4>
                 {% set commentDatas = entity_type.allFieldsData(comment, comment.commentType) %}
                 {% for fieldAlias, fieldData in commentDatas %}
                     {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
                 {% endfor %}
-            </div>
-            <div class="footer">
-                {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with {'comment': comment, 'redirectBackURI': redirectBackURI} %}
+                <div class="py-2">
+                    {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with {'comment': comment, 'redirectBackURI': redirectBackURI} %}
+                </div>
             </div>
             {% for children in commentRepo.children(comment) %}
-                {# 子评论中只有已通过审核的评论会显示#}
+                {# 子评论中只有已通过审核的评论会显示 #}
                 {% if children.commentStatus == 2 %}
                     {% set marginLeft = 50 * children.lvl %}
                     <div id="comment_{{ children.id }}"
-                         class="comment px-2 py-2 border-top mt-3"
+                         class="comment px-3 py-2 border-top"
                          style="margin-left: {{ marginLeft ~ 'px' }}">
-                        <div class="author my-3">
-                            <span class="text-dark">{{ comment.author.username }}</span>
-                            {{ 'submit_at'|trans }} {{ children.createdAt|date('Y-m-d H:i:s') }}
+                        <div class="author py-2">
+                            {% set raply_avatar = get_content_field(children.author, 'user', 'avatar') %}
+                            {% if raply_avatar is empty or raply_avatar[0].value == null %}
+                                <img class="img-profile avatar avatar-sm rounded-circle"
+                                     src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
+                            {% else %}
+                                {% set replyAvatarPath = raply_avatar[0].value.filePath %}
+                                <img class="img-profile avatar avatar-sm rounded-circle"
+                                     src="{{ asset(replyAvatarPath|imagine_filter('squared_thumbnail_small')) }}">
+                            {% endif %}
+                            <span class="text-dark">{{ children.author.username }}</span>
+                            {{ 'submit_at'|trans }} {{ children.createdAt|ago }}
                         </div>
-                        <div class="body">
-                            <h6>{{ children.subject }}</h6>
+                        <div class="body pl-4 py-2">
+                            <h4>{{ children.subject }}</h4>
                             {% set commentDatas = entity_type.allFieldsData(children, children.commentType) %}
                             {% for fieldAlias, fieldData in commentDatas %}
                                 {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
                             {% endfor %}
-                        </div>
-                        <div class="footer">
-                            {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with {'comment': children, 'redirectBackURI': redirectBackURI} %}
+                            <div class="py-2">
+                                {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with {'comment': children, 'redirectBackURI': redirectBackURI} %}
+                            </div>
                         </div>
                     </div>
                 {% endif %}
             {% endfor %}
         </div>
-
     {% endfor %}
 </div>

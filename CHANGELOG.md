@@ -19,4 +19,9 @@
 1. Admin头像bug修改
 
 0.1.5
-1. teebb.core.block.content Block调整过滤条件，自由度更高
+1. teebb.core.block.contents Block调整过滤条件，自由度更高
+
+0.1.6
+1. 添加 teebb.core.block.contents_in_taxonomy 获取某分类下所有内容列表
+2. 评论列表及表单显示调整
+3. RouteParameterUnderLineFixSubscriber bug修复

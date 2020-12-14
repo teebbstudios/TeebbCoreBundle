@@ -54,7 +54,7 @@ class ContentController extends AbstractController
             'entity_type' => $entityTypeService,
             'subject' => $content,
             'type_alias' => $content->getTypeAlias(),
-            'fieldDatas' => $data,
+            'field_data' => $data,
         ]);
     }
 
@@ -83,7 +83,7 @@ class ContentController extends AbstractController
             $conditionTaxonomyIds[] = $childTaxonomy->getId();
         }
 
-        //查询所有使用当前taxonomy的content id数组做为$criteria
+        //所有使用当前taxonomy的id 数组做为$criteria
         //查询所有引用分类类型的字段
         $fieldsRepo = $this->entityManager->getRepository(FieldConfiguration::class);
         $fields = $fieldsRepo->findBy(['fieldType' => 'referenceTaxonomy', 'bundle' => 'content']);
