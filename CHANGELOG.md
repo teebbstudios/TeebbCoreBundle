@@ -17,3 +17,6 @@
 
 0.1.4
 1. Admin头像bug修改
+
+0.1.5
+1. teebb.core.block.content Block调整过滤条件，自由度更高
