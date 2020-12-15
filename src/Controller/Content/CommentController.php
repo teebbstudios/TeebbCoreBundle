@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Entity\Comment;
 use Symfony\Component\HttpFoundation\Response;
+use Teebb\CoreBundle\Exception\CantReplyCommentException;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\Content\CommentType;
 
@@ -32,6 +33,7 @@ class CommentController extends AbstractContentController
         $commentType = $request->get('commentType');
         $fieldAlias = $request->get('fieldAlias');
         $redirectBackURI = $request->get('redirectBackURI');
+        $allowReply = $request->get('allowReply');
 
         $commentRepo = $this->entityManager->getRepository(Comment::class);
 
@@ -51,7 +53,8 @@ class CommentController extends AbstractContentController
             'comments' => $comments,
             'commentRepo' => $commentRepo,
             'entity_type' => $commentTypeService,
-            'redirectBackURI' => $redirectBackURI
+            'redirectBackURI' => $redirectBackURI,
+            'allowReply' => $allowReply
         ]);
     }
 
@@ -98,7 +101,7 @@ class CommentController extends AbstractContentController
 
             try {
                 //持久化评论和字段
-                $comment = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
+                $comment = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,$this->eventDispatcher,
                     $commentForm, 'comment', $commentType, Comment::class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans('teebb.core.comment.create_success'));
@@ -124,7 +127,7 @@ class CommentController extends AbstractContentController
      * @param Comment $parentComment
      * @return Response
      */
-    public function replyComment(Request $request, Comment $parentComment)
+    public function replyComment(Request $request, Comment $parentComment): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -142,8 +145,7 @@ class CommentController extends AbstractContentController
 
         $commentForm->handleRequest($request);
 
-        if ($commentForm->isSubmitted() && $commentForm->isValid())
-        {
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             /**@var Comment $comment * */
             $comment = $commentForm->getData();
             $comment->setTypeAlias($parentComment->getTypeAlias());
@@ -155,7 +157,7 @@ class CommentController extends AbstractContentController
 
             try {
                 //持久化评论和字段
-                $comment = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
+                $comment = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,$this->eventDispatcher,
                     $commentForm, 'comment', $parentComment->getCommentType(), Comment::class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans('teebb.core.comment.create_success'));

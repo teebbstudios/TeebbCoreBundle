@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Teebb\CoreBundle\AbstractService\EntityTypeInterface;
 use Teebb\CoreBundle\Controller\SubstanceDBALOptionsTrait;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
@@ -56,8 +57,13 @@ abstract class AbstractContentController extends AbstractController
      * @var Security
      */
     protected $security;
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
     public function __construct(EntityManagerInterface $entityManager, TemplateRegistry $templateRegistry,
+                                EventDispatcherInterface $eventDispatcher,
                                 FormContractorInterface $formContractor, Security $security)
     {
         $this->entityManager = $entityManager;
@@ -66,6 +72,7 @@ abstract class AbstractContentController extends AbstractController
         $this->templateRegistry = $templateRegistry;
         $this->formContractor = $formContractor;
         $this->security = $security;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**

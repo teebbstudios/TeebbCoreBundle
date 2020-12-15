@@ -155,7 +155,9 @@ class RegisterServicesCompilePass implements CompilerPassInterface
             $definition->setPublic(true);
 
             $definition->setArguments([
-                new Reference('doctrine.orm.default_entity_manager')
+                new Reference('doctrine.orm.default_entity_manager'),
+                new Reference('event_dispatcher'),
+                new Reference('cache.app')
             ]);
 
             $metadataDefinition = $this->createFieldTypeMetadataDefinition($annotation);

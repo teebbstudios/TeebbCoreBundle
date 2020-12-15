@@ -72,9 +72,11 @@ interface FieldInterface
      * @param BaseContent $contentEntity 内容Entity
      * @param FieldConfiguration $fieldConfiguration 字段
      * @param string $targetEntityClassName 字段所属于的内容Entity类名
+     * @param bool $flushCache 是否刷新缓存，用于修改内容时更新
      * @return array
      */
-    public function getFieldEntityData(BaseContent $contentEntity, FieldConfiguration $fieldConfiguration, string $targetEntityClassName): array;
+    public function getFieldEntityData(BaseContent $contentEntity, FieldConfiguration $fieldConfiguration,
+                                       string $targetEntityClassName, bool $flushCache = false): array;
 
     /**
      * 把从数据库中读取到的表数据转为字段Entity对象

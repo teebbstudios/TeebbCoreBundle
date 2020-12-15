@@ -149,7 +149,7 @@ class ContentController extends AbstractContentController
             try {
                 //持久化内容和字段
                 /**@var Content $content * */
-                $content = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
+                $content = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository, $this->eventDispatcher,
                     $form, $types->getBundle(), $types->getTypeAlias(), $data_class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
@@ -208,7 +208,7 @@ class ContentController extends AbstractContentController
 
             try {
                 //持久化内容和字段
-                $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
+                $this->persistSubstance($this->entityManager, $this->fieldConfigRepository, $this->eventDispatcher,
                     $form, $entityTypeService->getBundle(), $content->getTypeAlias(), $data_class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(

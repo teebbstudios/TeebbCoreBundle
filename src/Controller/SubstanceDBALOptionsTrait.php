@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Teebb\CoreBundle\AbstractService\FieldInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
@@ -16,8 +17,10 @@ use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Taxonomy;
+use Teebb\CoreBundle\Event\DataCacheEvent;
 use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
+use Teebb\CoreBundle\Traits\GenerateNameTrait;
 
 /**
  * 内容及字段数据DBAL存储与删除Trait
@@ -26,19 +29,24 @@ use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
  */
 trait SubstanceDBALOptionsTrait
 {
+    use GenerateNameTrait;
+
     /**
      * 持久化内容及所有字段数据
      * @param EntityManagerInterface $entityManager
      * @param FieldConfigurationRepository $fieldConfigRepository
+     * @param EventDispatcherInterface $eventDispatcher 保存内容时发送消息清理字段缓存
      * @param FormInterface $form
      * @param string $bundle 用于排序显示所有字段
      * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
      * @param string $contentClassName 内容Entity全类名，用于动态修改字段映射
      * @return mixed
      * @throws ConnectionException
-     * @throws \Exception
+     * @throws \Doctrine\ORM\Mapping\MappingException
      */
-    protected function persistSubstance(EntityManagerInterface $entityManager, FieldConfigurationRepository $fieldConfigRepository,
+    protected function persistSubstance(EntityManagerInterface $entityManager,
+                                        FieldConfigurationRepository $fieldConfigRepository,
+                                        EventDispatcherInterface $eventDispatcher,
                                         FormInterface $form, string $bundle, string $typeAlias,
                                         string $contentClassName)
     {
@@ -48,6 +56,8 @@ trait SubstanceDBALOptionsTrait
         //获取当前内容类型所有字段
         $fields = $fieldConfigRepository
             ->getBySortableGroupsQueryDesc(['bundle' => $bundle, 'typeAlias' => $typeAlias])->getResult();
+
+        $cacheKeyArray = [];
 
         //doctrine Event manager
         $evm = $entityManager->getEventManager();
@@ -60,6 +70,8 @@ trait SubstanceDBALOptionsTrait
 
             /**@var FieldConfiguration $field * */
             foreach ($fields as $field) {
+                $fieldCacheKey = $this->generateCacheKey($substance, $field);
+                array_push($cacheKeyArray, $fieldCacheKey);
                 //获取当前字段的所有表单数据
                 $fieldDataArray = $form->get($field->getFieldAlias())->getData();
 
@@ -87,6 +99,11 @@ trait SubstanceDBALOptionsTrait
             $conn->rollBack();
             throw $exception;
         }
+
+        //将要删除缓存Key的数组，发送给delete.field.cache消息
+        $dataCacheEvent = new DataCacheEvent();
+        $dataCacheEvent->setNeedDeleteCacheKeyArray($cacheKeyArray);
+        $eventDispatcher->dispatch($dataCacheEvent, DataCacheEvent::DELETE_FIELD_CACHE);
 
         return $substance;
     }

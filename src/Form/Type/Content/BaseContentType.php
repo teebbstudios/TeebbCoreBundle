@@ -109,7 +109,7 @@ class BaseContentType extends AbstractType
             if (null == $data) {
                 $baseFieldOptions = $this->addNewEntityDataForShowBlankFormRow($limit, $fieldType, $fieldEntityClassName, $baseFieldOptions);
             } else {
-                $fieldData = $fieldService->getFieldEntityData($data, $fieldConfiguration, $options['data_class']);
+                $fieldData = $fieldService->getFieldEntityData($data, $fieldConfiguration, $options['data_class'], true);
 
                 $baseFieldOptions['data'] = $fieldData;
                 //如果当前行字段没有数据则生成空表单行

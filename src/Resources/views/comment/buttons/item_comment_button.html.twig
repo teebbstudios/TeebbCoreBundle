@@ -1,3 +1,6 @@
 {% if is_granted('ROLE_USER') %}
-    <a href="{{ path('teebb_comment_reply_comment', {'id': comment.id, 'redirectBackURI': redirectBackURI }) }}">{{ 'reply'|trans }}</a>
+    <a href="{{ path('teebb_comment_reply_comment', {
+        'id': comment.id,
+        'redirectBackURI': redirectBackURI
+    }) }}">{{ 'reply'|trans }}</a>
 {% endif %}

@@ -54,18 +54,6 @@
             <argument/>
         </service>
 
-        <service id="teebb.core.event.route_parameter_underline_fix_subscriber"
-                 class="Teebb\CoreBundle\Subscriber\RouteParameterUnderlineFixSubscriber">
-            <argument type="service" id="router.default"/>
-            <tag name="kernel.event_subscriber" event="kernel.request"/>
-        </service>
-
-        <service id="teebb.core.event.schema_subscriber" class="Teebb\CoreBundle\Subscriber\SchemaSubscriber">
-            <argument type="service" id="service_container"/>
-            <argument type="service" id="teebb.core.orm.doctrine_utils"/>
-            <tag name="kernel.event_subscriber"/>
-        </service>
-
         <service id="Teebb\CoreBundle\Security\LoginFormAuthenticator"
                  class="Teebb\CoreBundle\Security\LoginFormAuthenticator">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>

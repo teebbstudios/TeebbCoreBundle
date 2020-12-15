@@ -184,6 +184,7 @@ comment_submited_by: 由 %author% 提交于 %ago%
 comment_published_at: 发表在《%title%》
 Last comments: 最近评论
 Login for submit comment: 您需要<a href="%login%?redirect_url=%redirect_url%" target="_blank">登录</a>后才能发表评论。
+Comment is closed: 当前内容评论功能已关闭。
 
 teebb:
     core:
@@ -533,7 +534,8 @@ teebb:
             formatter_delete: 删除文本格式化器
 
             file_upload: 文件上传
-            file_delete: 文件删除
+            file_delete: 文件删除，可删除"他人"上传的文件（慎选）
+            file_owner_delete: 仅允许删除"自己"上传的文件
 
             menu_index: 管理菜单
             menu_create: 创建菜单

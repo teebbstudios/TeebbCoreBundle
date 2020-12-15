@@ -4,9 +4,29 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <service id="teebb.core.event.route_parameter_underline_fix_subscriber"
+                 class="Teebb\CoreBundle\Subscriber\RouteParameterUnderlineFixSubscriber">
+            <argument type="service" id="router.default"/>
+            <tag name="kernel.event_subscriber" event="kernel.request"/>
+        </service>
+
+        <service id="teebb.core.event.schema_subscriber" class="Teebb\CoreBundle\Subscriber\SchemaSubscriber">
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="teebb.core.orm.doctrine_utils"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
         <service id="Teebb\CoreBundle\Subscriber\SecuritySubscriber" public="true">
             <argument type="service" id="teebb.core.util.mailer"/>
             <tag name="kernel.event_subscriber"/>
         </service>
+
+        <service id="teebb.core.event.field_data_cache_subscriber"
+                 class="Teebb\CoreBundle\Subscriber\FieldDataCacheSubscriber" public="true">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="cache.app"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
     </services>
 </container>

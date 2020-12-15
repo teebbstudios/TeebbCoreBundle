@@ -6,6 +6,7 @@ namespace Teebb\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * 文件entity
@@ -56,6 +57,12 @@ class FileManaged
      * @ORM\Column(type="string")
      */
     private $filePath;
+
+    /**
+     * @var UserInterface
+     * @ORM\ManyToOne (targetEntity="Teebb\CoreBundle\Entity\User")
+     */
+    private $author;
 
     /**
      * @return int
@@ -151,6 +158,22 @@ class FileManaged
     public function setFilePath(string $filePath): void
     {
         $this->filePath = $filePath;
+    }
+
+    /**
+     * @return UserInterface
+     */
+    public function getAuthor(): UserInterface
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param UserInterface $author
+     */
+    public function setAuthor(UserInterface $author): void
+    {
+        $this->author = $author;
     }
 
     public function __toString(): string

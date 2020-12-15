@@ -80,6 +80,14 @@ class GlobalVariables
     }
 
     /**
+     * @return EntityManagerInterface
+     */
+    public function getEntityManager(): EntityManagerInterface
+    {
+        return $this->entityManager;
+    }
+
+    /**
      * 使用此方法获取TEEBB的设置值
      * @param string $optionName
      * @return mixed

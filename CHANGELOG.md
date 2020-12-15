@@ -25,3 +25,8 @@
 1. 添加 teebb.core.block.contents_in_taxonomy 获取某分类下所有内容列表
 2. 评论列表及表单显示调整
 3. RouteParameterUnderLineFixSubscriber bug修复
+
+0.1.7
+1. 文件管理添加 用户仅允许删除自己上传的文件 权限
+2. 内容评论列表代码优化
+3. 字段数据添加缓存

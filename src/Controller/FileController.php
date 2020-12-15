@@ -27,6 +27,7 @@ use Teebb\CoreBundle\Repository\FileManagedRepository;
 use Teebb\CoreBundle\Utils\FileHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+
 class FileController extends AbstractController
 {
     /**
@@ -172,6 +173,7 @@ class FileController extends AbstractController
         $fileManaged->setFilePath($distDirectory . '/' . $newFileName);
         $fileManaged->setFileSize($file->getSize());
         $fileManaged->setOriginFileName($file->getClientOriginalName());
+        $fileManaged->setAuthor($this->getUser());
 
         $this->entityManager->persist($fileManaged);
         $this->entityManager->flush();
@@ -191,16 +193,12 @@ class FileController extends AbstractController
 
     /**
      * 文件删除action
-     *
      * @param Request $request
      * @return JsonResponse
      * @throws \League\Flysystem\FileNotFoundException
-     *
      */
-    public function fileDeleteAction(Request $request)
+    public function fileDeleteAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('file_delete');
-
         $id = $request->get('id');
         if (null == $id) {
             throw new \InvalidArgumentException('The "id" parameter must post.');
@@ -209,6 +207,16 @@ class FileController extends AbstractController
         $fileManaged = $this->fileManagedRepository->findOneBy(['id' => $id]);
         if (null == $fileManaged) {
             throw new \InvalidArgumentException('The "id" parameter wrong. Don\'t hack the html code!!!');
+        }
+
+        //文件删除权限控制
+        if (!($this->isGranted('file_delete') ||
+            $this->isGranted('file_owner_delete', $fileManaged))) {
+
+            $exception = $this->createAccessDeniedException();
+            $exception->setSubject($fileManaged);
+
+            throw $exception;
         }
 
         //删除fileManaged Entity
@@ -226,7 +234,7 @@ class FileController extends AbstractController
     }
 
     /**
-     * 读取文件内容，用于生成文件链接
+     * Todo: 读取文件内容，用于生成文件链接 可作权限控制
      * @param Request $request
      */
     public function readFileAction(Request $request)

@@ -8,8 +8,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Teebb\CoreBundle\Entity\Menu;
 use Teebb\CoreBundle\Entity\MenuItem;
+use Teebb\CoreBundle\Event\MenuCacheEvent;
 use Teebb\CoreBundle\Exception\InvalidMenuAliasException;
 
 class CustomMenuProvider implements MenuProviderInterface
@@ -40,15 +43,17 @@ class CustomMenuProvider implements MenuProviderInterface
      * @param array $options
      * @return ItemInterface
      * @throws InvalidMenuAliasException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function get(string $name, array $options = []): ItemInterface
     {
         $menuObject = $this->findMenuObject($name);
+
         if ($menuObject == null) {
             throw new InvalidMenuAliasException(sprintf('The menu "%s" is not defined.', $name));
         }
 
-        $menu = $this->factory->createItem('$name');
+        $menu = $this->factory->createItem($name);
 
         $rootMenuItem = $this->menuItemRepository->findOneBy(['menu' => $menuObject]);
 
@@ -67,7 +72,7 @@ class CustomMenuProvider implements MenuProviderInterface
      * @param string $menuAlias
      * @return Menu|null
      */
-    private function findMenuObject(string $menuAlias)
+    public function findMenuObject(string $menuAlias)
     {
         return $this->menuRepository->findOneBy(['menuAlias' => $menuAlias]);
     }
@@ -78,7 +83,7 @@ class CustomMenuProvider implements MenuProviderInterface
      * @param ItemInterface $menu
      * @return ItemInterface
      */
-    private function addMenuItems(MenuItem $menuItem, ItemInterface $menu): ItemInterface
+    public function addMenuItems(MenuItem $menuItem, ItemInterface $menu): ItemInterface
     {
         $childMenuItems = $menuItem->getChildren();
 
@@ -94,7 +99,7 @@ class CustomMenuProvider implements MenuProviderInterface
      * @param MenuItem $menuItem
      * @return ItemInterface
      */
-    private function generateMenuItem(MenuItem $menuItem)
+    public function generateMenuItem(MenuItem $menuItem)
     {
         return $this->factory->createItem($menuItem->getMenuTitle(), [
             'uri' => $menuItem->getMenuLink(),

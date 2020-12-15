@@ -297,7 +297,7 @@ class SecurityController extends AbstractController
                 $fieldConfigurationRepository = $this->entityManager->getRepository(FieldConfiguration::class);
                 //持久化用户和字段
                 /**@var User $user * */
-                $user = $this->persistSubstance($this->entityManager, $fieldConfigurationRepository,
+                $user = $this->persistSubstance($this->entityManager, $fieldConfigurationRepository,$this->eventDispatcher,
                     $userForm, 'user', 'people', User::class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(

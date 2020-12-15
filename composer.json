@@ -34,7 +34,8 @@
     "symfony/mailer": "^5.1",
     "knplabs/knp-time-bundle": "^1.13",
     "knplabs/knp-menu-bundle": "^3.0",
-    "sonata-project/block-bundle": "^4.4"
+    "sonata-project/block-bundle": "^4.4",
+    "symfony/cache": "^5.2"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "^5.0",

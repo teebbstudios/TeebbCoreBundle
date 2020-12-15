@@ -5,35 +5,14 @@
 {% endblock %}
 
 {% block content %}
+
     <section id="replayComment" class="container py-4">
         <div class="row">
-            <div class="card shadow p-4">
+            <div class="card p-4">
                 <div class="comment mb-4">
                     <h3 class="pb-3 mb-0 border-bottom">{{ 'comment'|trans }}</h3>
                     <div id="comment_{{ comment.id }}" class="comment px-3 py-2 border-bottom">
-                        <div class="author py-2">
-                            {% set avatar = get_content_field(comment.author, 'user', 'avatar') %}
-                            {% if avatar is empty or avatar[0].value == null %}
-                                <img class="img-profile avatar avatar-sm rounded-circle"
-                                     src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
-                            {% else %}
-                                {% set avatarPath = avatar[0].value.filePath %}
-                                <img class="img-profile avatar avatar-sm rounded-circle"
-                                     src="{{ asset(avatarPath|imagine_filter('squared_thumbnail_small')) }}">
-                            {% endif %}
-                            <span class="text-dark">{{ comment.author.username }}</span>
-                            {{ 'submit_at'|trans }} {{ comment.createdAt|ago }}
-                        </div>
-                        <div class="body pl-4 py-2">
-                            <h4>{{ comment.subject }}</h4>
-                            {% set commentDatas = entity_type.allFieldsData(comment, comment.commentType) %}
-                            {% for fieldAlias, fieldData in commentDatas %}
-                                {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
-                            {% endfor %}
-                            <div class="pt-2">
-                                {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with _context %}
-                            </div>
-                        </div>
+                        {{ macro.commentItemShow(entity_type, comment) }}
                     </div>
                 </div>
                 <div class="reply-comment my-3">

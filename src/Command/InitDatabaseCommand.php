@@ -394,7 +394,8 @@ class InitDatabaseCommand extends Command
         $registerUserGroup->setCkeditorConfig('standard');
         $registerUserGroup->setPermissions([
             'permission' => [
-                'file_upload'
+                'file_upload',
+                'file_owner_delete'
             ]
         ]);
 

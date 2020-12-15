@@ -15,12 +15,16 @@ namespace Teebb\CoreBundle\AbstractService;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
+use Teebb\CoreBundle\Event\DataCacheEvent;
 use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Metadata\FieldMetadataInterface;
 use Doctrine\ORM\Mapping\MappingException;
+use Teebb\CoreBundle\Traits\GenerateNameTrait;
 
 /**
  * Class AbstractField
@@ -29,6 +33,8 @@ use Doctrine\ORM\Mapping\MappingException;
  */
 abstract class AbstractField implements FieldInterface
 {
+    use GenerateNameTrait;
+
     /**
      * @var FieldMetadataInterface
      */
@@ -39,9 +45,23 @@ abstract class AbstractField implements FieldInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    /**
+     * @var AdapterInterface
+     */
+    private $cacheAdapter;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    public function __construct(EntityManagerInterface $entityManager,
+                                EventDispatcherInterface $eventDispatcher,
+                                AdapterInterface $cacheAdapter)
     {
         $this->entityManager = $entityManager;
+        $this->cacheAdapter = $cacheAdapter;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -109,32 +129,57 @@ abstract class AbstractField implements FieldInterface
     /**
      * @inheritDoc
      * @throws MappingException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function getFieldEntityData(BaseContent $contentEntity, FieldConfiguration $fieldConfiguration, string $targetEntityClassName): array
+    public function getFieldEntityData(BaseContent $contentEntity, FieldConfiguration $fieldConfiguration,
+                                       string $targetEntityClassName, bool $flushCache = false): array
     {
-        $evm = $this->entityManager->getEventManager();
-        $dynamicChangeMetadataListener = new DynamicChangeFieldMetadataListener($fieldConfiguration, $targetEntityClassName);
-        $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
+        //添加缓存,每个字段一个缓存项,缓存KEY规则： bundle_contentId_fieldAlias_fieldType
+        $cacheKey = $this->generateCacheKey($contentEntity, $fieldConfiguration);
 
-        $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $fieldConfiguration);
-
-        $qb = $this->entityManager->getConnection()->createQueryBuilder();
-
-        $conditions = [$qb->expr()->eq('entity_id', '?'), $qb->expr()->eq('types', '?')];
-        $parameters = [$contentEntity->getId(), $fieldConfiguration->getTypeAlias()];
-        $orderBy = ['delta' => 'ASC'];
-
-        $fieldRows = $fieldDBALUtils->fetchFieldItem($qb, $conditions, $parameters, $orderBy);
-
-        $fieldData = [];
-        foreach ($fieldRows as $fieldRow) {
-            $fieldEntity = $this->transformFieldRowToFieldEntity($fieldRow, $contentEntity);
-            array_push($fieldData, $fieldEntity);
+        //刷新缓存，用于编辑内容时显示真实数据
+        if ($flushCache) {
+            $deleteCacheEvent = new DataCacheEvent();
+            $deleteCacheEvent->setNeedDeleteCacheKeyArray([$cacheKey]);
+            $this->eventDispatcher->dispatch($deleteCacheEvent, $deleteCacheEvent::DELETE_FIELD_CACHE);
         }
 
-        $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
+        //如果没有此缓存则发送消息生成此缓存
+        if (!$this->cacheAdapter->hasItem($cacheKey)) {
+            $cacheEvent = new DataCacheEvent();
+            $cacheEvent->setBaseContent($contentEntity);
+            $cacheEvent->setFieldService($this);
+            $cacheEvent->setFieldConfiguration($fieldConfiguration);
+            $cacheEvent->setTargetEntityClassName($targetEntityClassName);
 
-        return $fieldData;
+            $this->eventDispatcher->dispatch($cacheEvent, $cacheEvent::GET_FIELD_CACHE);
+        }
+
+        return $this->cacheAdapter->getItem($cacheKey)->get();
+
+//        $evm = $this->entityManager->getEventManager();
+//        $dynamicChangeMetadataListener = new DynamicChangeFieldMetadataListener($fieldConfiguration, $targetEntityClassName);
+//        $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
+//
+//        $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $fieldConfiguration);
+//
+//        $qb = $this->entityManager->getConnection()->createQueryBuilder();
+//
+//        $conditions = [$qb->expr()->eq('entity_id', '?'), $qb->expr()->eq('types', '?')];
+//        $parameters = [$contentEntity->getId(), $fieldConfiguration->getTypeAlias()];
+//        $orderBy = ['delta' => 'ASC'];
+//
+//        $fieldRows = $fieldDBALUtils->fetchFieldItem($qb, $conditions, $parameters, $orderBy);
+//
+//        $fieldData = [];
+//        foreach ($fieldRows as $fieldRow) {
+//            $fieldEntity = $this->transformFieldRowToFieldEntity($fieldRow, $contentEntity);
+//            array_push($fieldData, $fieldEntity);
+//        }
+//
+//        $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
+//
+//        return $fieldData;
     }
 
     /**

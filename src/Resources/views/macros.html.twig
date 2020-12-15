@@ -1,10 +1,8 @@
-{#菜单项显示层级关系#}
+{# 菜单项管理显示层级关系 #}
 {%- macro menu_item_body(menu_item) %}
     {% import _self as self %}
     <ol class="dd-list">
-
         {% for children_menu_item in menu_item.children %}
-
             <li class="dd-item mb-2" data-id="{{ children_menu_item.id }}">
                 <a href="#menu_item_{{ children_menu_item.id }}" id="headingMenuItem-{{ children_menu_item.id }}"
                    class="bg-gray-100 d-block card-header py-3 collapsed border rounded-0"
@@ -60,11 +58,41 @@
                 {% endif %}
             </li>
         {% endfor %}
-
     </ol>
 {% endmacro -%}
 
-{#获取并显示当前内容所有字段数据#}
+{# 评论列表项的显示样式 #}
+{% macro commentItemShow(entity_type, comment, redirectBackURI, allowReply ) %}
+    {% import _self as self %}
+    <div class="author py-2">
+        {% set avatar = get_content_field(comment.author, 'user', 'avatar') %}
+        {% if avatar is empty or avatar[0].value == null %}
+            <img class="img-profile avatar avatar-sm rounded-circle"
+                 src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
+        {% else %}
+            {% set avatarPath = avatar[0].value.filePath %}
+            <img class="img-profile avatar avatar-sm rounded-circle"
+                 src="{{ asset(avatarPath|imagine_filter('squared_thumbnail_small')) }}">
+        {% endif %}
+        <span class="text-dark">{{ comment.author.username }}</span>
+        {{ 'submit_at'|trans }} {{ comment.createdAt|ago }}
+    </div>
+    <div class="body pl-4 py-2">
+        <h4>{{ comment.subject }}</h4>
+        {% set commentDatas = entity_type.allFieldsData(comment, comment.commentType) %}
+        {% for fieldAlias, fieldData in commentDatas %}
+            {{ self.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
+        {% endfor %}
+        {% if allowReply is defined and allowReply %}
+            <div class="py-2">
+                {% include '@TeebbCore/comment/buttons/item_comment_button.html.twig' with
+                    {'comment': comment, 'redirectBackURI': redirectBackURI} %}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{# 获取并显示当前内容所有字段数据 #}
 {% macro showContentAllFieldsData(base_content, bundle, content_type_alias ) %}
     {% import _self as self %}
     {# 获取当前内容所有字段数据 #}
@@ -75,7 +103,7 @@
     {% endfor %}
 {% endmacro %}
 
-{#显示内容字段的值和配置，如果是评论字段则获取所有评论内容和设置评论表单#}
+{# 显示内容字段的值和配置，如果是评论字段则获取所有评论内容和设置评论表单 #}
 {% macro showFieldData(field_alias, field_type, field_label, field_config, field_data) %}
     {% set field_settings = field_config.settings %}
     {% if field_type == 'boolean' %}
@@ -97,7 +125,7 @@
         </div>
     {% elseif field_type == 'comment' %}
         {% for data in field_data %}
-            {#显示所有评论#}
+            {# 显示所有评论 #}
             {% if field_settings.showLabel == true %}
                 <h3 class="pb-3 mb-0 border-bottom">{{ field_label }}</h3>
             {% endif %}
@@ -108,10 +136,11 @@
                 'slug': app.request.attributes.get('slug'),
                 'commentType' : commentType,
                 'fieldAlias': field_alias,
-                'redirectBackURI': app.request.pathInfo
+                'redirectBackURI': app.request.pathInfo,
+                'allowReply': data.value
             })) }}
 
-            {#允许新建评论#}
+            {# 允许新建评论 #}
             {% if data.value == true and is_granted('ROLE_USER') %}
                 <h3>{{ 'create'|trans }}{{ field_label }}</h3>
                 {{ render(path('teebb_comment_create',{
@@ -123,7 +152,11 @@
                     'redirectBackURI': app.request.pathInfo
                 })) }}
             {% else %}
-                {{ 'Login for submit comment'|trans({'%login%': path('teebb_user_login'), '%redirect_url%': app.request.pathInfo})|raw }}
+                {% if data.value == false %}
+                    {{ 'Comment is closed'|trans }}
+                {% elseif is_granted('ROLE_USER') ==false %}
+                    {{ 'Login for submit comment'|trans({'%login%': path('teebb_user_login'), '%redirect_url%': app.request.pathInfo})|raw }}
+                {% endif %}
             {% endif %}
         {% endfor %}
     {% elseif field_type == 'datetime' %}
@@ -292,3 +325,4 @@
         {% endif %}
     {% endif %}
 {% endmacro %}
+
