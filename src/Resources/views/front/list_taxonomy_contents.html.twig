@@ -1,11 +1,10 @@
 {% set bundle = entity_type.bundle %}
 {% import '@TeebbCore/macros.html.twig' as macro %}
 
+{{ taxonomy.term }}
+
 <ul>
 
-    {#    {% for fieldAlias, fieldData in fieldDatas %}#}
-    {#        {{ macro.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}#}
-    {#    {% endfor %}#}
     {% for content in paginator %}
         <li>
             <h1>{{ content.title }}</h1>
@@ -15,7 +14,7 @@
     {% endfor %}
 </ul>
 
-{#  页码  #}
+{# 页码 #}
     {% if paginator.haveToPaginate %}
         <div class="my-3">
             {{ pagerfanta(paginator, 'twitter_bootstrap4_translated') }}

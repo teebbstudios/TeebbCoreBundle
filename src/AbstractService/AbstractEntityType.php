@@ -263,11 +263,35 @@ abstract class AbstractEntityType implements EntityTypeInterface
     public function getSingleFieldData(BaseContent $contentEntity, string $filedAlias): array
     {
         $fieldConfigRepository = $this->entityManager->getRepository(FieldConfiguration::class);
-        /**@var FieldConfiguration $field **/
+        /**@var FieldConfiguration $field * */
         $field = $fieldConfigRepository->findOneBy(['fieldAlias' => $filedAlias]);
 
         $fieldService = $this->getFieldService($field->getFieldType());
 
         return $fieldService->getFieldEntityData($contentEntity, $field, $this->getEntityClassName());
+    }
+
+    /**
+     * 获取内容指定 字段类型 的字段数据
+     * @param BaseContent $baseContent
+     * @param string $typeAlias 内容类型别名
+     * @param string $fieldType 字段类型
+     * @return array
+     */
+    public function getSpecifyTypeFieldData(BaseContent $baseContent, string $typeAlias, string $fieldType): array
+    {
+        $fieldConfigRepository = $this->entityManager->getRepository(FieldConfiguration::class);
+        /**@var FieldConfiguration[] $fields * */
+        $fields = $fieldConfigRepository->findBy(['bundle' => $this->getBundle(), 'typeAlias' => $typeAlias, 'fieldType' => $fieldType],
+            ['delta' => 'ASC', 'id' => 'ASC']);
+
+        $fieldService = $this->getFieldService($fieldType);
+
+        $field_data = [];
+        foreach ($fields as $field) {
+            $field_data[$field->getFieldAlias()] = $fieldService->getFieldEntityData($baseContent, $field, $this->getEntityClassName());
+        }
+
+        return $field_data;
     }
 }

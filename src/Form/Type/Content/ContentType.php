@@ -6,6 +6,7 @@ namespace Teebb\CoreBundle\Form\Type\Content;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -90,6 +91,15 @@ class ContentType extends BaseContentType
                     'class' => 'form-control-sm'
                 ],
                 'data' => $data ? $data->getStatus() : 'publish'
-            ]);
+            ])
+            ->add('boolTop', CheckboxType::class, [
+                'label' => 'teebb.core.form.bool_top',
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'attr' => [
+                    'class' => 'pl-0'
+                ],
+                'required' => false
+            ])
+        ;
     }
 }

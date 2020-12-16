@@ -61,19 +61,23 @@
     </ol>
 {% endmacro -%}
 
+{% macro getAvatar(user, class) %}
+    {% set avatar = get_content_field(user, 'user', 'avatar') %}
+    {% if avatar is empty or avatar[0].value == null %}
+        <img class="img-profile avatar {{ class }}"
+             src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
+    {% else %}
+        {% set avatarPath = avatar[0].value.filePath %}
+        <img class="img-profile avatar {{ class }}"
+             src="{{ asset(avatarPath|imagine_filter('squared_thumbnail_small')) }}">
+    {% endif %}
+{% endmacro %}
+
 {# 评论列表项的显示样式 #}
 {% macro commentItemShow(entity_type, comment, redirectBackURI, allowReply ) %}
     {% import _self as self %}
     <div class="author py-2">
-        {% set avatar = get_content_field(comment.author, 'user', 'avatar') %}
-        {% if avatar is empty or avatar[0].value == null %}
-            <img class="img-profile avatar avatar-sm rounded-circle"
-                 src="{{ asset('bundles/teebbcore/img/avatar/avatar.png') }}">
-        {% else %}
-            {% set avatarPath = avatar[0].value.filePath %}
-            <img class="img-profile avatar avatar-sm rounded-circle"
-                 src="{{ asset(avatarPath|imagine_filter('squared_thumbnail_small')) }}">
-        {% endif %}
+        {{ self.getAvatar(comment.author, 'avatar-sm shadow-sm rounded-circle') }}
         <span class="text-dark">{{ comment.author.username }}</span>
         {{ 'submit_at'|trans }} {{ comment.createdAt|ago }}
     </div>
@@ -114,7 +118,7 @@
         {% endif %}
         <div class="field_items">
             {% for data in field_data %}
-                <div class="field_item">
+                <div class="field_item p-2 pl-0">
                     {% if data.value == true %}
                         {{ on_label }}
                     {% else %}
@@ -166,7 +170,7 @@
             {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
-                    <div class="field_item">
+                    <div class="field_item p-2 pl-0">
                         {{ data.value|date('Y-m-d H:i:s') }}
                     </div>
                 {% endfor %}
@@ -181,7 +185,7 @@
             {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
-                    <div class="field_item">
+                    <div class="field_item p-2 pl-0">
                         {{ prefix }}{{ data.value }}{{ suffix }}
                     </div>
                 {% endfor %}
@@ -195,7 +199,7 @@
             <div class="field_items">
                 {% for data in field_data %}
                     {% for item in data.value %}
-                        <div class="field_item">
+                        <div class="field_item p-2 pl-0">
                             {{ item }}
                         </div>
                     {% endfor %}
@@ -209,7 +213,7 @@
             {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
-                    <div class="field_item">
+                    <div class="field_item p-2 pl-0">
                         <a href="mailto:{{ data.value }}">{{ data.value }}</a>
                     </div>
                 {% endfor %}
@@ -222,7 +226,7 @@
             {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
-                    <div class="field_item">
+                    <div class="field_item p-2 pl-0">
                         <a target="_blank" href="{{ data.value }}">{{ data.title }}</a>
                     </div>
                 {% endfor %}
@@ -235,9 +239,9 @@
             {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
-                    <div class="field_item">
+                    <div class="field_item p-2 pl-0">
                         {% if data.value != null %}
-                            <img src="{{ teebb_core.rootHostUrl ~'/'~data.value.filePath }}" alt="{{ data.alt }}"
+                            <img src="{{ teebb_core.uploadRootUrl ~'/'~data.value.filePath }}" alt="{{ data.alt }}"
                                  title="{{ data.title }}"/>
                         {% endif %}
                     </div>
@@ -253,8 +257,8 @@
                 {% for data in field_data %}
                     {% if data.showFile == true %}
                         {% if data.value != null %}
-                            <div class="field_item">
-                                <a target="_blank" href="{{ teebb_core.rootHostUrl ~'/'~data.value.filePath }}">
+                            <div class="field_item p-2 pl-0">
+                                <a target="_blank" href="{{ teebb_core.uploadRootUrl ~'/'~data.value.filePath }}">
                                     <i class="fas fa-file"></i>
                                     {% if data.description is not empty %}
                                         {{ data.description }}
@@ -275,7 +279,7 @@
             {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
-                    <div class="field_item">
+                    <div class="field_item p-2 pl-0">
                         {{ data.value|raw }}
                     </div>
                 {% endfor %}
@@ -288,7 +292,7 @@
             {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
-                    <div class="field_item">
+                    <div class="field_item p-2 pl-0">
                         <p class="small">
                             {{ 'summary'|trans }}{{ data.summary }}
                         </p>
@@ -302,11 +306,14 @@
             {% if field_settings.showLabel == true %}
                 <div class="field_label">{{ field_label }}</div>
             {% endif %}
-            <div class="field_items">
+            <div class="field_items d-flex">
                 {% for data in field_data %}
-                    <div class="field_item">
-                        {{ dump(data) }}
-                    </div>
+                    {% if data.value %}
+                        <div class="field_item p-2 pl-0">
+                            <a href="{{ path('teebb_taxonomy_contents',{slug:data.value.slug }) }}"
+                               class="teebb-bg text-secondary badge bg-light small">{{ data.value.term }}</a>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endif %}
@@ -317,12 +324,14 @@
             {% endif %}
             <div class="field_items">
                 {% for data in field_data %}
-                    <div class="field_item">
-                        {{ dump(data) }}
-                    </div>
+                    {% if data.value != null %}
+                        <div class="field_item p-2 pl-0">
+                            <a href="{{ path('teebb_content_show',{slug:data.value.slug }) }}"
+                               class="teebb-bg text-secondary badge bg-light small">{{ data.value.title }}</a>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endif %}
     {% endif %}
 {% endmacro %}
-

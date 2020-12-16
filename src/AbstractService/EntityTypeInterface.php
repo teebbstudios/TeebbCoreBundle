@@ -162,4 +162,13 @@ interface EntityTypeInterface
      * @return array
      */
     public function getSingleFieldData(BaseContent $contentEntity, string $filedAlias): array;
+
+    /**
+     * 获取内容指定 字段类型 的字段数据
+     * @param BaseContent $baseContent
+     * @param string $typeAlias
+     * @param string $fieldType
+     * @return array
+     */
+    public function getSpecifyTypeFieldData(BaseContent $baseContent, string $typeAlias, string $fieldType): array;
 }

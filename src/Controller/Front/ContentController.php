@@ -64,7 +64,7 @@ class ContentController extends AbstractController
      * @param Taxonomy $taxonomy
      * @return Response
      */
-    public function listTaxonomyContents(Request $request, Taxonomy $taxonomy)
+    public function listTaxonomyContents(Request $request, Taxonomy $taxonomy): Response
     {
         $entityTypeService = $this->container->get('teebb.core.entity_type.content');
 
@@ -77,9 +77,8 @@ class ContentController extends AbstractController
         $conditionTaxonomyIds[] = $taxonomy->getId();
         //如果taxonomy有子taxonomy则把子taxonomy id也并入计算条件
         $childTaxonomies = $taxonomyRepo->children($taxonomy);
-        /**@var Taxonomy $childTaxonomy **/
-        foreach ($childTaxonomies as $childTaxonomy)
-        {
+        /**@var Taxonomy $childTaxonomy * */
+        foreach ($childTaxonomies as $childTaxonomy) {
             $conditionTaxonomyIds[] = $childTaxonomy->getId();
         }
 
@@ -134,12 +133,13 @@ class ContentController extends AbstractController
         /**
          * @var Pagerfanta $paginator
          */
-        $paginator = $baseContentRepository->createPaginator($criteria, ['id' => 'DESC']);
+        $paginator = $baseContentRepository->createPaginator($criteria, ['boolTop' => 'DESC', 'id' => 'DESC']);
         $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);
 
-        return $this->render($this->templateRegistry->getTemplate('list_contents', 'front'), [
+        return $this->render($this->templateRegistry->getTemplate('list_taxonomy_contents', 'front'), [
             'entity_type' => $entityTypeService,
+            'taxonomy' => $taxonomy,
             'paginator' => $paginator,
         ]);
     }
@@ -150,7 +150,7 @@ class ContentController extends AbstractController
      * @param Types $types
      * @return Response
      */
-    public function listTypeContents(Request $request, Types $types)
+    public function listTypeContents(Request $request, Types $types): Response
     {
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 10);
@@ -163,13 +163,15 @@ class ContentController extends AbstractController
         /**
          * @var Pagerfanta $paginator
          */
-        $paginator = $baseContentRepository->createPaginator(['typeAlias' => $types->getTypeAlias()], ['id' => 'DESC']);
+        $paginator = $baseContentRepository->createPaginator(['typeAlias' => $types->getTypeAlias()],
+            ['boolTop' => 'DESC', 'id' => 'DESC']);
         $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);
 
-        return $this->render($this->templateRegistry->getTemplate('list_contents', 'front'), [
+        return $this->render($this->templateRegistry->getTemplate('list_type_contents', 'front'), [
             'entity_type' => $entityTypeService,
             'paginator' => $paginator,
+            'type' => $types
         ]);
     }
 

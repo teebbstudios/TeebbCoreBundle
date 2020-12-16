@@ -58,9 +58,16 @@ class Content extends BaseContent
     protected $author;
 
     /**
+     * 是否置顶
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $boolTop = false;
+
+    /**
      * @var Types|null
      */
-    private $type;
+    protected $type;
 
     /**
      * @return string|null
@@ -140,6 +147,22 @@ class Content extends BaseContent
     public function setAuthor(?UserInterface $author): void
     {
         $this->author = $author;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBoolTop(): bool
+    {
+        return $this->boolTop;
+    }
+
+    /**
+     * @param bool $boolTop
+     */
+    public function setBoolTop(bool $boolTop): void
+    {
+        $this->boolTop = $boolTop;
     }
 
     /**
