@@ -185,8 +185,13 @@ class ContentController extends AbstractContentController
      */
     public function updateAction(Request $request, Content $content)
     {
-        if (!$this->isGranted('content_owner_update', $content)) {
-            $this->denyAccessUnlessGranted('content_' . $content->getTypeAlias() . '_update', $content);
+        if (!($this->isGranted('content_owner_update', $content) ||
+            $this->isGranted('content_' . $content->getTypeAlias() . '_update', $content))) {
+
+            $exception = $this->createAccessDeniedException();
+            $exception->setSubject($content);
+
+            throw $exception;
         }
 
         $entityTypeService = $this->getEntityTypeService($request);
@@ -244,8 +249,13 @@ class ContentController extends AbstractContentController
      */
     public function deleteAction(Request $request, Content $content)
     {
-        if (!$this->isGranted('content_owner_delete', $content)) {
-            $this->denyAccessUnlessGranted('content_' . $content->getTypeAlias() . '_delete', $content);
+        if (!($this->isGranted('content_owner_delete', $content) ||
+            $this->isGranted('content_' . $content->getTypeAlias() . '_delete', $content))) {
+
+            $exception = $this->createAccessDeniedException();
+            $exception->setSubject($content);
+
+            throw $exception;
         }
 
         $entityTypeService = $this->getEntityTypeService($request);

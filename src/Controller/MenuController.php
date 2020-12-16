@@ -9,11 +9,13 @@ use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Menu;
 use Teebb\CoreBundle\Entity\MenuItem;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Entity\Types\Types;
+use Teebb\CoreBundle\Event\MenuCacheEvent;
 use Teebb\CoreBundle\Form\FormContractorInterface;
 use Teebb\CoreBundle\Form\Type\Menu\MenuType;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
@@ -37,13 +39,18 @@ class MenuController extends AbstractController
      * @var FormContractorInterface
      */
     private $formContractor;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
     public function __construct(EntityManagerInterface $entityManager, TemplateRegistry $templateRegistry,
-                                FormContractorInterface $formContractor)
+                                FormContractorInterface $formContractor, EventDispatcherInterface $eventDispatcher)
     {
         $this->templateRegistry = $templateRegistry;
         $this->entityManager = $entityManager;
         $this->formContractor = $formContractor;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function indexAction(Request $request)
@@ -314,6 +321,11 @@ class MenuController extends AbstractController
         }
 
         $this->entityManager->flush();
+
+        //菜单项保存成功后，清除缓存
+        $menuCacheEvent = new MenuCacheEvent();
+        $menuCacheEvent->setMenuName($menu->getMenuAlias());
+        $this->eventDispatcher->dispatch($menuCacheEvent, MenuCacheEvent::DELETE_MENU_CACHE);
 
         return $this->json(null, 200);
     }

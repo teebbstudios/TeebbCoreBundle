@@ -35,16 +35,19 @@ class FileVoter extends BaseVoter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-        //如果是删除自己上传的文件
-        if ($attribute === self::FILE_OWNER_DELETE){
-           if ($subject->getAuthor() === $this->security->getUser())
-           {
-               return true;
-           }
-           return false;
+        //用户组有此权限
+        if ($this->checkVoteOnAttribute($attribute, $subject, $token)) {
+            //如果用户有删除自己上传文件的权限
+            if ($attribute === self::FILE_OWNER_DELETE) {
+                if ($subject->getAuthor() === $this->security->getUser()) {
+                    return true;
+                }
+                return false;
+            }
+            
+            return true;
         }
-
-        return $this->checkVoteOnAttribute($attribute, $subject, $token);
+        return false;
     }
 
 }

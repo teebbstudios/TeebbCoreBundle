@@ -400,7 +400,7 @@ teebb:
             site_email: 站点邮箱
             logo: 站点Logo
             icp_code: ICP备案号
-            system_update_success: 站点设置更新成功。
+            option_update_success: 站点 "%optionLabel%" 设置更新成功。
 
         content:
             create_success: 内容 "%value%" 创建成功。

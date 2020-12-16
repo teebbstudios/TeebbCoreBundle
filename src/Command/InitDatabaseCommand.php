@@ -33,6 +33,7 @@ use Teebb\CoreBundle\Entity\Token;
 use Teebb\CoreBundle\Entity\Types\Types;
 use Teebb\CoreBundle\Entity\User;
 use Teebb\CoreBundle\Event\SchemaEvent;
+use Teebb\CoreBundle\Form\Type\Options\SystemType;
 
 /**
  * 初始化Schemas
@@ -425,11 +426,13 @@ class InitDatabaseCommand extends Command
         $system->setSiteName('Teebb');
         $system->setSiteEmail('admin@admin.com');
 
-        $option = new Option();
-        $option->setOptionName('system');
-        $option->setOptionValue($system);
+        $systemOption = new Option();
+        $systemOption->setOptionType(SystemType::class);
+        $systemOption->setOptionName('system');
+        $systemOption->setOptionLabel('系统');
+        $systemOption->setOptionValue($system);
 
-        $this->em->persist($option);
+        $this->em->persist($systemOption);
 
         $this->em->flush();
     }

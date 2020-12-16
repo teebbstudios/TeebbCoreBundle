@@ -2,9 +2,9 @@
 <routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="teebb_system_option" path="/options/system">
-        <default key="_controller">Teebb\CoreBundle\Controller\Options\OptionsController::systemAction</default>
-        <default key="route">teebb_system_option</default>
+    <route id="teebb_update_option" path="/options/{optionName}">
+        <default key="_controller">Teebb\CoreBundle\Controller\Options\OptionsController</default>
+        <default key="route">teebb_update_option</default>
     </route>
 
 </routes>

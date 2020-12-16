@@ -181,7 +181,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('options')
                         ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('system')->defaultValue('@TeebbCore/options/system.html.twig')->cannotBeEmpty()->end()
+                                ->scalarNode('option_form')->defaultValue('@TeebbCore/options/option_form.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
 

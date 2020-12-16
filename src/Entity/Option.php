@@ -22,11 +22,25 @@ class Option
     private $id;
 
     /**
+     * 设置的表单Type类名
+     * @var string|null
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $optionType;
+
+    /**
      * 设置的英文名称
      * @var string|null
      * @ORM\Column(type="string", unique=true)
      */
     private $optionName;
+
+    /**
+     * 设置的中文标题
+     * @var string|null
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $optionLabel;
 
     /**
      * 用于存储设置信息
@@ -46,6 +60,22 @@ class Option
     /**
      * @return string|null
      */
+    public function getOptionType(): ?string
+    {
+        return $this->optionType;
+    }
+
+    /**
+     * @param string|null $optionType
+     */
+    public function setOptionType(?string $optionType): void
+    {
+        $this->optionType = $optionType;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getOptionName(): ?string
     {
         return $this->optionName;
@@ -57,6 +87,22 @@ class Option
     public function setOptionName(?string $optionName): void
     {
         $this->optionName = $optionName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOptionLabel(): ?string
+    {
+        return $this->optionLabel;
+    }
+
+    /**
+     * @param string|null $optionLabel
+     */
+    public function setOptionLabel(?string $optionLabel): void
+    {
+        $this->optionLabel = $optionLabel;
     }
 
     /**

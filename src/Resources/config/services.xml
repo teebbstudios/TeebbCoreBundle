@@ -51,6 +51,7 @@
         <service id="teebb.core.twig.global" class="Teebb\CoreBundle\Twig\GlobalVariables" public="true">
             <argument type="service" id="teebb.core.template.registry"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="cache.app"/>
             <argument/>
         </service>
 

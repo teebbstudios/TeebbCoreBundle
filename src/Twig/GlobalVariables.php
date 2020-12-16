@@ -5,6 +5,9 @@ namespace Teebb\CoreBundle\Twig;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Cache\InvalidArgumentException;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Teebb\CoreBundle\Application\Kernel;
 use Teebb\CoreBundle\Entity\Option;
 use Teebb\CoreBundle\Templating\TemplateRegistry;
@@ -31,12 +34,20 @@ class GlobalVariables
      */
     private $entityManager;
 
-    public function __construct(TemplateRegistry $registry, EntityManagerInterface $entityManager, string $rootHostUrl)
+    /**
+     * @var AdapterInterface
+     */
+    private $cacheAdapter;
+
+    public function __construct(TemplateRegistry $registry, EntityManagerInterface $entityManager,
+                                AdapterInterface $cacheAdapter,
+                                string $rootHostUrl)
     {
         $this->version = Kernel::VERSION;
         $this->templateRegistry = $registry;
         $this->uploadRootUrl = $rootHostUrl;
         $this->entityManager = $entityManager;
+        $this->cacheAdapter = $cacheAdapter;
     }
 
     /**
@@ -91,11 +102,40 @@ class GlobalVariables
      * 使用此方法获取TEEBB的设置值
      * @param string $optionName
      * @return mixed
+     * @throws InvalidArgumentException
      */
     public function getOptionValue(string $optionName)
     {
-        $optionRepo = $this->entityManager->getRepository(Option::class);
-        $option = $optionRepo->findOneBy(['optionName' => $optionName]);
-        return $option->getOptionValue();
+        if (!$this->hasCache($optionName)) {
+            $optionRepo = $this->entityManager->getRepository(Option::class);
+            $option = $optionRepo->findOneBy(['optionName' => $optionName]);
+
+            return $this->getCache($optionName, $option->getOptionValue());
+        }
+        return $this->getCache($optionName);
+    }
+
+    /**
+     * 用于页面部分数据缓存
+     * @param string $cacheKey
+     * @param mixed $data
+     * @return mixed
+     */
+    public function getCache(string $cacheKey, $data = null)
+    {
+        return $this->cacheAdapter->get($cacheKey,
+            function (ItemInterface $item) use ($data) {
+                return $data;
+            });
+    }
+
+    /**
+     * @param string $cacheKey
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    public function hasCache(string $cacheKey): bool
+    {
+        return $this->cacheAdapter->hasItem($cacheKey);
     }
 }

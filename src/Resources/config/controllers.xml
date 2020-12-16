@@ -161,6 +161,7 @@
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument type="service" id="teebb.core.template.registry"/>
             <argument type="service" id="teebb.core.form.contractor"/>
+            <argument type="service" id="event_dispatcher"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
@@ -215,6 +216,7 @@
                  class="Teebb\CoreBundle\Controller\Options\OptionsController"
                  public="false">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="teebb.core.template.registry"/>
             <tag name="controller.service_arguments"/>
             <call method="setContainer">

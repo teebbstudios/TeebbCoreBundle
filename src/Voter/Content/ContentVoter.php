@@ -19,8 +19,8 @@ class ContentVoter extends BaseVoter
     {
         $voteOptionArray = [
             'teebb.core.voter.content_index' => self::CONTENT_INDEX,
-//            'teebb.core.voter.content_owner_update' => self::CONTENT_OWNER_UPDATE,
-//            'teebb.core.voter.content_owner_delete' => self::CONTENT_OWNER_DELETE,
+            'teebb.core.voter.content_owner_update' => self::CONTENT_OWNER_UPDATE,
+            'teebb.core.voter.content_owner_delete' => self::CONTENT_OWNER_DELETE,
         ];
 
         $typesRepo = $this->entityManager->getRepository(Types::class);
@@ -42,7 +42,7 @@ class ContentVoter extends BaseVoter
         return array_merge($voteOptionArray, $contentPermissions);
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         if ($subject && !$subject instanceof Content) {
             return false;
@@ -51,16 +51,22 @@ class ContentVoter extends BaseVoter
         return $this->baseVoteSupports($attribute, $this->getVoteOptionArray());
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-//        if (in_array($attribute, ['content_owner_update', 'content_owner_delete'])) {
-//            /**@var Content $subject * */
-//            if ($subject->getAuthor() === $this->security->getUser()) {
-//                return true;
-//            }
-//        }
+        //用户组有此权限
+        if ($this->checkVoteOnAttribute($attribute, $subject, $token)) {
+            //用户有编辑自己的内容 删除自己的内容权限
+            if (in_array($attribute, ['content_owner_update', 'content_owner_delete'])) {
+                /**@var Content $subject * */
+                if ($subject->getAuthor() === $this->security->getUser()) {
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
+        return false;
 
-        return $this->checkVoteOnAttribute($attribute, $subject, $token);
     }
 
 }
