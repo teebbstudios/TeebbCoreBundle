@@ -6,7 +6,6 @@ namespace Teebb\CoreBundle\Controller;
 
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Events;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -18,7 +17,6 @@ use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Event\DataCacheEvent;
-use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Traits\GenerateNameTrait;
 
@@ -36,6 +34,7 @@ trait SubstanceDBALOptionsTrait
      * @param EntityManagerInterface $entityManager
      * @param FieldConfigurationRepository $fieldConfigRepository
      * @param EventDispatcherInterface $eventDispatcher 保存内容时发送消息清理字段缓存
+     * @param ContainerInterface $container
      * @param FormInterface $form
      * @param string $bundle 用于排序显示所有字段
      * @param string $typeAlias 内容类型的别名，用于获取当前内容类型的所有字段
@@ -47,9 +46,12 @@ trait SubstanceDBALOptionsTrait
     protected function persistSubstance(EntityManagerInterface $entityManager,
                                         FieldConfigurationRepository $fieldConfigRepository,
                                         EventDispatcherInterface $eventDispatcher,
+                                        ContainerInterface $container,
                                         FormInterface $form, string $bundle, string $typeAlias,
                                         string $contentClassName)
     {
+        $dynamicFieldMappingSubscriber = $container->get('teebb.core.event.dynamic_field_mapping_subscriber');
+
         //内容Entity object
         $substance = $form->getData();
 
@@ -77,8 +79,8 @@ trait SubstanceDBALOptionsTrait
 
                 if (!empty($fieldDataArray)) {
                     //动态修改字段entity的mapping
-                    $dynamicChangeFieldMetadataListener = new DynamicChangeFieldMetadataListener($field, $contentClassName);
-                    $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
+                    $dynamicFieldMappingSubscriber->setFieldConfiguration($field);
+                    $dynamicFieldMappingSubscriber->setTargetContentClassName($contentClassName);
 
                     /**@var BaseFieldItem $fieldItem * */
                     foreach ($fieldDataArray as $index => $fieldItem) {
@@ -89,8 +91,6 @@ trait SubstanceDBALOptionsTrait
 
                         $fieldDBALUtils->persistFieldItem($fieldItem);
                     }
-                    //移除doctrine监听器
-                    $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
                 }
             }
 

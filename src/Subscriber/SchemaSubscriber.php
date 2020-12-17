@@ -3,7 +3,6 @@
 namespace Teebb\CoreBundle\Subscriber;
 
 
-use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -12,7 +11,6 @@ use Teebb\CoreBundle\Doctrine\Utils\DoctrineUtils;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Event\SchemaEvent;
 use Doctrine\ORM\Tools\ToolsException;
-use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 
 /**
  * 用于动态生成或删除字段表
@@ -97,16 +95,12 @@ class SchemaSubscriber implements EventSubscriberInterface
         /**@var FieldInterface $fieldService * */
         $fieldService = $this->getFieldService($fieldConfiguration->getFieldType());
 
-        $evm = $this->doctrineUtils->getEventManager();
-        //动态修改字段entity的mapping
-        $dynamicChangeFieldMetadataListener = new DynamicChangeFieldMetadataListener($fieldConfiguration, $entityClassName);
-        $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
+        /**@var DynamicChangeFieldMetadataSubscriber $subscriber**/
+        $subscriber = $this->container->get('teebb.core.event.dynamic_field_mapping_subscriber');
+        $subscriber->setFieldConfiguration($fieldConfiguration);
+        $subscriber->setTargetContentClassName($entityClassName);
 
         $fieldEntity = $fieldService->getFieldEntity();
-        $classMetadata = $this->doctrineUtils->getSingleClassMetadata($fieldEntity);
-
-        $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeFieldMetadataListener);
-
-        return $classMetadata;
+        return $this->doctrineUtils->getSingleClassMetadata($fieldEntity);
     }
 }

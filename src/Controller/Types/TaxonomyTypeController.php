@@ -77,7 +77,8 @@ class TaxonomyTypeController extends AbstractEntityTypeController
                 //持久化内容和字段
                 /**@var Taxonomy $taxonomy * */
                 $taxonomy = $this->persistSubstance($this->entityManager, $this->fieldConfigurationRepository,
-                    $this->dispatcher, $form, $bundle, $typeAlias, $data_class);
+                    $this->dispatcher, $this->container,
+                    $form, $bundle, $typeAlias, $data_class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
                     'teebb.core.taxonomy.create_success', ['%value%' => $taxonomy->getTerm()]
@@ -133,7 +134,8 @@ class TaxonomyTypeController extends AbstractEntityTypeController
                 //持久化内容和字段
                 /**@var Taxonomy $taxonomy * */
                 $taxonomy = $this->persistSubstance($this->entityManager, $this->fieldConfigurationRepository,
-                    $this->dispatcher, $form, $bundle, $typeAlias, $data_class);
+                    $this->dispatcher, $this->container,
+                    $form, $bundle, $typeAlias, $data_class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
                     'teebb.core.taxonomy.update_success', ['%value%' => $taxonomy->getTerm()]

@@ -4,6 +4,12 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+
+        <service id="teebb.core.event.dynamic_field_mapping_subscriber" public="true"
+                 class="Teebb\CoreBundle\Subscriber\DynamicChangeFieldMetadataSubscriber">
+            <tag name="doctrine.event_subscriber"/>
+        </service>
+
         <service id="teebb.core.event.route_parameter_underline_fix_subscriber"
                  class="Teebb\CoreBundle\Subscriber\RouteParameterUnderlineFixSubscriber">
             <argument type="service" id="router.default"/>
@@ -23,6 +29,7 @@
 
         <service id="teebb.core.event.field_data_cache_subscriber"
                  class="Teebb\CoreBundle\Subscriber\FieldDataCacheSubscriber" public="true">
+            <argument type="service" id="service_container"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument type="service" id="cache.app"/>
             <tag name="kernel.event_subscriber"/>

@@ -106,7 +106,7 @@ class SecurityController extends AbstractController
             $user = $registerForm->getData();
             //获取注册用户组对象，并将注册用户设置为注册用户组
             $groupRepo = $this->entityManager->getRepository(Group::class);
-            $registerGroup = $groupRepo->findOneBy(['groupAlias'=> 'user']);
+            $registerGroup = $groupRepo->findOneBy(['groupAlias' => 'user']);
 
             $user->addGroup($registerGroup);
             $user->setRoles($registerGroup->getRoles());
@@ -277,7 +277,8 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    public function profileAction(Request $request){
+    public function profileAction(Request $request)
+    {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -297,7 +298,8 @@ class SecurityController extends AbstractController
                 $fieldConfigurationRepository = $this->entityManager->getRepository(FieldConfiguration::class);
                 //持久化用户和字段
                 /**@var User $user * */
-                $user = $this->persistSubstance($this->entityManager, $fieldConfigurationRepository,$this->eventDispatcher,
+                $user = $this->persistSubstance($this->entityManager, $fieldConfigurationRepository,
+                    $this->eventDispatcher, $this->container,
                     $userForm, 'user', 'people', User::class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(

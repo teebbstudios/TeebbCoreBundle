@@ -14,14 +14,11 @@ namespace Teebb\CoreBundle\AbstractService;
 
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Events;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
 use Teebb\CoreBundle\Entity\BaseContent;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Event\DataCacheEvent;
-use Teebb\CoreBundle\Listener\DynamicChangeFieldMetadataListener;
 use Teebb\CoreBundle\Metadata\FieldMetadataInterface;
 use Doctrine\ORM\Mapping\MappingException;
 use Teebb\CoreBundle\Traits\GenerateNameTrait;
@@ -156,30 +153,6 @@ abstract class AbstractField implements FieldInterface
         }
 
         return $this->cacheAdapter->getItem($cacheKey)->get();
-
-//        $evm = $this->entityManager->getEventManager();
-//        $dynamicChangeMetadataListener = new DynamicChangeFieldMetadataListener($fieldConfiguration, $targetEntityClassName);
-//        $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
-//
-//        $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $fieldConfiguration);
-//
-//        $qb = $this->entityManager->getConnection()->createQueryBuilder();
-//
-//        $conditions = [$qb->expr()->eq('entity_id', '?'), $qb->expr()->eq('types', '?')];
-//        $parameters = [$contentEntity->getId(), $fieldConfiguration->getTypeAlias()];
-//        $orderBy = ['delta' => 'ASC'];
-//
-//        $fieldRows = $fieldDBALUtils->fetchFieldItem($qb, $conditions, $parameters, $orderBy);
-//
-//        $fieldData = [];
-//        foreach ($fieldRows as $fieldRow) {
-//            $fieldEntity = $this->transformFieldRowToFieldEntity($fieldRow, $contentEntity);
-//            array_push($fieldData, $fieldEntity);
-//        }
-//
-//        $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
-//
-//        return $fieldData;
     }
 
     /**

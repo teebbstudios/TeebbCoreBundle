@@ -101,7 +101,8 @@ class CommentController extends AbstractContentController
 
             try {
                 //持久化评论和字段
-                $comment = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,$this->eventDispatcher,
+                $comment = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
+                    $this->eventDispatcher, $this->container,
                     $commentForm, 'comment', $commentType, Comment::class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans('teebb.core.comment.create_success'));
@@ -157,7 +158,8 @@ class CommentController extends AbstractContentController
 
             try {
                 //持久化评论和字段
-                $comment = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,$this->eventDispatcher,
+                $comment = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
+                    $this->eventDispatcher, $this->container,
                     $commentForm, 'comment', $parentComment->getCommentType(), Comment::class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans('teebb.core.comment.create_success'));

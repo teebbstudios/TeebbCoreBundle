@@ -5,6 +5,7 @@ namespace Teebb\CoreBundle\Subscriber;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -30,12 +31,19 @@ class FieldDataCacheSubscriber implements EventSubscriberInterface
      * @var AdapterInterface
      */
     private $cacheAdapter;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(EntityManagerInterface $entityManager, AdapterInterface $cacheAdapter)
+    public function __construct(ContainerInterface $container,
+                                EntityManagerInterface $entityManager,
+                                AdapterInterface $cacheAdapter)
     {
 
         $this->entityManager = $entityManager;
         $this->cacheAdapter = $cacheAdapter;
+        $this->container = $container;
     }
 
     public static function getSubscribedEvents(): array
@@ -63,9 +71,10 @@ class FieldDataCacheSubscriber implements EventSubscriberInterface
         return $this->cacheAdapter->get($cacheKey,
             function (ItemInterface $item) use ($baseContent, $field, $targetClassName, $fieldService) {
 
-                $evm = $this->entityManager->getEventManager();
-                $dynamicChangeMetadataListener = new DynamicChangeFieldMetadataListener($field, $targetClassName);
-                $evm->addEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
+                $dynamicChangeFieldMetadataSubscriber = $this->container->get('teebb.core.event.dynamic_field_mapping_subscriber');
+
+                $dynamicChangeFieldMetadataSubscriber->setFieldConfiguration($field);
+                $dynamicChangeFieldMetadataSubscriber->setTargetContentClassName($targetClassName);
 
                 $fieldDBALUtils = new FieldDBALUtils($this->entityManager, $field);
 
@@ -83,8 +92,6 @@ class FieldDataCacheSubscriber implements EventSubscriberInterface
                     array_push($fieldData, $fieldEntity);
                 }
 
-                $evm->removeEventListener(Events::loadClassMetadata, $dynamicChangeMetadataListener);
-
                 return $fieldData;
             });
     }
@@ -96,8 +103,7 @@ class FieldDataCacheSubscriber implements EventSubscriberInterface
     public function deleteFieldDataCache(DataCacheEvent $cacheEvent)
     {
         $needDeleteCacheKeyArray = $cacheEvent->getNeedDeleteCacheKeyArray();
-        foreach ($needDeleteCacheKeyArray as $key)
-        {
+        foreach ($needDeleteCacheKeyArray as $key) {
             $this->cacheAdapter->deleteItem($key);
         }
     }

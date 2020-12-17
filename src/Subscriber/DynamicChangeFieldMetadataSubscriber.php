@@ -1,10 +1,12 @@
 <?php
 
 
-namespace Teebb\CoreBundle\Listener;
+namespace Teebb\CoreBundle\Subscriber;
 
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\MappingException;
 use Teebb\CoreBundle\Entity\Fields\BooleanItem;
@@ -30,7 +32,7 @@ use Teebb\CoreBundle\Entity\Fields\TextFormatItem;
 use Teebb\CoreBundle\Entity\Fields\TextFormatSummaryItem;
 use Teebb\CoreBundle\Entity\Fields\TextItem;
 
-class DynamicChangeFieldMetadataListener
+class DynamicChangeFieldMetadataSubscriber implements EventSubscriber
 {
     /**
      * @var FieldConfiguration
@@ -41,9 +43,35 @@ class DynamicChangeFieldMetadataListener
      */
     private $targetContentClassName;
 
-    public function __construct(FieldConfiguration $fieldConfiguration, string $targetContentClassName)
+    /**
+     * @return FieldConfiguration|null
+     */
+    public function getFieldConfiguration(): ?FieldConfiguration
+    {
+        return $this->fieldConfiguration;
+    }
+
+    /**
+     * @param FieldConfiguration $fieldConfiguration
+     */
+    public function setFieldConfiguration(FieldConfiguration $fieldConfiguration): void
     {
         $this->fieldConfiguration = $fieldConfiguration;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTargetContentClassName(): ?string
+    {
+        return $this->targetContentClassName;
+    }
+
+    /**
+     * @param string $targetContentClassName
+     */
+    public function setTargetContentClassName(string $targetContentClassName): void
+    {
         $this->targetContentClassName = $targetContentClassName;
     }
 
@@ -81,19 +109,22 @@ class DynamicChangeFieldMetadataListener
         ];
 
         if (in_array($className, $modifyEntityIemArray)) {
-            $this->modifyFieldEntityClassMetaData($classMetadata, $this->fieldConfiguration, $this->targetContentClassName);
+            $this->modifyFieldEntityClassMetaData($classMetadata, $this->getFieldConfiguration(), $this->getTargetContentClassName());
         }
     }
 
     /**
      * 动态修改ClassMetadata
      * @param ClassMetadata $classMetadata
-     * @param FieldConfiguration $fieldConfiguration
-     * @param string $entityClassName content entity全类名
+     * @param FieldConfiguration|null $fieldConfiguration
+     * @param string|null $entityClassName content entity全类名
      * @throws MappingException
      */
-    private function modifyFieldEntityClassMetaData(ClassMetadata $classMetadata, FieldConfiguration $fieldConfiguration, string $entityClassName)
+    private function modifyFieldEntityClassMetaData(ClassMetadata $classMetadata, ?FieldConfiguration $fieldConfiguration, ?string $entityClassName)
     {
+        if ($fieldConfiguration == null || $entityClassName == null) {
+            return;
+        }
         //设置字段表名
         $fieldAlias = $fieldConfiguration->getFieldAlias();
         $classMetadata->setPrimaryTable(['name' => $fieldConfiguration->getBundle() . '__field_' . $fieldAlias]);
@@ -168,5 +199,12 @@ class DynamicChangeFieldMetadataListener
 
             $classMetadata->mapField($fieldMapping);
         }
+    }
+
+    public function getSubscribedEvents(): array
+    {
+        return [
+            Events::loadClassMetadata,
+        ];
     }
 }

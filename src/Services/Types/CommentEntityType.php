@@ -111,7 +111,7 @@ class CommentEntityType extends AbstractEntityType
      * @param Comment $comment
      * @return object|null
      */
-    public function getCommentTargetContent(Comment $comment)
+    public function getCommentTargetContent(Comment $comment): ?object
     {
         $bundle = $comment->getBundle();
 

@@ -86,7 +86,8 @@ class UserTypeController extends AbstractEntityTypeController
             try {
                 //持久化用户和字段
                 /**@var User $user * */
-                $user = $this->persistSubstance($this->entityManager, $this->fieldConfigurationRepository,$this->dispatcher,
+                $user = $this->persistSubstance($this->entityManager, $this->fieldConfigurationRepository,
+                    $this->dispatcher, $this->container,
                     $userForm, 'user', 'people', User::class);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(

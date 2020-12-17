@@ -44,3 +44,6 @@
 
 0.1.10
 1. 添加twig方法get_specify_type_field获取内容指定类型的所有字段的数据
+
+0.1.11
+1. 修改动态Mapping字段功能，改为Doctrine订阅器
