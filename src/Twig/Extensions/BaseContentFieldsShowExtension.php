@@ -30,7 +30,8 @@ class BaseContentFieldsShowExtension extends AbstractExtension
     {
         return [
             new TwigFunction('show_content_all_fields', [$this, 'showContentAllFields']),
-            new TwigFunction('get_content_field', [$this, 'getContentField'])
+            new TwigFunction('get_content_field', [$this, 'getContentField']),
+            new TwigFunction('get_specify_type_field', [$this, 'getSpecifyTypeFieldData'])
         ];
     }
 
@@ -42,10 +43,10 @@ class BaseContentFieldsShowExtension extends AbstractExtension
      * @param string $typeAlias 内容的类型机读别名
      * @return array
      */
-    public function showContentAllFields(BaseContent $baseContent, string $bundle, string $typeAlias)
+    public function showContentAllFields(BaseContent $baseContent, string $bundle, string $typeAlias): array
     {
         $entityTypeService = $this->getEntityTypeService($bundle);
-        
+
         return $entityTypeService->getAllFieldsData($baseContent, $typeAlias);
     }
 
@@ -57,10 +58,24 @@ class BaseContentFieldsShowExtension extends AbstractExtension
      * @param string $filedAlias 字段的机读别名
      * @return array
      */
-    public function getContentField(BaseContent $baseContent, string $bundle, string $filedAlias)
+    public function getContentField(BaseContent $baseContent, string $bundle, string $filedAlias): array
     {
         $entityTypeService = $this->getEntityTypeService($bundle);
         return $entityTypeService->getSingleFieldData($baseContent, $filedAlias);
+    }
+
+    /**
+     * 获取内容指定类型的所有字段的数据
+     * @param BaseContent $baseContent
+     * @param string $bundle
+     * @param string $typeAlias 当前内容的类型别名
+     * @param string $fieldType 字段类型
+     * @return array
+     */
+    public function getSpecifyTypeFieldData(BaseContent $baseContent, string $bundle, string $typeAlias, string $fieldType): array
+    {
+        $entityTypeService = $this->getEntityTypeService($bundle);
+        return $entityTypeService->getSpecifyTypeFieldData($baseContent, $typeAlias, $fieldType);
     }
 
     /**

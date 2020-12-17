@@ -335,3 +335,15 @@
         {% endif %}
     {% endif %}
 {% endmacro %}
+
+{#获取内容第一个textFormatSummary类型字段摘要#}
+{% macro getContentSummary(content, bundle, typeAlias) %}
+    {% set textFormatSummarys = get_specify_type_field(content, bundle, typeAlias, 'textFormatSummary') %}
+    {% for textFormatSummaryData in textFormatSummarys %}
+        {% if loop.first %}
+            {% if textFormatSummaryData[0].value %}
+                {{ textFormatSummaryData[0].summary }}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
