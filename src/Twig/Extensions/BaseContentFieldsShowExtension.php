@@ -83,7 +83,7 @@ class BaseContentFieldsShowExtension extends AbstractExtension
      * @param string $bundle 拼合EntityType Service Id
      * @return AbstractEntityType
      */
-    private function getEntityTypeService(string $bundle)
+    private function getEntityTypeService(string $bundle): AbstractEntityType
     {
         $entityTypeServiceId = 'teebb.core.entity_type.' . $bundle;
 

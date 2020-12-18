@@ -78,11 +78,11 @@
     {% import _self as self %}
     <div class="author py-2">
         {{ self.getAvatar(comment.author, 'avatar-sm shadow-sm rounded-circle') }}
-        <span class="text-dark">{{ comment.author.username }}</span>
+        <span class="text-dark mr-1">{{ comment.author.firstName ~ comment.author.lastName }}</span>
+        <span class="h4 mr-1">发表评论主题《{{ comment.subject }}》</span>
         {{ 'submit_at'|trans }} {{ comment.createdAt|ago }}
     </div>
     <div class="body pl-4 py-2">
-        <h4>{{ comment.subject }}</h4>
         {% set commentDatas = entity_type.allFieldsData(comment, comment.commentType) %}
         {% for fieldAlias, fieldData in commentDatas %}
             {{ self.showFieldData(fieldAlias, fieldData.field_type, fieldData.field_label, fieldData.field, fieldData.data ) }}
