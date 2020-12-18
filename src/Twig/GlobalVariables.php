@@ -7,6 +7,7 @@ namespace Teebb\CoreBundle\Twig;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Teebb\CoreBundle\Application\Kernel;
 use Teebb\CoreBundle\Entity\Option;
@@ -38,16 +39,23 @@ class GlobalVariables
      * @var AdapterInterface
      */
     private $cacheAdapter;
+    /**
+     * @var integer
+     */
+    private $expireAfter;
 
-    public function __construct(TemplateRegistry $registry, EntityManagerInterface $entityManager,
+    public function __construct(TemplateRegistry $registry,
+                                EntityManagerInterface $entityManager,
                                 AdapterInterface $cacheAdapter,
-                                string $rootHostUrl)
+                                string $rootHostUrl,
+                                ParameterBagInterface $parameterBag)
     {
         $this->version = Kernel::VERSION;
         $this->templateRegistry = $registry;
         $this->uploadRootUrl = $rootHostUrl;
         $this->entityManager = $entityManager;
         $this->cacheAdapter = $cacheAdapter;
+        $this->expireAfter = $parameterBag->get('teebb.core.cache.expire_after');
     }
 
     /**
@@ -125,6 +133,7 @@ class GlobalVariables
     {
         return $this->cacheAdapter->get($cacheKey,
             function (ItemInterface $item) use ($data) {
+                $item->expiresAfter($this->expireAfter);
                 return $data;
             });
     }

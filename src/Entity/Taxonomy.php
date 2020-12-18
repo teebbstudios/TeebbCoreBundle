@@ -48,7 +48,7 @@ class Taxonomy extends BaseContent
 
     /**
      * @ORM\OneToMany(targetEntity="Teebb\CoreBundle\Entity\Taxonomy", mappedBy="parent")
-     * @ORM\OrderBy({"lft" = "ASC"})
+     * @ORM\OrderBy({"lft" = "ASC", "id" = "ASC"})
      */
     private $children;
 

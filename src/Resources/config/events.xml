@@ -31,6 +31,7 @@
                  class="Teebb\CoreBundle\Subscriber\FieldDataCacheSubscriber" public="true">
             <argument type="service" id="service_container"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="parameter_bag"/>
             <argument type="service" id="cache.app"/>
             <tag name="kernel.event_subscriber"/>
         </service>
@@ -38,12 +39,14 @@
         <service id="teebb.core.event.menu_cache_subscriber"
                  class="Teebb\CoreBundle\Subscriber\MenuCacheSubscriber" public="true">
             <argument type="service" id="cache.app"/>
+            <argument type="service" id="parameter_bag"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 
         <service id="teebb.core.event.option_cache_subscriber"
                  class="Teebb\CoreBundle\Subscriber\OptionCacheSubscriber" public="true">
             <argument type="service" id="cache.app"/>
+            <argument type="service" id="parameter_bag"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 

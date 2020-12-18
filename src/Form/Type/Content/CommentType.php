@@ -118,8 +118,11 @@ class CommentType extends BaseContentType
         $builder
             ->add('submit', SubmitType::class, [
                 'label' => 'teebb.core.form.submit',
+                'row_attr' => [
+                    'class' => 'py-3'
+                ],
                 'attr' => [
-                    'class' => 'btn btn-primary btn-sm'
+                    'class' => 'btn btn-primary'
                 ]
             ]);
     }

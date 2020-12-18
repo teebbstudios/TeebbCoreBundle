@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Teebb\CoreBundle\Doctrine\DBAL\FieldDBALUtils;
@@ -35,15 +36,21 @@ class FieldDataCacheSubscriber implements EventSubscriberInterface
      * @var ContainerInterface
      */
     private $container;
+    /**
+     * @var integer
+     */
+    private $expireAfter;
 
     public function __construct(ContainerInterface $container,
                                 EntityManagerInterface $entityManager,
+                                ParameterBagInterface $parameterBag,
                                 AdapterInterface $cacheAdapter)
     {
 
         $this->entityManager = $entityManager;
         $this->cacheAdapter = $cacheAdapter;
         $this->container = $container;
+        $this->expireAfter= $parameterBag->get('teebb.core.cache.expire_after');
     }
 
     public static function getSubscribedEvents(): array
@@ -70,6 +77,7 @@ class FieldDataCacheSubscriber implements EventSubscriberInterface
 
         return $this->cacheAdapter->get($cacheKey,
             function (ItemInterface $item) use ($baseContent, $field, $targetClassName, $fieldService) {
+                $item->expiresAfter($this->expireAfter);
 
                 $dynamicChangeFieldMetadataSubscriber = $this->container->get('teebb.core.event.dynamic_field_mapping_subscriber');
 

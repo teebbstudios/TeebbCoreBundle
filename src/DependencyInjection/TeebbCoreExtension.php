@@ -93,6 +93,9 @@ class TeebbCoreExtension extends Extension
 
         //将邮件发送人信息添加进parameter
         $container->setParameter('teebb.core.mailer.from_email',  $config['from_email']);
+
+        //将缓存配置信息添加进parameter
+        $container->setParameter('teebb.core.cache.expire_after',  $config['cache']['expire_after']);
     }
 
     /**
