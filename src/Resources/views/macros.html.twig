@@ -293,9 +293,11 @@
             <div class="field_items">
                 {% for data in field_data %}
                     <div class="field_item p-2 pl-0">
-                        <p class="small">
-                            {{ 'summary'|trans }}{{ data.summary }}
-                        </p>
+                        {% if data.summary %}
+                            <p class="small">
+                                {{ 'summary'|trans }}{{ data.summary }}
+                            </p>
+                        {% endif %}
                         {{ data.value|raw }}
                     </div>
                 {% endfor %}

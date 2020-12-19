@@ -6,6 +6,8 @@ namespace Teebb\CoreBundle\Entity\Fields\Configuration;
 
 
 
+use Teebb\CoreBundle\Entity\User;
+
 class ReferenceUserItemConfiguration extends BaseItemConfiguration
 {
     /**
@@ -16,10 +18,9 @@ class ReferenceUserItemConfiguration extends BaseItemConfiguration
     protected $type = 'entity';
 
     /**
-     * @todo  此处修改为user entity类
      * @var string
      */
-    protected $referenceTargetEntity = '';
+    protected $referenceTargetEntity = User::class;
 
     /**
      * @return string

@@ -44,7 +44,7 @@ class BooleanItemConfiguration extends BaseItemConfiguration
     /**
      * @param string $on_label
      */
-    public function setOnLabel($on_label): void
+    public function setOnLabel(string $on_label): void
     {
         $this->on_label = $on_label;
     }

@@ -34,9 +34,9 @@ class ListIntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param array $allowed_values
+     * @param array|null $allowed_values
      */
-    public function setAllowedValues(array $allowed_values): void
+    public function setAllowedValues(?array $allowed_values): void
     {
         $this->allowed_values = $allowed_values;
     }

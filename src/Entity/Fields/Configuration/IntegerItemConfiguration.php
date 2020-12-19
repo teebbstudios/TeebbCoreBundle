@@ -52,9 +52,9 @@ class IntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param int $min
+     * @param int|null $min
      */
-    public function setMin(int $min): void
+    public function setMin(?int $min): void
     {
         $this->min = $min;
     }
@@ -68,9 +68,9 @@ class IntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param int $max
+     * @param int|null $max
      */
-    public function setMax(int $max): void
+    public function setMax(?int $max): void
     {
         $this->max = $max;
     }
@@ -84,9 +84,9 @@ class IntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $prefix
+     * @param string|null $prefix
      */
-    public function setPrefix(string $prefix): void
+    public function setPrefix(?string $prefix): void
     {
         $this->prefix = $prefix;
     }
@@ -100,9 +100,9 @@ class IntegerItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $suffix
+     * @param string|null $suffix
      */
-    public function setSuffix(string $suffix): void
+    public function setSuffix(?string $suffix): void
     {
         $this->suffix = $suffix;
     }

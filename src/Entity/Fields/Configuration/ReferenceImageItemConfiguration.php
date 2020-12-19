@@ -80,9 +80,9 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param array $allowExt
+     * @param array|null $allowExt
      */
-    public function setAllowExt(array $allowExt): void
+    public function setAllowExt(?array $allowExt): void
     {
         $this->allowExt = $allowExt;
     }
@@ -96,9 +96,9 @@ class ReferenceImageItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $uploadDir
+     * @param string|null $uploadDir
      */
-    public function setUploadDir(string $uploadDir): void
+    public function setUploadDir(?string $uploadDir): void
     {
         $this->uploadDir = $uploadDir;
     }

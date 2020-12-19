@@ -8,7 +8,7 @@ abstract class BaseItemConfiguration implements FieldDepartConfigurationInterfac
 {
     /**
      * 字段的帮助文本
-     * @var string
+     * @var string|null
      */
     protected $description;
 
@@ -39,9 +39,9 @@ abstract class BaseItemConfiguration implements FieldDepartConfigurationInterfac
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }

@@ -46,9 +46,9 @@ class ReferenceContentItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param ArrayCollection $referenceTypes
+     * @param ArrayCollection|null $referenceTypes
      */
-    public function setReferenceTypes(ArrayCollection $referenceTypes): void
+    public function setReferenceTypes(?ArrayCollection $referenceTypes): void
     {
         $this->referenceTypes = $referenceTypes;
     }

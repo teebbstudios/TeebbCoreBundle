@@ -52,9 +52,9 @@ class FloatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param float $min
+     * @param float|null $min
      */
-    public function setMin(float $min): void
+    public function setMin(?float $min): void
     {
         $this->min = $min;
     }
@@ -68,9 +68,9 @@ class FloatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param float $max
+     * @param float|null $max
      */
-    public function setMax(float $max): void
+    public function setMax(?float $max): void
     {
         $this->max = $max;
     }
@@ -84,9 +84,9 @@ class FloatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $prefix
+     * @param string|null $prefix
      */
-    public function setPrefix(string $prefix): void
+    public function setPrefix(?string $prefix): void
     {
         $this->prefix = $prefix;
     }
@@ -100,9 +100,9 @@ class FloatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param string $suffix
+     * @param string|null $suffix
      */
-    public function setSuffix(string $suffix): void
+    public function setSuffix(?string $suffix): void
     {
         $this->suffix = $suffix;
     }

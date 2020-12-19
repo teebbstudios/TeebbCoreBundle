@@ -39,9 +39,9 @@ class StringFormatItemConfiguration extends BaseItemConfiguration
     }
 
     /**
-     * @param int $length
+     * @param int|null $length
      */
-    public function setLength(int $length): void
+    public function setLength(?int $length): void
     {
         $this->length = $length;
     }
