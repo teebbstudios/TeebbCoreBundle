@@ -64,15 +64,13 @@ class ContentsBlockService extends AbstractBlockService
         $qb = $contentsRepository->createQueryBuilder('c');
 
         foreach ($settings['criteria'] as $key => $value) {
-            $qb->andWhere($qb->expr()->eq('c.' . $key, ':criteria_condition'))
-                ->setParameter('criteria_condition', $value);
+            $qb->andWhere($qb->expr()->eq('c.' . $key, '\''.$value.'\''));
         }
 
         //排除条件
         if (!empty($settings['exclude'])) {
             foreach ($settings['exclude'] as $key => $value) {
-                $qb->andWhere($qb->expr()->neq('c.' . $key, ':exclude_condition'))
-                    ->setParameter('exclude_condition', $value);
+                $qb->andWhere($qb->expr()->neq('c.' . $key, '\''.$value.'\''));
             }
         }
 
