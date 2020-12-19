@@ -82,8 +82,6 @@ class ContentsBlockService extends AbstractBlockService
 
         $contents = $qb->getQuery()->getResult();
 
-//        $contents = $contentsRepository->findBy($settings['criteria'], $settings['order'], $settings['limit']);
-
         return $this->renderResponse($blockContext->getTemplate(), [
             'block' => $blockContext->getBlock(),
             'settings' => $settings,
