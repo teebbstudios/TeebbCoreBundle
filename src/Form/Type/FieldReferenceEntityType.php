@@ -55,7 +55,8 @@ class FieldReferenceEntityType extends AbstractType
             $referenceEntityClass,
             $findLabel,
             $typeLabel,
-            $referenceTypes
+            $referenceTypes,
+            $options['auto_create_to_type']
         ));
     }
 
@@ -67,8 +68,8 @@ class FieldReferenceEntityType extends AbstractType
 
         $attr['class'] = $class;
         $attr['data-find-label'] = $options['find_label'];
-        $attr['data-reference-types'] = implode(',',$options['reference_types']);
-        $attr['data-type-label'] = $options['type_label'];
+        $attr['data-reference-types'] = implode(',', $options['reference_types']);
+        $attr['data-type-label'] = isset($options['type_label']) ? $options['type_label'] : '';
         $attr['data-autocomplete-url'] = $this->router->generate($options['data_autocomplete_route']);
         $view->vars['attr'] = $attr;
     }
@@ -82,6 +83,7 @@ class FieldReferenceEntityType extends AbstractType
                 'data-autocomplete' => '0',
             ],
             'invalid_message' => 'Hmm, not found that. Check it!',
+            'auto_create_to_type' => null  //用于新增的分类词汇添加到的分类类型
         ]);
 
         //引用的实体类全类名，用于查询

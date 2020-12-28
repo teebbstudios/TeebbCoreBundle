@@ -25,9 +25,9 @@ class ReferenceContentFieldType extends AbstractType
         $fieldSettings = $options['field_configuration']->getSettings();
 
         $referenceTypes = [];
-        /**@var Types $types**/
-        foreach ($fieldSettings->getReferenceTypes() as $types){
-            array_push($referenceTypes,  $types->getTypeAlias());
+        /**@var Types $types * */
+        foreach ($fieldSettings->getReferenceTypes() as $types) {
+            array_push($referenceTypes, $types->getTypeAlias());
         }
 
         $builder->add('value', FieldReferenceEntityType::class, [
@@ -37,12 +37,18 @@ class ReferenceContentFieldType extends AbstractType
             'reference_types' => $referenceTypes,
             'data_autocomplete_route' => 'teebb_content_substances_api'
         ]);
+
+        //如果不限制字段数量则添加删除当前行按钮
+        $this->addRemoveFieldButton($builder, $options['field_configuration'], $options);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => ReferenceContentItem::class,
+            'attr' => [
+                'class' => 'position-relative'
+            ]
         ]);
 
         $this->baseConfigOptions($resolver);

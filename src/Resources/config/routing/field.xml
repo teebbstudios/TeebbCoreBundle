@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="remove_field_item_api" path="/field/remove" methods="POST">
+        <default key="_controller">Teebb\CoreBundle\Controller\FieldController::removeFieldItemAction
+        </default>
+        <default key="route">remove_field_item_api</default>
+        <option key="expose">true</option> <!--fosjsrouting expose route-->
+    </route>
+
+</routes>

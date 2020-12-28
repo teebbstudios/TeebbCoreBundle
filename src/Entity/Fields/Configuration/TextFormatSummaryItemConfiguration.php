@@ -20,7 +20,7 @@ class TextFormatSummaryItemConfiguration extends BaseItemConfiguration
      *
      * @var bool
      */
-    protected $showSummaryInput = true;
+    protected $showSummaryInput = false;
 
     /**
      * 摘要是否为必填

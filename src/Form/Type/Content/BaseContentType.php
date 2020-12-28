@@ -126,6 +126,8 @@ class BaseContentType extends AbstractType
     }
 
     /**
+     * 如果 $fieldType 是 boolean listInteger listFloat comment 则只生成一个字段
+     *
      * @param int $limit 此字段限制的数量
      * @param string $fieldType 字段类型
      * @param string $fieldEntityClassName 字段entity全类名
@@ -148,11 +150,11 @@ class BaseContentType extends AbstractType
             //如果是布尔值、评论字段则设置默认值
             switch ($fieldEntityClassName) {
                 case BooleanItem::class:
-                    /**@var BooleanItem $fieldObject**/
+                    /**@var BooleanItem $fieldObject * */
                     $fieldObject->setValue(true);
                     break;
                 case CommentItem::class:
-                    /**@var CommentItem $fieldObject**/
+                    /**@var CommentItem $fieldObject * */
                     $fieldObject->setValue(1);
                     break;
             }

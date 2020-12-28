@@ -1,20 +1,20 @@
-{#Custom form types widget#}
+{# Custom form types widget #}
 
-{#字段别名widget#}
+{# 字段别名widget #}
 {% block teebb_field_alias_widget %}
     <div class="input-alias-wrapper form-inline">
         <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     </div>
 {% endblock %}
 
-{#字段别名值widget#}
+{# 字段别名值widget #}
 {% block teebb_alias_value_widget %}
     <div class="input-alias-wrapper form-inline">
         <span>{% if value is not empty %}{{ value }}{% endif %}</span>
     </div>
 {% endblock %}
 
-{#字段设置限制数量widget#}
+{# 字段设置限制数量widget #}
 {% block teebb_field_limit_widget %}
     <div class="form-inline select-field-limit">
         <select id="select_field_limit" class="form-control form-control-sm mr-0 mr-sm-2">
@@ -54,36 +54,37 @@
         {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
     {% endif %}
 
-<div {{ block('widget_container_attributes') }}>
-    {%- if form is rootform -%}
-        {{ form_errors(form) }}
-    {%- endif -%}
-    {% for child in form|filter(child => not child.rendered) %}
-        {%- if compound is defined and compound -%}
-            {%- set element = 'fieldset' -%}
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
         {%- endif -%}
-        {%- set widget_attr = {} -%}
-        {%- if help is not empty -%}
-            {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
-        {%- endif -%}
-        <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group mb-0')|trim})} %}{{ block('attributes') }}{% endwith %}>
-        {{- form_label(child) -}}
-        {{- form_widget(child, widget_attr) -}}
-        {{- form_help(child) -}}
-        </{{ element|default('div') }}>
-    {% endfor %}
-    {{- form_rest(form) -}}
+        {% for child in form|filter(child => not child.rendered) %}
+            {%- if compound is defined and compound -%}
+                {%- set element = 'fieldset' -%}
+            {%- endif -%}
+            {%- set widget_attr = {} -%}
+            {%- if help is not empty -%}
+                {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+            {%- endif -%}
+            <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group mb-0')|trim})} %}{{ block('attributes') }}{% endwith %}>
+            {{- form_label(child) -}}
+            {{- form_widget(child, widget_attr) -}}
+            {{- form_help(child) -}}
+            </{{ element|default('div') }}>
+        {% endfor %}
+        {{- form_rest(form) -}}
     </div>
 
-    {% if form.vars.limit == 0 and form.vars.field_type not in ['boolean', 'listInteger', 'listFloat'] %}
+    {% if form.vars.limit == 0 and form.vars.field_type not in ['boolean', 'listInteger', 'listFloat', 'comment'] %}
         <button type="button" class="form-field-add-item btn btn-outline-primary btn-sm">
-            <small>{{ 'teebb.core.form.add_field_item'|trans }}</small></button>
+            <small>{{ 'teebb.core.form.add_field_item'|trans }}</small>
+        </button>
     {% endif %}
 {% endblock %}
 
 {% block field_file_widget %}
     {# 如果value表单有数据则不显示input #}
-    <{{ element|default('div') }} class="custom-file {% if form.parent.children.value.vars.data is not null %}d-none{% endif %}">
+    <{{ element|default('div') }} class="custom-file w-75 {% if form.parent.children.value.vars.data is not null %}d-none{% endif %}">
     {%- set type = type|default('file') -%}
     {{- block('form_widget_simple') -}}
     {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' custom-file-label')|trim }) -%}

@@ -5,6 +5,8 @@ namespace Teebb\CoreBundle\Form\Type\FieldType;
 
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -84,7 +86,7 @@ trait FieldConfigOptionsTrait
             'required' => $fieldSettings->isRequired(),
             'choices' => $fieldSettings->getAllowedValues(),
             'multiple' => $limit == 1 ? false : true,
-            'expanded' =>  $limit == 1 ? false : true,
+            'expanded' => $limit == 1 ? false : true,
             'placeholder' => 'teebb.core.form.select_list_numeric'
         ];
 
@@ -237,7 +239,7 @@ trait FieldConfigOptionsTrait
             $data = $data == null ? new $options['data_class']() : $data;
 
             //过滤文本和长文本字段所有html标签
-            if ($data instanceof StringItem || $data instanceof TextItem){
+            if ($data instanceof StringItem || $data instanceof TextItem) {
                 $data->setValue(strip_tags($data->getValue()));
             }
 
@@ -273,5 +275,34 @@ trait FieldConfigOptionsTrait
 
             $event->setData($baseFieldItem);
         });
+    }
+
+    /**
+     * 如果字段数量不限制则添加删除当前行按钮，用于删除当前行的字段值和表单行
+     * @param FormBuilderInterface $builder
+     * @param FieldConfiguration $fieldConfiguration
+     * @param array $option
+     */
+    public function addRemoveFieldButton(FormBuilderInterface $builder, FieldConfiguration $fieldConfiguration, array $option)
+    {
+        if ($fieldConfiguration->getSettings()->getLimit() == 0) {
+            $builder
+                ->add('id', HiddenType::class, [
+                    'attr' => [
+                        'class' => 'field-item-id',
+                    ]
+                ])
+                ->add('remove', ButtonType::class, [
+                    'label_html' => true,
+                    'label' => 'teebb.core.form.remove_field_row',
+                    'attr' => [
+                        'class' => 'btn-remove-field-form-row btn-sm btn-danger position-absolute',
+                        'style' => 'right:0px; top:0px;',
+                        'data-bundle' => $fieldConfiguration->getBundle(),
+                        'data-field-alias' => $fieldConfiguration->getFieldAlias(),
+                        'onclick' => 'removeFieldRow(this)'
+                    ],
+                ]);
+        }
     }
 }

@@ -7,6 +7,8 @@ namespace Teebb\CoreBundle\Form\DataTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use Teebb\CoreBundle\Entity\Taxonomy;
+use Teebb\CoreBundle\Entity\Types\Types;
 
 /**
  * 引用实体字段表单label转对象
@@ -37,14 +39,21 @@ class FindLabelToEntityTransformer implements DataTransformerInterface
      */
     private $typesLabel;
 
+    /**
+     * @var Types|null
+     */
+    private $autoCreateToType;
+
     public function __construct(EntityManagerInterface $entityManager, string $entityClass,
-                                string $findLabel, string $typesLabel = null, array $referenceTypes = [])
+                                string $findLabel, string $typesLabel = null, array $referenceTypes = [],
+                                Types $autoCreateToType = null)
     {
         $this->entityManager = $entityManager;
         $this->entityClass = $entityClass;
         $this->findLabel = $findLabel;
         $this->referenceTypes = $referenceTypes;
         $this->typesLabel = $typesLabel;
+        $this->autoCreateToType = $autoCreateToType;
     }
 
     //object to string
@@ -79,13 +88,22 @@ class FindLabelToEntityTransformer implements DataTransformerInterface
 
         $criteria = [$this->findLabel => $value];
 
-        if ($this->typesLabel){
+        if ($this->typesLabel) {
             $criteria[$this->typesLabel] = $this->referenceTypes;
         }
 
         $entity = $entityRepo->findOneBy($criteria);
 
-        if (!$entity) {
+        //如果是引用分类字段，且当前value不存大对应的分类词汇，则添加新的词汇到对应分类
+        if ($this->entityClass === Taxonomy::class && !$entity) {
+            $entity = new Taxonomy();
+            $entity->setTerm($value);
+            $entity->setTaxonomyType($this->autoCreateToType->getTypeAlias());
+            $entity->setDescription($value);
+            $this->entityManager->persist($entity);
+            $this->entityManager->flush();
+
+        } elseif (!$entity) {
             throw new TransformationFailedException(sprintf('Not found "%s". Maybe the input form value error.', $value));
         }
 

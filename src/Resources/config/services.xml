@@ -7,6 +7,7 @@
         <parameter key="entity_type.content.service">teebb.core.entity_type.content</parameter>
         <parameter key="entity_type.taxonomy.service">teebb.core.entity_type.taxonomy</parameter>
         <parameter key="entity_type.comment.service">teebb.core.entity_type.comment</parameter>
+        <parameter key="entity_type.user.service">teebb.core.entity_type.user</parameter>
     </parameters>
 
     <services>

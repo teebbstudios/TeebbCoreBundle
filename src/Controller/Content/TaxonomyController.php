@@ -14,7 +14,6 @@ use Teebb\CoreBundle\Entity\Taxonomy;
  */
 class TaxonomyController extends AbstractContentController
 {
-
     /**
      * 根据关键字搜索对应分类词汇
      * @param Request $request

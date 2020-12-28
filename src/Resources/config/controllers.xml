@@ -122,6 +122,22 @@
         <service id="Teebb\CoreBundle\Controller\Content\CommentController"
                  alias="teebb.core.controller.comment_controller" public="true"/>
 
+        <service id="teebb.core.controller.user_controller"
+                 class="Teebb\CoreBundle\Controller\Content\UserController"
+                 public="false">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="teebb.core.template.registry"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="teebb.core.form.contractor"/>
+            <argument type="service" id="security.helper"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\Content\UserController"
+                 alias="teebb.core.controller.comment_controller" public="true"/>
+
         <service id="teebb.core.controller.file_controller"
                  class="Teebb\CoreBundle\Controller\FileController"
                  public="false">
@@ -153,6 +169,7 @@
         </service>
         <service id="Teebb\CoreBundle\Controller\TextFormatterController"
                  alias="teebb.core.controller.formatter_controller" public="true"/>
+
 
         <service id="teebb.core.controller.menu_controller"
                  class="Teebb\CoreBundle\Controller\MenuController"
@@ -225,6 +242,17 @@
         </service>
         <service id="Teebb\CoreBundle\Controller\Options\OptionsController"
                  alias="teebb.core.controller.options_controller" public="true"/>
+
+        <service id="teebb.core.controller.field_controller"
+                 class="Teebb\CoreBundle\Controller\FieldController"
+                 public="false">
+            <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="Teebb\CoreBundle\Controller\FieldController"
+                 alias="teebb.core.controller.field_controller" public="true"/>
 
     </services>
 </container>

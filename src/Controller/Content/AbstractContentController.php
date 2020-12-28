@@ -6,6 +6,7 @@ namespace Teebb\CoreBundle\Controller\Content;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -94,9 +95,13 @@ abstract class AbstractContentController extends AbstractController
         $qb = $this->entityManager->createQueryBuilder();
         $qb->select('c')->from($entityClass, 'c')
             ->where($qb->expr()->like('c.' . $queryLabel, ':query'))
-            ->andWhere($qb->expr()->in('c.' . $typeLabel, ':reference_types'))
-            ->setParameter('query', '%' . $query . '%')
-            ->setParameter('reference_types', $referenceTypesArray);
+            ->setParameter('query', '%' . $query . '%');
+
+        //如果是引用用户则不用指定要引用的类型，此处对引用分类、内容的类型进行条件查询
+        if ($typeLabel !== '') {
+            $qb->andWhere($qb->expr()->in('c.' . $typeLabel, ':reference_types'))
+                ->setParameter('reference_types', $referenceTypesArray);
+        }
 
         $substances = $qb->getQuery()->getResult();
 
@@ -118,5 +123,4 @@ abstract class AbstractContentController extends AbstractController
 
         return $this->container->get($entityTypeServiceId);
     }
-
 }

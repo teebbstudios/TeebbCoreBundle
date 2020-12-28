@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,18 +22,21 @@ class User extends BaseContent implements UserInterface
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
+     * @Groups("main")
      */
     protected $firstName;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
+     * @Groups("main")
      */
     protected $lastName;
 
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
+     * @Groups("main")
      */
     protected $username;
 
@@ -45,6 +49,7 @@ class User extends BaseContent implements UserInterface
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
+     * @Groups("main")
      */
     protected $email;
 

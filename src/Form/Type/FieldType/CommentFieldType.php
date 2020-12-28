@@ -19,7 +19,7 @@ class CommentFieldType extends AbstractType
     {
         /**@var CommentItemConfiguration $fieldSettings * */
         $fieldSettings = $options['field_configuration']->getSettings();
-
+        
         $choices = ['teebb.core.form.comment_on' => 1, 'teebb.core.form.comment_off' => 0];
 
         $fieldOptions = [

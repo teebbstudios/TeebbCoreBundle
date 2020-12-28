@@ -65,14 +65,17 @@ class ReferenceFileFieldType extends AbstractType
             'constraints' => $fieldSettings->isUseDescription() && $fieldSettings->isRequired() ? [new NotBlank()] : [],
             'empty_data' => ''
         ]);
+
+        //如果不限制字段数量则添加删除当前行按钮
+        $this->addRemoveFieldButton($builder, $options['field_configuration'], $options);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => ReferenceFileItem::class,
-            'attr'=>[
-                'class' => 'p-3 border mb-3 file-upload-wrapper'
+            'attr' => [
+                'class' => 'p-3 border mb-3 file-upload-wrapper position-relative'
             ]
         ]);
 

@@ -342,7 +342,7 @@ teebb:
             batch_action: 批量操作
             submit: 提交
             page_limit: 共%total%条  每页显示
-
+            remove_field_row: <small><i class="fa fa-times px-1"></i></small>
             fields:
                 field_label:
                     help: 此字段的名称，用于添加内容时表单行的名称。

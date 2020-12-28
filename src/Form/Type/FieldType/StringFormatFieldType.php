@@ -60,12 +60,18 @@ class StringFormatFieldType extends AbstractType
         $builder
             ->add('value', TextType::class, $fieldOptions)
             ->add('formatter', TextFormatterType::class);
+
+        //如果不限制字段数量则添加删除当前行按钮
+        $this->addRemoveFieldButton($builder, $options['field_configuration'], $options);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => StringFormatItem::class,
+            'attr' => [
+                'class' => 'position-relative'
+            ]
         ]);
 
         $this->baseConfigOptions($resolver);

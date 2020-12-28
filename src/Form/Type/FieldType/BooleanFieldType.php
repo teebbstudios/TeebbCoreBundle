@@ -33,6 +33,7 @@ class BooleanFieldType extends AbstractType
         ];
 
         $builder->add('value', ChoiceType::class, $fieldOptions);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

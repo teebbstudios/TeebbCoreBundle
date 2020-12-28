@@ -27,7 +27,7 @@ class LinkFieldType extends AbstractType
             $linkItem = $event->getData();
 
             //如果$linkItem为空则创建空对象
-            $linkItem = $linkItem == null? new LinkItem() : $linkItem;
+            $linkItem = $linkItem == null ? new LinkItem() : $linkItem;
             if (null == $linkItem->getTitle()) {
                 $linkItem->setTitle($linkItem->getValue());
             }
@@ -55,6 +55,9 @@ class LinkFieldType extends AbstractType
                 ],
                 'required' => false,
             ]);
+
+        //如果不限制字段数量则添加删除当前行按钮
+        $this->addRemoveFieldButton($builder, $options['field_configuration'], $options);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -62,7 +65,7 @@ class LinkFieldType extends AbstractType
         $resolver->setDefaults([
             'data_class' => LinkItem::class,
             'attr' => [
-                'class' => 'p-3 border mb-3'
+                'class' => 'p-3 border mb-3 position-relative'
             ]
         ]);
 

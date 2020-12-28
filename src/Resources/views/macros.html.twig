@@ -335,17 +335,33 @@
                 {% endfor %}
             </div>
         {% endif %}
+    {% elseif field_type == 'referenceUser' %}
+        {% if field_data is not empty %}
+            {% if field_settings.showLabel == true %}
+                <div class="field_label">{{ field_label }}</div>
+            {% endif %}
+            <div class="field_items">
+                {% for data in field_data %}
+                    {% if data.value != null %}
+                        <div class="field_item p-2 pl-0">
+                            <a href="mailto:{{ data.value.email }}"
+                               class="teebb-bg text-secondary badge bg-light small">{{ data.value.email }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
     {% endif %}
 {% endmacro %}
 
 {#获取内容第一个textFormatSummary类型字段摘要#}
 {% macro getContentSummary(content, bundle, typeAlias) %}
-    {% set textFormatSummarys = get_specify_type_field(content, bundle, typeAlias, 'textFormatSummary') %}
-    {% for textFormatSummaryData in textFormatSummarys %}
-        {% if loop.first %}
-            {% if textFormatSummaryData[0].value %}
-                {{ textFormatSummaryData[0].summary }}
-            {% endif %}
-        {% endif %}
-    {% endfor %}
+    {%- set textFormatSummarys = get_specify_type_field(content, bundle, typeAlias, 'textFormatSummary') -%}
+    {%- for textFormatSummaryData in textFormatSummarys -%}
+        {%- if loop.first -%}
+            {%- if textFormatSummaryData[0].value -%}
+                {{- textFormatSummaryData[0].summary -}}
+            {%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
 {% endmacro %}

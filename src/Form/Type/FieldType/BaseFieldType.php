@@ -27,15 +27,19 @@ class BaseFieldType extends AbstractType
                 /**@var FieldConfiguration $fieldConfiguration * */
                 $fieldConfiguration = $options['entry_options']['field_configuration'];
 
-                /**@var BaseFieldItem $entity **/
+                $resizeEntities = [];
+                /**@var BaseFieldItem $entity * */
                 foreach ($entities as $index => $entity) {
-                    if (null == $entity->getTypes()) {
-                        $entity->setTypes($fieldConfiguration->getTypeAlias());
-                        $entity->setDelta($index);
-                        $entities[$index] = $entity;
+                    if ($entity) {
+                        if (null == $entity->getTypes()) {
+                            $entity->setTypes($fieldConfiguration->getTypeAlias());
+                            $entity->setDelta($index);
+                        }
+                        $resizeEntities[] = $entity;
                     }
                 }
-                $event->setData($entities);
+
+                $event->setData($resizeEntities);
             });
     }
 

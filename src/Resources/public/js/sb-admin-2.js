@@ -539,3 +539,36 @@ $('.search-form-btn').on('click', function (e) {
         $(fieldsInputs[i]).val(searchTxt);
     }
 });
+
+//删除字段行的值
+function removeFieldRow(element) {
+    var bundle = $(element).data('bundle');
+    var fieldAlias = $(element).data('field-alias');
+    var fieldSetAnchor = $(element).closest('fieldset');
+    var fieldItemId = fieldSetAnchor.find('input:hidden.field-item-id').val();
+
+    //如果字段行有值则ajax删除值并删除当前表单行
+    if (fieldItemId !== '') {
+        var formData = new FormData();
+        formData.append("bundle", bundle);
+        formData.append("field-alias", fieldAlias);
+        formData.append("field-item-id", fieldItemId);
+
+        $.ajax({
+            url: Routing.generate('remove_field_item_api'),
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+        }).done(function (data) {
+            //成功删除字段删除表单行
+            fieldSetAnchor.remove();
+        }).fail(function (jqXHR) {
+            fieldSetAnchor.prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
+        });
+    } else {
+        //字段行没有值，直接删除表单行
+        fieldSetAnchor.remove();
+    }
+}

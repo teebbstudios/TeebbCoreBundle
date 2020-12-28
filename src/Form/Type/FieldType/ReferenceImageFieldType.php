@@ -39,7 +39,7 @@ class ReferenceImageFieldType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /**@var ReferenceImageItem $imageItem * */
             $imageItem = $event->getData();
-            if ($imageItem->getValue()){
+            if ($imageItem->getValue()) {
                 if ($imageItem->getWidth() == null || $imageItem->getHeight() == null) {
                     $filePath = $imageItem->getValue()->getFilePath();
                     /**@var AbstractAdapter $adapter * */
@@ -103,6 +103,9 @@ class ReferenceImageFieldType extends AbstractType
             ]);
         }
 
+        //如果不限制字段数量则添加删除当前行按钮
+        $this->addRemoveFieldButton($builder, $options['field_configuration'], $options);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -110,7 +113,7 @@ class ReferenceImageFieldType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ReferenceImageItem::class,
             'attr' => [
-                'class' => 'p-3 border mb-3 file-upload-wrapper'
+                'class' => 'p-3 border mb-3 file-upload-wrapper position-relative'
             ]
         ]);
 
