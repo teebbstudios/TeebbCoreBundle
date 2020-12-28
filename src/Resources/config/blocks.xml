@@ -34,5 +34,10 @@
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
         </service>
 
+        <service id="teebb.core.block.search" class="Teebb\CoreBundle\Block\SearchContentsBlockService" public="true">
+            <tag name="sonata.block"/>
+            <argument type="service" id="twig"/>
+        </service>
+
     </services>
 </container>

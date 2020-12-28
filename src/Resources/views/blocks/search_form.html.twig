@@ -1,0 +1,15 @@
+<form action="{{ path(settings.route) }}" class="search-form {{ settings.form_class }}">
+    <div class="input-group">
+        <input type="text" class="search-text-input form-control bg-light border-0 small"
+               placeholder="{{ 'Search Content'|trans({},settings.translation_domain) }}"
+               name="{{ settings.property }}">
+        {% for fieldAlias in settings.extra.fields %}
+            <input type="hidden" name="{{ fieldAlias }}">
+        {% endfor %}
+        <div class="input-group-append">
+            <button class="btn btn-primary search-form-btn">
+                <i class="fas fa-search fa-sm"></i>
+            </button>
+        </div>
+    </div>
+</form>

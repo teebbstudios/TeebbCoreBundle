@@ -36,17 +36,24 @@ class ContentController extends AbstractContentController
 
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 10);
+        $title = $request->get('title', '');
 
         //Todo: 此处添加内容过滤器，可写一个单独bundle，用于生成内容过滤器表单，表单的提交生成过滤条件数组，应用到下方查询。
         //Todo: 参考SonataAdmin 及 Sylius, 暂留空。下个大版本增加吧。
-
+        $criteria = [
+            'bundle' => $entityTypeService->getBundle()
+        ];
+        if ($title !== '') {
+            $criteria = array_merge($criteria, ['title' => '%' . $title . '%']);
+        }
         /**@var BaseContentRepository $baseContentRepository * */
         $baseContentRepository = $this->entityManager->getRepository($entityTypeService->getEntityClassName());
 
         /**
          * @var Pagerfanta $paginator
          */
-        $paginator = $baseContentRepository->createPaginator(['bundle' => $entityTypeService->getBundle()], ['id' => 'DESC']);
+        $paginator = $baseContentRepository->createPaginator($criteria, ['id' => 'DESC']);
+
         $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);
 

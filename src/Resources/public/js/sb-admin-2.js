@@ -527,3 +527,15 @@ $('.remove-menu-item-btn').click(function (element) {
         cardWrapper.prepend(createFormErrorMessage(jqXHR.responseJSON.detail));
     });
 });
+
+
+//内容搜索框事件
+$('.search-form-btn').on('click', function (e) {
+    var searchForm = $(this).closest('.search-form');
+    var searchTxt = searchForm.find('.search-text-input').val();
+    var fieldsInputs = searchForm.find('input:hidden');
+
+    for (var i = 0; i < fieldsInputs.length; i++) {
+        $(fieldsInputs[i]).val(searchTxt);
+    }
+});

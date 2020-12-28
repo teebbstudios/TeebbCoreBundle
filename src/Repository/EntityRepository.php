@@ -82,10 +82,15 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
                 $queryBuilder->andWhere($queryBuilder->expr()->in($name, $value));
             } elseif ('' !== $value) {
                 $parameter = str_replace('.', '_', $property);
-                $queryBuilder
-                    ->andWhere($queryBuilder->expr()->eq($name, ':' . $parameter))
-                    ->setParameter($parameter, $value)
-                ;
+                if (false !== strpos($value, '%')){
+                    $queryBuilder
+                        ->andWhere($queryBuilder->expr()->like($name, ':' . $parameter))
+                        ->setParameter($parameter, $value);
+                }else{
+                    $queryBuilder
+                        ->andWhere($queryBuilder->expr()->eq($name, ':' . $parameter))
+                        ->setParameter($parameter, $value);
+                }
             }
         }
     }
