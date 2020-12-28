@@ -65,3 +65,6 @@
 0.1.16
 1. 内容管理批量管理BUG修复
 2. 添加前台页面内容搜索Block
+
+0.1.17
+1. ckeditor添加codesnippet插件
