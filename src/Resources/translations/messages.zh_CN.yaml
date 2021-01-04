@@ -548,6 +548,8 @@ teebb:
             menu_item_remove: 移除 "%menu%" 菜单的菜单项
 
             system_update: 更新 "站点设置"
+
+            field_item_delete: 当不限制字段数量时，删除字段项
         menu:
             name: 菜单名称
             name_help: 请输入菜单的名称。

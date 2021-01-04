@@ -4,7 +4,7 @@
 namespace Teebb\CoreBundle\Exception;
 
 
-class FileUploadException extends \RuntimeException
+class FileException extends ApiProblemException
 {
 
 }

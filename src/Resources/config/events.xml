@@ -50,5 +50,10 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="teebb.core.event.api_exception_subscriber"
+                 class="Teebb\CoreBundle\Subscriber\ApiExceptionSubscriber" public="true">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
     </services>
 </container>

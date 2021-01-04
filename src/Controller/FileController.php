@@ -13,14 +13,16 @@ use Symfony\Component\HttpFoundation\File\Exception\NoFileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mime\MimeTypes;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Teebb\CoreBundle\Entity\Exception\ApiProblem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\FileManaged;
-use Teebb\CoreBundle\Exception\FileUploadException;
+use Teebb\CoreBundle\Exception\FileException;
 use Teebb\CoreBundle\ExpressionLanguage\Date;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Repository\FileManagedRepository;
@@ -100,9 +102,13 @@ class FileController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function fileUploadAction(Request $request)
+    public function fileUploadAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('file_upload');
+        if (!$this->isGranted('file_upload')){
+            $apiProblem = new ApiProblem(500, ApiProblem::TYPE_PERMISSION_DENY);
+            $apiProblem->set('detail', 'Don\'t have file upload permission.');
+            throw new FileException($apiProblem);
+        }
 
         $field_alias = $request->get('field_alias');
 
@@ -110,7 +116,9 @@ class FileController extends AbstractController
         $file = $request->files->get('file') ?? $request->files->get('upload');
 
         if (null == $file) {
-            throw new NoFileException('The post "file" not exist.');
+            $apiProblem = new ApiProblem(500, ApiProblem::TYPE_INVALID_REQUEST_PARAMETERS);
+            $apiProblem->set('detail', 'The post "file" not exist.');
+            throw new FileException($apiProblem);
         }
 
         $fieldType = null;
@@ -119,7 +127,9 @@ class FileController extends AbstractController
             /**@var FieldConfiguration $fieldConfiguration * */
             $fieldConfiguration = $this->fieldConfigurationRepo->findOneBy(['fieldAlias' => $field_alias]);
             if (null == $fieldConfiguration) {
-                throw new \InvalidArgumentException(sprintf('The field configuration object not found. Maybe the "%s" parameter wrong.', 'field_alias'));
+                $apiProblem = new ApiProblem(500, ApiProblem::TYPE_INVALID_REQUEST_PARAMETERS);
+                $apiProblem->set('detail', 'The field configuration object not found. Maybe the "field_alias" parameter wrong.');
+                throw new FileException($apiProblem);
             }
 
             //获取字段类型，如果是图像字段则需要额外处理
@@ -155,7 +165,9 @@ class FileController extends AbstractController
                 foreach ($results as $result) {
                     array_push($messages, $result->getMessage());
                 }
-                throw new FileUploadException(implode(',', $messages));
+                $apiProblem = new ApiProblem(500, ApiProblem::TYPE_VALIDATION_ERROR);
+                $apiProblem->set('detail', implode(',', $messages));
+                throw new FileException($apiProblem);
             }
             //处理文件上传路径
             $distDirectory = $this->getFileUploadDir($fieldSettings->getUploadDir());
@@ -201,22 +213,25 @@ class FileController extends AbstractController
     {
         $id = $request->get('id');
         if (null == $id) {
-            throw new \InvalidArgumentException('The "id" parameter must post.');
+            $apiProblem = new ApiProblem(500, ApiProblem::TYPE_INVALID_REQUEST_PARAMETERS);
+            $apiProblem->set('detail', 'The "id" parameter must post.');
+            throw new FileException($apiProblem);
         }
         /**@var FileManaged $fileManaged * */
         $fileManaged = $this->fileManagedRepository->findOneBy(['id' => $id]);
         if (null == $fileManaged) {
-            throw new \InvalidArgumentException('The "id" parameter wrong. Don\'t hack the html code!!!');
+            $apiProblem = new ApiProblem(500, ApiProblem::TYPE_INVALID_REQUEST_PARAMETERS);
+            $apiProblem->set('detail', 'The "id" parameter wrong. Don\'t hack the html code!!!');
+            throw new FileException($apiProblem);
         }
 
         //文件删除权限控制
         if (!($this->isGranted('file_delete') ||
             $this->isGranted('file_owner_delete', $fileManaged))) {
 
-            $exception = $this->createAccessDeniedException();
-            $exception->setSubject($fileManaged);
-
-            throw $exception;
+            $apiProblem = new ApiProblem(500, ApiProblem::TYPE_PERMISSION_DENY);
+            $apiProblem->set('detail', 'Don\'t have file delete permission.');
+            throw new FileException($apiProblem);
         }
 
         //删除fileManaged Entity
