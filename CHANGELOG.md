@@ -77,3 +77,6 @@
 0.1.19
 1. 添加ApiProblemException用于提示Ajax错误信息
 2. 翻译修复
+
+0.1.20
+1. ckeditor添加markdown插件
