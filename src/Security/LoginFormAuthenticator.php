@@ -21,6 +21,9 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Teebb\CoreBundle\Entity\User;
 
+/**
+ * @deprecated use Teebb\CoreBundle\Security\AppLoginFormAuthenticator instead.
+ */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     public const LOGIN_ROUTE = 'teebb_user_login';

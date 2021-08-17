@@ -16,6 +16,7 @@ use Teebb\CoreBundle\Entity\Comment;
 use Teebb\CoreBundle\Entity\Fields\BaseFieldItem;
 use Teebb\CoreBundle\Entity\Fields\FieldConfiguration;
 use Teebb\CoreBundle\Entity\Taxonomy;
+use Teebb\CoreBundle\Event\AfterFieldItemPersistedEvent;
 use Teebb\CoreBundle\Event\DataCacheEvent;
 use Teebb\CoreBundle\Repository\Fields\FieldConfigurationRepository;
 use Teebb\CoreBundle\Traits\GenerateNameTrait;
@@ -90,6 +91,10 @@ trait SubstanceDBALOptionsTrait
                         $fieldDBALUtils = new FieldDBALUtils($entityManager, $field);
 
                         $fieldDBALUtils->persistFieldItem($fieldItem);
+
+                        //字段的值保存后发送事件
+                        $afterFieldItemPersistedEvent = new AfterFieldItemPersistedEvent($substance, $fieldItem);
+                        $eventDispatcher->dispatch($afterFieldItemPersistedEvent);
                     }
                 }
             }

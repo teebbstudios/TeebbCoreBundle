@@ -48,7 +48,7 @@
                         <input type="checkbox" name="content[]" class="form-check" value="{{ content.id }}">
                     </td>
                     <td>
-                        <a href="{{ path('teebb_'~bundle~'_update',{'slug': content.slug}) }}">
+                        <a href="{{ path('teebb_content_show',{'slug': content.slug}) }}">
                             <i class="fas fa-file-alt fa-sm pr-2"></i>{{ content.title }}</a>
                     </td>
                     <td>{{ content.type.label }}</td>

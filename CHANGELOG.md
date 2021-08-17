@@ -80,3 +80,10 @@
 
 0.1.20
 1. ckeditor添加markdown插件
+
+0.1.21
+1. 控制台内容列表标题链接到teebb_content_show路由
+2. 更新到symfony5.3.6版本支持
+3. 使用新的用户登录认证器类AppLoginFormAuthenticator
+4. 字段数据保存后添加事件
+5. 用户登录错误次数限制

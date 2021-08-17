@@ -35,7 +35,8 @@
     "knplabs/knp-time-bundle": "^1.13",
     "knplabs/knp-menu-bundle": "^3.0",
     "sonata-project/block-bundle": "^4.4",
-    "symfony/cache": "^5.2"
+    "symfony/cache": "^5.2",
+    "symfony/rate-limiter": "^5.3"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "^5.0",

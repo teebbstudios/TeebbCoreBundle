@@ -65,6 +65,11 @@
             <argument type="service" id="security.user_password_encoder.generic"/>
         </service>
 
+        <service id="Teebb\CoreBundle\Security\AppLoginFormAuthenticator" class="Teebb\CoreBundle\Security\AppLoginFormAuthenticator">
+            <argument type="service" id="router.default"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+        </service>
+
         <service id="Teebb\CoreBundle\Security\UserChecker" class="Teebb\CoreBundle\Security\UserChecker">
         </service>
 
