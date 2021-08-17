@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Teebb\CoreBundle\Entity\Content;
 use Teebb\CoreBundle\Entity\Types\Types;
+use Teebb\CoreBundle\Event\AfterContentPersistedEvent;
 use Teebb\CoreBundle\Form\Type\Content\ContentBatchOptionsType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -159,6 +160,10 @@ class ContentController extends AbstractContentController
                 $content = $this->persistSubstance($this->entityManager, $this->fieldConfigRepository,
                     $this->eventDispatcher, $this->container,
                     $form, $types->getBundle(), $types->getTypeAlias(), $data_class);
+
+                //持久化后发送事件
+                $afterContentPersistedEvent = new AfterContentPersistedEvent($content);
+                $this->eventDispatcher->dispatch($afterContentPersistedEvent);
 
                 $this->addFlash('success', $this->container->get('translator')->trans(
                     'teebb.core.content.create_success', ['%value%' => $content->getTitle()]
