@@ -53,7 +53,7 @@ class ContentController extends AbstractContentController
         /**
          * @var Pagerfanta $paginator
          */
-        $paginator = $baseContentRepository->createPaginator($criteria, ['id' => 'DESC']);
+        $paginator = $baseContentRepository->createPaginator($criteria, ['id' => 'DESC', 'boolTop'=>'DESC', 'updatedAt'=>'DESC']);
 
         $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);
