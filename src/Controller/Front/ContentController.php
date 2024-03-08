@@ -128,6 +128,7 @@ class ContentController extends AbstractController
         } else {
             $criteria['id'] = $contentIdArray;
         }
+        $criteria['status'] = 'publish';
 
         /**@var BaseContentRepository $baseContentRepository * */
         $baseContentRepository = $this->entityManager->getRepository($entityTypeService->getEntityClassName());
@@ -165,7 +166,7 @@ class ContentController extends AbstractController
         /**
          * @var Pagerfanta $paginator
          */
-        $paginator = $baseContentRepository->createPaginator(['typeAlias' => $types->getTypeAlias()],
+        $paginator = $baseContentRepository->createPaginator(['typeAlias' => $types->getTypeAlias(), 'status' => 'publish'],
             ['boolTop' => 'DESC', 'id' => 'DESC', 'updatedAt' => 'DESC']);
         $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);
